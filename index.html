@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REVIVAL: VHS VAULT 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Inter:wght@300;400;700&family=Special+Elite&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #1a1a1b; color: #f4f1ea; scroll-behavior: smooth; overflow-x: hidden; }
+        .font-mono-vhs { font-family: 'IBM Plex Mono', monospace; }
+        .font-typewriter { font-family: 'Special Elite', cursive; }
+        
+        /* ANALOG GRAIN & CRT SCANLINES */
+        .analog-grain::before {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 50; opacity: 0.04;
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+        }
+
+        .crt-overlay {
+            position: relative; overflow: hidden;
+        }
+        .crt-overlay::after {
+            content: " "; display: block; position: absolute; top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            z-index: 2; background-size: 100% 3px, 3px 100%; pointer-events: none;
+        }
+
+        /* HARDWARE UI */
+        .osd-green { color: #00ff00; text-shadow: 0 0 8px #00ff00; font-family: 'IBM Plex Mono', monospace; }
+        
+        ::-webkit-scrollbar { width: 8px; height: 4px;}
+        ::-webkit-scrollbar-track { background: #1a1a1b; }
+        ::-webkit-scrollbar-thumb { background: #ffd600; }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .view-section { display: none; }
+        .view-section.active { display: block; }
+
+        #navbar { transition: all 0.3s ease; }
+    </style>
+</head>
+<body class="analog-grain">
+
+    <nav id="navbar" class="fixed top-0 w-full z-40 bg-black/60 backdrop-blur-lg border-b border-white/5 px-6 py-3 md:py-4 flex flex-col md:flex-row justify-between items-center gap-3 md:gap-0">
+        <div class="font-mono-vhs font-bold text-yellow-400 cursor-pointer text-sm md:text-lg tracking-widest text-center" onclick="scrollToTop()">
+            REVIVAL // 2026
+        </div>
+        <div class="flex items-center gap-5 md:gap-10 font-mono-vhs text-[10px] md:text-xs uppercase tracking-[0.2em]">
+            <a href="javascript:void(0)" onclick="scrollToTop()" class="hover:text-yellow-400 transition-colors">Home</a>
+            <a href="javascript:void(0)" onclick="scrollToSection('about')" class="hover:text-yellow-400 transition-colors">Rationale</a>
+            <a href="javascript:void(0)" onclick="scrollToSection('details')" class="hover:text-yellow-400 transition-colors">Details</a>
+            <button onclick="scrollToSection('register')" class="bg-yellow-400 text-black px-4 py-1.5 font-bold shadow-[2px_2px_0px_#000] hover:bg-white transition-all hover:translate-y-[-1px] shrink-0">REGISTER</button>
+        </div>
+    </nav>
+
+    <main id="landingView" class="view-section active">
+        
+        <section class="w-full bg-black flex justify-center items-center pt-28 md:pt-20">
+            <img src="pg1.png" alt="Revival Hero Image" class="w-full h-auto block">
+        </section>
+
+        <section id="about" class="py-16 md:py-32 px-6 max-w-4xl mx-auto">
+            <h2 class="font-mono-vhs text-yellow-400 text-[10px] mb-8 tracking-[0.5em] uppercase">// THE RATIONALE</h2>
+            <div class="grid md:grid-cols-2 gap-8 md:gap-16 text-xl md:text-2xl font-light leading-relaxed">
+                <p class="text-white">Revival is not a static event from the past; it is a movement of the Holy Spirit happening today. This retreat invites you to stop being a spectator and start becoming an <span class="italic font-bold text-yellow-400">active participant</span>.</p>
+                <div class="space-y-6">
+                    <p class="text-white/40 text-sm md:text-base font-mono-vhs leading-loose">We address how to live in a way that honors His presence, nurture a life that evidences His Fruit, and practice the language of Heaven.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="details" class="py-20 md:py-32 w-full bg-[#111111] border-y border-white/5">
+            <div class="px-6 max-w-3xl mx-auto">
+                <h2 class="font-mono-vhs text-yellow-400 text-[10px] mb-12 tracking-[0.5em] uppercase text-center md:text-left">// DETAILS OF THE EVENT</h2>
+                <div class="border border-white/10 font-mono-vhs overflow-hidden shadow-2xl">
+                    <div class="flex flex-col md:flex-row border-b border-white/10">
+                        <div class="w-full md:w-1/3 p-4 md:p-6 bg-black/20 border-b md:border-b-0 md:border-r border-white/10 opacity-40 text-[9px] md:text-[10px]">EVENT_DATE</div>
+                        <div class="w-full md:w-2/3 p-4 md:p-6 text-sm md:text-base font-bold">MAY 29-30, 2026</div>
+                    </div>
+                    <div class="flex flex-col md:flex-row border-b border-white/10">
+                        <div class="w-full md:w-1/3 p-4 md:p-6 bg-black/20 border-b md:border-b-0 md:border-r border-white/10 opacity-40 text-[9px] md:text-[10px]">TIMECODE</div>
+                        <div class="w-full md:w-2/3 p-4 md:p-6 text-sm md:text-base uppercase">09:00 AM - 05:00 PM</div>
+                    </div>
+                    <div class="flex flex-col md:flex-row">
+                        <div class="w-full md:w-1/3 p-4 md:p-6 bg-black/20 border-b md:border-b-0 md:border-r border-white/10 opacity-40 text-[9px] md:text-[10px]">COORDINATES</div>
+                        <div class="w-full md:w-2/3 p-4 md:p-6 text-sm md:text-base uppercase text-yellow-400 font-bold">Malolos, Bulacan</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="register" class="py-32 px-6 bg-black text-center">
+            <div class="max-w-2xl mx-auto">
+                <h2 class="font-mono-vhs text-yellow-400 text-[10px] mb-8 tracking-[0.5em] uppercase">// REGISTRATION MODULE</h2>
+                <div class="border-2 border-dashed border-[#3f3f40] p-12 md:p-24 bg-zinc-900/10">
+                    <p class="font-mono-vhs text-xs opacity-40 uppercase tracking-widest">Awaiting Input Signal...</p>
+                    <p class="text-[10px] font-mono-vhs text-yellow-400 uppercase mt-4">[ Stage 2 Construction Zone ]</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="py-10 md:py-20 text-center opacity-10 font-mono-vhs text-[8px] md:text-[10px] uppercase tracking-[0.4em] md:tracking-[0.6em] border-t border-white/5">
+        © 2026 Revival Archive // Technical Prototype V11.7
+    </footer>
+
+    <script>
+        function showView(v) { 
+            const views = document.querySelectorAll('.view-section');
+            let changed = false;
+            views.forEach(s => {
+                if (s.classList.contains('active') && s.id !== v + 'View') {
+                    s.classList.remove('active');
+                    changed = true;
+                }
+            });
+            const targetView = document.getElementById(v + 'View');
+            if (targetView && !targetView.classList.contains('active')) {
+                targetView.classList.add('active');
+                changed = true;
+            }
+            if (changed) window.scrollTo(0,0);
+        }
+
+        function scrollToTop() {
+            showView('landing');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function scrollToSection(id) { 
+            showView('landing');
+            setTimeout(() => {
+                const element = document.getElementById(id);
+                if(element) {
+                    const headerOffset = document.getElementById('navbar').offsetHeight;
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({
+                         top: offsetPosition,
+                         behavior: "smooth"
+                    });
+                }
+            }, 50); 
+        }
+
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.style.backgroundColor = 'rgba(0, 0, 0, 0.95)';
+                nav.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+            } else {
+                nav.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
+                nav.style.borderColor = 'rgba(255, 255, 255, 0.05)';
+            }
+        });
+    </script>
+
+    <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyCqAtPwJ3fzTbc-w89LiBJXd2V5iD5mzP4",
+        authDomain: "encmalolosrevival2026-82464.firebaseapp.com",
+        projectId: "encmalolosrevival2026-82464",
+        storageBucket: "encmalolosrevival2026-82464.firebasestorage.app",
+        messagingSenderId: "926749027662",
+        appId: "1:926749027662:web:91aad526b05d50a1bb421f",
+        measurementId: "G-ZHXTRCPZMB"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    </script>
+
+</body>
+</html>
