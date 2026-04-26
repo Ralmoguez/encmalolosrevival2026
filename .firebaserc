@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "revival-archive-2026"
-  }
+  },
+  "targets": {
+    "enc-malolos-revival-2026": {
+      "hosting": {
+        "revival-site": [
+          "encmalolos-revival2026"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }

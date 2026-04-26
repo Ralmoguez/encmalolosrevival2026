@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "target": "revival-site",
     "public": ".",
     "ignore": [
       "firebase.json",
