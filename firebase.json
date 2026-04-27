@@ -7,6 +7,7 @@
       "**/.*",
       "**/node_modules/**"
     ],
+    "cleanUrls": true,
     "rewrites": [
       { "source": "/about", "destination": "/index.html" },
       { "source": "/details", "destination": "/index.html" },
@@ -14,6 +15,21 @@
       { "source": "/countdown", "destination": "/index.html" },
       { "source": "/vault", "destination": "/vault.html" },
       { "source": "**", "destination": "/index.html" }
+    ],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "no-cache, no-store, must-revalidate"
+          }
+        ]
+      }
     ]
   }
 }
