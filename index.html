@@ -71,10 +71,10 @@
 
             <a href="/countdown" 
             onclick="event.preventDefault(); window.history.pushState({}, '', '/countdown'); scrollToSection('countdown');" 
-            class="hover:text-yellow-400 transition-colors">Countdown</a>
+            class="hidden hover:text-yellow-400 transition-colors">Countdown</a>
 
             <button onclick="window.history.pushState({}, '', '/register'); scrollToSection('register');" 
-                    class="bg-yellow-400 text-black px-4 py-1.5 font-bold shadow-[2px_2px_0px_#000] hover:bg-white transition-all hover:translate-y-[-1px] shrink-0">
+                    class="hidden bg-yellow-400 text-black px-4 py-1.5 font-bold shadow-[2px_2px_0px_#000] hover:bg-white transition-all hover:translate-y-[-1px] shrink-0">
                 REGISTER
             </button>
         </div>
@@ -116,7 +116,7 @@
             </div>
         </section>
 
-        <section id="register" class="py-20 md:py-32 bg-[#ffd600] text-[#1a1a1b] relative">
+        <section id="register" class="hidden py-20 md:py-32 bg-[#ffd600] text-[#1a1a1b] relative">
     <div class="max-w-xl mx-auto px-6">
         <h2 class="font-mono-vhs text-[20px] mb-8 tracking-[0.5em] uppercase text-center md:mb-16 font-bold">REGISTRATION</h2>
         
@@ -188,7 +188,7 @@
     <div class="absolute top-3/4 left-0 w-full h-[1px] bg-white/10 shadow-[0_0_10px_white]"></div>
 </div>
 
-<section id="countdown" class="py-32 px-6 bg-black border-t border-white/10 text-center flex flex-col items-center justify-center min-h-[60vh]">
+<section id="countdown" class="hidden py-32 px-6 bg-black border-t border-white/10 text-center flex flex-col items-center justify-center min-h-[60vh]">
     <h2 class="font-mono-vhs text-white/40 text-[10px] mb-12 tracking-[0.6em] uppercase">// T-MINUS_TO_REVIVAL</h2>
     
     <div class="flex gap-4 md:gap-10 font-mono-vhs text-white items-center">
@@ -219,7 +219,7 @@
     </main>
 
     <footer class="py-10 md:py-20 text-center opacity-10 font-mono-vhs text-[8px] md:text-[10px] uppercase tracking-[0.4em] md:tracking-[0.6em] border-t border-white/5">
-        © 2026 Revival Archive // Technical Prototype V11.7
+        © 2026 Revival: The Spirit That's Still Moving // Every Nation Campus Malolos
     </footer>
 
     <script>
