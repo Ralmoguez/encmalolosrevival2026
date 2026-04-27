@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Inter:wght@300;400;700&family=Special+Elite&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/png" href="VHS.png">
+
+    <title>REVIVAL // 2026</title>
+    <meta name="title" content="REVIVAL // 2026">
+    <meta name="description" content="The Spirit that's Still Moving.">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="REVIVAL 2026">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:url" content="https://encmalolos-revival2026.web.app/">
+    <meta property="og:title" content="REVIVAL // 2026">
+    <meta property="og:description" content="The Spirit that's Still Moving.">
+    <meta property="og:image" content="https://encmalolos-revival2026.web.app/thumbnail.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://encmalolos-revival2026.web.app/">
+    <meta property="twitter:title" content="REVIVAL // 2026">
+    <meta property="twitter:description" content="The Spirit that's Still Moving.">
+    <meta property="twitter:image" content="https://encmalolos-revival2026.web.app/thumbnail.png">
+
+    
+    <style>
+        @font-face {
+            font-family: 'Abolition';
+            /* Make sure the filename matches your actual file exactly */
+            src: url('abolition-regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* Create a specific class for your logo */
+        .font-abolition {
+            font-family: 'Abolition', sans-serif;
+            letter-spacing: 0.1em; /* Adjusts spacing to look more like a logo */
+        }
+
+        body { font-family: 'Inter', sans-serif; background-color: #1a1a1b; color: #f4f1ea; scroll-behavior: smooth !important; overflow-x: hidden; }
+        .font-mono-vhs { font-family: 'IBM Plex Mono', monospace; }
+        .font-typewriter { font-family: 'Special Elite', cursive; }
+        
+        /* ANALOG GRAIN & CRT SCANLINES */
+        .analog-grain::before {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 50; opacity: 0.04;
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+        }
+
+        .crt-overlay {
+            position: relative; overflow: hidden;
+        }
+        .crt-overlay::after {
+            content: " "; display: block; position: absolute; top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            z-index: 2; background-size: 100% 3px, 3px 100%; pointer-events: none;
+        }
+
+        /* HARDWARE UI */
+        .osd-green { color: #00ff00; text-shadow: 0 0 8px #00ff00; font-family: 'IBM Plex Mono', monospace; }
+        
+        ::-webkit-scrollbar { width: 8px; height: 4px;}
+        ::-webkit-scrollbar-track { background: #1a1a1b; }
+        ::-webkit-scrollbar-thumb { background: #ffd600; }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .view-section { display: none; }
+        .view-section.active { display: block; }
+
+        #navbar { transition: all 0.3s ease; }
+
+        /* Scroll margin for anchor links */
+        [id] { scroll-margin-top: 60px; }
+    </style>
+</head>
+<body>
+
+   <nav id="navbar" class="sticky top-0 w-full z-[100] bg-black/60 backdrop-blur-lg border-b border-white/5 px-6 py-2 flex justify-between items-center">
+    
+    <a href="javascript:void(0)" onclick="scrollToTop()" class="z-[110] hover:opacity-80 transition-opacity">
+        <div class="font-abolition font-bold text-yellow-400 text-2xl tracking-widest">
+            REVIVAL // 2026
+        </div>
+    </a>
+
+    <button onclick="toggleMenu()" class="z-[110] flex flex-col gap-1.5 p-2">
+        <div id="line1" class="w-6 h-0.5 bg-yellow-400 transition-all duration-300"></div>
+        <div id="line2" class="w-6 h-0.5 bg-yellow-400 transition-all duration-300"></div>
+        <div id="line3" class="w-6 h-0.5 bg-yellow-400 transition-all duration-300"></div>
+    </button>
+
+    <div id="nav-overlay" class="fixed inset-0 w-full h-screen bg-black/95 z-[105] hidden flex-col items-center justify-center gap-8">
+        <div class="font-mono-vhs text-2xl md:text-4xl uppercase tracking-[0.3em] flex flex-col items-center gap-10 text-white">
+            <a href="javascript:void(0)" onclick="handleHomeClick()" class="hover:text-yellow-400">Home</a>
+            <a href="javascript:void(0)" onclick="handleNavClick('about')" class="hover:text-yellow-400">About</a>
+            <a href="javascript:void(0)" onclick="handleNavClick('details')" class="hover:text-yellow-400">Details</a>
+            <a href="javascript:void(0)" onclick="handleNavClick('countdown')" class="hover:text-yellow-400">Countdown</a>
+</div>
+    </div>
+</nav>
+
+<script>
+
+function handleNavClick(sectionId) {
+    // 1. Close the menu
+    toggleMenu();
+    
+    // 2. Allow a tiny delay for the menu to start closing before scrolling
+    setTimeout(() => {
+        scrollToSection(sectionId);
+    }, 100);
+}
+
+function handleHomeClick() {
+    // 1. Close the menu
+    toggleMenu();
+    
+    // 2. Scroll to top
+    setTimeout(() => {
+        scrollToTop();
+    }, 100);
+}
+
+function scrollToTop() {
+    showView('landing');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleMenu() {
+    const menu = document.getElementById('nav-overlay');
+    const l1 = document.getElementById('line1');
+    const l2 = document.getElementById('line2');
+    const l3 = document.getElementById('line3');
+
+    if (menu.classList.contains('hidden')) {
+        menu.classList.replace('hidden', 'flex');
+        document.body.style.overflow = 'hidden'; // Lock background scroll
+        // Transform to X
+        l1.classList.add('rotate-45', 'translate-y-2');
+        l2.classList.add('opacity-0');
+        l3.classList.add('-rotate-45', '-translate-y-2');
+    } else {
+        menu.classList.replace('flex', 'hidden');
+        document.body.style.overflow = 'auto'; // Unlock scroll
+        // Transform back
+        l1.classList.remove('rotate-45', 'translate-y-2');
+        l2.classList.remove('opacity-0');
+        l3.classList.remove('-rotate-45', '-translate-y-2');
+    }
+}
+</script>
+
+
+<main id="landingView" class="view-section active">
+
+    <section class="w-full bg-black flex justify-center items-center">
+        <img src="landing_page.png" alt="Revival" class="w-full h-auto block">
+    </section>
+
+        <section id="about" class="py-16 md:py-32 px-6 max-w-4xl mx-auto">
+            <h2 class="font-abolition text-yellow-400 text-[20px] mb-8 uppercase">// ABOUT THE EVENT</h2>
+            <div class="grid md:grid-cols-2 gap-8 md:gap-16 text-xl md:text-2xl font-light leading-relaxed">
+                <p class="text-white">Revival is not a static event from the past; it is a movement of the Holy Spirit happening today. This retreat invites you to stop being a spectator and start becoming an active participant. Stop striving in the natural and <span class="font-bold text-yellow-400 indent italic">MOVE IN THE SUPERNATURAL</span>.</p>
+                <div class="space-y-6">
+                    <p class="text-white/40 text-sm md:text-base font-mono-vhs leading-loose">We will address how to live in a way that honors His presence, nurture a life that evidences His Fruit, and practice the language of Heaven.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="details" class="py-20 md:py-32 w-full bg-[#111111] border-y border-white/5">
+            <div class="px-6 max-w-3xl mx-auto">
+                <h2 class="font-abolition text-yellow-400 text-[20px] mb-12 uppercase text-center md:text-left">// DETAILS OF THE EVENT</h2>
+                <div class="border border-white/10 font-mono-vhs overflow-hidden shadow-2xl">
+                    <div class="flex flex-col md:flex-row border-b border-white/10">
+                        <div class="w-full md:w-1/3 p-4 md:p-6 bg-black/20 border-b md:border-b-0 md:border-r border-white/10 opacity-40 text-[9px] md:text-[10px]">DATE</div>
+                        <div class="w-full md:w-2/3 p-4 md:p-6 text-sm md:text-base font-bold">MAY 29-30, 2026</div>
+                    </div>
+                    <div class="flex flex-col md:flex-row border-b border-white/10">
+                        <div class="w-full md:w-1/3 p-4 md:p-6 bg-black/20 border-b md:border-b-0 md:border-r border-white/10 opacity-40 text-[9px] md:text-[10px]">TIME</div>
+                        <div class="w-full md:w-2/3 p-4 md:p-6 text-sm md:text-base uppercase">09:00 AM - 05:00 PM</div>
+                    </div>
+                    <div class="flex flex-col md:flex-row">
+                        <div class="w-full md:w-1/3 p-4 md:p-6 bg-black/20 border-b md:border-b-0 md:border-r border-white/10 opacity-40 text-[9px] md:text-[10px]">LOCATION</div>
+                        <div class="w-full md:w-2/3 p-4 md:p-6 text-sm md:text-base uppercase text-yellow-400 font-bold">Malolos, Bulacan</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="register" class="hidden py-20 md:py-32 bg-[#ffd600] text-[#1a1a1b] relative">
+    <div class="max-w-xl mx-auto px-6">
+        <h2 class="font-mono-vhs text-[20px] mb-8 tracking-[0.5em] uppercase text-center md:mb-16 font-bold">REGISTRATION</h2>
+        
+        <div class="bg-white border-2 border-black p-8 relative">
+            
+            <div id="osd-status" class="absolute top-2 left-4 font-mono-vhs text-[8px] opacity-30 font-bold uppercase tracking-tighter">
+                Status: Standby
+            </div>
+            
+            <form id="revivalForm" class="font-mono-vhs space-y-5 pt-4">
+                <div>
+                    <label class="block text-[10px] font-bold uppercase mb-1">Name *</label>
+                    <input type="text" name="name" id="regName" placeholder="Surname, First Name M.I." 
+                           class="w-full bg-zinc-100 border border-black p-3 text-sm focus:outline-none focus:bg-white transition-all placeholder:opacity-30" required>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-bold uppercase mb-1">Email Address *</label>
+                    <input type="email" name="email" placeholder="email@example.com" 
+                           class="w-full bg-zinc-100 border border-black p-3 text-sm focus:outline-none focus:bg-white transition-all placeholder:opacity-30" required>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-bold uppercase mb-1">Campus *</label>
+                    <input type="text" name="campus" placeholder="e.g. BSU, CEU, MHPNHS" 
+                           class="w-full bg-zinc-100 border border-black p-3 text-sm focus:outline-none focus:bg-white transition-all placeholder:opacity-30" required>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-bold uppercase mb-1">Contact Number *</label>
+                    <input type="tel" name="contact" id="regContact" placeholder="09XXXXXXXXX" 
+                           class="w-full bg-zinc-100 border border-black p-3 text-sm focus:outline-none focus:bg-white transition-all placeholder:opacity-30" required>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-bold uppercase mb-1">Victory Group Leader *</label>
+                    <input type="text" name="leader" placeholder="Full Name of VG Leader" 
+                           class="w-full bg-zinc-100 border border-black p-3 text-sm focus:outline-none focus:bg-white transition-all placeholder:opacity-30" required>
+                </div>
+
+                <div class="pt-2">
+                    <label class="block text-[10px] font-bold uppercase mb-3">Commitment Check *</label>
+                    <div class="flex gap-6">
+                        <label class="flex items-center gap-2 cursor-pointer text-[10px] font-bold">
+                            <input type="radio" name="attending" value="Yes" class="w-4 h-4 accent-black" required> YES_DEFINITELY
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer text-[10px] font-bold opacity-50">
+                            <input type="radio" name="attending" value="No" class="w-4 h-4 accent-black"> UNABLE_TO_ATTEND
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" id="submitBtn" 
+                        class="w-full bg-black text-[#ffd600] py-5 font-bold uppercase tracking-[0.3em] text-xs hover:bg-zinc-800 transition-all active:scale-[0.97]">
+                    SUBMIT
+                </button>
+            </form>
+
+            <div id="formResponse" class="hidden mt-6 p-4 border-2 border-black text-[10px] uppercase text-center font-bold bg-[#ffd600]">
+                WRITING_TO_TAPE...
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="trackingLines" class="fixed inset-0 pointer-events-none z-[100] hidden">
+    <div class="absolute inset-0 bg-white/5 mix-blend-overlay animate-pulse"></div>
+    <div class="absolute top-1/4 left-0 w-full h-[2px] bg-white/20 shadow-[0_0_15px_white]"></div>
+    <div class="absolute top-3/4 left-0 w-full h-[1px] bg-white/10 shadow-[0_0_10px_white]"></div>
+</div>
+
+<section id="countdown" class="py-32 px-6 bg-black border-t border-white/10 text-center flex flex-col items-center justify-center min-h-[60vh]">
+    <h2 class="font-abolition text-white/40 text-[20px] mb-12 uppercase">// T-MINUS_TO_REVIVAL</h2>
+    
+    <div class="flex gap-4 md:gap-10 font-mono-vhs text-white items-center">
+        <div class="flex flex-col">
+            <span id="days" class="text-5xl md:text-8xl font-bold tracking-tighter">00</span>
+            <span class="text-[8px] md:text-[10px] text-yellow-400 mt-2 tracking-widest uppercase">Days</span>
+        </div>
+        <span class="text-2xl md:text-5xl text-white/20 mt-[-20px] md:mt-[-40px]">:</span>
+        <div class="flex flex-col">
+            <span id="hours" class="text-5xl md:text-8xl font-bold tracking-tighter text-yellow-400">00</span>
+            <span class="text-[8px] md:text-[10px] text-yellow-400 mt-2 tracking-widest uppercase">Hrs</span>
+        </div>
+        <span class="text-2xl md:text-5xl text-white/20 mt-[-20px] md:mt-[-40px]">:</span>
+        <div class="flex flex-col">
+            <span id="minutes" class="text-5xl md:text-8xl font-bold tracking-tighter">00</span>
+            <span class="text-[8px] md:text-[10px] text-yellow-400 mt-2 tracking-widest uppercase">Min</span>
+        </div>
+        <span class="text-2xl md:text-5xl text-white/20 mt-[-20px] md:mt-[-40px]">:</span>
+        <div class="flex flex-col">
+            <span id="seconds" class="text-5xl md:text-8xl font-bold tracking-tighter opacity-50">00</span>
+            <span class="text-[8px] md:text-[10px] text-yellow-400 mt-2 tracking-widest uppercase">Sec</span>
+        </div>
+    </div>
+    
+    <p class="mt-16 font-mono-vhs text-[15px] text-yellow-400 uppercase tracking-[0.2em]">Get ready to be moved by the Spirit that's still moving.</p>
+</section>
+              
+    </main>
+
+<footer class="py-20 bg-black/30 border-t border-white/5 flex flex-col items-center justify-center text-center">
+    
+    <div class="font-abolition text-white/40 text-3xl md:text-xl mb-6 uppercase">
+        REVIVAL // 2026
+    </div>
+
+    <div class="font-mono-vhs text-[8px] text-white/20 uppercase tracking-[0.4em] leading-relaxed">
+        Every Nation Campus Malolos <br> 
+        // All Rights Reserved //
+    </div>
+
+    <div class="mt-10 opacity-80 grayscale contrast-200">
+        <img src="ENCLogo.png" alt="ENC Logo" class="w-24 h-auto">
+    </div>
+
+    <div class="mt-8 w-16 h-[1px] bg-white/5 relative">
+        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-yellow-400/20 to-transparent"></div>
+    </div>
+</footer>
+    <script>
+        function showView(v) { 
+            const views = document.querySelectorAll('.view-section');
+            let changed = false;
+            views.forEach(s => {
+                if (s.classList.contains('active') && s.id !== v + 'View') {
+                    s.classList.remove('active');
+                    changed = true;
+                }
+            });
+            const targetView = document.getElementById(v + 'View');
+            if (targetView && !targetView.classList.contains('active')) {
+                targetView.classList.add('active');
+                changed = true;
+            }
+            if (changed) window.scrollTo(0,0);
+        }
+
+        function scrollToTop() {
+            showView('landing');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function scrollToSection(id) { 
+            showView('landing');
+            setTimeout(() => {
+                const element = document.getElementById(id);
+                if(element) {
+                    const headerOffset = document.getElementById('navbar').offsetHeight;
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({
+                         top: offsetPosition,
+                         behavior: "smooth"
+                    });
+                }
+            }, 50); 
+        }
+
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.style.backgroundColor = 'rgba(0, 0, 0, 0.95)';
+                nav.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+            } else {
+                nav.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
+                nav.style.borderColor = 'rgba(255, 255, 255, 0.05)';
+            }
+        });
+    </script>
+
+    <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyAaxjL-NuYE1VeAoYb1_pWHAE3C4VdCBBY",
+        authDomain: "enc-malolos-revival-2026.firebaseapp.com",
+        projectId: "enc-malolos-revival-2026",
+        storageBucket: "enc-malolos-revival-2026.firebasestorage.app",
+        messagingSenderId: "893658387609",
+        appId: "1:893658387609:web:f15e870fb82b729e759408",
+        measurementId: "G-4VH26Y026V"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    </script>
+
+        <script>
+    // 1. CONFIGURATION
+    const targetDate = new Date("May 29, 2026 09:00:00").getTime();
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbw4RRK80S6feYKji9lQYBKsllWwQFk3KvZj2teQooHhFsCrd-pufKeYtADIXCtvckWVTA/exec'; // Replace this with your actual URL
+
+    const form = document.getElementById('revivalForm');
+    const btn = document.getElementById('submitBtn');
+    const statusLabel = document.getElementById('osd-status');
+    const trackingEffect = document.getElementById('trackingLines');
+
+    // 2. COUNTDOWN TIMER LOGIC
+    const countdown = setInterval(function() {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Display results in the specific IDs
+        document.getElementById("days").innerText = d.toString().padStart(2, '0');
+        document.getElementById("hours").innerText = h.toString().padStart(2, '0');
+        document.getElementById("minutes").innerText = m.toString().padStart(2, '0');
+        document.getElementById("seconds").innerText = s.toString().padStart(2, '0');
+
+        // If the count down is finished
+        if (distance < 0) {
+            clearInterval(countdown);
+            document.getElementById("countdown").innerHTML = "<h2 class='font-mono-vhs text-yellow-400'>REVIVAL_IN_PROGRESS</h2>";
+        }
+    }, 1000);
+
+    // 3. FORM SUBMISSION + VHS LOGIC
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+
+        // RULE: Name must contain a comma (Surname, First Name)
+        const nameVal = document.getElementById('regName').value;
+        if(!nameVal.includes(',')) {
+            alert("SYSTEM_ERROR: INVALID_NAME_FORMAT. Use 'Surname, First Name'");
+            return;
+        }
+
+        // RULE: Contact must be 11 digits
+        const phoneVal = document.getElementById('regContact').value;
+        if(phoneVal.length !== 11) {
+            alert("SYSTEM_ERROR: INVALID_PHONE_LENGTH. Must be 11 digits.");
+            return;
+        }
+
+        // START RECORDING STATE
+        btn.disabled = true;
+        btn.innerHTML = "RECORDING...";
+        statusLabel.innerText = "Status: Writing_to_Tape";
+        statusLabel.classList.add('animate-pulse');
+
+        // SEND DATA TO GOOGLE SHEETS
+        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+            .then(response => {
+                // 1. UPDATE HARDWARE STATE
+                btn.innerHTML = "SIGNAL_LOCKED";
+                statusLabel.innerText = "Status: Locked";
+                statusLabel.classList.remove('animate-pulse');
+                
+                // 2. TRIGGER SYSTEM DIALOG
+                setTimeout(() => {
+                    document.getElementById('successPopup').classList.remove('hidden');
+                }, 500);
+            })
+            .catch(error => {
+                btn.disabled = false;
+                btn.innerHTML = "RETRY_SUBMIT";
+                statusLabel.innerText = "Status: Error_Retry";
+                console.error('Error!', error.message);
+            });
+        // This makes the function globally accessible to the button
+        window.closePopupAndScroll = function() {
+            const popup = document.getElementById('successPopup');
+            const trackingEffect = document.getElementById('trackingLines');
+            const countdownSection = document.getElementById('countdown');
+
+            // 1. HIDE THE POPUP IMMEDIATELY
+            if (popup) {
+                popup.classList.add('hidden');
+            }
+            
+            // 2. TRIGGER THE VHS TRACKING LINES
+            if (trackingEffect) {
+                trackingEffect.classList.remove('hidden');
+            }
+            
+            // 3. FAST-FORWARD SCROLL
+            if (countdownSection) {
+                const headerOffset = document.getElementById('navbar').offsetHeight || 0;
+                const elementPosition = countdownSection.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+            }
+
+            // 4. CLEANUP AFTER 1 SECOND
+            setTimeout(() => {
+                if (trackingEffect) trackingEffect.classList.add('hidden');
+                
+                // Reset the form and hardware status
+                const form = document.getElementById('revivalForm');
+                const btn = document.getElementById('submitBtn');
+                const statusLabel = document.getElementById('osd-status');
+                
+                if (form) form.reset();
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = "SUBMIT";
+                }
+                if (statusLabel) statusLabel.innerText = "Status: Standby";
+            }, 1000);
+        };
+            });
+        window.addEventListener('load', () => {
+            const path = window.location.pathname;
+            
+            // Mapping the URL path to the section ID
+            const sectionMap = {
+                '/about': 'about',
+                '/details': 'details',
+                '/register': 'register',
+                '/countdown': 'countdown'
+            };
+
+            if (sectionMap[path]) {
+                // Wait a tiny bit for the VHS grain and CRT effects to initialize
+                setTimeout(() => {
+                    scrollToSection(sectionMap[path]);
+                }, 600); 
+            }
+        });
+    
+</script>
+
+<div id="successPopup" class="fixed inset-0 flex items-center justify-center z-[200] hidden bg-black/80 backdrop-blur-sm px-6">
+    <div class="bg-zinc-900 border-2 border-yellow-400 p-8 max-w-sm w-full font-mono-vhs relative">
+        <div class="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-yellow-400"></div>
+        <div class="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2 border-yellow-400"></div>
+
+        <div class="text-yellow-400 text-[10px] mb-2 opacity-50 uppercase tracking-widest">System_Message:</div>
+        <h3 class="text-white text-2xl font-bold mb-4 italic uppercase tracking-tighter">COMMITMENT_SECURED</h3>
+        
+        <p class="text-white/70 text-[10px] mb-8 leading-relaxed uppercase tracking-tight">
+            Your data has been successfully encoded into the 2026 Archive. Signal is locked. Prepare for the move.
+        </p>
+
+        <button onclick="closePopupAndScroll()" class="w-full bg-yellow-400 text-black py-4 font-bold uppercase text-[10px] tracking-widest hover:bg-white transition-all shadow-[4px_4px_0px_rgba(255,255,255,0.2)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]">
+            ACKNOWLEDGE
+        </button>
+    </div>
+</div>
+
+
+</body>
+</html>
