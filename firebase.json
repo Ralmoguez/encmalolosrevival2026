@@ -25,12 +25,9 @@
             "value": "*"
           },
           {
-            "key": "X-Content-Type-Options",
-            "value": "nosniff"
-          }, {
-  "key": "Vary",
-  "value": "User-Agent"
-}
+            "key": "Vary",
+            "value": "User-Agent"
+          }
 
         ]
       }
