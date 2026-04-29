@@ -85,7 +85,7 @@
 </head>
 <body>
 
-   <nav id="navbar" class="sticky top-0 w-full z-[100] bg-black/60 backdrop-blur-lg border-b border-white/5 px-6 py-2 flex justify-between items-center">
+<nav id="navbar" class="sticky top-0 w-full z-[100] bg-black/60 backdrop-blur-lg border-b border-white/5 px-6 py-2 flex justify-between items-center">
     
     <a href="javascript:void(0)" onclick="scrollToTop()" class="z-[110] hover:opacity-80 transition-opacity">
         <div class="font-abolition font-bold text-yellow-400 text-2xl tracking-widest">
@@ -93,19 +93,29 @@
         </div>
     </a>
 
-    <button onclick="toggleMenu()" class="z-[110] flex flex-col gap-1.5 p-2">
-        <div id="line1" class="w-6 h-0.5 bg-yellow-400 transition-all duration-300"></div>
-        <div id="line2" class="w-6 h-0.5 bg-yellow-400 transition-all duration-300"></div>
-        <div id="line3" class="w-6 h-0.5 bg-yellow-400 transition-all duration-300"></div>
-    </button>
+    <div class="flex items-center gap-3">
+        <button onclick="scrollToSection('register')" 
+                class="bg-[#ffd600] text-black font-mono-vhs text-[10px] px-4 md:px-6 py-1.5 font-bold uppercase tracking-widest hover:bg-white transition-all active:scale-95">
+            REGISTER
+        </button>
+
+        <button onclick="toggleMenu()" class="z-[110] flex flex-col gap-1.5 p-2">
+            <div id="line1" class="w-6 h-0.5 bg-yellow-400 transition-all duration-300"></div>
+            <div id="line2" class="w-6 h-0.5 bg-yellow-400 transition-all duration-300"></div>
+            <div id="line3" class="w-6 h-0.5 bg-yellow-400 transition-all duration-300"></div>
+        </button>
+    </div>
 
     <div id="nav-overlay" class="fixed inset-0 w-full h-screen bg-black/95 z-[105] hidden flex-col items-center justify-center gap-8">
         <div class="font-mono-vhs text-2xl md:text-4xl uppercase tracking-[0.3em] flex flex-col items-center gap-10 text-white">
             <a href="javascript:void(0)" onclick="handleHomeClick()" class="hover:text-yellow-400">Home</a>
             <a href="javascript:void(0)" onclick="handleNavClick('about')" class="hover:text-yellow-400">About</a>
             <a href="javascript:void(0)" onclick="handleNavClick('details')" class="hover:text-yellow-400">Details</a>
+            
+            <a href="javascript:void(0)" onclick="handleNavClick('register')" class="text-yellow-400 hover:scale-110 transition-transform">Registration</a>
+            
             <a href="javascript:void(0)" onclick="handleNavClick('countdown')" class="hover:text-yellow-400">Countdown</a>
-</div>
+        </div>
     </div>
 </nav>
 
@@ -398,7 +408,7 @@ function toggleMenu() {
     <script>
         // 1. CONFIGURATION
     const targetDate = new Date("May 29, 2026 09:00:00").getTime();
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbw4RRK80S6feYKji9lQYBKsllWwQFk3KvZj2teQooHhFsCrd-pufKeYtADIXCtvckWVTA/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxdkMBTCMwzAqe69_uBhX_o2bSE-L-fE_l_xq8juyVXfXYamjz9oCcsgHap2-fZN2RyXA/exec';
 
     const form = document.getElementById('revivalForm');
     const btn = document.getElementById('submitBtn');
@@ -596,7 +606,7 @@ window.downloadReceipt = function() {
                         <span>₱0.00</span>
                     </div>
                     <div class="flex justify-between border-b border-black/10 pb-1">
-                        <span>01  CHURCH: <span id="res-church" class="font-black italic">---</span></span>
+                        <span>01  LOCAL CHURCH: <span id="res-church" class="font-black italic">---</span></span>
                         <span>₱0.00</span>
                     </div>
                 </div>
