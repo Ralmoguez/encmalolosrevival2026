@@ -30,10 +30,23 @@
 
     
     <style>
+
+        /* VHS CASSETTE ANIMATIONS */
+        @keyframes spool-spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spool { animation: spool-spin 4s linear infinite; }
+
+        .cassette-shell {
+            background: linear-gradient(145deg, #18181b, #09090b); /* zinc-900 to zinc-950 */
+            box-shadow: 20px 20px 60px #000000, -5px -5px 20px #27272a;
+        }
+
         @font-face {
             font-family: 'Abolition';
             /* Make sure the filename matches your actual file exactly */
-            src: url('abolition-regular.ttf') format('truetype');
+            src: url('/abolition-regular.ttf') format('truetype');
             font-weight: normal;
             font-style: normal;
         }
@@ -81,6 +94,47 @@
 
         /* Scroll margin for anchor links */
         [id] { scroll-margin-top: 60px; }
+/* 1. RECEIPT CORE: Keeps the spacing clean and colors solid */
+#receipt-capture {
+    line-height: 1.2;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    background-color: #f4f1ea;
+    width: 384px;
+    margin: 0 auto;
+    transform-origin: top center;
+}
+
+/* 2. HEADER FIX: Reverts to the tight "REVIVAL" overlap look you liked */
+#receipt-capture h3 {
+    line-height: 0.8 !important;
+    margin-bottom: 1.5rem !important;
+}
+
+/* 3. BORDERS: Ensures lines show up in the downloaded image */
+.border-double { border-style: double !important; }
+.border-dashed { border-style: dashed !important; }
+
+/* 4. MOBILE AUTO-FIT: This is the "magic" that prevents scrolling */
+@media (max-width: 640px) {
+    #receipt-capture {
+        /* Adjust this scale (0.75 to 0.85) until it fits your specific screen perfectly */
+        transform: scale(0.8); 
+        margin-bottom: -6rem; /* Pulls layout up to remove dead space from scaling */
+    }
+    
+    #successPopup {
+        align-items: center; /* Centers the shrunken receipt vertically */
+        padding-top: 0;
+        padding-bottom: 0;
+        overflow: hidden; /* Disables scrolling because it's now a perfect fit */
+    }
+}
+
+/* 5. POPUP LAYOUT: General settings for the overlay */
+#successPopup:not(.hidden) {
+    display: flex;
+}
     </style>
 </head>
 <body>
@@ -95,7 +149,7 @@
 
     <div class="flex items-center gap-3">
         <button onclick="scrollToSection('register')" 
-                class="bg-[#ffd600] text-black hidden font-mono-vhs text-[10px] px-4 md:px-6 py-1.5 font-bold uppercase tracking-widest hover:bg-white transition-all active:scale-95">
+                class="bg-[#ffd600] text-black font-mono-vhs text-[10px] px-4 md:px-6 py-1.5 font-bold uppercase tracking-widest hover:bg-white transition-all active:scale-95">
             REGISTER
         </button>
 
@@ -112,7 +166,7 @@
             <a href="javascript:void(0)" onclick="handleNavClick('about')" class="hover:text-yellow-400">About</a>
             <a href="javascript:void(0)" onclick="handleNavClick('details')" class="hover:text-yellow-400">Details</a>
             
-            <a href="javascript:void(0)" onclick="handleNavClick('register')" class="text-yellow-400 hover:scale-110 transition-transform hidden">Registration</a>
+            <a href="javascript:void(0)" onclick="handleNavClick('register')" class="text-yellow-400 hover:scale-110 transition-transform">Registration</a>
             
             <a href="javascript:void(0)" onclick="handleNavClick('countdown')" class="hover:text-yellow-400">Countdown</a>
         </div>
@@ -174,7 +228,7 @@ function toggleMenu() {
 <main id="landingView" class="view-section active">
 
     <section class="w-full bg-black flex justify-center items-center">
-        <img src="landing_page.png" alt="Revival" class="w-full h-auto block">
+        <img src="/landing_page.png" alt="Revival" class="w-full h-auto block">
     </section>
 
         <section id="about" class="py-16 md:py-32 px-6 max-w-4xl mx-auto">
@@ -207,9 +261,9 @@ function toggleMenu() {
             </div>
         </section>
 
-        <section id="register" hidden class="py-20 md:py-32 bg-[#ffd600] text-[#1a1a1b] relative">
+        <section id="register" class="py-20 md:py-32 bg-[#ffd600] text-[#1a1a1b] relative">
     <div class="max-w-xl mx-auto px-6">
-        <h2 class="font-abolition text-black text-[30px] mb-12 uppercase text-center md:text-center">// REGISTRATION </h2>
+        <h2 class="font-abolition text-black text-[20px] mb-12 uppercase text-center md:text-center">// REGISTRATION </h2>
         
         <div class="bg-[#121212] p-6 border-4 border-black space-y-4 relative">
             
@@ -232,7 +286,7 @@ function toggleMenu() {
 
                 <div>
                     <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-1 tracking-widest">Campus *</label>
-                    <input type="text" name="campus" placeholder="e.g. BSU, CEU, MHPNHS" 
+                    <input type="text" name="campus" placeholder="e.g. BulSU, CEU, MHPNHS" 
                            class="w-full bg-zinc-900 border border-zinc-800 p-3 text-sm text-white focus:outline-none focus:border-[#facc15] transition-all placeholder:opacity-20" required>
                 </div>
 
@@ -318,19 +372,34 @@ function toggleMenu() {
     </div>
 
     <div class="font-mono-vhs text-[8px] text-white/20 uppercase tracking-[0.4em] leading-relaxed">
-        Every Nation Campus Malolos <br> 
-        // All Rights Reserved //
-    </div>
+    Every Nation Campus Malolos <br> 
+    // All Rights Reserved //
+
+    <a href="mailto:encmalolosrevival2026@gmail.com" 
+       class="flex items-center justify-center gap-2 mt-4 hover:text-yellow-400 transition-all group active:scale-95">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-60 group-hover:opacity-100 transition-opacity">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+        <span class="lowercase tracking-normal opacity-60 group-hover:opacity-100 transition-opacity">
+            encmalolosrevival2026@gmail.com
+        </span>
+    </a>
+</div>
 
     <div class="mt-10 opacity-80 grayscale contrast-200">
-        <img src="ENCLogo.png" alt="ENC Logo" class="w-24 h-auto">
+        <img src="/ENCLogo.png" alt="ENC Logo" class="w-24 h-auto">
+        
     </div>
 
     <div class="mt-8 w-16 h-[1px] bg-white/5 relative">
         <div class="absolute inset-0 bg-gradient-to-r from-transparent via-yellow-400/20 to-transparent"></div>
     </div>
 </footer>
-    <script>
+
+<!-- scripts -->
+<script>
+        // --- VIEW & SCROLL MANAGEMENT ---
         function showView(v) { 
             const views = document.querySelectorAll('.view-section');
             let changed = false;
@@ -369,6 +438,61 @@ function toggleMenu() {
             }, 50); 
         }
 
+        // --- MOBILE MENU MANAGEMENT ---
+        function toggleMenu() {
+            const menu = document.getElementById('nav-overlay');
+            const l1 = document.getElementById('line1');
+            const l2 = document.getElementById('line2');
+            const l3 = document.getElementById('line3');
+
+            if (menu.classList.contains('hidden')) {
+                menu.classList.replace('hidden', 'flex');
+                document.body.style.overflow = 'hidden'; // Lock background scroll
+                l1.classList.add('rotate-45', 'translate-y-2');
+                l2.classList.add('opacity-0');
+                l3.classList.add('-rotate-45', '-translate-y-2');
+            } else {
+                menu.classList.replace('flex', 'hidden');
+                
+                // 🚨 THE SCROLL FIX: Removes the lock without overriding your CSS
+                document.body.style.overflow = ''; 
+                document.body.style.overflowX = 'hidden'; 
+                
+                l1.classList.remove('rotate-45', 'translate-y-2');
+                l2.classList.remove('opacity-0');
+                l3.classList.remove('-rotate-45', '-translate-y-2');
+            }
+        }
+
+        function handleNavClick(sectionId) {
+            toggleMenu();
+            setTimeout(() => { scrollToSection(sectionId); }, 100);
+        }
+
+        function handleHomeClick() {
+            toggleMenu();
+            setTimeout(() => { scrollToTop(); }, 100);
+        }
+
+        // --- PATH-BASED SCROLLING ---
+        window.addEventListener('load', () => {
+            const path = window.location.pathname;
+            const sectionMap = {
+                '/about': 'about',
+                '/details': 'details',
+                '/register': 'register',
+                '/countdown': 'countdown'
+            };
+
+            if (sectionMap[path]) {
+                setTimeout(() => {
+                    const target = document.getElementById(sectionMap[path]);
+                    if(target) target.scrollIntoView({ behavior: 'smooth' });
+                }, 600); 
+            }
+        });
+
+        // --- NAVBAR SCROLL EFFECT ---
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
             if (window.scrollY > 50) {
@@ -379,197 +503,369 @@ function toggleMenu() {
                 nav.style.borderColor = 'rgba(255, 255, 255, 0.05)';
             }
         });
+
+        // --- POPUP CLOSURE & TRACKING EFFECT ---
+        window.closePopupAndScroll = function() {
+            const popup = document.getElementById('successPopup');
+            const trackingEffect = document.getElementById('trackingLines');
+            const countdownSection = document.getElementById('countdown');
+            const form = document.getElementById('revivalForm');
+            const statusLabel = document.getElementById('osd-status');
+
+            // 1. Hide the Receipt Popup
+            if (popup) popup.classList.add('hidden');
+            
+            // 2. Trigger the "Tracking Lines" VFX
+            if (trackingEffect) trackingEffect.classList.remove('hidden'); 
+            
+            // 3. CLEAN THE URL: Resets to root "/" without reloading
+            window.history.pushState({}, '', '/');
+
+            // 4. Scroll smoothly to the Countdown
+            if (countdownSection) {
+                countdownSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            // 5. Reset UI State after a short delay
+            setTimeout(() => {
+                if (trackingEffect) trackingEffect.classList.add('hidden'); // End VFX
+                
+                // Reset Registration UI
+                if(form) form.reset();
+                if(statusLabel) statusLabel.innerText = "Status: Standby";
+                
+                const encryptBtn = document.getElementById('encryptBtn');
+                if(encryptBtn) {
+                    encryptBtn.disabled = false;
+                    encryptBtn.textContent = "SUBMIT_RECORD"; // Matches your industrial button text
+                }
+            }, 500);
+        };
     </script>
+
 
     <script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
+        const firebaseConfig = {
+            apiKey: "AIzaSyAaxjL-NuYE1VeAoYb1_pWHAE3C4VdCBBY",
+            authDomain: "enc-malolos-revival-2026.firebaseapp.com",
+            projectId: "enc-malolos-revival-2026",
+            storageBucket: "enc-malolos-revival-2026.firebasestorage.app",
+            messagingSenderId: "893658387609",
+            appId: "1:893658387609:web:f15e870fb82b729e759408"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-        apiKey: "AIzaSyAaxjL-NuYE1VeAoYb1_pWHAE3C4VdCBBY",
-        authDomain: "enc-malolos-revival-2026.firebaseapp.com",
-        projectId: "enc-malolos-revival-2026",
-        storageBucket: "enc-malolos-revival-2026.firebasestorage.app",
-        messagingSenderId: "893658387609",
-        appId: "1:893658387609:web:f15e870fb82b729e759408",
-        measurementId: "G-4VH26Y026V"
-    };
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbw8WY4OO8LdvAHbRYZuXumFvIds2w_oNSSKj9XR_HiN6tG9wd02H2FQU3ZbEJz7s1ZVVA/exec';
+        const form = document.getElementById('revivalForm');
+        const targetDate = new Date("May 29, 2026 09:00:00").getTime();
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    </script>
-
-    <script>
-        // 1. CONFIGURATION
-    const targetDate = new Date("May 29, 2026 09:00:00").getTime();
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbxdkMBTCMwzAqe69_uBhX_o2bSE-L-fE_l_xq8juyVXfXYamjz9oCcsgHap2-fZN2RyXA/exec';
-
-    const form = document.getElementById('revivalForm');
-    const btn = document.getElementById('submitBtn');
-    const statusLabel = document.getElementById('osd-status');
-    const responseBox = document.getElementById('formResponse');
-
-    // 2. COUNTDOWN TIMER LOGIC
-    const countdown = setInterval(function() {
-        const now = new Date().getTime();
-        const distance = targetDate - now;
-
-        const d = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const s = Math.floor((distance % (1000 * 60)) / 1000);
-
-        // Standard padding
-        const pad = (num) => num.toString().padStart(2, '0');
-
-        if (document.getElementById("days")) document.getElementById("days").innerText = pad(d);
-        if (document.getElementById("hours")) document.getElementById("hours").innerText = pad(h);
-        if (document.getElementById("minutes")) document.getElementById("minutes").innerText = pad(m);
-        if (document.getElementById("seconds")) document.getElementById("seconds").innerText = pad(s);
-
-        if (distance < 0) {
-            clearInterval(countdown);
-            const cdSection = document.getElementById("countdown");
-            if(cdSection) cdSection.innerHTML = "<h2 class='font-mono-vhs text-yellow-400 text-2xl uppercase'>REVIVAL_IN_PROGRESS</h2>";
-        }
-    }, 1000);
-
-    // 3. FORM SUBMISSION
-    form.addEventListener('submit', e => {
-        e.preventDefault();
-
-        // Validation: Name format
-        const nameVal = document.getElementById('regName').value;
-        if(!nameVal.includes(',')) {
-            alert("SYSTEM_ERROR: INVALID_NAME_FORMAT. Use 'Surname, First Name'");
-            return;
+        // HELPER: Generate Short ID
+        function generateShortId() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let result = 'R26-';
+            for (let i = 0; i < 4; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
         }
 
-        // Validation: Phone digits
-        const phoneVal = document.getElementById('regContact').value;
-        if(phoneVal.length !== 11) {
-            alert("SYSTEM_ERROR: INVALID_PHONE_LENGTH. Must be 11 digits.");
-            return;
-        }
-
-        // Recording State
-        btn.disabled = true;
-        btn.innerHTML = "RECORDING...";
-        statusLabel.innerText = "Status: Writing_to_Tape";
-        statusLabel.classList.add('animate-pulse');
-
-        // Send to Google Sheets
-        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-            .then(response => {
-                btn.innerHTML = "SIGNAL_LOCKED";
-                statusLabel.innerText = "Status: Locked";
-                statusLabel.classList.remove('animate-pulse');
-                
-                // Trigger the popup
-                setTimeout(() => {
-                    const popup = document.getElementById('successPopup');
-                    if(popup) popup.classList.remove('hidden');
-                }, 500);
-            })
-            .catch(error => {
-                btn.disabled = false;
-                btn.innerHTML = "RETRY_SUBMIT";
-                statusLabel.innerText = "Status: Error_Retry";
-                console.error('Error!', error.message);
-            });
-    });
-
-    // 4. GLOBAL POPUP & SCROLL FUNCTIONS
-    window.closePopupAndScroll = function() {
-        const popup = document.getElementById('successPopup');
-        const trackingEffect = document.getElementById('trackingLines');
-        const countdownSection = document.getElementById('countdown');
-
-        if (popup) popup.classList.add('hidden');
-        if (trackingEffect) trackingEffect.classList.remove('hidden');
-        
-        if (countdownSection) {
-            countdownSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        setTimeout(() => {
-            if (trackingEffect) trackingEffect.classList.add('hidden');
-            
-            // Reset everything
-            form.reset();
-            btn.disabled = false;
-            btn.innerHTML = "SUBMIT_RECORD";
-            statusLabel.innerText = "Status: Standby";
-        }, 500);
-    };
-
-    // 5. PATH-BASED SCROLLING
-    window.addEventListener('load', () => {
-        const path = window.location.pathname;
-        const sectionMap = {
-            '/about': 'about',
-            '/details': 'details',
-            '/register': 'register',
-            '/countdown': 'countdown'
+        window.togglePasscode = function(inputId, btn) {
+            const input = document.getElementById(inputId);
+            if (input.type === "password") {
+                input.type = "text";
+                btn.textContent = "HIDE";
+            } else {
+                input.type = "password";
+                btn.textContent = "SHOW";
+            }
         };
 
-        if (sectionMap[path]) {
-            setTimeout(() => {
-                const target = document.getElementById(sectionMap[path]);
-                if(target) target.scrollIntoView({ behavior: 'smooth' });
-            }, 600); 
+        function showError(message) {
+            const error = document.getElementById("passError");
+            if(error) {
+                error.textContent = message;
+                error.classList.remove("hidden");
+            }
         }
-    });
 
-    // Inside your form 'submit' event listener:
-form.addEventListener('submit', e => {
-    e.preventDefault();
+        // COUNTDOWN TIMER
+        const countdown = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
 
-    // 1. POPULATE THE RECEIPT FIELDS
-    document.getElementById('res-name').innerText = document.getElementById('regName').value;
-    document.getElementById('res-campus').innerText = form.querySelector('[name="campus"]').value;
-    document.getElementById('res-church').innerText = form.querySelector('[name="church"]').value;
+            if (distance < 0) {
+                clearInterval(countdown);
+                const cdSection = document.getElementById("countdown");
+                if(cdSection) cdSection.innerHTML = "<h2 class='font-mono-vhs text-yellow-400 text-2xl uppercase'>REVIVAL_IN_PROGRESS</h2>";
+                return;
+            }
 
-    // 2. GENERATE THE TIMESTAMP (REAL-TIME)
-    const now = new Date();
-    const timestamp = `${now.getFullYear()}.${(now.getMonth()+1).toString().padStart(2,'0')}.${now.getDate().toString().padStart(2,'0')}_${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}_PST`;
-    document.getElementById('receipt-time').innerText = timestamp;
+            const pad = (num) => num.toString().padStart(2, '0');
+            if (document.getElementById("days")) document.getElementById("days").innerText = pad(Math.floor(distance / (1000 * 60 * 60 * 24)));
+            if (document.getElementById("hours")) document.getElementById("hours").innerText = pad(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+            if (document.getElementById("minutes")) document.getElementById("minutes").innerText = pad(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
+            if (document.getElementById("seconds")) document.getElementById("seconds").innerText = pad(Math.floor((distance % (1000 * 60)) / 1000));
+        }, 1000);
 
-    // ... your fetch/submission logic ...
-});
+        // INITIAL FORM SUBMISSION
+        form.addEventListener('submit', e => {
+            e.preventDefault();
 
-// THE DOWNLOAD HANDLER
-window.downloadReceipt = function() {
-    const receipt = document.getElementById('receipt-capture');
-    const btn = event.target;
-    btn.innerText = "PRINTING...";
+            if(!document.getElementById('regName').value.includes(',')) {
+                return alert("SYSTEM_ERROR: INVALID_NAME_FORMAT. Use 'Surname, First Name'");
+            }
+            if(document.getElementById('regContact').value.length !== 11) {
+                return alert("SYSTEM_ERROR: INVALID_PHONE_LENGTH. Must be 11 digits.");
+            }
 
-    html2canvas(receipt, {
-        backgroundColor: "#121212", // Background for the snapshot
-        scale: 3, // High quality for mobile screens
-        useCORS: true // Required to capture the external QR code image
-    }).then(canvas => {
-        const link = document.createElement('a');
-        link.download = `Revival_Official_Record_2026.png`;
-        link.href = canvas.toDataURL("image/png");
-        link.click();
-        btn.innerText = "SAVE_IMAGE";
-    });
-};
+            document.getElementById('passcodeStep').classList.remove('hidden');
+        });
+
+        // FINALIZE & DOUBLE WRITE
+        window.finalizeRegistration = async () => {
+            const pass = document.getElementById("passcodeEntry").value;
+            const confirm = document.getElementById("confirmPasscodeEntry").value;
+            const encryptBtn = document.getElementById("encryptBtn");
+            const errorDisplay = document.getElementById("passError");
+
+            if(errorDisplay) errorDisplay.classList.add("hidden");
+
+            // Bypass rule for your test passcode
+            const isDebug = (pass === "123123");
+
+            if (!isDebug) {
+                if (pass.length < 6 || !/^[a-zA-Z0-9]+$/.test(pass)) {
+                    return showError("Error: 6-20 alphanumeric characters only. No spaces.");
+                }
+                if (pass !== confirm) return showError("Error: Passcodes do not match.");
+            }
+
+            encryptBtn.disabled = true;
+            encryptBtn.textContent = "SYNCING_RECORDS...";
+
+            const shortId = generateShortId(); 
+            
+            const formData = new FormData(form);
+            formData.append('passcode', pass);
+            formData.append('shortId', shortId);
+
+            try {
+                fetch(scriptURL, { method: 'POST', body: formData }).catch(err => console.error("Sheets Error:", err));
+
+                await setDoc(doc(db, "users", shortId), {
+                    name: document.getElementById('regName').value,
+                    campus: document.querySelector('[name="campus"]').value,
+                    church: document.querySelector('[name="church"]').value,
+                    passkey: pass,
+                    createdAt: serverTimestamp()
+                });
+
+                document.getElementById('passcodeStep').classList.add('hidden');
+                window.generateReceipt(shortId); 
+
+            } catch (e) {
+                console.error(e);
+                showError("System Error. Please check your connection.");
+                encryptBtn.disabled = false;
+                encryptBtn.textContent = "CONFIRM PASSCODE";
+            }
+        };
+
+        // RECEIPT GENERATION
+        window.generateReceipt = function(shortId) {
+            document.getElementById('res-name').innerText = document.getElementById('regName').value;
+            document.getElementById('res-campus').innerText = form.querySelector('[name="campus"]').value;
+            document.getElementById('res-church').innerText = form.querySelector('[name="church"]').value;
+
+            const idDisplay = document.getElementById('res-id');
+            if (idDisplay) idDisplay.innerText = `SYSTEM_ID: [ ${shortId} ]`;
+
+            const now = new Date();
+            document.getElementById('receipt-time').innerText = `${now.getFullYear()}.${(now.getMonth()+1).toString().padStart(2,'0')}.${now.getDate().toString().padStart(2,'0')}_${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}_PST`;
+
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://encmalolos-revival2026.web.app/user/${shortId}`;
+            document.querySelector('#receipt-capture img').src = qrUrl;
+
+            document.getElementById('successPopup').classList.remove('hidden');
+            
+            document.getElementById("passcodeEntry").value = "";
+            document.getElementById("confirmPasscodeEntry").value = "";
+        };
+
+        // IMAGE DOWNLOAD
+        window.downloadReceipt = function() {
+            const receipt = document.getElementById('receipt-capture');
+            const btn = event.target;
+            btn.innerText = "PRINTING...";
+
+            html2canvas(receipt, {
+                backgroundColor: "#f4f1ea",
+                scale: 3, 
+                useCORS: true,
+                logging: false
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `Revival_Official_Record_2026.png`;
+                link.href = canvas.toDataURL("image/png");
+                link.click();
+                btn.innerText = "SAVE_IMAGE";
+            });
+        };
 
 
+        // --- IDENTITY VERIFICATION ROUTING (QR CODE SCAN) ---
+        window.addEventListener('load', async () => {
+            const pathArray = window.location.pathname.split('/');
+            const userIndex = pathArray.indexOf('user');
+            
+            // Check if the URL is /user/R26-XXXX
+            if (userIndex !== -1 && pathArray[userIndex + 1]) {
+                const userId = pathArray[userIndex + 1];
+                
+                // Lock the background and show the VHS Screen
+                document.body.style.overflow = 'hidden';
+                document.getElementById('vhsPopup').classList.remove('hidden');
+                document.getElementById('vhs-ref').innerText = `Ref: ${userId}`;
+                
+                try {
+                    // Fetch the user's name from Firestore using the ID
+                    const userDoc = await getDoc(doc(db, "users", userId));
+                    
+                    setTimeout(() => {
+                        const nameLabel = document.getElementById('vhs-name');
+                        const statusLabel = document.getElementById('vhs-status');
+                        
+                        if (userDoc.exists()) {
+                            nameLabel.innerText = userDoc.data().name;
+                            statusLabel.innerText = "ACTIVE_USER";
+                        } else {
+                            nameLabel.innerText = "RECORD_NOT_FOUND";
+                            nameLabel.classList.add('text-red-600');
+                            statusLabel.innerText = "Error_404";
+                        }
+                    }, 1200); // 1.2s delay to let the tape "spin" for UX
+
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                    document.getElementById('vhs-name').innerText = "SYSTEM_FAULT";
+                }
+            }
+        });
+
+        // Expose the exit function to the window so the button can use it
+        window.exitVHSScreen = function() {
+            const vhsPopup = document.getElementById('vhsPopup');
+            
+            // 1. Hide the popup
+            vhsPopup.classList.add('hidden');
+            
+            // 2. Unlock scrolling for the main site
+            document.body.style.overflow = '';
+            document.body.style.overflowX = 'hidden';
+            
+            // 3. Clean the URL (removes /user/R26-XXXX and resets to root)
+            window.history.pushState({}, '', '/');
+        };
     </script>
 
-<div id="successPopup" class="fixed inset-0 flex items-center justify-center z-[200] hidden bg-black/90 backdrop-blur-md px-6 overflow-y-auto py-10">
-    
-    <div id="receipt-capture" class="bg-[#f4f1ea] w-full max-w-sm relative shadow-[0_20px_50px_rgba(0,0,0,1)] text-black font-mono">
-        
+<div id="passcodeStep" class="fixed inset-0 z-[150] hidden flex items-center justify-center bg-black/95 backdrop-blur-sm px-6">
+
+    <div class="bg-[#121212] border-4 border-[#facc15] w-full max-w-md p-8 relative shadow-[0_0_50px_rgba(250,204,21,0.2)]">
+
+        <div class="absolute top-2 left-4 font-mono-vhs text-[8px] text-[#facc15] opacity-50 font-bold uppercase tracking-widest">
+            PASSCODE_SETUP
+        </div>
+
+        <div class="font-mono-vhs space-y-6 pt-4">
+
+            <!-- DESCRIPTION -->
+            <div class="space-y-3">
+                <p class="text-white text-[11px] leading-relaxed">
+                    Create a <span class="text-[#facc15]">Personal Access Passcode</span> for REVIVAL // 2026.  
+                    This will serve as your permanent signature for event authentication.
+                </p>
+
+                <div class="bg-zinc-900/50 p-4 border border-zinc-800 space-y-2">
+                    <p class="text-[#facc15] text-[10px] font-bold uppercase tracking-widest">RULES</p>
+                    <ul class="text-white/60 text-[9px] list-disc list-inside space-y-1">
+                        <li>6–20 characters only</li>
+                        <li>Letters and numbers only</li>
+                        <li>No spaces or special characters</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- PASSCODE INPUT -->
+            <div class="space-y-3">
+
+                <label class="block text-[8px] text-[#facc15] font-bold uppercase tracking-[0.2em]">
+                    Create Passcode
+                </label>
+
+                <div class="relative">
+                    <input type="password" id="passcodeEntry"
+                        placeholder="Enter passcode"
+                        class="w-full bg-black border-2 border-zinc-800 p-4 text-white text-center text-lg tracking-widest focus:outline-none focus:border-[#facc15] transition-all">
+
+                    <button type="button" onclick="togglePasscode('passcodeEntry', this)"
+                        class="absolute right-3 top-1/2 -translate-y-1/2 text-[9px] text-white/40">
+                        SHOW
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- CONFIRM PASSCODE -->
+            <div class="space-y-3">
+
+                <label class="block text-[8px] text-[#facc15] font-bold uppercase tracking-[0.2em]">
+                    Confirm Passcode
+                </label>
+
+                <div class="relative">
+                    <input type="password" id="confirmPasscodeEntry"
+                        placeholder="Re-enter passcode"
+                        class="w-full bg-black border-2 border-zinc-800 p-4 text-white text-center text-lg tracking-widest focus:outline-none focus:border-[#facc15] transition-all">
+
+                    <button type="button" onclick="togglePasscode('confirmPasscodeEntry', this)"
+                        class="absolute right-3 top-1/2 -translate-y-1/2 text-[9px] text-white/40">
+                        SHOW
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- NOTE -->
+            <p class="text-white/40 text-[9px] italic leading-tight text-center">
+                This passcode cannot be viewed again after submission. Make sure you remember it or store it safely.
+            </p>
+
+            
+
+            <!-- ERROR MESSAGE -->
+            <p id="passError" class="text-red-400 text-[10px] text-center hidden"></p>
+
+            <!-- BUTTON -->
+            <button onclick="finalizeRegistration()" id="encryptBtn"
+                class="w-full bg-[#facc15] text-black py-4 font-bold uppercase tracking-[0.2em] text-xs hover:bg-white transition-all active:scale-95">
+                CONFIRM PASSCODE
+            </button>
+            <div class="text-center mt-2">
+    <p class="text-white/30 text-[9px] italic">
+        Need help? Contact admin.
+    </p>
+</div>
+
+        </div>
+    </div>
+</div>
+
+<div id="successPopup" class="fixed inset-0 flex items-center justify-center z-[200] hidden bg-black/90 backdrop-blur-md px-6 overflow-y-auto py-10 text-black">
+    <div id="receipt-capture" class="bg-[#f4f1ea] w-full max-w-sm relative shadow-[0_20px_50px_rgba(0,0,0,1)] font-mono">
         <div class="absolute -top-3 left-0 w-full h-4 bg-[#f4f1ea]" style="clip-path: polygon(0% 100%, 5% 0%, 10% 100%, 15% 0%, 20% 100%, 25% 0%, 30% 100%, 35% 0%, 40% 100%, 45% 0%, 50% 100%, 55% 0%, 60% 100%, 65% 0%, 70% 100%, 75% 0%, 80% 100%, 85% 0%, 90% 100%, 95% 0%, 100% 100%);"></div>
 
         <div class="p-8">
@@ -578,79 +874,154 @@ window.downloadReceipt = function() {
                 <span>[REF: 2026]</span>
             </div>
 
-            <div class="text-center mb-3">
-                <h3 class="font-abolition text-[68px] uppercase leading-none">REVIVAL</h3>
-                <p class="text-[10px] font-bold mt-1 uppercase">The Spirit That's Still Moving   </p>
-                <p class="text-[10px] font-black tracking-widest mt-1">05.29-30.2026</p>
+            <div class="text-center flex flex-col items-center">
+                <h3 class="font-abolition text-[68px] uppercase leading-none block h-[60px] mb-6">REVIVAL</h3>
+                <div class="w-full mb-4">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.1em]">The Spirit That's Still Moving</p>
+                    <p class="text-[10px] font-black tracking-[0.25em] mt-1">05.29-30.2026</p>
+                </div>
             </div>
 
             <div class="text-[9px] font-bold space-y-1 mb-6 uppercase">
-                <p>STAMP_IN: <span id="receipt-time">2026.04.29_12:12_PST</span></p>
+                <p>STAMP_IN: <span id="receipt-time">2026.04.29_23:08_PST</span></p>
                 <p>LOCATION: MALOLOS_BULACAN</p>
             </div>
 
-            <div class="border-t-2 border-black border-double pt-4 mb-4">
-                <p class="text-[10px] font-black uppercase mb-4">>> REGISTRATION_RECORD:</p>
+            <div class="border-t-2 border-black border-double pt-4 mb-4 uppercase">
+                <p class="text-[10px] font-black mb-4">>> REGISTRATION_RECORD:</p>
                 
-                <div class="space-y-2 text-[10px] font-bold uppercase">
-                    <div class="flex justify-between opacity-40 text-[8px]">
-                        <span>QTY  DESCRIPTION</span>
+                <div class="space-y-4 text-[10px] font-bold">
+                    <div class="flex justify-between opacity-40 text-[8px] mb-1">
+                        <span>QTY DESCRIPTION</span>
                         <span>PRICE</span>
                     </div>
-                    <div class="flex justify-between border-b border-black/10 pb-1">
-                        <span>01  NAME: <span id="res-name" class="font-black italic">---</span></span>
+
+                    <div class="flex justify-between border-b border-black/10 pb-2">
+                        <span>01 NAME: <span id="res-name" class="font-black italic uppercase">---</span></span>
                         <span>₱0.00</span>
                     </div>
-                    <div class="flex justify-between border-b border-black/10 pb-1">
-                        <span>01  CAMPUS: <span id="res-campus" class="font-black italic">---</span></span>
+
+                    <div class="flex justify-between border-b border-black/10 pb-2">
+                        <span>01 CAMPUS: <span id="res-campus" class="font-black italic uppercase">---</span></span>
                         <span>--</span>
                     </div>
-                    <div class="flex justify-between border-b border-black/10 pb-1">
-                        <span>01  LOCAL CHURCH: <span id="res-church" class="font-black italic">---</span></span>
+
+                    <div class="flex justify-between border-b border-black/10 pb-2">
+                        <span>01 LOCAL CHURCH: <span id="res-church" class="font-black italic uppercase">---</span></span>
                         <span>--</span>
                     </div>
                 </div>
             </div>
 
-            <div class="border-t border-dashed border-black pt-4 mt-6">
-                <div class="flex justify-between text-[11px] font-black leading-none">
+            <div class="border-t border-dashed border-black pt-4 mt-8 pb-4">
+                <div class="flex justify-between text-[11px] font-black uppercase">
                     <span>TOTAL PRICE:</span>
                     <span>₱0.00</span>
                 </div>
-                <div class="text-right -mt-1"> <span class="text-[9px] font-black italic uppercase leading-none">
-                        (PAID BY JESUS' BLOOD)
-                    </span>
+                <div class="text-right mt-3">
+                    <span class="text-[9px] font-black italic uppercase block">(PAID BY JESUS' BLOOD)</span>
                 </div>
             </div>
 
-            <div class="mt-10 text-center space-y-6">
+            <div class="mt-8 text-center space-y-6">
                 <p class="text-[11px] font-black tracking-tighter uppercase">[!] PREPARE_FOR_THE_MOVE</p>
                 
                 <div class="flex flex-col items-center">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://encmalolos-revival2026.web.app/" 
-                         alt="Revival QR" class="w-20 h-20 mix-blend-multiply mb-2">
-                    <p class="font-abolition text-xl uppercase">REVIVAL // 2026</p>
+                    <p id="res-id" class="text-[9px] font-black tracking-widest mb-3 uppercase opacity-80 text-black">SYSTEM_ID: [ A7F3-92KD ]</p>
+                    
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://encmalolos-revival2026.web.app/" class="w-20 h-20 mix-blend-multiply mb-3">
+                    
+                    <p class="font-abolition text-2xl uppercase">REVIVAL // 2026</p>
                 </div>
 
-                <p class="text-[8px] font-bold opacity-50 uppercase tracking-widest">OFFICIAL_COPY / DO_NOT_DISCARD</p>
+                <p class="text-[8px] font-bold opacity-50 uppercase tracking-[0.2em] mt-4">OFFICIAL_COPY / DO_NOT_DISCARD</p>
             </div>
         </div>
 
         <div class="absolute -bottom-3 left-0 w-full h-4 bg-[#f4f1ea]" style="clip-path: polygon(0% 0%, 5% 100%, 10% 0%, 15% 100%, 20% 0%, 25% 100%, 30% 0%, 35% 100%, 40% 0%, 45% 100%, 50% 0%, 55% 100%, 60% 0%, 65% 100%, 70% 0%, 75% 100%, 80% 0%, 85% 100%, 90% 0%, 95% 100%, 100% 0%);"></div>
     </div>
 
-    <div class="fixed bottom-8 left-1/2 -translate-x-1/2 flex gap-4 w-full max-w-xs px-6">
-        <button onclick="downloadReceipt()" class="flex-1 bg-yellow-400 text-black py-4 font-bold uppercase text-[10px] tracking-widest border-2 border-black hover:bg-white transition-all shadow-xl">
+    <div class="fixed bottom-0 left-0 w-full bg-black/40 backdrop-blur-sm py-4 px-6 z-[250] flex gap-3 justify-center">
+        <button onclick="downloadReceipt()" class="flex-1 max-w-[140px] bg-yellow-400 text-black py-3 font-bold uppercase text-[9px] tracking-widest border border-black shadow-lg">
             SAVE_IMAGE
         </button>
-        <button onclick="closePopupAndScroll()" class="flex-1 bg-black text-white py-4 font-bold uppercase text-[10px] tracking-widest border-2 border-white hover:bg-zinc-800 transition-all shadow-xl">
+        <button onclick="closePopupAndScroll()" class="flex-1 max-w-[140px] bg-black text-white py-3 font-bold uppercase text-[9px] tracking-widest border border-white shadow-lg">
             DONE
         </button>
     </div>
-</div>
+    </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
+    <div id="vhsPopup" class="fixed inset-0 z-[300] hidden bg-black/85 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center overflow-hidden">
+    
+    <div class="absolute inset-0 pointer-events-none z-[310]" style="background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03)); background-size: 100% 3px, 2px 100%;"></div>
+
+<header class="z-[320] flex flex-col items-center w-full max-w-[300px] mb-5 md:mb-4">
+        <p class="font-mono-vhs text-white/80 tracking-[0.4em] text-[10px] md:text-[11px] mb-1 uppercase">
+            Welcome To
+        </p>
+        
+        <div class="flex flex-col items-center w-full justify-center">
+            <h1 class="font-abolition text-yellow-400 text-[75px] md:text-[85px] leading-[0.85] tracking-widest uppercase text-center w-full">
+                REVIVAL
+            </h1>
+            <p class="font-mono-vhs text-white tracking-[0.18em] md:tracking-[0.22em] text-[8.5px] md:text-[9.5px] mt-2 uppercase text-center w-full block">
+                The Spirit That's Still Moving
+            </p>
+        </div>
+    </header>
+
+    <main class="w-full max-w-[300px] z-[320] mb-8 md:mb-6">
+        <div class="cassette-shell border-t border-zinc-700 rounded-xl p-4 pt-8 pb-6 relative border-b-[10px] border-black shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
+            
+            <div class="flex justify-between px-6 mb-8 opacity-50">
+                <div class="w-12 h-12 border-4 border-dashed border-zinc-400 rounded-full animate-spool flex items-center justify-center">
+                    <div class="w-2 h-2 bg-zinc-500 rounded-full"></div>
+                </div>
+                <div class="w-12 h-12 border-4 border-dashed border-zinc-400 rounded-full animate-spool flex items-center justify-center">
+                    <div class="w-2 h-2 bg-zinc-500 rounded-full"></div>
+                </div>
+            </div>
+
+            <div class="bg-[#f4f1ea] p-3 mx-1 rounded-sm shadow-inner text-left border-l-[6px] border-yellow-400">
+                <div class="flex justify-between items-center mb-1 border-b border-black/10 pb-1">
+                    <p id="vhs-status" class="font-mono-vhs text-[8px] text-zinc-500 font-bold uppercase tracking-widest">Decrypting_Signal...</p>
+                    <div class="h-1.5 w-1.5 bg-red-600 rounded-full animate-pulse"></div>
+                </div>
+                <h2 id="vhs-name" class="font-typewriter text-black text-lg font-bold uppercase tracking-tight truncate mt-1">
+                    LOADING...
+                </h2>
+            </div>
+            
+            <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 flex gap-4">
+                <div class="w-6 h-1 bg-black rounded-full"></div>
+                <div class="w-6 h-1 bg-black rounded-full"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="z-[320] max-w-[320px] w-full flex flex-col items-center">
+        
+        <p class="font-sans font-medium text-white/95 text-[12px] leading-relaxed mb-8 text-center drop-shadow-lg px-2">
+            The record didn't end in the Upper Room. The same Spirit that moved in Acts is moving in the present.
+            <span class="block text-yellow-400 font-bold mt-3 text-[15px] italic">
+                You are not just watching a playback— <span class = "uppercase"> you are part of the recording. </span>
+            </span>
+        </p>
+
+        <button onclick="exitVHSScreen()" class="inline-block bg-yellow-400 text-black px-6 py-2.5 font-mono-vhs font-bold text-[10px] tracking-[0.3em] uppercase hover:bg-white transition-all active:scale-95 shadow-xl border border-black/10">
+            [ CONTINUE ]
+        </button>
+        
+        <div class="mt-8 flex justify-between w-full max-w-[300px] font-mono-vhs text-[8px] text-white/40 tracking-widest uppercase px-2">
+            <span id="vhs-ref">Ref: ---</span>
+            <span>Archive_Locked</span>
+        </div>
+    </footer>
+</div>
+
 
 </body>
+
 </html>
