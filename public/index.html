@@ -197,68 +197,70 @@ function toggleMenu() {
             </div>
         </section>
 
-        <section id="register" class="hidden py-20 md:py-32 bg-[#ffd600] text-[#1a1a1b] relative">
+        <section id="register" class="py-20 md:py-32 bg-[#ffd600] text-[#1a1a1b] relative">
     <div class="max-w-xl mx-auto px-6">
-        <h2 class="font-mono-vhs text-[20px] mb-8 tracking-[0.5em] uppercase text-center md:mb-16 font-bold">REGISTRATION</h2>
+        <h2 class="font-abolition text-black text-[30px] mb-12 uppercase text-center md:text-center">// REGISTRATION </h2>
         
-        <div class="bg-white border-2 border-black p-8 relative">
+        <div class="bg-[#121212] p-6 border-4 border-black space-y-4 relative">
             
-            <div id="osd-status" class="absolute top-2 left-4 font-mono-vhs text-[8px] opacity-30 font-bold uppercase tracking-tighter">
+            <div id="osd-status" class="absolute top-2 left-4 font-mono-vhs text-[8px] text-yellow-400 opacity-30 font-bold uppercase tracking-tighter">
                 Status: Standby
             </div>
-            
-            <form id="revivalForm" class="font-mono-vhs space-y-5 pt-4">
+
+            <form id="revivalForm" class="font-mono-vhs space-y-3 pt-2">
                 <div>
-                    <label class="block text-[10px] font-bold uppercase mb-1">Name *</label>
+                    <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-1 tracking-widest">Name *</label>
                     <input type="text" name="name" id="regName" placeholder="Surname, First Name M.I." 
-                           class="w-full bg-zinc-100 border border-black p-3 text-sm focus:outline-none focus:bg-white transition-all placeholder:opacity-30" required>
+                           class="w-full bg-zinc-900 border border-zinc-800 p-3 text-white text-sm focus:outline-none focus:border-[#facc15] transition-all placeholder:opacity-20" required>
                 </div>
 
                 <div>
-                    <label class="block text-[10px] font-bold uppercase mb-1">Email Address *</label>
+                    <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-1 tracking-widest">Email Address *</label>
                     <input type="email" name="email" placeholder="email@example.com" 
-                           class="w-full bg-zinc-100 border border-black p-3 text-sm focus:outline-none focus:bg-white transition-all placeholder:opacity-30" required>
+                           class="w-full bg-zinc-900 border border-zinc-800 p-3 text-sm text-white focus:outline-none focus:border-[#facc15] transition-all placeholder:opacity-20" required>
                 </div>
 
                 <div>
-                    <label class="block text-[10px] font-bold uppercase mb-1">Campus *</label>
+                    <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-1 tracking-widest">Campus *</label>
                     <input type="text" name="campus" placeholder="e.g. BSU, CEU, MHPNHS" 
-                           class="w-full bg-zinc-100 border border-black p-3 text-sm focus:outline-none focus:bg-white transition-all placeholder:opacity-30" required>
+                           class="w-full bg-zinc-900 border border-zinc-800 p-3 text-sm text-white focus:outline-none focus:border-[#facc15] transition-all placeholder:opacity-20" required>
                 </div>
 
                 <div>
-                    <label class="block text-[10px] font-bold uppercase mb-1">Contact Number *</label>
+                    <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-1 tracking-widest">Contact Number *</label>
                     <input type="tel" name="contact" id="regContact" placeholder="09XXXXXXXXX" 
-                           class="w-full bg-zinc-100 border border-black p-3 text-sm focus:outline-none focus:bg-white transition-all placeholder:opacity-30" required>
+                           class="w-full bg-zinc-900 border border-zinc-800 p-3 text-sm text-white focus:outline-none focus:border-[#facc15] transition-all placeholder:opacity-20" required>
                 </div>
 
                 <div>
-                    <label class="block text-[10px] font-bold uppercase mb-1">Victory Group Leader *</label>
+                    <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-1 tracking-widest">Local Church *</label>
+                    <input type="text" name="church" placeholder="Name of your local church" 
+                           class="w-full bg-zinc-900 border border-zinc-800 p-3 text-sm text-white focus:outline-none focus:border-[#facc15] transition-all placeholder:opacity-20" required>
+                </div>
+
+                <div>
+                    <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-1 tracking-widest">Victory Group Leader *</label>
                     <input type="text" name="leader" placeholder="Full Name of VG Leader" 
-                           class="w-full bg-zinc-100 border border-black p-3 text-sm focus:outline-none focus:bg-white transition-all placeholder:opacity-30" required>
+                           class="w-full bg-zinc-900 border border-zinc-800 p-3 text-sm text-white focus:outline-none focus:border-[#facc15] transition-all placeholder:opacity-20" required>
                 </div>
 
                 <div class="pt-2">
-                    <label class="block text-[10px] font-bold uppercase mb-3">Commitment Check *</label>
-                    <div class="flex gap-6">
-                        <label class="flex items-center gap-2 cursor-pointer text-[10px] font-bold">
-                            <input type="radio" name="attending" value="Yes" class="w-4 h-4 accent-black" required> YES_DEFINITELY
+                    <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-3 tracking-widest">Commitment Check *</label>
+                    <div class="grid grid-cols-1 gap-2">
+                        <label class="flex items-center gap-3 text-white text-[10px] cursor-pointer p-2 border border-zinc-800 hover:border-[#facc15] transition-all">
+                            <input type="radio" name="attending" value="Yes" class="w-4 h-4 accent-[#facc15]" required> YES_DEFINITELY
                         </label>
-                        <label class="flex items-center gap-2 cursor-pointer text-[10px] font-bold opacity-50">
-                            <input type="radio" name="attending" value="No" class="w-4 h-4 accent-black"> UNABLE_TO_ATTEND
+                        <label class="flex items-center gap-3 text-white text-[10px] cursor-pointer opacity-50 hover:opacity-100 p-2 border border-zinc-800 hover:border-[#facc15] transition-all">
+                            <input type="radio" name="attending" value="No" class="w-4 h-4 accent-[#facc15]"> UNABLE_TO_ATTEND
                         </label>
                     </div>
                 </div>
 
                 <button type="submit" id="submitBtn" 
-                        class="w-full bg-black text-[#ffd600] py-5 font-bold uppercase tracking-[0.3em] text-xs hover:bg-zinc-800 transition-all active:scale-[0.97]">
-                    SUBMIT
+                        class="w-full bg-[#facc15] text-black py-5 font-bold uppercase tracking-[0.3em] text-xs hover:bg-white transition-all active:invert">
+                    SUBMIT_RECORD
                 </button>
             </form>
-
-            <div id="formResponse" class="hidden mt-6 p-4 border-2 border-black text-[10px] uppercase text-center font-bold bg-[#ffd600]">
-                WRITING_TO_TAPE...
-            </div>
         </div>
     </div>
 </section>
@@ -393,75 +395,76 @@ function toggleMenu() {
     const db = getFirestore(app);
     </script>
 
-        <script>
-    // 1. CONFIGURATION
+    <script>
+        // 1. CONFIGURATION
     const targetDate = new Date("May 29, 2026 09:00:00").getTime();
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbw4RRK80S6feYKji9lQYBKsllWwQFk3KvZj2teQooHhFsCrd-pufKeYtADIXCtvckWVTA/exec'; // Replace this with your actual URL
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbw4RRK80S6feYKji9lQYBKsllWwQFk3KvZj2teQooHhFsCrd-pufKeYtADIXCtvckWVTA/exec';
 
     const form = document.getElementById('revivalForm');
     const btn = document.getElementById('submitBtn');
     const statusLabel = document.getElementById('osd-status');
-    const trackingEffect = document.getElementById('trackingLines');
+    const responseBox = document.getElementById('formResponse');
 
     // 2. COUNTDOWN TIMER LOGIC
     const countdown = setInterval(function() {
         const now = new Date().getTime();
         const distance = targetDate - now;
 
-        // Time calculations for days, hours, minutes and seconds
         const d = Math.floor(distance / (1000 * 60 * 60 * 24));
         const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const s = Math.floor((distance % (1000 * 60)) / 1000);
 
-        // Display results in the specific IDs
-        document.getElementById("days").innerText = d.toString().padStart(2, '0');
-        document.getElementById("hours").innerText = h.toString().padStart(2, '0');
-        document.getElementById("minutes").innerText = m.toString().padStart(2, '0');
-        document.getElementById("seconds").innerText = s.toString().padStart(2, '0');
+        // Standard padding
+        const pad = (num) => num.toString().padStart(2, '0');
 
-        // If the count down is finished
+        if (document.getElementById("days")) document.getElementById("days").innerText = pad(d);
+        if (document.getElementById("hours")) document.getElementById("hours").innerText = pad(h);
+        if (document.getElementById("minutes")) document.getElementById("minutes").innerText = pad(m);
+        if (document.getElementById("seconds")) document.getElementById("seconds").innerText = pad(s);
+
         if (distance < 0) {
             clearInterval(countdown);
-            document.getElementById("countdown").innerHTML = "<h2 class='font-mono-vhs text-yellow-400'>REVIVAL_IN_PROGRESS</h2>";
+            const cdSection = document.getElementById("countdown");
+            if(cdSection) cdSection.innerHTML = "<h2 class='font-mono-vhs text-yellow-400 text-2xl uppercase'>REVIVAL_IN_PROGRESS</h2>";
         }
     }, 1000);
 
-    // 3. FORM SUBMISSION + VHS LOGIC
+    // 3. FORM SUBMISSION
     form.addEventListener('submit', e => {
         e.preventDefault();
 
-        // RULE: Name must contain a comma (Surname, First Name)
+        // Validation: Name format
         const nameVal = document.getElementById('regName').value;
         if(!nameVal.includes(',')) {
             alert("SYSTEM_ERROR: INVALID_NAME_FORMAT. Use 'Surname, First Name'");
             return;
         }
 
-        // RULE: Contact must be 11 digits
+        // Validation: Phone digits
         const phoneVal = document.getElementById('regContact').value;
         if(phoneVal.length !== 11) {
             alert("SYSTEM_ERROR: INVALID_PHONE_LENGTH. Must be 11 digits.");
             return;
         }
 
-        // START RECORDING STATE
+        // Recording State
         btn.disabled = true;
         btn.innerHTML = "RECORDING...";
         statusLabel.innerText = "Status: Writing_to_Tape";
         statusLabel.classList.add('animate-pulse');
 
-        // SEND DATA TO GOOGLE SHEETS
+        // Send to Google Sheets
         fetch(scriptURL, { method: 'POST', body: new FormData(form)})
             .then(response => {
-                // 1. UPDATE HARDWARE STATE
                 btn.innerHTML = "SIGNAL_LOCKED";
                 statusLabel.innerText = "Status: Locked";
                 statusLabel.classList.remove('animate-pulse');
                 
-                // 2. TRIGGER SYSTEM DIALOG
+                // Trigger the popup
                 setTimeout(() => {
-                    document.getElementById('successPopup').classList.remove('hidden');
+                    const popup = document.getElementById('successPopup');
+                    if(popup) popup.classList.remove('hidden');
                 }, 500);
             })
             .catch(error => {
@@ -470,90 +473,173 @@ function toggleMenu() {
                 statusLabel.innerText = "Status: Error_Retry";
                 console.error('Error!', error.message);
             });
-        // This makes the function globally accessible to the button
-        window.closePopupAndScroll = function() {
-            const popup = document.getElementById('successPopup');
-            const trackingEffect = document.getElementById('trackingLines');
-            const countdownSection = document.getElementById('countdown');
+    });
 
-            // 1. HIDE THE POPUP IMMEDIATELY
-            if (popup) {
-                popup.classList.add('hidden');
-            }
-            
-            // 2. TRIGGER THE VHS TRACKING LINES
-            if (trackingEffect) {
-                trackingEffect.classList.remove('hidden');
-            }
-            
-            // 3. FAST-FORWARD SCROLL
-            if (countdownSection) {
-                const headerOffset = document.getElementById('navbar').offsetHeight || 0;
-                const elementPosition = countdownSection.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    // 4. GLOBAL POPUP & SCROLL FUNCTIONS
+    window.closePopupAndScroll = function() {
+        const popup = document.getElementById('successPopup');
+        const trackingEffect = document.getElementById('trackingLines');
+        const countdownSection = document.getElementById('countdown');
 
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: "smooth"
-                });
-            }
-
-            // 4. CLEANUP AFTER 1 SECOND
-            setTimeout(() => {
-                if (trackingEffect) trackingEffect.classList.add('hidden');
-                
-                // Reset the form and hardware status
-                const form = document.getElementById('revivalForm');
-                const btn = document.getElementById('submitBtn');
-                const statusLabel = document.getElementById('osd-status');
-                
-                if (form) form.reset();
-                if (btn) {
-                    btn.disabled = false;
-                    btn.innerHTML = "SUBMIT";
-                }
-                if (statusLabel) statusLabel.innerText = "Status: Standby";
-            }, 1000);
-        };
-            });
-        window.addEventListener('load', () => {
-            const path = window.location.pathname;
-            
-            // Mapping the URL path to the section ID
-            const sectionMap = {
-                '/about': 'about',
-                '/details': 'details',
-                '/register': 'register',
-                '/countdown': 'countdown'
-            };
-
-            if (sectionMap[path]) {
-                // Wait a tiny bit for the VHS grain and CRT effects to initialize
-                setTimeout(() => {
-                    scrollToSection(sectionMap[path]);
-                }, 600); 
-            }
-        });
-    
-</script>
-
-<div id="successPopup" class="fixed inset-0 flex items-center justify-center z-[200] hidden bg-black/80 backdrop-blur-sm px-6">
-    <div class="bg-zinc-900 border-2 border-yellow-400 p-8 max-w-sm w-full font-mono-vhs relative">
-        <div class="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-yellow-400"></div>
-        <div class="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2 border-yellow-400"></div>
-
-        <div class="text-yellow-400 text-[10px] mb-2 opacity-50 uppercase tracking-widest">System_Message:</div>
-        <h3 class="text-white text-2xl font-bold mb-4 italic uppercase tracking-tighter">COMMITMENT_SECURED</h3>
+        if (popup) popup.classList.add('hidden');
+        if (trackingEffect) trackingEffect.classList.remove('hidden');
         
-        <p class="text-white/70 text-[10px] mb-8 leading-relaxed uppercase tracking-tight">
-            Your data has been successfully encoded into the 2026 Archive. Signal is locked. Prepare for the move.
-        </p>
+        if (countdownSection) {
+            countdownSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
 
-        <button onclick="closePopupAndScroll()" class="w-full bg-yellow-400 text-black py-4 font-bold uppercase text-[10px] tracking-widest hover:bg-white transition-all shadow-[4px_4px_0px_rgba(255,255,255,0.2)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]">
-            ACKNOWLEDGE
+        setTimeout(() => {
+            if (trackingEffect) trackingEffect.classList.add('hidden');
+            
+            // Reset everything
+            form.reset();
+            btn.disabled = false;
+            btn.innerHTML = "SUBMIT_RECORD";
+            statusLabel.innerText = "Status: Standby";
+        }, 500);
+    };
+
+    // 5. PATH-BASED SCROLLING
+    window.addEventListener('load', () => {
+        const path = window.location.pathname;
+        const sectionMap = {
+            '/about': 'about',
+            '/details': 'details',
+            '/register': 'register',
+            '/countdown': 'countdown'
+        };
+
+        if (sectionMap[path]) {
+            setTimeout(() => {
+                const target = document.getElementById(sectionMap[path]);
+                if(target) target.scrollIntoView({ behavior: 'smooth' });
+            }, 600); 
+        }
+    });
+
+    // Inside your form 'submit' event listener:
+form.addEventListener('submit', e => {
+    e.preventDefault();
+
+    // 1. POPULATE THE RECEIPT FIELDS
+    document.getElementById('res-name').innerText = document.getElementById('regName').value;
+    document.getElementById('res-campus').innerText = form.querySelector('[name="campus"]').value;
+    document.getElementById('res-church').innerText = form.querySelector('[name="church"]').value;
+
+    // 2. GENERATE THE TIMESTAMP (REAL-TIME)
+    const now = new Date();
+    const timestamp = `${now.getFullYear()}.${(now.getMonth()+1).toString().padStart(2,'0')}.${now.getDate().toString().padStart(2,'0')}_${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}_PST`;
+    document.getElementById('receipt-time').innerText = timestamp;
+
+    // ... your fetch/submission logic ...
+});
+
+// THE DOWNLOAD HANDLER
+window.downloadReceipt = function() {
+    const receipt = document.getElementById('receipt-capture');
+    const btn = event.target;
+    btn.innerText = "PRINTING...";
+
+    html2canvas(receipt, {
+        backgroundColor: "#121212", // Background for the snapshot
+        scale: 3, // High quality for mobile screens
+        useCORS: true // Required to capture the external QR code image
+    }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = `Revival_Official_Record_2026.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+        btn.innerText = "SAVE_IMAGE";
+    });
+};
+
+
+    </script>
+
+<div id="successPopup" class="fixed inset-0 flex items-center justify-center z-[200] hidden bg-black/90 backdrop-blur-md px-6 overflow-y-auto py-10">
+    
+    <div id="receipt-capture" class="bg-[#f4f1ea] w-full max-w-sm relative shadow-[0_20px_50px_rgba(0,0,0,1)] text-black font-mono">
+        
+        <div class="absolute -top-3 left-0 w-full h-4 bg-[#f4f1ea]" style="clip-path: polygon(0% 100%, 5% 0%, 10% 100%, 15% 0%, 20% 100%, 25% 0%, 30% 100%, 35% 0%, 40% 100%, 45% 0%, 50% 100%, 55% 0%, 60% 100%, 65% 0%, 70% 100%, 75% 0%, 80% 100%, 85% 0%, 90% 100%, 95% 0%, 100% 100%);"></div>
+
+        <div class="p-8">
+            <div class="flex justify-between text-[8px] font-bold border-b border-black pb-1 mb-6 uppercase">
+                <span>[STATUS: SIGNAL_LOCKED]</span>
+                <span>[REF: 2026]</span>
+            </div>
+
+            <div class="text-center mb-3">
+                <h3 class="font-abolition text-[68px] uppercase leading-none">REVIVAL</h3>
+                <p class="text-[10px] font-bold mt-1 uppercase">The Spirit That's Still Moving   </p>
+                <p class="text-[10px] font-black tracking-widest mt-1">05.29-30.2026</p>
+            </div>
+
+            <div class="text-[9px] font-bold space-y-1 mb-6 uppercase">
+                <p>STAMP_IN: <span id="receipt-time">2026.04.29_12:12_PST</span></p>
+                <p>LOCATION: MALOLOS_BULACAN</p>
+            </div>
+
+            <div class="border-t-2 border-black border-double pt-4 mb-4">
+                <p class="text-[10px] font-black uppercase mb-4">>> REGISTRATION_RECORD:</p>
+                
+                <div class="space-y-2 text-[10px] font-bold uppercase">
+                    <div class="flex justify-between opacity-40 text-[8px]">
+                        <span>QTY  DESCRIPTION</span>
+                        <span>PRICE</span>
+                    </div>
+                    <div class="flex justify-between border-b border-black/10 pb-1">
+                        <span>01  NAME: <span id="res-name" class="font-black italic">---</span></span>
+                        <span>₱0.00</span>
+                    </div>
+                    <div class="flex justify-between border-b border-black/10 pb-1">
+                        <span>01  CAMPUS: <span id="res-campus" class="font-black italic">---</span></span>
+                        <span>₱0.00</span>
+                    </div>
+                    <div class="flex justify-between border-b border-black/10 pb-1">
+                        <span>01  CHURCH: <span id="res-church" class="font-black italic">---</span></span>
+                        <span>₱0.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-dashed border-black pt-4 mt-6">
+                <div class="flex justify-between text-[11px] font-black leading-none">
+                    <span>TOTAL PRICE:</span>
+                    <span>₱0.00</span>
+                </div>
+                <div class="text-right -mt-1"> <span class="text-[9px] font-black italic uppercase leading-none">
+                        (PAID BY JESUS' BLOOD)
+                    </span>
+                </div>
+            </div>
+
+            <div class="mt-10 text-center space-y-6">
+                <p class="text-[11px] font-black tracking-tighter uppercase">[!] PREPARE_FOR_THE_MOVE</p>
+                
+                <div class="flex flex-col items-center">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://encmalolos-revival2026.web.app/" 
+                         alt="Revival QR" class="w-20 h-20 mix-blend-multiply mb-2">
+                    <p class="font-abolition text-xl uppercase">REVIVAL // 2026</p>
+                </div>
+
+                <p class="text-[8px] font-bold opacity-50 uppercase tracking-widest">OFFICIAL_COPY / DO_NOT_DISCARD</p>
+            </div>
+        </div>
+
+        <div class="absolute -bottom-3 left-0 w-full h-4 bg-[#f4f1ea]" style="clip-path: polygon(0% 0%, 5% 100%, 10% 0%, 15% 100%, 20% 0%, 25% 100%, 30% 0%, 35% 100%, 40% 0%, 45% 100%, 50% 0%, 55% 100%, 60% 0%, 65% 100%, 70% 0%, 75% 100%, 80% 0%, 85% 100%, 90% 0%, 95% 100%, 100% 0%);"></div>
+    </div>
+
+    <div class="fixed bottom-8 left-1/2 -translate-x-1/2 flex gap-4 w-full max-w-xs px-6">
+        <button onclick="downloadReceipt()" class="flex-1 bg-yellow-400 text-black py-4 font-bold uppercase text-[10px] tracking-widest border-2 border-black hover:bg-white transition-all shadow-xl">
+            SAVE_IMAGE
+        </button>
+        <button onclick="closePopupAndScroll()" class="flex-1 bg-black text-white py-4 font-bold uppercase text-[10px] tracking-widest border-2 border-white hover:bg-zinc-800 transition-all shadow-xl">
+            DONE
         </button>
     </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 
 </body>
