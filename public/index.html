@@ -225,143 +225,161 @@ function toggleMenu() {
 </script>
 
 
-<main id="landingView" class="view-section active">
+    <main id="landingView" class="view-section active">
 
-    <section class="w-full bg-black flex justify-center items-center">
-        <img src="/landing_page.png" alt="Revival" class="w-full h-auto block">
+        <section class="w-full bg-black flex justify-center items-center">
+            <img src="/landing_page.png" alt="Revival" class="w-full h-auto block">
+        </section>
+
+            <section id="about" class="py-16 md:py-32 px-6 max-w-4xl mx-auto">
+                <h2 class="font-abolition text-yellow-400 text-[20px] mb-8 uppercase">// ABOUT THE EVENT</h2>
+                <div class="grid md:grid-cols-2 gap-8 md:gap-16 text-xl md:text-2xl font-light leading-relaxed">
+                    <p class="text-white">Revival is not a static event from the past; it is a movement of the Holy Spirit happening today. This retreat invites you to stop being a spectator and start becoming an active participant. Stop striving in the natural and <span class="font-bold text-yellow-400 indent italic">MOVE IN THE SUPERNATURAL</span>.</p>
+                    <div class="space-y-6">
+                        <p class="text-white/40 text-sm md:text-base font-mono-vhs leading-loose">We will address how to live in a way that honors His presence, nurture a life that evidences His Fruit, and practice the language of Heaven.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="details" class="py-20 md:py-32 w-full bg-[#111111] border-y border-white/5">
+                <div class="px-6 max-w-3xl mx-auto">
+                    <h2 class="font-abolition text-yellow-400 text-[20px] mb-12 uppercase text-center md:text-left">// DETAILS OF THE EVENT</h2>
+                    <div class="border border-white/10 font-mono-vhs overflow-hidden shadow-2xl">
+                        <div class="flex flex-col md:flex-row border-b border-white/10">
+                            <div class="w-full md:w-1/3 p-4 md:p-6 bg-black/20 border-b md:border-b-0 md:border-r border-white/10 opacity-40 text-[9px] md:text-[10px]">DATE</div>
+                            <div class="w-full md:w-2/3 p-4 md:p-6 text-sm md:text-base font-bold">MAY 29-30, 2026</div>
+                        </div>
+                        <div class="flex flex-col md:flex-row border-b border-white/10">
+                            <div class="w-full md:w-1/3 p-4 md:p-6 bg-black/20 border-b md:border-b-0 md:border-r border-white/10 opacity-40 text-[9px] md:text-[10px]">TIME</div>
+                            <div class="w-full md:w-2/3 p-4 md:p-6 text-sm md:text-base uppercase">09:00 AM - 05:00 PM</div>
+                        </div>
+                        <div class="flex flex-col md:flex-row">
+                            <div class="w-full md:w-1/3 p-4 md:p-6 bg-black/20 border-b md:border-b-0 md:border-r border-white/10 opacity-40 text-[9px] md:text-[10px]">LOCATION</div>
+                            <div class="w-full md:w-2/3 p-4 md:p-6 text-sm md:text-base uppercase text-yellow-400 font-bold">Malolos, Bulacan</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="register" class="py-20 md:py-32 bg-[#ffd600] text-[#1a1a1b] relative">
+        <div class="max-w-xl mx-auto px-6">
+            <h2 class="font-abolition text-black text-[20px] uppercase text-center md:text-center">// REGISTRATION </h2>
+            
+           <p class="text-center uppercase tracking-[0.3em] text-[11px] mt-2">
+            <span class="bg-black text-[#ffd600] px-2 py-0.5">
+                Until May 10, 2026, 11:59 PM
+            </span>
+            </p>
+
+            <div class="bg-[#121212] p-6 border-4 border-black space-y-4 relative mt-4">
+                
+                <div id="osd-status" class="absolute top-2 left-4 font-mono-vhs text-[8px] text-yellow-400 opacity-30 font-bold uppercase tracking-tighter">
+                    Status: Standby
+                </div>
+
+                <form id="revivalForm" class="font-mono-vhs space-y-3 pt-2">
+                    <div>
+                        <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-1 tracking-widest">Name *</label>
+                        <input type="text" name="name" id="regName" placeholder="Surname, First Name M.I." 
+                            class="w-full bg-zinc-900 border border-zinc-800 p-3 text-white text-sm focus:outline-none focus:border-[#facc15] transition-all placeholder:opacity-20" required>
+                    </div>
+
+                    <div>
+                        <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-1 tracking-widest">Email Address *</label>
+                        <input type="email" name="email" placeholder="email@example.com" 
+                            class="w-full bg-zinc-900 border border-zinc-800 p-3 text-sm text-white focus:outline-none focus:border-[#facc15] transition-all placeholder:opacity-20" required>
+                    </div>
+
+                    <div>
+                        <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-1 tracking-widest">Campus *</label>
+                        <input type="text" name="campus" placeholder="e.g. BulSU, CEU, MHPNHS" 
+                            class="w-full bg-zinc-900 border border-zinc-800 p-3 text-sm text-white focus:outline-none focus:border-[#facc15] transition-all placeholder:opacity-20" required>
+                    </div>
+
+                    <div>
+                        <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-1 tracking-widest">Contact Number *</label>
+                        <input type="tel" name="contact" id="regContact" placeholder="09XXXXXXXXX" 
+                            class="w-full bg-zinc-900 border border-zinc-800 p-3 text-sm text-white focus:outline-none focus:border-[#facc15] transition-all placeholder:opacity-20" required>
+                    </div>
+
+                    <div>
+                        <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-1 tracking-widest">Local Church *</label>
+                        <input type="text" name="church" placeholder="e.g. Victory Malolos" 
+                            class="w-full bg-zinc-900 border border-zinc-800 p-3 text-sm text-white focus:outline-none focus:border-[#facc15] transition-all placeholder:opacity-20" required>
+                    </div>
+
+                    <div>
+                        <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-1 tracking-widest">Victory Group Leader *</label>
+                        <input type="text" name="leader" placeholder="Full Name of VG Leader" 
+                            class="w-full bg-zinc-900 border border-zinc-800 p-3 text-sm text-white focus:outline-none focus:border-[#facc15] transition-all placeholder:opacity-20" required>
+                    </div>
+
+                    <div class="pt-2">
+                        <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-3 tracking-widest">Commitment Check *</label>
+                        <div class="grid grid-cols-1 gap-2">
+                            <label class="flex items-center gap-3 text-white text-[10px] cursor-pointer p-2 border border-zinc-800 hover:border-[#facc15] transition-all">
+                                <input type="radio" name="attending" value="Yes" class="w-4 h-4 accent-[#facc15]" required> YES_DEFINITELY
+                            </label>
+                            <label class="flex items-center gap-3 text-white text-[10px] cursor-pointer opacity-50 hover:opacity-100 p-2 border border-zinc-800 hover:border-[#facc15] transition-all">
+                                <input type="radio" name="attending" value="No" class="w-4 h-4 accent-[#facc15]"> UNABLE_TO_ATTEND
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="submitBtn" 
+                            class="w-full bg-[#facc15] text-black py-5 font-bold uppercase tracking-[0.3em] text-xs hover:bg-white transition-all active:invert">
+                        SUBMIT_RECORD
+                    </button>
+                </form>
+            </div>
+        </div>
     </section>
 
-        <section id="about" class="py-16 md:py-32 px-6 max-w-4xl mx-auto">
-            <h2 class="font-abolition text-yellow-400 text-[20px] mb-8 uppercase">// ABOUT THE EVENT</h2>
-            <div class="grid md:grid-cols-2 gap-8 md:gap-16 text-xl md:text-2xl font-light leading-relaxed">
-                <p class="text-white">Revival is not a static event from the past; it is a movement of the Holy Spirit happening today. This retreat invites you to stop being a spectator and start becoming an active participant. Stop striving in the natural and <span class="font-bold text-yellow-400 indent italic">MOVE IN THE SUPERNATURAL</span>.</p>
-                <div class="space-y-6">
-                    <p class="text-white/40 text-sm md:text-base font-mono-vhs leading-loose">We will address how to live in a way that honors His presence, nurture a life that evidences His Fruit, and practice the language of Heaven.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="details" class="py-20 md:py-32 w-full bg-[#111111] border-y border-white/5">
-            <div class="px-6 max-w-3xl mx-auto">
-                <h2 class="font-abolition text-yellow-400 text-[20px] mb-12 uppercase text-center md:text-left">// DETAILS OF THE EVENT</h2>
-                <div class="border border-white/10 font-mono-vhs overflow-hidden shadow-2xl">
-                    <div class="flex flex-col md:flex-row border-b border-white/10">
-                        <div class="w-full md:w-1/3 p-4 md:p-6 bg-black/20 border-b md:border-b-0 md:border-r border-white/10 opacity-40 text-[9px] md:text-[10px]">DATE</div>
-                        <div class="w-full md:w-2/3 p-4 md:p-6 text-sm md:text-base font-bold">MAY 29-30, 2026</div>
-                    </div>
-                    <div class="flex flex-col md:flex-row border-b border-white/10">
-                        <div class="w-full md:w-1/3 p-4 md:p-6 bg-black/20 border-b md:border-b-0 md:border-r border-white/10 opacity-40 text-[9px] md:text-[10px]">TIME</div>
-                        <div class="w-full md:w-2/3 p-4 md:p-6 text-sm md:text-base uppercase">09:00 AM - 05:00 PM</div>
-                    </div>
-                    <div class="flex flex-col md:flex-row">
-                        <div class="w-full md:w-1/3 p-4 md:p-6 bg-black/20 border-b md:border-b-0 md:border-r border-white/10 opacity-40 text-[9px] md:text-[10px]">LOCATION</div>
-                        <div class="w-full md:w-2/3 p-4 md:p-6 text-sm md:text-base uppercase text-yellow-400 font-bold">Malolos, Bulacan</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="register" class="py-20 md:py-32 bg-[#ffd600] text-[#1a1a1b] relative">
-    <div class="max-w-xl mx-auto px-6">
-        <h2 class="font-abolition text-black text-[20px] mb-12 uppercase text-center md:text-center">// REGISTRATION </h2>
-        
-        <div class="bg-[#121212] p-6 border-4 border-black space-y-4 relative">
-            
-            <div id="osd-status" class="absolute top-2 left-4 font-mono-vhs text-[8px] text-yellow-400 opacity-30 font-bold uppercase tracking-tighter">
-                Status: Standby
-            </div>
-
-            <form id="revivalForm" class="font-mono-vhs space-y-3 pt-2">
-                <div>
-                    <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-1 tracking-widest">Name *</label>
-                    <input type="text" name="name" id="regName" placeholder="Surname, First Name M.I." 
-                           class="w-full bg-zinc-900 border border-zinc-800 p-3 text-white text-sm focus:outline-none focus:border-[#facc15] transition-all placeholder:opacity-20" required>
-                </div>
-
-                <div>
-                    <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-1 tracking-widest">Email Address *</label>
-                    <input type="email" name="email" placeholder="email@example.com" 
-                           class="w-full bg-zinc-900 border border-zinc-800 p-3 text-sm text-white focus:outline-none focus:border-[#facc15] transition-all placeholder:opacity-20" required>
-                </div>
-
-                <div>
-                    <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-1 tracking-widest">Campus *</label>
-                    <input type="text" name="campus" placeholder="e.g. BulSU, CEU, MHPNHS" 
-                           class="w-full bg-zinc-900 border border-zinc-800 p-3 text-sm text-white focus:outline-none focus:border-[#facc15] transition-all placeholder:opacity-20" required>
-                </div>
-
-                <div>
-                    <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-1 tracking-widest">Contact Number *</label>
-                    <input type="tel" name="contact" id="regContact" placeholder="09XXXXXXXXX" 
-                           class="w-full bg-zinc-900 border border-zinc-800 p-3 text-sm text-white focus:outline-none focus:border-[#facc15] transition-all placeholder:opacity-20" required>
-                </div>
-
-                <div>
-                    <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-1 tracking-widest">Local Church *</label>
-                    <input type="text" name="church" placeholder="e.g. Victory Malolos" 
-                           class="w-full bg-zinc-900 border border-zinc-800 p-3 text-sm text-white focus:outline-none focus:border-[#facc15] transition-all placeholder:opacity-20" required>
-                </div>
-
-                <div>
-                    <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-1 tracking-widest">Victory Group Leader *</label>
-                    <input type="text" name="leader" placeholder="Full Name of VG Leader" 
-                           class="w-full bg-zinc-900 border border-zinc-800 p-3 text-sm text-white focus:outline-none focus:border-[#facc15] transition-all placeholder:opacity-20" required>
-                </div>
-
-                <div class="pt-2">
-                    <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-3 tracking-widest">Commitment Check *</label>
-                    <div class="grid grid-cols-1 gap-2">
-                        <label class="flex items-center gap-3 text-white text-[10px] cursor-pointer p-2 border border-zinc-800 hover:border-[#facc15] transition-all">
-                            <input type="radio" name="attending" value="Yes" class="w-4 h-4 accent-[#facc15]" required> YES_DEFINITELY
-                        </label>
-                        <label class="flex items-center gap-3 text-white text-[10px] cursor-pointer opacity-50 hover:opacity-100 p-2 border border-zinc-800 hover:border-[#facc15] transition-all">
-                            <input type="radio" name="attending" value="No" class="w-4 h-4 accent-[#facc15]"> UNABLE_TO_ATTEND
-                        </label>
-                    </div>
-                </div>
-
-                <button type="submit" id="submitBtn" 
-                        class="w-full bg-[#facc15] text-black py-5 font-bold uppercase tracking-[0.3em] text-xs hover:bg-white transition-all active:invert">
-                    SUBMIT_RECORD
-                </button>
-            </form>
-        </div>
+    <div id="trackingLines" class="fixed inset-0 pointer-events-none z-[100] hidden">
+        <div class="absolute inset-0 bg-white/5 mix-blend-overlay animate-pulse"></div>
+        <div class="absolute top-1/4 left-0 w-full h-[2px] bg-white/20 shadow-[0_0_15px_white]"></div>
+        <div class="absolute top-3/4 left-0 w-full h-[1px] bg-white/10 shadow-[0_0_10px_white]"></div>
     </div>
-</section>
 
-<div id="trackingLines" class="fixed inset-0 pointer-events-none z-[100] hidden">
-    <div class="absolute inset-0 bg-white/5 mix-blend-overlay animate-pulse"></div>
-    <div class="absolute top-1/4 left-0 w-full h-[2px] bg-white/20 shadow-[0_0_15px_white]"></div>
-    <div class="absolute top-3/4 left-0 w-full h-[1px] bg-white/10 shadow-[0_0_10px_white]"></div>
+    <section id="countdown" class="py-32 px-6 bg-black border-t border-white/10 text-center flex flex-col items-center justify-center min-h-[60vh]">
+        <h2 class="font-abolition text-white/40 text-[20px] mb-12 uppercase">// T-MINUS_TO_REVIVAL</h2>
+        
+        <div class="flex gap-4 md:gap-10 font-mono-vhs text-white items-center">
+            <div class="flex flex-col">
+                <span id="days" class="text-5xl md:text-8xl font-bold tracking-tighter">00</span>
+                <span class="text-[8px] md:text-[10px] text-yellow-400 mt-2 tracking-widest uppercase">Days</span>
+            </div>
+            <span class="text-2xl md:text-5xl text-white/20 mt-[-20px] md:mt-[-40px]">:</span>
+            <div class="flex flex-col">
+                <span id="hours" class="text-5xl md:text-8xl font-bold tracking-tighter text-yellow-400">00</span>
+                <span class="text-[8px] md:text-[10px] text-yellow-400 mt-2 tracking-widest uppercase">Hrs</span>
+            </div>
+            <span class="text-2xl md:text-5xl text-white/20 mt-[-20px] md:mt-[-40px]">:</span>
+            <div class="flex flex-col">
+                <span id="minutes" class="text-5xl md:text-8xl font-bold tracking-tighter">00</span>
+                <span class="text-[8px] md:text-[10px] text-yellow-400 mt-2 tracking-widest uppercase">Min</span>
+            </div>
+            <span class="text-2xl md:text-5xl text-white/20 mt-[-20px] md:mt-[-40px]">:</span>
+            <div class="flex flex-col">
+                <span id="seconds" class="text-5xl md:text-8xl font-bold tracking-tighter opacity-50">00</span>
+                <span class="text-[8px] md:text-[10px] text-yellow-400 mt-2 tracking-widest uppercase">Sec</span>
+            </div>
+        </div>
+        
+<!-- UPDATED: THE ENTIRE COMPONENT NOW PULSES -->
+<div class="mt-10 inline-flex items-center bg-white/5 border border-white/10 rounded-full px-4 py-1 animate-pulse">
+    <!-- Dot (Removed animate-pulse from here) -->
+    <span class="w-1.5 h-1.5 rounded-full bg-yellow-400 mr-3"></span>
+    
+    <p class="font-sans font-bold text-[10px] text-white uppercase tracking-[0.2em]">
+        LIVE_SYNC: <span id="registrantCount" class="text-yellow-400">---</span> PARTICIPANTS
+    </p>
 </div>
 
-<section id="countdown" class="py-32 px-6 bg-black border-t border-white/10 text-center flex flex-col items-center justify-center min-h-[60vh]">
-    <h2 class="font-abolition text-white/40 text-[20px] mb-12 uppercase">// T-MINUS_TO_REVIVAL</h2>
-    
-    <div class="flex gap-4 md:gap-10 font-mono-vhs text-white items-center">
-        <div class="flex flex-col">
-            <span id="days" class="text-5xl md:text-8xl font-bold tracking-tighter">00</span>
-            <span class="text-[8px] md:text-[10px] text-yellow-400 mt-2 tracking-widest uppercase">Days</span>
-        </div>
-        <span class="text-2xl md:text-5xl text-white/20 mt-[-20px] md:mt-[-40px]">:</span>
-        <div class="flex flex-col">
-            <span id="hours" class="text-5xl md:text-8xl font-bold tracking-tighter text-yellow-400">00</span>
-            <span class="text-[8px] md:text-[10px] text-yellow-400 mt-2 tracking-widest uppercase">Hrs</span>
-        </div>
-        <span class="text-2xl md:text-5xl text-white/20 mt-[-20px] md:mt-[-40px]">:</span>
-        <div class="flex flex-col">
-            <span id="minutes" class="text-5xl md:text-8xl font-bold tracking-tighter">00</span>
-            <span class="text-[8px] md:text-[10px] text-yellow-400 mt-2 tracking-widest uppercase">Min</span>
-        </div>
-        <span class="text-2xl md:text-5xl text-white/20 mt-[-20px] md:mt-[-40px]">:</span>
-        <div class="flex flex-col">
-            <span id="seconds" class="text-5xl md:text-8xl font-bold tracking-tighter opacity-50">00</span>
-            <span class="text-[8px] md:text-[10px] text-yellow-400 mt-2 tracking-widest uppercase">Sec</span>
-        </div>
-    </div>
-    
-    <p class="mt-16 font-mono-vhs text-[15px] text-yellow-400 uppercase tracking-[0.2em]">Get ready to be moved by the Spirit that's still moving.</p>
-</section>
+<p class="mt-16 font-mono-vhs font-medium text-white/80 text-[13px] uppercase tracking-[0.3em] border-yellow-400 text-center">
+    Get ready to be <span class="italic">moved</span> by the <br>
+     <span class="text-yellow-400 font-bold">Spirit that's still moving.</span>
+</p>
               
     </main>
 
@@ -398,7 +416,7 @@ function toggleMenu() {
 </footer>
 
 <!-- scripts -->
-<script>
+    <script>
         // --- VIEW & SCROLL MANAGEMENT ---
         function showView(v) { 
             const views = document.querySelectorAll('.view-section');
@@ -546,7 +564,15 @@ function toggleMenu() {
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { 
+                getFirestore, 
+                doc, 
+                setDoc, 
+                getDoc, 
+                collection, 
+                getCountFromServer, 
+                serverTimestamp 
+            } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAaxjL-NuYE1VeAoYb1_pWHAE3C4VdCBBY",
@@ -559,7 +585,7 @@ function toggleMenu() {
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbw2VQ-UBIXJd9Nw3SVU9D1xKLicOR1WgzfmLPYTM58qAb0lkuxW8DLVFfIgVnLAMW7F-w/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzleXqA7DYrHcFQehLCy4oQRxKa8j1NQ14KwnvMPIVzJ4hBItkYrGUGSSgfycVrH2L6uQ/exec';
         const form = document.getElementById('revivalForm');
         const targetDate = new Date("May 29, 2026 09:00:00").getTime();
 
@@ -770,6 +796,27 @@ function toggleMenu() {
             // 3. Clean the URL (removes /user/R26-XXXX and resets to root)
             window.history.pushState({}, '', '/');
         };
+
+        // Function to fetch and display the live participant count
+        async function updateLiveCount() {
+            try {
+                const coll = collection(db, "users");
+                const snapshot = await getCountFromServer(coll);
+                const count = snapshot.data().count;
+                
+                const countElement = document.getElementById('registrantCount');
+                if (countElement) {
+                    countElement.innerText = count; // Injects the real number into your span
+                }
+            } catch (error) {
+                console.error("Signal Lost: Error fetching count:", error);
+                // Fallback text if the database is busy or rules are blocking it
+                document.getElementById('registrantCount').innerText = "OFFLINE";
+            }
+        };
+
+        updateLiveCount();
+
     </script>
 
 <div id="passcodeStep" class="fixed inset-0 z-[150] hidden flex items-center justify-center bg-black/95 backdrop-blur-sm px-6">
