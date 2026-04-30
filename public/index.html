@@ -263,9 +263,9 @@ function toggleMenu() {
 
             <section id="register" class="py-20 md:py-32 bg-[#ffd600] text-[#1a1a1b] relative">
         <div class="max-w-xl mx-auto px-6">
-            <h2 class="font-abolition text-black text-[20px] uppercase text-center md:text-center">// REGISTRATION </h2>
+            <h2 class="font-abolition text-black text-[30px] uppercase text-center md:text-center">// REGISTRATION </h2>
             
-           <p class="text-center uppercase tracking-[0.3em] text-[11px] mt-2">
+           <p class="text-center font-mono-vhs uppercase tracking-[0.3em] text-[11px] mt-2">
             <span class="bg-black text-[#ffd600] px-2 py-0.5">
                 Until May 10, 2026, 11:59 PM
             </span>
@@ -536,6 +536,10 @@ function toggleMenu() {
             // 2. Trigger the "Tracking Lines" VFX
             if (trackingEffect) trackingEffect.classList.remove('hidden'); 
             
+            if (typeof updateLiveCount === "function") {
+                updateLiveCount(); 
+            }
+
             // 3. CLEAN THE URL: Resets to root "/" without reloading
             window.history.pushState({}, '', '/');
 
