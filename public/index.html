@@ -537,10 +537,10 @@ function toggleMenu() {
             // 2. Trigger the "Tracking Lines" VFX
             if (trackingEffect) trackingEffect.classList.remove('hidden'); 
             
-            if (typeof updateLiveCount === "function") {
-                updateLiveCount(); 
-            }
-
+            if (typeof window.updateLiveCount === "function") {
+                    window.updateLiveCount(); 
+                }
+                
             // 3. CLEAN THE URL: Resets to root "/" without reloading
             window.history.pushState({}, '', '/');
 
@@ -695,6 +695,8 @@ function toggleMenu() {
                     createdAt: serverTimestamp()
                 });
 
+                updateLiveCount();
+
                 document.getElementById('passcodeStep').classList.add('hidden');
                 window.generateReceipt(shortId); 
 
@@ -819,6 +821,8 @@ function toggleMenu() {
                 document.getElementById('registrantCount').innerText = "OFFLINE";
             }
         };
+
+        window.updateLiveCount = updateLiveCount;
 
         updateLiveCount();
 
