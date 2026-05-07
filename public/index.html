@@ -6,7 +6,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Inter:wght@300;400;700&family=Special+Elite&display=swap" rel="stylesheet">
 
-    <link rel="icon" type="image/png" href="VHS.png">
+    <link rel="icon" type="image/png" href="./VHS.png">
 
     <title>REVIVAL // 2026</title>
     <meta name="title" content="REVIVAL // 2026">
@@ -47,7 +47,7 @@
         @font-face {
             font-family: 'Abolition';
             /* Make sure the filename matches your actual file exactly */
-            src: url('/abolition-regular.ttf') format('truetype');
+            src: url('./abolition-regular.ttf') format('truetype');
             font-weight: normal;
             font-style: normal;
         }
@@ -168,6 +168,7 @@
             <a href="javascript:void(0)" onclick="handleNavClick('details')" class="hover:text-yellow-400">Details</a>
             
             <a href="javascript:void(0)" onclick="handleNavClick('register')" class="text-yellow-400 hover:scale-110 transition-transform">Registration</a>
+            <a href="javascript:void(0)" onclick="handleNavClick('faq')" class="hover:text-yellow-400">FAQ</a>
             
             <a href="javascript:void(0)" onclick="handleNavClick('countdown')" class="hover:text-yellow-400">Countdown</a>
         </div>
@@ -229,7 +230,7 @@ function toggleMenu() {
     <main id="landingView" class="view-section active">
 
         <section class="w-full bg-black flex justify-center items-center">
-            <img src="/landing_page.png" alt="Revival" class="w-full h-auto block">
+            <img src="./landing_page.png" alt="Revival" class="w-full h-auto block">
         </section>
 
             <section id="about" class="py-16 md:py-32 px-6 max-w-4xl mx-auto">
@@ -243,25 +244,140 @@ function toggleMenu() {
             </section>
 
             <section id="details" class="py-20 md:py-32 w-full bg-[#111111] border-y border-white/5">
-                <div class="px-6 max-w-3xl mx-auto">
-                    <h2 class="font-abolition text-yellow-400 text-[20px] mb-12 uppercase text-center md:text-left">// DETAILS OF THE EVENT</h2>
+                <div class="px-6 max-w-4xl mx-auto">
+                    <h2 class="font-abolition text-yellow-400 text-[20px] mb-12 uppercase text-center md:text-left">
+                        // DETAILS OF THE EVENT
+                    </h2>
+
+                    <!-- MAIN EVENT DETAILS -->
                     <div class="border border-white/10 font-mono-vhs overflow-hidden shadow-2xl">
                         <div class="flex flex-col md:flex-row border-b border-white/10">
-                            <div class="w-full md:w-1/3 p-4 md:p-6 bg-black/20 border-b md:border-b-0 md:border-r border-white/10 opacity-40 text-[9px] md:text-[10px]">DATE</div>
-                            <div class="w-full md:w-2/3 p-4 md:p-6 text-sm md:text-base font-bold">MAY 29-30, 2026</div>
+                            <div class="w-full md:w-1/3 p-4 md:p-6 bg-black/20 border-b md:border-b-0 md:border-r border-white/10 opacity-40 text-[9px] md:text-[10px] uppercase tracking-widest">
+                                Date
+                            </div>
+                            <div class="w-full md:w-2/3 p-4 md:p-6 text-sm md:text-base font-bold uppercase">
+                                May 29-30, 2026
+                            </div>
                         </div>
+
                         <div class="flex flex-col md:flex-row border-b border-white/10">
-                            <div class="w-full md:w-1/3 p-4 md:p-6 bg-black/20 border-b md:border-b-0 md:border-r border-white/10 opacity-40 text-[9px] md:text-[10px]">TIME</div>
-                            <div class="w-full md:w-2/3 p-4 md:p-6 text-sm md:text-base uppercase">09:00 AM - 05:00 PM</div>
+                            <div class="w-full md:w-1/3 p-4 md:p-6 bg-black/20 border-b md:border-b-0 md:border-r border-white/10 opacity-40 text-[9px] md:text-[10px] uppercase tracking-widest">
+                                Time
+                            </div>
+                            <div class="w-full md:w-2/3 p-4 md:p-6 text-sm md:text-base uppercase">
+                                9:00 AM - 5:00 PM
+                            </div>
                         </div>
+
                         <div class="flex flex-col md:flex-row">
-                            <div class="w-full md:w-1/3 p-4 md:p-6 bg-black/20 border-b md:border-b-0 md:border-r border-white/10 opacity-40 text-[9px] md:text-[10px]">LOCATION</div>
-                            <div class="w-full md:w-2/3 p-4 md:p-6 text-sm md:text-base uppercase text-yellow-400 font-bold">Malolos, Bulacan</div>
+                            <div class="w-full md:w-1/3 p-4 md:p-6 bg-black/20 border-b md:border-b-0 md:border-r border-white/10 opacity-40 text-[9px] md:text-[10px] uppercase tracking-widest">
+                                Location
+                            </div>
+                            <div class="w-full md:w-2/3 p-4 md:p-6 text-sm md:text-base uppercase text-yellow-400 font-bold">
+                                Victory Bulacan Complex
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PROGRAM FLOW -->
+                    <div class="mt-12">
+                        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-2 mb-6">
+                            <h3 class="font-abolition text-yellow-400 text-[20px] uppercase text-center md:text-left">
+                                // PROGRAM FLOW
+                            </h3>
+                        </div>
+
+                        <div class="border border-white/10 bg-black/20 font-mono-vhs shadow-2xl overflow-hidden">
+
+                            <!-- OPEN HOUSE -->
+                            <div class="p-5 md:p-6 border-b border-white/10">
+                                <p class="text-white/40 text-[9px] md:text-[10px] uppercase tracking-[0.3em] mb-2">
+                                    Doors Open
+                                </p>
+
+                                <div class="flex items-center justify-between gap-6">
+                                    <p class="text-yellow-400 text-sm md:text-base font-bold whitespace-nowrap">
+                                        8:00 AM
+                                    </p>
+
+                                    <p class="text-white text-xs md:text-sm uppercase text-right">
+                                        Registration / Experience
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- MORNING SESSION -->
+                            <div class="p-5 md:p-6 border-b border-white/10">
+                                <p class="text-white/40 text-[9px] md:text-[10px] uppercase tracking-[0.3em] mb-2">
+                                    Session One
+                                </p>
+
+                                <div class="flex items-center justify-between gap-6">
+                                    <p class="text-yellow-400 text-sm md:text-base font-bold whitespace-nowrap">
+                                        9:00 AM
+                                    </p>
+
+                                    <p class="text-white text-xs md:text-sm uppercase text-right">
+                                        Morning Session
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- LUNCH -->
+                            <div class="p-5 md:p-6 border-b border-white/10 bg-yellow-400/5 border-l-yellow-400">
+                                <p class="text-yellow-400/70 text-[9px] md:text-[10px] uppercase tracking-[0.3em] mb-2 font-bold">
+                                    Midday Break
+                                </p>
+
+                                <div class="flex items-center justify-between gap-6">
+                                    <p class="text-yellow-400 text-sm md:text-base font-bold whitespace-nowrap">
+                                        12:00 PM
+                                    </p>
+
+                                    <p class="text-white text-xs md:text-sm uppercase text-right font-bold">
+                                        Lunch & Fellowship
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- AFTERNOON SESSION -->
+                            <div class="p-5 md:p-6 border-b border-white/10">
+                                <p class="text-white/40 text-[9px] md:text-[10px] uppercase tracking-[0.3em] mb-2">
+                                    Session Two
+                                </p>
+
+                                <div class="flex items-center justify-between gap-6">
+                                    <p class="text-yellow-400 text-sm md:text-base font-bold whitespace-nowrap">
+                                        1:30 PM
+                                    </p>
+
+                                    <p class="text-white text-xs md:text-sm uppercase text-right">
+                                        Afternoon Session
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- END -->
+                            <div class="p-5 md:p-6">
+                                <p class="text-white/40 text-[9px] md:text-[10px] uppercase tracking-[0.3em] mb-2">
+                                    Closing
+                                </p>
+
+                                <div class="flex items-center justify-between gap-6">
+                                    <p class="text-yellow-400 text-sm md:text-base font-bold whitespace-nowrap">
+                                        5:00 PM
+                                    </p>
+
+                                    <p class="text-white text-xs md:text-sm uppercase text-right">
+                                        End
+                                    </p>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </section>
-
+                        
             <section id="register" class="py-20 md:py-32 bg-[#ffd600] text-[#1a1a1b] relative">
         <div class="max-w-xl mx-auto px-6">
             <h2 class="font-abolition text-black text-[30px] uppercase text-center md:text-center">// REGISTRATION </h2>
@@ -334,7 +450,182 @@ function toggleMenu() {
                 </form>
             </div>
         </div>
-    </section>
+            </section>
+
+
+        <section id="faq" class="py-14 md:py-20 px-6 bg-[#111111] border-t border-white/5">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="font-abolition text-yellow-400 text-[30px] mb-3 uppercase text-center">
+                    // FREQUENTLY ASKED QUESTIONS
+                </h2>
+
+                <p class="font-mono-vhs text-white/30 text-[10px] uppercase tracking-[0.3em] text-center mb-10">
+                    Everything you need to know before Revival
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-6 font-mono-vhs">
+
+                    <!-- EVENT DETAILS -->
+                    <div class="space-y-2">
+                        <h3 class="text-yellow-400 text-[10px] uppercase tracking-[0.3em] mb-3">
+                            Event Details
+                        </h3>
+
+                        <details class="group border border-white/10 bg-black/30 px-4 py-3">
+                            <summary class="cursor-pointer list-none flex justify-between items-center gap-4 text-white text-[11px] font-bold uppercase tracking-widest">
+                                What is the program schedule?
+                                <span class="shrink-0 text-yellow-400 group-open:rotate-45 transition-transform text-lg">+</span>
+                            </summary>
+                            <p class="mt-2 text-white/50 text-[10px] md:text-xs leading-relaxed">
+                                Open house begins at 8:00 AM, and the first session starts at 9:00 AM. Lunch break will be from 12:00 PM to 1:30 PM, followed by the afternoon session.
+                            </p>
+                        </details>
+
+                        <details class="group border border-white/10 bg-black/30 px-4 py-3">
+                            <summary class="cursor-pointer list-none flex justify-between items-center gap-4 text-white text-[11px] font-bold uppercase tracking-widest">
+                                What time does the event start and end?
+                                <span class="shrink-0 text-yellow-400 group-open:rotate-45 transition-transform text-lg">+</span>
+                            </summary>
+                            <p class="mt-2 text-white/50 text-[10px] md:text-xs leading-relaxed">
+                                The retreat will run from 9:00 AM to 5:00 PM. Participants are encouraged to arrive early during the open house, which begins at 8:00 AM.
+                            </p>
+                        </details>
+
+                        <details class="group border border-white/10 bg-black/30 px-4 py-3">
+                            <summary class="cursor-pointer list-none flex justify-between items-center gap-4 text-white text-[11px] font-bold uppercase tracking-widest">
+                                Where is the venue?
+                                <span class="shrink-0 text-yellow-400 group-open:rotate-45 transition-transform text-lg">+</span>
+                            </summary>
+                            <p class="mt-2 text-white/50 text-[10px] md:text-xs leading-relaxed">
+                                The retreat will be held at Victory Bulacan Complex.
+                            </p>
+                        </details>
+
+                        <details class="group border border-white/10 bg-black/30 px-4 py-3">
+                            <summary class="cursor-pointer list-none flex justify-between items-center gap-4 text-white text-[11px] font-bold uppercase tracking-widest">
+                                Is parking available?
+                                <span class="shrink-0 text-yellow-400 group-open:rotate-45 transition-transform text-lg">+</span>
+                            </summary>
+                            <p class="mt-2 text-white/50 text-[10px] md:text-xs leading-relaxed">
+                                Yes, parking will be available at the venue.
+                            </p>
+                        </details>
+                    </div>
+
+                    <!-- REGISTRATION -->
+                    <div class="space-y-2">
+                        <h3 class="text-yellow-400 text-[10px] uppercase tracking-[0.3em] mb-3">
+                            Registration
+                        </h3>
+
+                        <details class="group border border-white/10 bg-black/30 px-4 py-3">
+                            <summary class="cursor-pointer list-none flex justify-between items-center gap-4 text-white text-[11px] font-bold uppercase tracking-widest">
+                                Is there a registration fee?
+                                <span class="shrink-0 text-yellow-400 group-open:rotate-45 transition-transform text-lg">+</span>
+                            </summary>
+                            <p class="mt-2 text-white/50 text-[10px] md:text-xs leading-relaxed">
+                                This retreat has already been invested in by people who believe in the next generation. Just bring yourself, an open heart, and a willingness to encounter God.
+                            </p>
+                        </details>
+
+                        <details class="group border border-white/10 bg-black/30 px-4 py-3">
+                            <summary class="cursor-pointer list-none flex justify-between items-center gap-4 text-white text-[11px] font-bold uppercase tracking-widest">
+                                Can I walk in on the day of the event?
+                                <span class="shrink-0 text-yellow-400 group-open:rotate-45 transition-transform text-lg">+</span>
+                            </summary>
+                            <p class="mt-2 text-white/50 text-[10px] md:text-xs leading-relaxed">
+                                To help us prepare well for everyone, only registered participants will be accommodated. Registration is open until May 10, 2026, at 11:59 PM.
+                            </p>
+                        </details>
+
+                        <details class="group border border-white/10 bg-black/30 px-4 py-3">
+                            <summary class="cursor-pointer list-none flex justify-between items-center gap-4 text-white text-[11px] font-bold uppercase tracking-widest">
+                                Can I invite my friends?
+                                <span class="shrink-0 text-yellow-400 group-open:rotate-45 transition-transform text-lg">+</span>
+                            </summary>
+                            <p class="mt-2 text-white/50 text-[10px] md:text-xs leading-relaxed">
+                                Yes. You may invite friends who are part of our Leaders and Serving Team Members.
+                            </p>
+                        </details>
+
+                        <details class="group border border-white/10 bg-black/30 px-4 py-3">
+                            <summary class="cursor-pointer list-none flex justify-between items-center gap-4 text-white text-[11px] font-bold uppercase tracking-widest">
+                                Can I attend Day 1 only?
+                                <span class="shrink-0 text-yellow-400 group-open:rotate-45 transition-transform text-lg">+</span>
+                            </summary>
+                            <p class="mt-2 text-white/50 text-[10px] md:text-xs leading-relaxed">
+                                The retreat is designed as a complete two-day experience, so we encourage and expect all participants to attend the full retreat.
+                            </p>
+                        </details>
+                    </div>
+
+                    <!-- PREPARATION -->
+                    <div class="space-y-2">
+                        <h3 class="text-yellow-400 text-[10px] uppercase tracking-[0.3em] mb-3">
+                            Preparation
+                        </h3>
+
+                        <details class="group border border-white/10 bg-black/30 px-4 py-3">
+                            <summary class="cursor-pointer list-none flex justify-between items-center gap-4 text-white text-[11px] font-bold uppercase tracking-widest">
+                                What should I wear?
+                                <span class="shrink-0 text-yellow-400 group-open:rotate-45 transition-transform text-lg">+</span>
+                            </summary>
+                            <p class="mt-2 text-white/50 text-[10px] md:text-xs leading-relaxed">
+                                Wear something comfortable and appropriate for the retreat. We also encourage you to bring a jacket in case the venue gets cold.
+                            </p>
+                        </details>
+
+                        <details class="group border border-white/10 bg-black/30 px-4 py-3">
+                            <summary class="cursor-pointer list-none flex justify-between items-center gap-4 text-white text-[11px] font-bold uppercase tracking-widest">
+                                What should I bring?
+                                <span class="shrink-0 text-yellow-400 group-open:rotate-45 transition-transform text-lg">+</span>
+                            </summary>
+                            <p class="mt-2 text-white/50 text-[10px] md:text-xs leading-relaxed">
+                                Please bring your Bible, notebook and pen, jacket, tumbler or water bottle, and an expectant heart.
+                            </p>
+                        </details>
+                    </div>
+
+                    <!-- DURING THE RETREAT -->
+                    <div class="space-y-2">
+                        <h3 class="text-yellow-400 text-[10px] uppercase tracking-[0.3em] mb-3">
+                            During the Retreat
+                        </h3>
+
+                        <details class="group border border-white/10 bg-black/30 px-4 py-3">
+                            <summary class="cursor-pointer list-none flex justify-between items-center gap-4 text-white text-[11px] font-bold uppercase tracking-widest">
+                                Where can I get lunch?
+                                <span class="shrink-0 text-yellow-400 group-open:rotate-45 transition-transform text-lg">+</span>
+                            </summary>
+                            <p class="mt-2 text-white/50 text-[10px] md:text-xs leading-relaxed">
+                                You may bring your own food or meals to share with friends. During the lunch break, you may also order food or eat outside at your own pace. Suggested food options and an order assistance station will also be available to help you arrange your meals.
+                            </p>
+                        </details>
+
+                        <details class="group border border-white/10 bg-black/30 px-4 py-3">
+                            <summary class="cursor-pointer list-none flex justify-between items-center gap-4 text-white text-[11px] font-bold uppercase tracking-widest">
+                                Are phones allowed?
+                                <span class="shrink-0 text-yellow-400 group-open:rotate-45 transition-transform text-lg">+</span>
+                            </summary>
+                            <p class="mt-2 text-white/50 text-[10px] md:text-xs leading-relaxed">
+                                Yes, phones are allowed. We simply encourage everyone to use them responsibly, minimize distractions, and stay fully present during the sessions.
+                            </p>
+                        </details>
+
+                        <details class="group border border-white/10 bg-black/30 px-4 py-3">
+                            <summary class="cursor-pointer list-none flex justify-between items-center gap-4 text-white text-[11px] font-bold uppercase tracking-widest">
+                                Who can I approach if I have questions?
+                                <span class="shrink-0 text-yellow-400 group-open:rotate-45 transition-transform text-lg">+</span>
+                            </summary>
+                            <p class="mt-2 text-white/50 text-[10px] md:text-xs leading-relaxed">
+                                You may approach our campus missionaries for any concerns or assistance. They will be glad to help you.
+                            </p>
+                        </details>
+                    </div>
+
+                </div>
+            </div>
+        </section>
 
     <div id="trackingLines" class="fixed inset-0 pointer-events-none z-[100] hidden">
         <div class="absolute inset-0 bg-white/5 mix-blend-overlay animate-pulse"></div>
@@ -500,6 +791,7 @@ function toggleMenu() {
                 '/about': 'about',
                 '/details': 'details',
                 '/register': 'register',
+                '/faq': 'faq',
                 '/countdown': 'countdown'
             };
 
