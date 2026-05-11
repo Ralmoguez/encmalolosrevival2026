@@ -136,6 +136,15 @@
 #successPopup:not(.hidden) {
     display: flex;
 }
+
+.hidden-registration {
+  display: none;
+}
+
+.hidden-registration.show-registration {
+  display: block;
+}
+
     </style>
 </head>
 <body>
@@ -150,7 +159,7 @@
 
     <div class="flex items-center gap-3">
         <button onclick="scrollToSection('register')" 
-                class="bg-[#ffd600] text-black font-mono-vhs text-[10px] px-4 md:px-6 py-1.5 font-bold uppercase tracking-widest hover:bg-white transition-all active:scale-95">
+                class="bg-[#ffd600] hidden text-black font-mono-vhs text-[10px] px-4 md:px-6 py-1.5 font-bold uppercase tracking-widest hover:bg-white transition-all active:scale-95">
             REGISTER
         </button>
 
@@ -168,7 +177,7 @@
             <a href="javascript:void(0)" onclick="handleNavClick('details')" class="hover:text-yellow-400">Details</a>
             <a href="javascript:void(0)" onclick="handleNavClick('playlist')" class="hover:text-yellow-400">Sound Bank</a>
             
-            <a href="javascript:void(0)" onclick="handleNavClick('register')" class="text-yellow-400 hover:scale-110 transition-transform">Registration</a>
+            <a href="javascript:void(0)" onclick="handleNavClick('register')" class="text-yellow-400 hidden hover:scale-110 transition-transform">Registration</a>
             <a href="javascript:void(0)" onclick="handleNavClick('faq')" class="hover:text-yellow-400">FAQ</a>
             
             <a href="javascript:void(0)" onclick="handleNavClick('countdown')" class="hover:text-yellow-400">Countdown</a>
@@ -475,7 +484,7 @@ function toggleMenu() {
             </section>
 
 
-            <section id="register" class="py-20 md:py-32 bg-[#ffd600] text-[#1a1a1b] relative">
+            <section id="register" class="hidden-registration py-20 md:py-32 bg-[#ffd600] text-[#1a1a1b] relative">
         <div class="max-w-xl mx-auto px-6">
             <h2 class="font-abolition text-black text-[30px] uppercase text-center md:text-center">// REGISTRATION </h2>
             
@@ -730,7 +739,7 @@ function toggleMenu() {
         <div class="absolute top-3/4 left-0 w-full h-[1px] bg-white/10 shadow-[0_0_10px_white]"></div>
     </div>
 
-<section id="countdown" class="py-32 px-6 bg-black border-t border-white/10 text-center flex flex-col items-center justify-center min-h-[60vh]">
+    <section id="countdown" class="py-32 px-6 bg-black border-t border-white/10 text-center flex flex-col items-center justify-center min-h-[60vh]">
         <h2 class="font-abolition text-white/40 text-[20px] mb-12 uppercase">// T-MINUS_TO_REVIVAL</h2>
         
         <div class="flex gap-4 md:gap-10 font-mono-vhs text-white items-center">
@@ -884,6 +893,7 @@ function toggleMenu() {
         // --- PATH-BASED SCROLLING ---
         window.addEventListener('load', () => {
             const path = window.location.pathname;
+
             const sectionMap = {
                 '/about': 'about',
                 '/details': 'details',
@@ -893,11 +903,19 @@ function toggleMenu() {
                 '/countdown': 'countdown'
             };
 
+            const registerSection = document.getElementById('register');
+
+            if (path === '/register' && registerSection) {
+                registerSection.classList.add('show-registration');
+            }
+
             if (sectionMap[path]) {
                 setTimeout(() => {
                     const target = document.getElementById(sectionMap[path]);
-                    if(target) target.scrollIntoView({ behavior: 'smooth' });
-                }, 600); 
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }, 600);
             }
         });
 
