@@ -209,6 +209,17 @@ function handleHomeClick() {
 
 function scrollToTop() {
     showView('landing');
+
+    // Hide registration again if it was revealed by /register
+    const registerSection = document.getElementById('register');
+    if (registerSection) {
+        registerSection.classList.remove('show-registration');
+    }
+
+    // Clear URL back to homepage without reloading
+    window.history.pushState({}, '', '/');
+
+    // Scroll to landing/top
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
