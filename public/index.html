@@ -846,6 +846,18 @@ function toggleMenu() {
 
         function scrollToTop() {
             showView('landing');
+
+            const registerSection = document.getElementById('register');
+            if (registerSection) {
+                registerSection.classList.remove('show-registration');
+            }
+
+            // Use /public/ locally, / when deployed
+            const isLocal = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost";
+            const homePath = isLocal ? "/public/" : "/";
+
+            window.history.pushState({}, '', homePath);
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
