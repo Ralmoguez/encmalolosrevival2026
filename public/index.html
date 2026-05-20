@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -145,6 +147,59 @@
   display: block;
 }
 
+
+
+/* ANNOUNCEMENT POPUP */
+#announcementPopup:not(.hidden) {
+    display: flex;
+}
+
+.announcement-popup-shell {
+    width: min(92vw, 430px);
+    max-height: 88vh;
+    overflow-y: auto;
+    background: #101010;
+    border: 1px solid rgba(255,255,255,.12);
+    box-shadow: 0 24px 90px rgba(0,0,0,.85), 0 0 50px rgba(255,214,0,.08);
+}
+
+.announcement-popup-img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    background: #181818;
+}
+
+.announcement-close-btn {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba(255,255,255,.14);
+    color: rgba(255,255,255,.65);
+    display: grid;
+    place-items: center;
+    z-index: 20;
+    background: rgba(0,0,0,.58);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    backdrop-filter: blur(6px);
+}
+
+@media (max-width: 768px) {
+    .announcement-popup-shell {
+        width: 92vw;
+        max-height: 86vh;
+    }
+
+    .announcement-popup-img {
+        aspect-ratio: 1 / 1;
+    }
+}
+
+
     </style>
 </head>
 <body>
@@ -162,7 +217,11 @@
                 class="bg-[#ffd600] hidden text-black font-mono-vhs text-[10px] px-4 md:px-6 py-1.5 font-bold uppercase tracking-widest hover:bg-white transition-all active:scale-95">
             REGISTER
         </button>
-
+    <button id="vaultNavBtn"
+            onclick="openVaultManual()"
+            class="bg-[#ffd600] hidden text-black font-mono-vhs text-[10px] px-4 md:px-6 py-1.5 font-bold uppercase tracking-widest hover:bg-white transition-all active:scale-95">
+        VAULT
+    </button>
         <button onclick="toggleMenu()" class="z-[110] flex flex-col gap-1.5 p-2">
             <div id="line1" class="w-6 h-0.5 bg-yellow-400 transition-all duration-300"></div>
             <div id="line2" class="w-6 h-0.5 bg-yellow-400 transition-all duration-300"></div>
@@ -179,7 +238,7 @@
             
             <a href="javascript:void(0)" onclick="handleNavClick('register')" class="text-yellow-400 hidden hover:scale-110 transition-transform">Registration</a>
             <a href="javascript:void(0)" onclick="handleNavClick('faq')" class="hover:text-yellow-400">FAQ</a>
-            
+            <a id="vaultMenuLink" href="javascript:void(0)" onclick="openVaultManual()" class="hover:text-yellow-400 hidden"> Vault </a>
             <a href="javascript:void(0)" onclick="handleNavClick('countdown')" class="hover:text-yellow-400">Countdown</a>
         </div>
     </div>
@@ -1001,15 +1060,25 @@ function toggleMenu() {
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { 
-                getFirestore, 
-                doc, 
-                setDoc, 
-                getDoc, 
-                collection, 
-                getCountFromServer, 
-                serverTimestamp 
-            } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+            getFirestore, 
+            doc, 
+            setDoc,
+            updateDoc,
+            getDoc,
+            getDocs,    
+            collection, 
+            getCountFromServer, 
+            serverTimestamp 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+        import WaveSurfer from "https://cdn.jsdelivr.net/npm/wavesurfer.js@7/dist/wavesurfer.esm.js";
+
+        import {
+                getStorage,
+                ref,
+                uploadBytesResumable,
+                getDownloadURL
+            } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
         const firebaseConfig = {
             apiKey: "AIzaSyAaxjL-NuYE1VeAoYb1_pWHAE3C4VdCBBY",
             authDomain: "enc-malolos-revival-2026.firebaseapp.com",
@@ -1020,6 +1089,34 @@ function toggleMenu() {
         };
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const storage = getStorage(app);
+        let currentGatewayUserId = null;
+        let vaultActive = false;
+        let pendingVaultSubPage = null;
+
+            async function checkVaultNavState() {
+        try {
+            const eventStateDoc = await getDoc(doc(db, "settings", "eventState"));
+
+            const isVaultActive = eventStateDoc.exists() && eventStateDoc.data().vaultActive === true;
+
+            const vaultNavBtn = document.getElementById('vaultNavBtn');
+            const vaultMenuLink = document.getElementById('vaultMenuLink');
+
+            if (isVaultActive) {
+                if (vaultNavBtn) vaultNavBtn.classList.remove('hidden');
+                if (vaultMenuLink) vaultMenuLink.classList.remove('hidden');
+            } else {
+                if (vaultNavBtn) vaultNavBtn.classList.add('hidden');
+                if (vaultMenuLink) vaultMenuLink.classList.add('hidden');
+            }
+
+        } catch (error) {
+            console.error("Vault nav check failed:", error);
+        }
+    }
+
+    checkVaultNavState();
 
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzoBQKLWkcCrB0FVjM0ot-HTwY-PmAQw0XS6MmfhnWUKlcUi_Xx5Haj1QYgPNg9aE9qKQ/exec';
         const form = document.getElementById('revivalForm');
@@ -1080,14 +1177,81 @@ function toggleMenu() {
             if(!document.getElementById('regName').value.includes(',')) {
                 return alert("SYSTEM_ERROR: INVALID_NAME_FORMAT. Use 'Surname, First Name'");
             }
+
             if(document.getElementById('regContact').value.length !== 11) {
                 return alert("SYSTEM_ERROR: INVALID_PHONE_LENGTH. Must be 11 digits.");
             }
 
             document.getElementById('passcodeStep').classList.remove('hidden');
         });
+        
+// --- IDENTITY VERIFICATION ROUTING (QR CODE SCAN) ---
+        window.addEventListener('load', async () => {
+    const pathArray = window.location.pathname.split('/');
+    const userIndex = pathArray.indexOf('user');
 
-        // FINALIZE & DOUBLE WRITE
+    // Check if the URL is /user/R26-XXXX
+    if (userIndex !== -1 && pathArray[userIndex + 1]) {
+        const userId = pathArray[userIndex + 1];
+        currentGatewayUserId = userId;
+
+        // Lock the background and show the VHS Screen
+        document.body.style.overflow = 'hidden';
+        document.getElementById('vhsPopup').classList.remove('hidden');
+        document.getElementById('vhs-ref').innerText = `Ref: ${userId}`;
+
+        try {
+            // 1. Check if vault is active from Firebase
+            const eventStateDoc = await getDoc(doc(db, "settings", "eventState"));
+
+            if (eventStateDoc.exists()) {
+                vaultActive = eventStateDoc.data().vaultActive === true;
+            } else {
+                vaultActive = false;
+            }
+
+            console.log("eventStateDoc exists:", eventStateDoc.exists());
+            console.log("eventStateDoc data:", eventStateDoc.exists() ? eventStateDoc.data() : null);
+            console.log("vaultActive final value:", vaultActive);
+            
+            // 2. Fetch the user's name from Firestore using the ID
+            const userDoc = await getDoc(doc(db, "users", userId));
+
+            setTimeout(() => {
+                const nameLabel = document.getElementById('vhs-name');
+                const statusLabel = document.getElementById('vhs-status');
+                const actionBtn = document.getElementById('vhs-action-btn');
+                const archiveState = document.getElementById('vhs-archive-state');
+
+                if (userDoc.exists()) {
+                    nameLabel.innerText = userDoc.data().name;
+                    statusLabel.innerText = "ACTIVE_USER";
+
+                    if (vaultActive) {
+                        actionBtn.innerText = "[ ENTER VAULT ]";
+                        archiveState.innerText = "Archive_Open";
+                    } else {
+                        actionBtn.innerText = "[ CONTINUE ]";
+                        archiveState.innerText = "Archive_Locked";
+                    }
+
+                } else {
+                    nameLabel.innerText = "RECORD_NOT_FOUND";
+                    nameLabel.classList.add('text-red-600');
+                    statusLabel.innerText = "Error_404";
+                    actionBtn.innerText = "[ RETURN ]";
+                    archiveState.innerText = "Invalid_Record";
+                }
+            }, 1200);
+
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+            document.getElementById('vhs-name').innerText = "SYSTEM_FAULT";
+        }
+    }
+});
+        
+// FINALIZE & DOUBLE WRITE
         window.finalizeRegistration = async () => {
             const pass = document.getElementById("passcodeEntry").value;
             const confirm = document.getElementById("confirmPasscodeEntry").value;
@@ -1180,46 +1344,6 @@ function toggleMenu() {
             });
         };
 
-
-        // --- IDENTITY VERIFICATION ROUTING (QR CODE SCAN) ---
-        window.addEventListener('load', async () => {
-            const pathArray = window.location.pathname.split('/');
-            const userIndex = pathArray.indexOf('user');
-            
-            // Check if the URL is /user/R26-XXXX
-            if (userIndex !== -1 && pathArray[userIndex + 1]) {
-                const userId = pathArray[userIndex + 1];
-                
-                // Lock the background and show the VHS Screen
-                document.body.style.overflow = 'hidden';
-                document.getElementById('vhsPopup').classList.remove('hidden');
-                document.getElementById('vhs-ref').innerText = `Ref: ${userId}`;
-                
-                try {
-                    // Fetch the user's name from Firestore using the ID
-                    const userDoc = await getDoc(doc(db, "users", userId));
-                    
-                    setTimeout(() => {
-                        const nameLabel = document.getElementById('vhs-name');
-                        const statusLabel = document.getElementById('vhs-status');
-                        
-                        if (userDoc.exists()) {
-                            nameLabel.innerText = userDoc.data().name;
-                            statusLabel.innerText = "ACTIVE_USER";
-                        } else {
-                            nameLabel.innerText = "RECORD_NOT_FOUND";
-                            nameLabel.classList.add('text-red-600');
-                            statusLabel.innerText = "Error_404";
-                        }
-                    }, 1200); // 1.2s delay to let the tape "spin" for UX
-
-                } catch (error) {
-                    console.error("Error fetching user data:", error);
-                    document.getElementById('vhs-name').innerText = "SYSTEM_FAULT";
-                }
-            }
-        });
-
         // Expose the exit function to the window so the button can use it
         window.exitVHSScreen = function() {
             const vhsPopup = document.getElementById('vhsPopup');
@@ -1235,27 +1359,976 @@ function toggleMenu() {
             window.history.pushState({}, '', '/');
         };
 
-        // Function to fetch and display the live participant count
-        async function updateLiveCount() {
+        window.handleVHSGatewayAction = function() {
+            if (vaultActive && currentGatewayUserId) {
+                window.location.href = `/vault/${currentGatewayUserId}`;
+                return;
+            }
+
+            window.exitVHSScreen();
+        };
+
+        // --- VAULT ROUTING + ACCESS SYSTEM ---
+        let currentVaultUserId = null;
+        let currentVaultUserData = null;
+
+        async function loadVaultRoute() {
+            const pathArray = window.location.pathname.split('/');
+            const vaultIndex = pathArray.indexOf('vault');
+
+            // If URL is not /vault or /vault/:id, do nothing
+            if (vaultIndex === -1) return;
+
+            document.body.style.overflow = 'hidden';
+
+        const userId = pathArray[vaultIndex + 1];
+        const vaultSubPage = pathArray[vaultIndex + 2];
+
+        if (userId) {
+            pendingVaultSubPage = vaultSubPage || null;
+            await showVaultLogin(userId);
+        } else {
+            showVaultLookup();
+        }
+        }
+        function showVaultLookup() {
+            const lookupScreen = document.getElementById('vaultLookupScreen');
+
+            if (lookupScreen) {
+                lookupScreen.classList.remove('hidden');
+            }
+        }
+
+        async function showVaultLogin(userId) {
+            currentVaultUserId = userId;
+
+            const loginScreen = document.getElementById('vaultLoginScreen');
+            const loginName = document.getElementById('vaultLoginName');
+
+            if (loginScreen) loginScreen.classList.remove('hidden');
+            if (loginName) loginName.innerText = "Loading Record";
+
             try {
-                const coll = collection(db, "users");
-                const snapshot = await getCountFromServer(coll);
-                const count = snapshot.data().count;
-                
-                const countElement = document.getElementById('registrantCount');
-                if (countElement) {
-                    countElement.innerText = count; // Injects the real number into your span
+                const userDoc = await getDoc(doc(db, "users", userId));
+
+                if (!userDoc.exists()) {
+                    if (loginName) loginName.innerText = "Record Not Found";
+                    return;
                 }
+
+                currentVaultUserData = userDoc.data();
+
+                if (loginName) {
+                    loginName.innerText = currentVaultUserData.name || "Vault User";
+                }
+
             } catch (error) {
-                console.error("Signal Lost: Error fetching count:", error);
-                // Fallback text if the database is busy or rules are blocking it
-                document.getElementById('registrantCount').innerText = "OFFLINE";
+                console.error("Vault login error:", error);
+
+                if (loginName) {
+                    loginName.innerText = "System Fault";
+                }
+            }
+        }
+
+        window.searchVaultUsers = async function() {
+            const searchInput = document.getElementById('vaultSearchInput');
+            const resultsBox = document.getElementById('vaultSearchResults');
+            const statusBox = document.getElementById('vaultSearchStatus');
+
+            const searchTerm = searchInput.value.trim().toLowerCase();
+
+            resultsBox.innerHTML = "";
+            statusBox.innerText = "";
+
+            if (searchTerm.length < 2) {
+                statusBox.innerText = "Type at least 2 letters.";
+                return;
+            }
+
+            statusBox.innerText = "Searching records...";
+
+            try {
+                const usersSnapshot = await getDocs(collection(db, "users"));
+                const matches = [];
+
+                usersSnapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const name = (data.name || "").toLowerCase();
+
+                    if (name.includes(searchTerm)) {
+                        matches.push({
+                            id: docSnap.id,
+                            ...data
+                        });
+                    }
+                });
+
+                if (matches.length === 0) {
+                    statusBox.innerText = "No matching records found.";
+                    return;
+                }
+
+                statusBox.innerText = `${matches.length} record(s) found. Select your name.`;
+
+                matches.forEach((user) => {
+                    const btn = document.createElement('button');
+                    btn.className = "w-full text-left border border-white/10 bg-black/40 p-4 hover:border-yellow-400 transition-all";
+                    btn.innerHTML = `
+                        <p class="text-yellow-400 text-[10px] uppercase tracking-[0.2em]">
+                            ${user.name || "Unnamed Record"}
+                        </p>
+                        <p class="text-white/35 text-[9px] uppercase tracking-widest mt-1">
+                            ${user.campus || "No campus listed"} // ${user.church || "No church listed"}
+                        </p>
+                    `;
+
+                    btn.onclick = () => {
+                        window.location.href = `/vault/${user.id}`;
+                    };
+
+                    resultsBox.appendChild(btn);
+                });
+
+            } catch (error) {
+                console.error("Vault search error:", error);
+                statusBox.innerText = "System fault. Could not search records.";
             }
         };
 
-        window.updateLiveCount = updateLiveCount;
+        window.unlockVault = async function() {
+            const input = document.getElementById('vaultPasskeyInput');
+            const error = document.getElementById('vaultLoginError');
 
-        updateLiveCount();
+            const enteredPasskey = input.value.trim();
+
+            error.classList.add('hidden');
+
+            if (!currentVaultUserData) {
+                error.innerText = "Record not loaded.";
+                error.classList.remove('hidden');
+                return;
+            }
+
+            if (enteredPasskey === currentVaultUserData.passkey) {
+                document.getElementById('vaultLoginScreen').classList.add('hidden');
+
+                const displayName = currentVaultUserData.name || "Vault User";
+
+                const archiveIdentity = document.getElementById('vaultArchiveIdentity');
+                if (archiveIdentity) {
+                    archiveIdentity.innerText = `Archive Open // ${displayName}`;
+                }
+
+                input.value = "";
+
+                if (pendingVaultSubPage === "side-a") {
+                    await window.showSideAScreen();
+                    return;
+                }
+
+                if (pendingVaultSubPage === "side-b") {
+                    await window.showSideBScreen();
+                    return;
+                }
+
+                document.getElementById('vaultSideScreen').classList.remove('hidden');
+            } else {
+                error.innerText = "Incorrect passcode.";
+                error.classList.remove('hidden');
+            }
+        };
+
+        window.openVaultSide = function(side) {
+            if (side === 'A') {
+                if (currentVaultUserId) {
+                    window.history.pushState({}, '', `/vault/${currentVaultUserId}/side-a`);
+                }
+
+                window.showSideAScreen();
+                return;
+            }
+
+            if (side === 'B') {
+                if (currentVaultUserId) {
+                    window.history.pushState({}, '', `/vault/${currentVaultUserId}/side-b`);
+                }
+
+                window.showSideBScreen();
+                return;
+            }
+
+            const message = document.getElementById('vaultSideMessage');
+
+            if (message) {
+                message.classList.remove('hidden');
+                message.innerText = "SIDE SELECTED — CONTENT COMING NEXT.";
+            }
+        };
+
+        window.closeVaultScreens = function() {
+            const lookupScreen = document.getElementById('vaultLookupScreen');
+            const loginScreen = document.getElementById('vaultLoginScreen');
+            const sideScreen = document.getElementById('vaultSideScreen');
+            const sideAScreen = document.getElementById('sideAScreen');
+            const sideBScreen = document.getElementById('sideBScreen');
+
+            if (sideAWaveSurfer) {
+                sideAWaveSurfer.pause();
+                updateSideAPlayToggleIcon(false);
+            }
+
+            if (lookupScreen) lookupScreen.classList.add('hidden');
+            if (loginScreen) loginScreen.classList.add('hidden');
+            if (sideScreen) sideScreen.classList.add('hidden');
+            if (sideAScreen) sideAScreen.classList.add('hidden');
+            if (sideBScreen) sideBScreen.classList.add('hidden');
+
+            document.body.style.overflow = '';
+            document.body.style.overflowX = 'hidden';
+
+            window.history.pushState({}, '', '/');
+        };
+
+        // Run vault route checker
+        loadVaultRoute();
+        
+        window.openVaultManual = function() {
+            window.history.pushState({}, '', '/vault');
+
+            const navOverlay = document.getElementById('nav-overlay');
+            if (navOverlay && navOverlay.classList.contains('flex')) {
+                toggleMenu();
+            }
+
+            loadVaultRoute();
+        };
+
+
+                // --- SIDE A AUDIO SYSTEM ---
+        let selectedSideAFile = null;
+        let sideAWaveSurfer = null;
+        let currentSideAData = null;
+        let globalAllowReplace = false;
+
+        function setSideAState(state) {
+            const states = [
+                'sideAEmptyState',
+                'sideASelectedState',
+                'sideAUploadingState',
+                'sideAPlayerState'
+            ];
+
+            states.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('hidden');
+            });
+
+            const active = document.getElementById(`sideA${state}State`);
+            if (active) active.classList.remove('hidden');
+
+            const error = document.getElementById('sideAError');
+            if (error) error.classList.add('hidden');
+        }
+
+        function showSideAError(message) {
+            const error = document.getElementById('sideAError');
+            if (!error) return;
+
+            error.innerText = message;
+            error.classList.remove('hidden');
+        }
+
+        function formatAudioTime(seconds) {
+            if (!seconds || isNaN(seconds)) return "00:00";
+
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function formatFileSize(bytes) {
+            if (!bytes) return "---";
+            const mb = bytes / (1024 * 1024);
+            return `${mb.toFixed(1)} MB`;
+        }
+
+        function getAudioExtension(fileName) {
+            const cleanName = fileName.toLowerCase();
+            const allowed = ["mp3", "m4a", "aac", "wav", "ogg", "webm"];
+
+            const ext = cleanName.split(".").pop();
+
+            if (allowed.includes(ext)) {
+                return ext;
+            }
+
+            return "mp3";
+        }
+
+        function getAudioContentType(file) {
+            if (file.type && file.type.startsWith("audio/")) {
+                return file.type;
+            }
+
+            const ext = getAudioExtension(file.name);
+
+            const typeMap = {
+                mp3: "audio/mpeg",
+                m4a: "audio/mp4",
+                aac: "audio/aac",
+                wav: "audio/wav",
+                ogg: "audio/ogg",
+                webm: "audio/webm"
+            };
+
+            return typeMap[ext] || "audio/mpeg";
+        }
+
+        window.showSideAScreen = async function() {
+            document.getElementById('vaultSideScreen').classList.add('hidden');
+            document.getElementById('sideAScreen').classList.remove('hidden');
+
+            const displayName = currentVaultUserData?.name || "Vault User";
+
+            const identity = document.getElementById('sideAIdentity');
+            if (identity) {
+                identity.innerText = `Side A // ${displayName}`;
+            }
+
+            await loadSideAData();
+        };
+
+        async function loadSideAData() {
+            if (!currentVaultUserId) {
+                setSideAState('Empty');
+                showSideAError("No vault user loaded.");
+                return;
+            }
+
+            try {
+                const userDoc = await getDoc(doc(db, "users", currentVaultUserId));
+
+                if (!userDoc.exists()) {
+                    setSideAState('Empty');
+                    showSideAError("User record not found.");
+                    return;
+                }
+
+                currentVaultUserData = userDoc.data();
+
+                const sideA = currentVaultUserData.sideA;
+
+                if (sideA && sideA.audioUrl) {
+                    loadSideAPlayer(sideA);
+                } else {
+                    setSideAState('Empty');
+                }
+
+            } catch (error) {
+                console.error("Side A load error:", error);
+                setSideAState('Empty');
+                showSideAError("Could not load Side A.");
+            }
+        }
+
+        function loadSideAPlayer(sideA) {
+            currentSideAData = sideA;
+
+            const waveformContainer = document.getElementById('sideAWaveformReal');
+            const title = document.getElementById('sideAPlayerTitle');
+            const status = document.getElementById('sideAPlayerStatus');
+            const timeDisplay = document.getElementById('sideATimeDisplay');
+            const playbackState = document.getElementById('sideAPlaybackState');
+            const playbackHint = document.getElementById('sideAPlaybackHint');
+
+            if (!waveformContainer) {
+                showSideAError("Waveform container not found.");
+                return;
+            }
+
+            if (sideAWaveSurfer) {
+                sideAWaveSurfer.destroy();
+                sideAWaveSurfer = null;
+            }
+
+            waveformContainer.innerHTML = "";
+
+            if (title) title.innerText = "Your Received Prayer";
+            if (status) status.innerText = "Received Audio";
+            if (timeDisplay) timeDisplay.innerText = "00:00 / 00:00";
+            if (playbackState) playbackState.innerText = "Stopped";
+            if (playbackHint) playbackHint.innerText = "Ready to play";
+
+            // Important: show the player before creating WaveSurfer.
+            // If WaveSurfer is created while hidden, it can render at 0px width.
+            setSideAState('Player');
+
+            requestAnimationFrame(() => {
+                sideAWaveSurfer = WaveSurfer.create({
+                    container: '#sideAWaveformReal',
+                    url: sideA.audioUrl,
+                    waveColor: 'rgba(255,255,255,0.18)',
+                    progressColor: '#ffd600',
+                    cursorColor: '#ffd600',
+                    height: 76,
+                    barWidth: 3,
+                    barGap: 3,
+                    barRadius: 999,
+                    normalize: true
+                });
+
+                sideAWaveSurfer.on('ready', () => {
+                    updateSideATimeDisplay();
+                    updateSideAReplaceAccess();
+                });
+
+                sideAWaveSurfer.on('timeupdate', () => {
+                    updateSideATimeDisplay();
+                });
+
+                sideAWaveSurfer.on('play', () => {
+                    if (status) status.innerText = "Now Playing";
+                    if (playbackState) playbackState.innerText = "Playing";
+                    if (playbackHint) playbackHint.innerText = "Audio is playing";
+
+                    updateSideAPlayToggleIcon(true);
+                });
+
+                sideAWaveSurfer.on('pause', () => {
+                    if (status) status.innerText = `Paused at ${formatAudioTime(sideAWaveSurfer.getCurrentTime())}`;
+                    if (playbackState) playbackState.innerText = "Paused";
+                    if (playbackHint) playbackHint.innerText = "Resume anytime";
+
+                    updateSideAPlayToggleIcon(false);
+                });
+
+                sideAWaveSurfer.on('finish', () => {
+                    sideAWaveSurfer.setTime(0);
+
+                    if (status) status.innerText = "Received Audio";
+                    if (playbackState) playbackState.innerText = "Finished";
+                    if (playbackHint) playbackHint.innerText = "Ready to replay";
+
+                    updateSideAPlayToggleIcon(false);
+                    updateSideATimeDisplay();
+                });
+
+                sideAWaveSurfer.on('error', (error) => {
+                    console.error("WaveSurfer error:", error);
+                    showSideAError("Waveform could not load. Check the audio URL or Storage CORS.");
+                });
+            });
+        }
+
+        
+        function updateSideATimeDisplay() {
+            const timeDisplay = document.getElementById('sideATimeDisplay');
+
+            if (!timeDisplay || !sideAWaveSurfer) return;
+
+            const current = sideAWaveSurfer.getCurrentTime();
+            const duration = sideAWaveSurfer.getDuration();
+
+            timeDisplay.innerText = `${formatAudioTime(current)} / ${formatAudioTime(duration)}`;
+        }
+
+        async function getGlobalAllowReplace() {
+            try {
+                const eventStateDoc = await getDoc(doc(db, "settings", "eventState"));
+                globalAllowReplace = eventStateDoc.exists() && eventStateDoc.data().allowReplace === true;
+                return globalAllowReplace;
+            } catch (error) {
+                console.error("Could not read allowReplace:", error);
+                globalAllowReplace = false;
+                return false;
+            }
+        }
+
+        async function updateSideAReplaceAccess() {
+            const replaceBtn = document.getElementById('sideAReplaceBtn');
+            const notice = document.getElementById('sideAReplaceNotice');
+
+            if (!replaceBtn || !notice) return;
+
+            try {
+                const eventStateDoc = await getDoc(doc(db, "settings", "eventState"));
+                const allowReplace =
+                    eventStateDoc.exists() &&
+                    eventStateDoc.data().allowReplace === true;
+
+                if (allowReplace) {
+                    replaceBtn.classList.remove('hidden');
+                    notice.innerText = "Need to change this audio? Replacement access is currently open.";
+                } else {
+                    replaceBtn.classList.add('hidden');
+                    notice.innerText = "Replacement access is currently closed. Please ask an admin if this audio needs to be changed.";
+                }
+
+            } catch (error) {
+                console.error("Replace access check failed:", error);
+                replaceBtn.classList.add('hidden');
+                notice.innerText = "Replacement access could not be verified. Please ask an admin for help.";
+            }
+        }
+
+        const sideAFileInput = document.getElementById('sideAFileInput');
+
+        if (sideAFileInput) {
+            sideAFileInput.addEventListener('change', () => {
+                const file = sideAFileInput.files[0];
+
+                if (!file) return;
+
+               const allowedAudioExtensions = [".mp3", ".m4a", ".aac", ".wav", ".ogg", ".webm"];
+                const fileNameLower = file.name.toLowerCase();
+
+                const isAllowedAudio =
+                    file.type.startsWith("audio/") ||
+                    allowedAudioExtensions.some(ext => fileNameLower.endsWith(ext));
+
+                if (!isAllowedAudio) {
+                    sideAFileInput.value = "";
+                    selectedSideAFile = null;
+                    showSideAError("Please choose a valid audio file.");
+                    return;
+                }
+                selectedSideAFile = file;
+
+                const fileName = document.getElementById('sideASelectedFileName');
+                const fileSize = document.getElementById('sideASelectedFileSize');
+                const uploadingFileName = document.getElementById('sideAUploadingFileName');
+                const fileType = document.getElementById('sideASelectedFileType');
+
+                if (fileName) fileName.innerText = file.name;
+                if (fileSize) fileSize.innerText = formatFileSize(file.size);
+                if (uploadingFileName) uploadingFileName.innerText = file.name;
+                if (fileType) fileType.innerText = getAudioExtension(file.name).toUpperCase();
+
+                setSideAState('Selected');
+            });
+        }
+
+        window.resetSideASelection = function() {
+            selectedSideAFile = null;
+
+            const input = document.getElementById('sideAFileInput');
+            if (input) input.value = "";
+
+            setSideAState('Empty');
+        };
+
+        window.uploadSideAAudio = function() {
+            if (!currentVaultUserId) {
+                showSideAError("No vault user loaded.");
+                return;
+            }
+
+            if (!selectedSideAFile) {
+                showSideAError("Please choose an audio file first.");
+                return;
+            }
+
+            setSideAState('Uploading');
+
+            const progressBar = document.getElementById('sideAUploadProgressBar');
+            const percentLabel = document.getElementById('sideAUploadPercent');
+            const audioExtension = getAudioExtension(selectedSideAFile.name);
+            const audioContentType = getAudioContentType(selectedSideAFile);
+
+            const storagePath = `vault-audio/${currentVaultUserId}/side-a.${audioExtension}`;
+            const audioRef = ref(storage, storagePath);
+
+            const uploadTask = uploadBytesResumable(audioRef, selectedSideAFile, {
+                contentType: audioContentType
+            });
+
+            uploadTask.on(
+                'state_changed',
+                (snapshot) => {
+                    const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+
+                    if (progressBar) progressBar.style.width = `${progress}%`;
+                    if (percentLabel) percentLabel.innerText = `${progress}%`;
+                },
+                (error) => {
+                    console.error("Side A upload error:", error);
+                    setSideAState('Selected');
+                    showSideAError("Upload failed. Please try again.");
+                },
+                async () => {
+                    try {
+                        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+
+                        const sideAData = {
+                            audioUrl: downloadURL,
+                            storagePath: storagePath,
+                            fileName: selectedSideAFile.name,
+                            uploadedAt: new Date().toISOString()
+                        };
+
+                        await updateDoc(doc(db, "users", currentVaultUserId), {
+                            sideA: sideAData
+                        });
+
+                        currentVaultUserData = {
+                            ...currentVaultUserData,
+                            sideA: sideAData
+                        };
+
+                        selectedSideAFile = null;
+
+                        const input = document.getElementById('sideAFileInput');
+                        if (input) input.value = "";
+
+                        loadSideAPlayer(sideAData);
+
+                    } catch (error) {
+                        console.error("Side A save error:", error);
+                        setSideAState('Selected');
+                        showSideAError("Audio uploaded, but saving failed.");
+                    }
+                }
+            );
+        };
+
+        window.downloadSideAAudio = function() {
+            if (!currentSideAData || !currentSideAData.audioUrl) {
+                showSideAError("No audio available to download.");
+                return;
+            }
+
+            const link = document.createElement('a');
+            link.href = currentSideAData.audioUrl;
+            link.download = "REVIVAL-2026-Received-Prayer";
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        };
+
+        function updateSideAPlayToggleIcon(isPlaying) {
+            const playIcon = document.getElementById('sideAPlayIcon');
+            const pauseIcon = document.getElementById('sideAPauseIcon');
+
+            if (!playIcon || !pauseIcon) return;
+
+            if (isPlaying) {
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+            } else {
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+            }
+        }
+
+        window.toggleSideAAudio = function() {
+            if (!sideAWaveSurfer) {
+                showSideAError("No audio loaded.");
+                return;
+            }
+
+            sideAWaveSurfer.playPause();
+        };
+
+        window.playSideAAudio = function() {
+            if (!sideAWaveSurfer) {
+                showSideAError("No audio loaded.");
+                return;
+            }
+
+            sideAWaveSurfer.play();
+        };
+
+        window.resetSideAAudio = function() {
+            const status = document.getElementById('sideAPlayerStatus');
+            const playbackState = document.getElementById('sideAPlaybackState');
+            const playbackHint = document.getElementById('sideAPlaybackHint');
+
+            if (!sideAWaveSurfer) return;
+
+            sideAWaveSurfer.pause();
+            sideAWaveSurfer.setTime(0);
+
+            if (status) status.innerText = "Received Audio";
+            if (playbackState) playbackState.innerText = "Reset";
+            if (playbackHint) playbackHint.innerText = "Ready to replay";
+
+            updateSideAPlayToggleIcon(false);
+            updateSideATimeDisplay();
+        };
+
+        window.pauseSideAAudio = function() {
+            if (!sideAWaveSurfer) return;
+
+            sideAWaveSurfer.pause();
+        };
+
+        window.handleSideAReplaceClick = async function() {
+            try {
+                const eventStateDoc = await getDoc(doc(db, "settings", "eventState"));
+                const allowReplace =
+                    eventStateDoc.exists() &&
+                    eventStateDoc.data().allowReplace === true;
+
+                if (!allowReplace) {
+                    showSideAError("Replacement access is currently closed. Please ask an admin to update this audio.");
+                    return;
+                }
+
+                if (sideAWaveSurfer) {
+                    sideAWaveSurfer.pause();
+                    updateSideAPlayToggleIcon(false);
+                }
+
+                const input = document.getElementById('sideAFileInput');
+                if (input) input.click();
+
+            } catch (error) {
+                console.error("Replace access check failed:", error);
+                showSideAError("Could not verify replacement access. Please try again.");
+            }
+        };
+
+        window.backToVaultChooser = function() {
+            const sideAScreen = document.getElementById('sideAScreen');
+            const sideBScreen = document.getElementById('sideBScreen');
+            const vaultSideScreen = document.getElementById('vaultSideScreen');
+            const status = document.getElementById('sideAPlayerStatus');
+            const playbackState = document.getElementById('sideAPlaybackState');
+            const playbackHint = document.getElementById('sideAPlaybackHint');
+
+            // Stop/pause the audio before leaving Side A
+            if (sideAWaveSurfer) {
+                sideAWaveSurfer.pause();
+                updateSideAPlayToggleIcon(false);
+
+                if (status) status.innerText = "Received Audio";
+                if (playbackState) playbackState.innerText = "Paused";
+                if (playbackHint) playbackHint.innerText = "Paused while away";
+            }
+
+            if (sideAScreen) sideAScreen.classList.add('hidden');
+            if (sideBScreen) sideBScreen.classList.add('hidden');
+            if (vaultSideScreen) vaultSideScreen.classList.remove('hidden');
+
+            if (currentVaultUserId) {
+                window.history.pushState({}, '', `/vault/${currentVaultUserId}`);
+            }
+        };
+
+        // --- SIDE B SENT RESPONSE SYSTEM ---
+        function showSideBError(message) {
+            const error = document.getElementById('sideBError');
+            if (!error) return;
+
+            error.innerText = message;
+            error.classList.remove('hidden');
+        }
+
+        function clearSideBError() {
+            const error = document.getElementById('sideBError');
+            if (error) error.classList.add('hidden');
+        }
+
+        function setSideBState(state) {
+            const formState = document.getElementById('sideBFormState');
+            const savedState = document.getElementById('sideBSavedState');
+            const savingState = document.getElementById('sideBSavingState');
+
+            if (formState) formState.classList.add('hidden');
+            if (savedState) savedState.classList.add('hidden');
+            if (savingState) savingState.classList.add('hidden');
+
+            if (state === 'Form' && formState) formState.classList.remove('hidden');
+            if (state === 'Saved' && savedState) savedState.classList.remove('hidden');
+            if (state === 'Saving' && savingState) savingState.classList.remove('hidden');
+
+            clearSideBError();
+        }
+
+        function getSideBFieldValues() {
+            return {
+                godPlaced: document.getElementById('sideBGodPlacedInput')?.value.trim() || "",
+                doNotForget: document.getElementById('sideBDoNotForgetInput')?.value.trim() || "",
+                moveWithThis: document.getElementById('sideBMoveWithThisInput')?.value.trim() || "",
+                archiveMore: document.getElementById('sideBArchiveMoreInput')?.value.trim() || ""
+            };
+        }
+
+        function populateSideBForm(sideB = {}) {
+            const godPlaced = document.getElementById('sideBGodPlacedInput');
+            const doNotForget = document.getElementById('sideBDoNotForgetInput');
+            const moveWithThis = document.getElementById('sideBMoveWithThisInput');
+            const archiveMore = document.getElementById('sideBArchiveMoreInput');
+
+            if (godPlaced) godPlaced.value = sideB.godPlaced || "";
+            if (doNotForget) doNotForget.value = sideB.doNotForget || "";
+            if (moveWithThis) moveWithThis.value = sideB.moveWithThis || "";
+            if (archiveMore) archiveMore.value = sideB.archiveMore || "";
+        }
+
+        function renderSideBSaved(sideB = {}) {
+            const displayName = currentVaultUserData?.name || "Vault User";
+
+            const savedName = document.getElementById('sideBSavedName');
+            const savedGodPlaced = document.getElementById('sideBSavedGodPlaced');
+            const savedDoNotForget = document.getElementById('sideBSavedDoNotForget');
+            const savedMoveWithThis = document.getElementById('sideBSavedMoveWithThis');
+            const savedArchiveMore = document.getElementById('sideBSavedArchiveMore');
+            const savedArchiveWrap = document.getElementById('sideBSavedArchiveMoreWrap');
+
+            if (savedName) savedName.innerText = `${displayName}'s Takeaway`;
+            if (savedGodPlaced) savedGodPlaced.innerText = sideB.godPlaced || "—";
+            if (savedDoNotForget) savedDoNotForget.innerText = sideB.doNotForget || "—";
+            if (savedMoveWithThis) savedMoveWithThis.innerText = sideB.moveWithThis || "—";
+
+            if (sideB.archiveMore && sideB.archiveMore.trim()) {
+                if (savedArchiveMore) savedArchiveMore.innerText = sideB.archiveMore;
+                if (savedArchiveWrap) savedArchiveWrap.classList.remove('hidden');
+            } else {
+                if (savedArchiveWrap) savedArchiveWrap.classList.add('hidden');
+            }
+        }
+
+        window.showSideBScreen = async function() {
+            const vaultSideScreen = document.getElementById('vaultSideScreen');
+            const sideAScreen = document.getElementById('sideAScreen');
+            const sideBScreen = document.getElementById('sideBScreen');
+
+            if (vaultSideScreen) vaultSideScreen.classList.add('hidden');
+            if (sideAScreen) sideAScreen.classList.add('hidden');
+            if (sideBScreen) sideBScreen.classList.remove('hidden');
+
+            if (sideAWaveSurfer) {
+                sideAWaveSurfer.pause();
+                updateSideAPlayToggleIcon(false);
+            }
+
+            const displayName = currentVaultUserData?.name || "Vault User";
+            const identity = document.getElementById('sideBIdentity');
+
+            if (identity) {
+                identity.innerText = `Side B // ${displayName}`;
+            }
+
+            await loadSideBData();
+        };
+
+        async function loadSideBData() {
+            if (!currentVaultUserId) {
+                setSideBState('Form');
+                showSideBError("No vault user loaded.");
+                return;
+            }
+
+            try {
+                const userDoc = await getDoc(doc(db, "users", currentVaultUserId));
+
+                if (!userDoc.exists()) {
+                    setSideBState('Form');
+                    showSideBError("User record not found.");
+                    return;
+                }
+
+                currentVaultUserData = userDoc.data();
+
+                const sideB = currentVaultUserData.sideB;
+
+                if (sideB && (sideB.godPlaced || sideB.doNotForget || sideB.moveWithThis || sideB.archiveMore)) {
+                    renderSideBSaved(sideB);
+                    populateSideBForm(sideB);
+                    setSideBState('Saved');
+                } else {
+                    populateSideBForm({});
+                    setSideBState('Form');
+                }
+
+            } catch (error) {
+                console.error("Side B load error:", error);
+                setSideBState('Form');
+                showSideBError("Could not load Side B.");
+            }
+        }
+
+        window.saveSideBResponse = async function() {
+            if (!currentVaultUserId) {
+                showSideBError("No vault user loaded.");
+                return;
+            }
+
+            const values = getSideBFieldValues();
+
+            if (!values.godPlaced || !values.doNotForget || !values.moveWithThis) {
+                showSideBError("Please answer the first three prompts before saving.");
+                return;
+            }
+
+            setSideBState('Saving');
+
+            try {
+                const sideBData = {
+                    godPlaced: values.godPlaced,
+                    doNotForget: values.doNotForget,
+                    moveWithThis: values.moveWithThis,
+                    archiveMore: values.archiveMore,
+                    savedAt: new Date().toISOString()
+                };
+
+                await updateDoc(doc(db, "users", currentVaultUserId), {
+                    sideB: sideBData
+                });
+
+                currentVaultUserData = {
+                    ...currentVaultUserData,
+                    sideB: sideBData
+                };
+
+                renderSideBSaved(sideBData);
+                populateSideBForm(sideBData);
+                setSideBState('Saved');
+
+            } catch (error) {
+                console.error("Side B save error:", error);
+                setSideBState('Form');
+                showSideBError("Could not save Side B. Please try again.");
+            }
+        };
+
+        window.editSideBResponse = function() {
+            populateSideBForm(currentVaultUserData?.sideB || {});
+            setSideBState('Form');
+        };
+
+
+            // Function to fetch and display the live participant count
+            async function updateLiveCount() {
+                try {
+                    const coll = collection(db, "users");
+                    const snapshot = await getCountFromServer(coll);
+                    const count = snapshot.data().count;
+                    
+                    const countElement = document.getElementById('registrantCount');
+                    if (countElement) {
+                        countElement.innerText = count; // Injects the real number into your span
+                    }
+                } catch (error) {
+                    console.error("Signal Lost: Error fetching count:", error);
+                    // Fallback text if the database is busy or rules are blocking it
+                    document.getElementById('registrantCount').innerText = "OFFLINE";
+                }
+            };
+
+            window.updateLiveCount = updateLiveCount;
+
+            updateLiveCount();
+
+
+
+            
 
     </script>
 
@@ -1497,17 +2570,743 @@ function toggleMenu() {
             </span>
         </p>
 
-        <button onclick="exitVHSScreen()" class="inline-block bg-yellow-400 text-black px-6 py-2.5 font-mono-vhs font-bold text-[10px] tracking-[0.3em] uppercase hover:bg-white transition-all active:scale-95 shadow-xl border border-black/10">
+        <button id="vhs-action-btn"
+                onclick="handleVHSGatewayAction()"
+                class="inline-block bg-yellow-400 text-black px-6 py-2.5 font-mono-vhs font-bold text-[10px] tracking-[0.3em] uppercase hover:bg-white transition-all active:scale-95 shadow-xl border border-black/10">
             [ CONTINUE ]
         </button>
-        
+
         <div class="mt-8 flex justify-between w-full max-w-[300px] font-mono-vhs text-[8px] text-white/40 tracking-widest uppercase px-2">
             <span id="vhs-ref">Ref: ---</span>
-            <span>Archive_Locked</span>
+            <span id="vhs-archive-state">Archive_Locked</span>
         </div>
     </footer>
 </div>
 
+
+<!-- VAULT MANUAL SEARCH SCREEN -->
+<div id="vaultLookupScreen" class="fixed inset-0 z-[180] hidden bg-black/95 backdrop-blur-md px-6 flex items-center justify-center">
+    <div class="w-full max-w-md border border-yellow-400/40 bg-[#111111] p-6 md:p-8 shadow-[0_0_50px_rgba(250,204,21,0.12)] font-mono-vhs">
+        
+        <p class="text-yellow-400 text-[9px] uppercase tracking-[0.35em] mb-3">
+            Vault Access
+        </p>
+
+        <h2 class="font-abolition text-yellow-400 text-[42px] md:text-5xl uppercase leading-none mb-4">
+            Find Your Record
+        </h2>
+
+        <p class="text-white/40 text-[10px] leading-relaxed uppercase mb-6">
+            Enter your first name. Select your record, then unlock your vault using your personal access passcode.
+        </p>
+
+        <input id="vaultSearchInput"
+            type="text"
+            placeholder="e.g. Romar"
+            class="w-full bg-black border border-white/10 p-4 text-white text-sm uppercase focus:outline-none focus:border-yellow-400 placeholder:text-white/20 mb-4">
+
+        <button onclick="searchVaultUsers()"
+            class="w-full bg-yellow-400 text-black py-4 font-bold uppercase tracking-[0.25em] text-[10px] hover:bg-white transition-all">
+            Search Record
+        </button>
+
+        <div id="vaultSearchStatus" class="text-white/30 text-[9px] uppercase tracking-widest mt-5"></div>
+
+        <div id="vaultSearchResults" class="mt-5 space-y-2"></div>
+
+        <button onclick="closeVaultScreens()"
+            class="mt-6 text-white/30 hover:text-yellow-400 text-[9px] uppercase tracking-[0.25em]">
+            Return to Site
+        </button>
+    </div>
+</div>
+
+
+<!-- VAULT PASSKEY LOGIN SCREEN -->
+<div id="vaultLoginScreen" class="fixed inset-0 z-[181] hidden bg-black/95 backdrop-blur-md px-6 flex items-center justify-center">
+    <div class="w-full max-w-md border border-yellow-400/40 bg-[#111111] p-6 md:p-8 shadow-[0_0_50px_rgba(250,204,21,0.12)] font-mono-vhs">
+        
+        <p class="text-yellow-400 text-[9px] uppercase tracking-[0.35em] mb-3">
+            Personal Vault
+        </p>
+
+        <h2 id="vaultLoginName" class="font-abolition text-yellow-400 text-[38px] md:text-5xl uppercase leading-none mb-4">
+            Loading Record
+        </h2>
+
+        <p class="text-white/40 text-[10px] leading-relaxed uppercase mb-6">
+            Enter your personal access passcode to unlock your vault.
+        </p>
+
+        <input id="vaultPasskeyInput"
+            type="password"
+            placeholder="Enter passcode"
+            class="w-full bg-black border border-white/10 p-4 text-white text-center text-lg tracking-widest focus:outline-none focus:border-yellow-400 placeholder:text-white/20 mb-4">
+
+        <button onclick="unlockVault()"
+            class="w-full bg-yellow-400 text-black py-4 font-bold uppercase tracking-[0.25em] text-[10px] hover:bg-white transition-all">
+            Unlock Vault
+        </button>
+
+        <p id="vaultLoginError" class="hidden text-red-400 text-[10px] text-center mt-4 uppercase tracking-widest">
+            Incorrect passcode.
+        </p>
+
+        <button onclick="closeVaultScreens()"
+            class="mt-6 text-white/30 hover:text-yellow-400 text-[9px] uppercase tracking-[0.25em]">
+            Return to Site
+        </button>
+    </div>
+</div>
+
+
+        <!-- VAULT SIDE CHOOSER -->
+        <div id="vaultSideScreen" class="fixed inset-0 z-[182] hidden bg-black/95 backdrop-blur-md px-5 md:px-6 overflow-y-auto">
+            <div class="w-full max-w-6xl mx-auto min-h-screen py-10 md:py-16 flex items-center">
+                <div class="w-full font-mono-vhs">
+
+                    <div class="mb-8 md:mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-5">
+                        <div>
+                            <div class="inline-flex items-center gap-3 border border-white/10 rounded-full px-3 md:px-4 py-1 mb-5 max-w-full">
+                                <span class="w-1.5 h-1.5 bg-yellow-400 rounded-full shrink-0"></span>
+
+                                <p id="vaultArchiveIdentity" class="font-mono-vhs text-white/40 text-[8px] md:text-[9px] uppercase tracking-[.18em] md:tracking-[.25em] truncate">
+                                    Archive Open // ---
+                                </p>
+                            </div>
+
+                            <p class="font-mono-vhs text-yellow-400 text-[9px] md:text-[10px] uppercase tracking-[.3em] md:tracking-[.35em] mb-3 md:mb-4">
+                                Personal Vault
+                            </p>
+
+                            <h1 class="font-abolition text-white text-[48px] sm:text-[58px] md:text-7xl uppercase leading-[0.9]">
+                                The Tape<br>Has Two Sides
+                            </h1>
+                        </div>
+
+                        <p class="font-mono-vhs text-white/35 text-[9px] md:text-[10px] uppercase tracking-[.14em] md:tracking-[.18em] max-w-sm leading-relaxed">
+                            One side returns to what was received. One side moves with what was given.
+                        </p>
+                    </div>
+
+                    <div class="relative">
+                        <div class="hidden md:block absolute top-1/2 left-0 right-0 h-[1px] bg-yellow-400/30"></div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 relative">
+                            <button onclick="openVaultSide('A')" 
+                                class="bg-[#111] border border-white/10 hover:border-yellow-400 p-6 md:p-10 text-left transition-all active:scale-95">
+                                
+                                <div class="w-10 h-10 md:w-12 md:h-12 bg-yellow-400 text-black rounded-full grid place-items-center font-mono-vhs text-xs font-bold mb-6 md:mb-8">
+                                    A
+                                </div>
+
+                                <p class="font-mono-vhs text-white/30 text-[8px] md:text-[9px] uppercase tracking-[.22em] md:tracking-[.25em] mb-3">
+                                    Return to this
+                                </p>
+
+                                <h2 class="font-abolition text-yellow-400 text-[42px] md:text-5xl uppercase leading-none">
+                                    Received
+                                </h2>
+
+                                <p class="font-mono-vhs text-white/35 text-[9px] md:text-[10px] uppercase tracking-[.12em] md:tracking-[.15em] mt-4 leading-relaxed">
+                                    Listen again. Remember what was spoken.
+                                </p>
+                            </button>
+
+                            <button onclick="openVaultSide('B')" 
+                                class="bg-[#111] border border-white/10 hover:border-yellow-400 p-6 md:p-10 text-left md:mt-24 transition-all active:scale-95">
+                                
+                                <div class="w-10 h-10 md:w-12 md:h-12 bg-yellow-400 text-black rounded-full grid place-items-center font-mono-vhs text-xs font-bold mb-6 md:mb-8">
+                                    B
+                                </div>
+
+                                <p class="font-mono-vhs text-white/30 text-[8px] md:text-[9px] uppercase tracking-[.22em] md:tracking-[.25em] mb-3">
+                                    Carry this
+                                </p>
+
+                                <h2 class="font-abolition text-yellow-400 text-[42px] md:text-5xl uppercase leading-none">
+                                    Sent
+                                </h2>
+
+                                <p class="font-mono-vhs text-white/35 text-[9px] md:text-[10px] uppercase tracking-[.12em] md:tracking-[.15em] mt-4 leading-relaxed">
+                                    Move forward. Respond with what you received.
+                                </p>
+                            </button>
+                        </div>
+                    </div>
+
+                    <p id="vaultSideMessage" class="hidden mt-8 text-center text-yellow-400 text-[10px] uppercase tracking-[0.25em]"></p>
+
+                    <button onclick="closeVaultScreens()"
+                        class="block mx-auto mt-8 md:mt-10 text-white/30 hover:text-yellow-400 text-[9px] uppercase tracking-[0.25em]">
+                        Return to Site
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+            <!-- SIDE A AUDIO SCREEN -->
+        <div id="sideAScreen" class="fixed inset-0 z-[183] hidden bg-black/95 backdrop-blur-md px-5 md:px-6 overflow-y-auto">
+            <div class="w-full max-w-4xl mx-auto min-h-screen py-10 md:py-16 flex items-center">
+                <div class="w-full text-center font-mono-vhs">
+
+                    <div class="inline-flex items-center gap-3 border border-white/10 rounded-full px-3 md:px-4 py-1 mb-5 max-w-full">
+                        <span class="w-1.5 h-1.5 bg-yellow-400 rounded-full shrink-0"></span>
+                        <p id="sideAIdentity" class="text-white/40 text-[8px] md:text-[9px] uppercase tracking-[.18em] md:tracking-[.22em] truncate">
+                            Side A // ---
+                        </p>
+                    </div>
+
+                    <h1 id="sideATitle" class="font-abolition text-yellow-400 text-[54px] sm:text-[64px] md:text-8xl uppercase leading-[0.9] mb-5">
+                        Received<br>Audio
+                    </h1>
+
+                    <p id="sideADescription" class="text-white/35 text-[9px] md:text-[10px] uppercase tracking-[.14em] md:tracking-[.16em] max-w-xl mx-auto leading-relaxed mb-8">
+                        Upload one audio file. After upload, this becomes your replay screen.
+                    </p>
+
+                    <!-- EMPTY STATE -->
+                    <div id="sideAEmptyState" class="border border-dashed border-yellow-400/40 bg-[#111] p-8 md:p-12">
+                        <p class="text-yellow-400 text-[9px] uppercase tracking-[.3em] mb-4">
+                            No audio saved yet
+                        </p>
+
+                        <h2 class="font-abolition text-white text-5xl uppercase">
+                            Drop Audio Here
+                        </h2>
+
+                        <p class="text-white/30 text-[10px] uppercase tracking-[.14em] mt-4">
+                            or choose file from your device
+                        </p>
+
+                        <input id="sideAFileInput"
+                            type="file"
+                            accept=".mp3,.m4a,.aac,.wav,.ogg,.webm,audio/*"
+                            class="hidden">
+
+                        <button onclick="document.getElementById('sideAFileInput').click()"
+                            class="mt-8 bg-yellow-400 text-black px-8 py-4 text-[10px] font-bold uppercase tracking-[.25em] hover:bg-white transition-all active:scale-95">
+                            Choose File
+                        </button>
+                    </div>
+
+                    <!-- SELECTED STATE -->
+                    <div id="sideASelectedState" class="hidden border border-yellow-400/35 bg-[#111] p-8 md:p-10">
+                        <p class="text-yellow-400 text-[9px] uppercase tracking-[.3em] mb-5">
+                            Selected File
+                        </p>
+
+                        <div class="bg-black border border-white/10 p-5 text-left">
+                            <h2 id="sideASelectedFileName" class="font-abolition text-white text-5xl uppercase leading-none">
+                                prayer.mp3
+                            </h2>
+
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mt-5">
+                                <p id="sideASelectedFileSize" class="text-white/30 border border-white/10 bg-black/30 p-2 text-[8px] uppercase tracking-[.16em]">
+                                    ---
+                                </p>
+                                <p id="sideASelectedFileType" class="text-white/30 border border-white/10 bg-black/30 p-2 text-[8px] uppercase tracking-[.16em]">
+                                    AUDIO
+                                </p>
+                                <p class="text-white/30 border border-white/10 bg-black/30 p-2 text-[8px] uppercase tracking-[.16em]">
+                                    Ready
+                                </p>
+                                <p class="text-white/30 border border-white/10 bg-black/30 p-2 text-[8px] uppercase tracking-[.16em]">
+                                    One File
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-3 mt-6">
+                            <button onclick="resetSideASelection()"
+                                class="border border-white/10 text-white/40 py-4 text-[10px] font-bold uppercase tracking-[.25em] hover:text-yellow-400 hover:border-yellow-400/50 transition-all active:scale-95">
+                                Choose Different
+                            </button>
+
+                            <button onclick="uploadSideAAudio()"
+                                class="bg-yellow-400 text-black py-4 text-[10px] font-bold uppercase tracking-[.25em] hover:bg-white transition-all active:scale-95">
+                                Upload to Vault
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- UPLOADING STATE -->
+                    <div id="sideAUploadingState" class="hidden border border-white/10 bg-[#111] p-8 md:p-10">
+                        <p class="text-yellow-400 text-[9px] uppercase tracking-[.3em] mb-5">
+                            Saving Signal
+                        </p>
+
+                        <h2 class="font-abolition text-white text-5xl uppercase leading-none">
+                            Uploading
+                        </h2>
+
+                        <p id="sideAUploadingFileName" class="text-white/30 text-[10px] uppercase tracking-[.14em] mt-4 mb-5">
+                            prayer.mp3
+                        </p>
+
+                        <div class="h-2 bg-white/10 overflow-hidden rounded-full">
+                            <div id="sideAUploadProgressBar" class="h-full bg-yellow-400" style="width: 0%;"></div>
+                        </div>
+
+                        <div class="flex justify-between mt-3 text-[9px] uppercase tracking-[.18em]">
+                            <span id="sideAUploadPercent" class="text-yellow-400">0%</span>
+                            <span class="text-white/30">Uploading...</span>
+                        </div>
+
+                        <p class="mt-8 text-white/25 text-[9px] uppercase tracking-[.25em]">
+                            Please keep this page open.
+                        </p>
+                    </div>
+
+                <!-- SAVED / PLAYER STATE -->
+                <div id="sideAPlayerState" class="hidden border border-yellow-400/30 bg-[#111] p-6 md:p-8 text-left">
+
+                    <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-5">
+                        <div>
+                            <p id="sideAPlayerStatus" class="text-yellow-400 text-[9px] uppercase tracking-[.28em] mb-3">
+                                Received Audio
+                            </p>
+
+                            <h2 id="sideAPlayerTitle" class="font-abolition text-white text-5xl uppercase leading-none">
+                                Your Received Prayer
+                            </h2>
+                        </div>
+
+                        <p id="sideATimeDisplay" class="text-white/30 text-[9px] uppercase tracking-[.18em]">
+                            00:00 / 00:00
+                        </p>
+                    </div>
+
+                    <!-- REAL AUDIO WAVEFORM -->
+                    <div id="sideAWaveformReal" class="w-full min-h-[82px] border border-white/10 bg-black/30 px-2 py-3"></div>
+
+                    <!-- CONTROLS BELOW WAVEFORM -->
+                    <div class="mt-6 flex items-center justify-center gap-4">
+
+                        <!-- RESET -->
+                        <button id="sideAResetBtn"
+                            onclick="resetSideAAudio()"
+                            aria-label="Reset audio"
+                            class="w-12 h-12 rounded-full bg-white/5 border border-white/10 text-white/50 grid place-items-center hover:border-yellow-400/60 hover:text-yellow-400 transition-all active:scale-95">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                                <path d="M12 5a7 7 0 1 1-6.3 4H3l3.6-3.6L10.2 9H7.9A5 5 0 1 0 12 7V5Z"/>
+                            </svg>
+                        </button>
+
+                        <!-- PLAY / PAUSE TOGGLE -->
+                        <button id="sideAPlayToggleBtn"
+                            onclick="toggleSideAAudio()"
+                            aria-label="Play or pause audio"
+                            class="w-14 h-14 rounded-full bg-yellow-400 text-black grid place-items-center hover:bg-white transition-all active:scale-95">
+                            
+                            <svg id="sideAPlayIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
+                                <path d="M8 5.14v13.72c0 .76.84 1.22 1.48.8l10.2-6.86a.95.95 0 0 0 0-1.6L9.48 4.34A.96.96 0 0 0 8 5.14Z"/>
+                            </svg>
+
+                            <svg id="sideAPauseIcon" class="hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
+                                <path d="M7 5h3.2v14H7V5Zm6.8 0H17v14h-3.2V5Z"/>
+                            </svg>
+                        </button>
+
+                        <!-- DOWNLOAD -->
+                        <button id="sideADownloadBtn"
+                            onclick="downloadSideAAudio()"
+                            aria-label="Download audio"
+                            class="w-12 h-12 rounded-full bg-white/5 border border-white/10 text-white/50 grid place-items-center hover:border-yellow-400/60 hover:text-yellow-400 transition-all active:scale-95">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                                <path d="M11 4h2v8.2l2.6-2.6L17 11l-5 5-5-5 1.4-1.4 2.6 2.6V4Zm-5 14h12v-3h2v5H4v-5h2v3Z"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="flex justify-between mt-4 text-white/30 text-[8px] uppercase tracking-[.16em]">
+                        <span id="sideAPlaybackHint">Ready to play</span>
+                        <span id="sideAPlaybackState">Stopped</span>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-3 mt-7">
+                        <button id="sideAReplaceBtn"
+                            onclick="handleSideAReplaceClick()"
+                            class="border border-yellow-400/50 text-yellow-400 py-4 text-[10px] font-bold uppercase tracking-[.25em] hover:bg-yellow-400 hover:text-black transition-all active:scale-95">
+                            Replace Audio
+                        </button>
+
+                        <button onclick="backToVaultChooser()"
+                            class="border border-white/10 text-white/40 py-4 text-[10px] font-bold uppercase tracking-[.25em] hover:text-yellow-400 hover:border-yellow-400/50 transition-all active:scale-95">
+                            Back to Vault
+                        </button>
+                    </div>
+
+                    <p id="sideAReplaceNotice" class="mt-5 text-center text-white/25 text-[8px] uppercase tracking-[.16em] leading-relaxed">
+                        Need to change this audio? Replacement access may be opened or closed by the admin.
+                    </p>
+                </div>
+
+                    <!-- ERROR -->
+                    <p id="sideAError" class="hidden mt-5 text-red-400 text-[10px] uppercase tracking-[.2em]"></p>
+
+                    <button onclick="backToVaultChooser()"
+                        class="mt-8 text-white/30 hover:text-yellow-400 text-[9px] uppercase tracking-[0.25em]">
+                        Back to Vault
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+
+<!-- SIDE B SENT RESPONSE SCREEN -->
+<div id="sideBScreen" class="fixed inset-0 z-[183] hidden bg-black/95 backdrop-blur-md px-5 md:px-6 overflow-y-auto">
+    <div class="w-full max-w-6xl mx-auto min-h-screen py-10 md:py-16 flex items-center">
+        <div class="w-full font-mono-vhs">
+
+            <div class="mb-8 flex flex-col md:flex-row md:items-end md:justify-between gap-5">
+                <div>
+                    <div class="inline-flex items-center gap-3 border border-white/10 rounded-full px-3 md:px-4 py-1 mb-5 max-w-full">
+                        <span class="w-1.5 h-1.5 bg-yellow-400 rounded-full shrink-0"></span>
+
+                        <p id="sideBIdentity" class="text-white/40 text-[8px] md:text-[9px] uppercase tracking-[.18em] md:tracking-[.22em] truncate">
+                            Side B // ---
+                        </p>
+                    </div>
+
+                    <p class="text-yellow-400 text-[9px] md:text-[10px] uppercase tracking-[.3em] md:tracking-[.35em] mb-3 md:mb-4">
+                        Carry This Forward
+                    </p>
+
+                    <h1 class="font-abolition text-white text-[48px] sm:text-[58px] md:text-7xl uppercase leading-[0.9]">
+                        Let The Moment<br>Become Movement
+                    </h1>
+                </div>
+
+                <p class="text-white/35 text-[9px] md:text-[10px] uppercase tracking-[.14em] md:tracking-[.18em] max-w-sm leading-relaxed">
+                    Side A holds what was spoken. Side B marks what you will carry.
+                </p>
+            </div>
+
+            <!-- FORM STATE -->
+            <div id="sideBFormState">
+                <div class="grid md:grid-cols-3 gap-4">
+                    <!-- CARD 1 -->
+                    <div class="bg-[#111] border border-white/10 p-5">
+                        <p class="text-yellow-400 text-[9px] uppercase tracking-[.25em] mb-2">
+                            01 // God Placed
+                        </p>
+
+                        <h2 class="font-abolition text-white text-4xl uppercase leading-none">
+                            Heart
+                        </h2>
+
+                        <p class="text-white/35 text-[9px] uppercase tracking-[.13em] leading-relaxed mt-3">
+                            What did God place in your heart?
+                        </p>
+
+                        <textarea id="sideBGodPlacedInput"
+                            class="w-full min-h-[92px] mt-4 bg-black border border-white/10 text-white p-4 text-[10px] uppercase tracking-[.12em] leading-relaxed focus:outline-none focus:border-yellow-400 resize-none"
+                            placeholder="God placed this in my heart..."></textarea>
+
+                        <details class="group mt-3">
+                            <summary class="cursor-pointer list-none flex items-center justify-between gap-3 border border-white/10 bg-black/30 px-3 py-2">
+                                <span class="text-white/30 text-[8px] uppercase tracking-[.2em]">
+                                    Guide me
+                                </span>
+                                <span class="text-yellow-400 group-open:rotate-45 transition-transform">+</span>
+                            </summary>
+
+                            <div class="grid gap-2 mt-3">
+                                <p class="border border-white/10 bg-black/30 text-white/35 text-[8px] uppercase tracking-[.12em] leading-relaxed p-3">
+                                    What word, image, prayer, or conviction stood out to you?
+                                </p>
+                                <p class="border border-white/10 bg-black/30 text-white/35 text-[8px] uppercase tracking-[.12em] leading-relaxed p-3">
+                                    Was there something you felt invited to receive, surrender, or trust?
+                                </p>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- CARD 2 -->
+                    <div class="bg-[#111] border border-white/10 p-5">
+                        <p class="text-yellow-400 text-[9px] uppercase tracking-[.25em] mb-2">
+                            02 // Do Not Forget
+                        </p>
+
+                        <h2 class="font-abolition text-white text-4xl uppercase leading-none">
+                            Memory
+                        </h2>
+
+                        <p class="text-white/35 text-[9px] uppercase tracking-[.13em] leading-relaxed mt-3">
+                            What should your future self not forget?
+                        </p>
+
+                        <textarea id="sideBDoNotForgetInput"
+                            class="w-full min-h-[92px] mt-4 bg-black border border-white/10 text-white p-4 text-[10px] uppercase tracking-[.12em] leading-relaxed focus:outline-none focus:border-yellow-400 resize-none"
+                            placeholder="Future me, do not forget..."></textarea>
+
+                        <details class="group mt-3">
+                            <summary class="cursor-pointer list-none flex items-center justify-between gap-3 border border-white/10 bg-black/30 px-3 py-2">
+                                <span class="text-white/30 text-[8px] uppercase tracking-[.2em]">
+                                    Guide me
+                                </span>
+                                <span class="text-yellow-400 group-open:rotate-45 transition-transform">+</span>
+                            </summary>
+
+                            <div class="grid gap-2 mt-3">
+                                <p class="border border-white/10 bg-black/30 text-white/35 text-[8px] uppercase tracking-[.12em] leading-relaxed p-3">
+                                    When you read this years from now, what truth do you want to return to?
+                                </p>
+                                <p class="border border-white/10 bg-black/30 text-white/35 text-[8px] uppercase tracking-[.12em] leading-relaxed p-3">
+                                    What would you need to remember if life feels ordinary again?
+                                </p>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- CARD 3 -->
+                    <div class="bg-[#111] border border-white/10 p-5">
+                        <p class="text-yellow-400 text-[9px] uppercase tracking-[.25em] mb-2">
+                            03 // Move With This
+                        </p>
+
+                        <h2 class="font-abolition text-white text-4xl uppercase leading-none">
+                            Movement
+                        </h2>
+
+                        <p class="text-white/35 text-[9px] uppercase tracking-[.13em] leading-relaxed mt-3">
+                            How will you move with this?
+                        </p>
+
+                        <textarea id="sideBMoveWithThisInput"
+                            class="w-full min-h-[92px] mt-4 bg-black border border-white/10 text-white p-4 text-[10px] uppercase tracking-[.12em] leading-relaxed focus:outline-none focus:border-yellow-400 resize-none"
+                            placeholder="I will move with this by..."></textarea>
+
+                        <details class="group mt-3">
+                            <summary class="cursor-pointer list-none flex items-center justify-between gap-3 border border-white/10 bg-black/30 px-3 py-2">
+                                <span class="text-white/30 text-[8px] uppercase tracking-[.2em]">
+                                    Guide me
+                                </span>
+                                <span class="text-yellow-400 group-open:rotate-45 transition-transform">+</span>
+                            </summary>
+
+                            <div class="grid gap-2 mt-3">
+                                <p class="border border-white/10 bg-black/30 text-white/35 text-[8px] uppercase tracking-[.12em] leading-relaxed p-3">
+                                    What would it look like to live differently because of this?
+                                </p>
+                                <p class="border border-white/10 bg-black/30 text-white/35 text-[8px] uppercase tracking-[.12em] leading-relaxed p-3">
+                                    How can this become more than a memory and become movement?
+                                </p>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+
+                <!-- OPTIONAL NOTES PROMPT -->
+                <div class="bg-[#111] border border-yellow-400/20 p-5 md:p-6 mt-4">
+                    <div class="grid md:grid-cols-[0.8fr_1.2fr] gap-5">
+                        <div>
+                            <p class="text-yellow-400 text-[9px] uppercase tracking-[.25em] mb-2">
+                                04 // Archive More
+                            </p>
+
+                            <h2 class="font-abolition text-yellow-400 text-4xl md:text-5xl uppercase leading-none">
+                                Keep More<br>From This Moment
+                            </h2>
+
+                            <p class="text-white/35 text-[9px] uppercase tracking-[.13em] leading-relaxed mt-4">
+                                Want to keep more from this moment? You can paste your notes, prayers, phrases, verses, or anything you wrote down here.
+                            </p>
+                        </div>
+
+                        <div>
+                            <textarea id="sideBArchiveMoreInput"
+                                class="w-full min-h-[160px] bg-black border border-white/10 text-white p-4 text-[10px] uppercase tracking-[.12em] leading-relaxed focus:outline-none focus:border-yellow-400 resize-none"
+                                placeholder="Paste your notes here..."></textarea>
+
+                            <p class="text-white/25 text-[8px] uppercase tracking-[.16em] mt-3 leading-relaxed">
+                                Optional — this can be messy, raw, or copied straight from your notes app.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <p id="sideBError" class="hidden mt-5 text-red-400 text-center text-[10px] uppercase tracking-[.2em]"></p>
+
+                <div class="grid md:grid-cols-2 gap-3 mt-5">
+                    <button onclick="saveSideBResponse()"
+                        class="bg-yellow-400 text-black py-4 text-[10px] font-bold uppercase tracking-[.25em] hover:bg-white transition-all active:scale-95">
+                        Save Side B
+                    </button>
+
+                    <button onclick="backToVaultChooser()"
+                        class="border border-white/10 text-white/40 py-4 text-[10px] font-bold uppercase tracking-[.25em] hover:text-yellow-400 hover:border-yellow-400/50 transition-all active:scale-95">
+                        Back to Vault
+                    </button>
+                </div>
+            </div>
+
+            <!-- SAVING STATE -->
+            <div id="sideBSavingState" class="hidden bg-[#111] border border-yellow-400/30 p-8 md:p-10 text-center">
+                <p class="text-yellow-400 text-[9px] uppercase tracking-[.3em] mb-5">
+                    Marking Response
+                </p>
+
+                <h2 class="font-abolition text-white text-5xl uppercase leading-none">
+                    Saving Side B
+                </h2>
+
+                <p class="text-white/30 text-[10px] uppercase tracking-[.14em] mt-4">
+                    Please keep this page open.
+                </p>
+            </div>
+
+            <!-- SAVED STATE -->
+            <div id="sideBSavedState" class="hidden bg-[#111] border border-yellow-400/30 p-6 md:p-8">
+                <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-7">
+                    <div>
+                        <p class="text-yellow-400 text-[9px] uppercase tracking-[.28em] mb-3">
+                            Side B Saved
+                        </p>
+
+                        <h2 class="font-abolition text-white text-5xl uppercase leading-none">
+                            My Takeaway
+                        </h2>
+                    </div>
+
+                    <p class="text-white/30 text-[9px] uppercase tracking-[.18em]">
+                        Response Marked
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="border border-white/10 bg-black/30 p-4">
+                        <p class="text-yellow-400 text-[8px] uppercase tracking-[.2em] mb-3">
+                            God placed in my heart
+                        </p>
+
+                        <p id="sideBSavedGodPlaced" class="font-typewriter text-white/80 text-lg leading-relaxed normal-case tracking-normal">
+                            —
+                        </p>
+                    </div>
+
+                    <div class="border border-white/10 bg-black/30 p-4">
+                        <p class="text-yellow-400 text-[8px] uppercase tracking-[.2em] mb-3">
+                            I do not want to forget
+                        </p>
+
+                        <p id="sideBSavedDoNotForget" class="font-typewriter text-white/80 text-lg leading-relaxed normal-case tracking-normal">
+                            —
+                        </p>
+                    </div>
+
+                    <div class="border border-white/10 bg-black/30 p-4">
+                        <p class="text-yellow-400 text-[8px] uppercase tracking-[.2em] mb-3">
+                            I want to move with this by
+                        </p>
+
+                        <p id="sideBSavedMoveWithThis" class="font-typewriter text-white/80 text-lg leading-relaxed normal-case tracking-normal">
+                            —
+                        </p>
+                    </div>
+                </div>
+
+                <div id="sideBSavedArchiveMoreWrap" class="hidden border border-white/10 bg-black/30 p-4 mt-4">
+                    <p class="text-yellow-400 text-[8px] uppercase tracking-[.2em] mb-3">
+                        My Notes
+                    </p>
+
+                    <p id="sideBSavedArchiveMore" class="font-typewriter text-white/75 text-lg leading-relaxed whitespace-pre-wrap normal-case tracking-normal">
+                        —
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-3 mt-7">
+                    <button onclick="editSideBResponse()"
+                        class="border border-yellow-400/50 text-yellow-400 py-4 text-[10px] font-bold uppercase tracking-[.25em] hover:bg-yellow-400 hover:text-black transition-all active:scale-95">
+                        Edit Response
+                    </button>
+
+                    <button onclick="backToVaultChooser()"
+                        class="border border-white/10 text-white/40 py-4 text-[10px] font-bold uppercase tracking-[.25em] hover:text-yellow-400 hover:border-yellow-400/50 transition-all active:scale-95">
+                        Back to Vault
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- ANNOUNCEMENT POPUP -->
+<div id="announcementPopup"
+    class="fixed inset-0 z-[250] hidden items-center justify-center bg-black/85 backdrop-blur-md px-4">
+
+    <div class="announcement-popup-shell rounded-2xl relative overflow-hidden">
+
+        <button onclick="closeAnnouncementPopup()"
+            class="announcement-close-btn rounded-full active:scale-95">
+            ×
+        </button>
+
+        <img src="/announcement-campus-lanyard.png?v=1"
+            alt="Campus lanyard announcement"
+            class="announcement-popup-img">
+
+        <div class="p-5">
+            <p class="font-mono-vhs text-yellow-400 text-[9px] uppercase tracking-[.28em] mb-2">
+                Quick Reminder
+            </p>
+
+            <p class="font-mono-vhs text-white/50 text-[10px] uppercase tracking-[.13em] leading-relaxed mb-4">
+                Bring your campus lanyard so your campus can be represented in the room.
+            </p>
+
+            <button onclick="closeAnnouncementPopup()"
+                class="w-full bg-yellow-400 text-black py-4 font-mono-vhs text-[10px] font-black uppercase tracking-[.22em] hover:bg-white transition-all active:scale-95">
+                I’ll Bring It
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+window.shouldShowAnnouncementPopup = function() {
+    const path = window.location.pathname;
+
+    const isHomepage =
+        path === "/" ||
+        path === "/public/" ||
+        path === "/index.html";
+
+    return isHomepage;
+};
+
+window.openAnnouncementPopup = function() {
+    const popup = document.getElementById("announcementPopup");
+    if (!popup) return;
+
+    popup.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+};
+
+window.closeAnnouncementPopup = function() {
+    const popup = document.getElementById("announcementPopup");
+    if (!popup) return;
+
+    popup.classList.add("hidden");
+    document.body.style.overflow = "";
+    document.body.style.overflowX = "hidden";
+};
+
+window.addEventListener("load", () => {
+    if (!window.shouldShowAnnouncementPopup()) return;
+
+    setTimeout(() => {
+        window.openAnnouncementPopup();
+    }, 900);
+});
+</script>
 
 </body>
 
