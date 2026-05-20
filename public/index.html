@@ -149,56 +149,6 @@
 
 
 
-/* ANNOUNCEMENT POPUP */
-#announcementPopup:not(.hidden) {
-    display: flex;
-}
-
-.announcement-popup-shell {
-    width: min(92vw, 430px);
-    max-height: 88vh;
-    overflow-y: auto;
-    background: #101010;
-    border: 1px solid rgba(255,255,255,.12);
-    box-shadow: 0 24px 90px rgba(0,0,0,.85), 0 0 50px rgba(255,214,0,.08);
-}
-
-.announcement-popup-img {
-    width: 100%;
-    display: block;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    background: #181818;
-}
-
-.announcement-close-btn {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    width: 34px;
-    height: 34px;
-    border: 1px solid rgba(255,255,255,.14);
-    color: rgba(255,255,255,.65);
-    display: grid;
-    place-items: center;
-    z-index: 20;
-    background: rgba(0,0,0,.58);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 14px;
-    backdrop-filter: blur(6px);
-}
-
-@media (max-width: 768px) {
-    .announcement-popup-shell {
-        width: 92vw;
-        max-height: 86vh;
-    }
-
-    .announcement-popup-img {
-        aspect-ratio: 1 / 1;
-    }
-}
-
 
     </style>
 </head>
@@ -312,6 +262,50 @@ function toggleMenu() {
         <section class="w-full bg-black flex justify-center items-center">
             <img src="/landing_page.png" alt="Revival" class="w-full h-auto block">
         </section>
+
+        <!-- CAMPUS LANYARD ANNOUNCEMENT -->
+<section id="campus-call" class="py-14 md:py-24 px-6 bg-black border-y border-white/5">
+    <div class="max-w-6xl mx-auto border border-white/10 bg-[#111111] overflow-hidden shadow-2xl">
+        <div class="grid md:grid-cols-[1fr_.95fr]">
+
+            <!-- TEXT SIDE -->
+            <div class="p-6 md:p-10 flex flex-col justify-center">
+                <p class="font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[.35em] mb-5">
+                    Campus Call
+                </p>
+
+                <h2 class="font-abolition text-white text-5xl md:text-7xl uppercase leading-none">
+                    Represent<br>Your Campus
+                </h2>
+
+                <p class="font-mono-vhs text-white/45 text-[10px] md:text-sm uppercase tracking-[.14em] leading-relaxed mt-6">
+                    Bring your campus lanyard to Revival.
+
+                <div class="grid grid-cols-3 gap-2 mt-7">
+                    <span class="font-mono-vhs text-center text-[8px] uppercase tracking-[.16em] text-white/35 border border-white/10 bg-black/30 px-2 py-3">
+                        Bring It
+                    </span>
+
+                    <span class="font-mono-vhs text-center text-[8px] uppercase tracking-[.16em] text-white/35 border border-white/10 bg-black/30 px-2 py-3">
+                        Wear It
+                    </span>
+
+                    <span class="font-mono-vhs text-center text-[8px] uppercase tracking-[.16em] text-white/35 border border-white/10 bg-black/30 px-2 py-3">
+                        Represent
+                    </span>
+                </div>
+            </div>
+
+            <!-- IMAGE SIDE -->
+            <div class="bg-black/40 p-3 md:p-5">
+                <img src="/announcement-campus-lanyard.png?v=1"
+                    alt="Campus lanyard announcement"
+                    class="w-full aspect-square object-cover block bg-[#181818]">
+            </div>
+
+        </div>
+    </div>
+</section>
 
             <section id="about" class="py-16 md:py-32 px-6 max-w-4xl mx-auto">
                 <h2 class="font-abolition text-yellow-400 text-[20px] mb-8 uppercase">// ABOUT THE EVENT</h2>
@@ -2327,7 +2321,6 @@ function toggleMenu() {
             updateLiveCount();
 
 
-
             
 
     </script>
@@ -3234,79 +3227,6 @@ function toggleMenu() {
         </div>
     </div>
 </div>
-
-
-
-<!-- ANNOUNCEMENT POPUP -->
-<div id="announcementPopup"
-    class="fixed inset-0 z-[250] hidden items-center justify-center bg-black/85 backdrop-blur-md px-4">
-
-    <div class="announcement-popup-shell rounded-2xl relative overflow-hidden">
-
-        <button onclick="closeAnnouncementPopup()"
-            class="announcement-close-btn rounded-full active:scale-95">
-            ×
-        </button>
-
-        <img src="/announcement-campus-lanyard.png?v=1"
-            alt="Campus lanyard announcement"
-            class="announcement-popup-img">
-
-        <div class="p-5">
-            <p class="font-mono-vhs text-yellow-400 text-[9px] uppercase tracking-[.28em] mb-2">
-                Quick Reminder
-            </p>
-
-            <p class="font-mono-vhs text-white/50 text-[10px] uppercase tracking-[.13em] leading-relaxed mb-4">
-                Bring your campus lanyard so your campus can be represented in the room.
-            </p>
-
-            <button onclick="closeAnnouncementPopup()"
-                class="w-full bg-yellow-400 text-black py-4 font-mono-vhs text-[10px] font-black uppercase tracking-[.22em] hover:bg-white transition-all active:scale-95">
-                I’ll Bring It
-            </button>
-        </div>
-    </div>
-</div>
-
-
-<script>
-window.shouldShowAnnouncementPopup = function() {
-    const path = window.location.pathname;
-
-    const isHomepage =
-        path === "/" ||
-        path === "/public/" ||
-        path === "/index.html";
-
-    return isHomepage;
-};
-
-window.openAnnouncementPopup = function() {
-    const popup = document.getElementById("announcementPopup");
-    if (!popup) return;
-
-    popup.classList.remove("hidden");
-    document.body.style.overflow = "hidden";
-};
-
-window.closeAnnouncementPopup = function() {
-    const popup = document.getElementById("announcementPopup");
-    if (!popup) return;
-
-    popup.classList.add("hidden");
-    document.body.style.overflow = "";
-    document.body.style.overflowX = "hidden";
-};
-
-window.addEventListener("load", () => {
-    if (!window.shouldShowAnnouncementPopup()) return;
-
-    setTimeout(() => {
-        window.openAnnouncementPopup();
-    }, 900);
-});
-</script>
 
 </body>
 
