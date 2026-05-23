@@ -1,0 +1,1083 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+<title>REVIVAL // Rotary Receiver Flow</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700;900&family=Inter:wght@400;700;900&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:Abolition;src:url('abolition-regular.ttf') format('truetype')}
+:root{--black:#050505;--panel:#101010;--gold:#ffd600;--cream:#f5f1e8;--muted:rgba(255,255,255,.43)}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;background:var(--black);color:var(--cream);font-family:Inter,sans-serif;overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:none}
+body{background:radial-gradient(circle at 48% 12%,rgba(255,214,0,.08),transparent 28%),radial-gradient(circle at 50% 86%,rgba(255,214,0,.045),transparent 30%),#050505}
+body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;opacity:.54;background:linear-gradient(rgba(255,255,255,.018) 50%,rgba(0,0,0,.08) 50%),linear-gradient(90deg,rgba(255,214,0,.012),rgba(255,255,255,.004),rgba(255,214,0,.012));background-size:100% 3px,3px 100%}
+.app{width:100vw;height:100svh;display:grid;place-items:center;padding:16px}
+.shell{width:min(96vw,980px);height:min(94svh,820px);border:1px solid rgba(255,255,255,.12);background:#101010;box-shadow:0 24px 90px rgba(0,0,0,.78),0 0 60px rgba(255,214,0,.06);position:relative;overflow:hidden;padding:24px;display:flex;flex-direction:column}
+.shell:after{content:"";position:absolute;inset:0;pointer-events:none;z-index:3;background:radial-gradient(circle at 50% 50%,transparent 42%,rgba(0,0,0,.5) 100%)}
+.sysline{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:10;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.34)}
+.dot{width:8px;height:8px;border-radius:999px;display:inline-block;background:var(--gold);box-shadow:0 0 18px rgba(255,214,0,.55);margin-right:8px;animation:blink 1.25s infinite}@keyframes blink{0%,100%{opacity:.28;transform:scale(.82)}50%{opacity:1;transform:scale(1)}}
+.screen{display:none;flex:1;position:relative;z-index:10;min-height:0}.screen.active{display:flex;flex-direction:column}.hero{flex:1;display:grid;place-items:center;min-height:0}
+.layout{width:min(90vw,860px);display:grid;grid-template-columns:minmax(220px,330px) 1fr;gap:42px;align-items:center}.left{display:grid;place-items:center}.right{text-align:left}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin:0 0 12px}
+.serif-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(42px,6.2vw,78px);line-height:.92;letter-spacing:-.04em;color:white;margin:0}
+.main-title{font-family:Abolition,Impact,sans-serif;font-size:clamp(42px,6vw,72px);line-height:.88;letter-spacing:.08em;text-transform:uppercase;color:white;margin:0}
+.subcopy{max-width:540px;margin:16px 0 0;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:10px;line-height:1.7;letter-spacing:.15em;text-transform:uppercase}
+.cta-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;position:relative;z-index:10}.cta{width:100%;border:0;background:var(--gold);color:#050505;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;padding:18px 16px;cursor:pointer}.cta.secondary{background:rgba(255,255,255,.03);color:rgba(255,255,255,.58);border:1px solid rgba(255,255,255,.1)}
+.receiver-svg{width:100%;height:100%;display:block;fill:currentColor!important}.receiver-icon{width:144px;height:144px;color:var(--gold);transform:rotate(-18deg);filter:drop-shadow(0 0 22px rgba(255,214,0,.25))}
+.call-rings{width:min(42vw,300px);aspect-ratio:1;position:relative;display:grid;place-items:center}.ring{position:absolute;border-radius:999px;animation:pulse 1.9s infinite ease-in-out}.r1{inset:0;border:1px solid rgba(255,214,0,.32)}.r2{inset:12%;border:1px solid rgba(255,214,0,.18);animation-delay:.18s}.r3{inset:24%;border:1px solid rgba(255,214,0,.32);animation-delay:.36s}.r4{inset:36%;border:1px solid rgba(255,214,0,.18);animation-delay:.54s}@keyframes pulse{0%,100%{transform:scale(.97);opacity:.24}50%{transform:scale(1.045);opacity:1}}
+.status-chip{display:inline-flex;align-items:center;gap:8px;margin-top:20px;border:1px solid rgba(255,214,0,.22);background:rgba(255,214,0,.08);color:var(--gold);font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;padding:10px 12px}.pill{width:9px;height:9px;border-radius:999px;background:var(--gold);box-shadow:0 0 12px rgba(255,214,0,.4)}
+.center-only{width:min(90vw,760px);text-align:center}.step-list{margin:24px auto 0;display:grid;gap:12px;max-width:620px}.step{display:grid;grid-template-columns:42px 1fr;gap:14px;align-items:center;text-align:left;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);padding:14px 16px}.step-num{width:42px;height:42px;border-radius:999px;display:grid;place-items:center;background:rgba(255,214,0,.12);border:1px solid rgba(255,214,0,.24);color:var(--gold);font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em}.step-copy{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.72);line-height:1.7}
+.receiver-check-box{margin:28px auto 0;max-width:560px;border:1px solid rgba(255,214,0,.18);background:rgba(255,214,0,.06);padding:24px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.68);line-height:1.7}
+
+/* Original rotary-master structure, adapted to REVIVAL styling */
+.dial-screen-wrap{width:min(94vw,860px);text-align:center;display:grid;justify-items:center;align-content:center}
+.dial-title-small{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin:0 0 8px}
+.dial-heading{font-family:Abolition,Impact,sans-serif;font-size:clamp(34px,5.4vw,62px);line-height:.9;letter-spacing:.08em;text-transform:uppercase;color:#fff;margin:0}
+.dial-number{display:flex;gap:10px;justify-content:center;margin:12px 0 8px}.digit{width:52px;height:52px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.34);display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:20px;color:rgba(255,255,255,.3);font-weight:900}.digit.filled{background:var(--gold);color:#050505;border-color:var(--gold)}
+.dial-helper{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);margin:0 0 14px;min-height:16px}
+.rotary-wrap{position:relative;width:min(78vw,430px);height:min(78vw,430px);display:grid;place-items:center}
+.rotary{box-sizing:border-box;position:relative;display:inline-block;width:100%;height:100%;background-color:#101010;border:.5em solid rgba(255,214,0,.55);border-radius:50%;font-family:'IBM Plex Mono',monospace;font-weight:900;user-select:none;touch-action:none;box-shadow:0 0 60px rgba(255,214,0,.08),inset 0 0 70px rgba(0,0,0,.65)}
+.rotary .dial{box-sizing:border-box;position:absolute;left:2.5em;top:2.5em;display:inline-block;width:calc(100% - 5em);height:calc(100% - 5em);background-color:#0a0a0a;border:1px solid rgba(255,255,255,.14);border-radius:50%;box-shadow:inset 0 0 0 1px rgba(255,214,0,.12),0 0 34px rgba(255,214,0,.1)}
+.rotary .dial.smooth{transition:all .9s cubic-bezier(.18,1,.22,1)}
+.rotary .guard{position:absolute;left:calc(50% - .5em);width:1em;height:100%;transform:rotate(115deg);z-index:20;pointer-events:none}
+.rotary .guard:before{content:"";position:absolute;top:1em;left:0;width:1em;height:6em;background-color:var(--gold);border-radius:999px;box-shadow:0 0 24px rgba(255,214,0,.38)}
+.rotary .number{position:absolute;left:calc(50% - 1em);display:inline-block;width:2em;height:100%;text-align:center;pointer-events:none}
+.rotary .number:before{display:inline-block;width:2em;height:2em;border-radius:50%;line-height:2em;color:rgba(255,255,255,.72);font-family:'IBM Plex Mono',monospace;font-size:1.02em}
+.rotary .hole{display:inline-block;width:2.1em;height:2.1em;border-radius:50%;background-color:#050505;border:1px solid rgba(255,214,0,.35);color:#fff;box-shadow:inset 0 0 16px rgba(255,255,255,.035);transition:background .15s ease, box-shadow .15s ease}
+.rotary .hole.target{background:var(--gold);box-shadow:0 0 26px rgba(255,214,0,.35);border-color:var(--gold)}
+.rotary .number:nth-child(1){transform:rotate(45deg)}.rotary .number:nth-child(1):before{content:"1";transform:rotate(-45deg)}
+.rotary .number:nth-child(2){transform:rotate(15deg)}.rotary .number:nth-child(2):before{content:"2";transform:rotate(-15deg)}
+.rotary .number:nth-child(3){transform:rotate(-15deg)}.rotary .number:nth-child(3):before{content:"3";transform:rotate(15deg)}
+.rotary .number:nth-child(4){transform:rotate(-45deg)}.rotary .number:nth-child(4):before{content:"4";transform:rotate(45deg)}
+.rotary .number:nth-child(5){transform:rotate(-75deg)}.rotary .number:nth-child(5):before{content:"5";transform:rotate(75deg)}
+.rotary .number:nth-child(6){transform:rotate(-105deg)}.rotary .number:nth-child(6):before{content:"6";transform:rotate(105deg)}
+.rotary .number:nth-child(7){transform:rotate(-135deg)}.rotary .number:nth-child(7):before{content:"7";transform:rotate(135deg)}
+.rotary .number:nth-child(8){transform:rotate(-165deg)}.rotary .number:nth-child(8):before{content:"8";transform:rotate(165deg)}
+.rotary .number:nth-child(9){transform:rotate(-195deg)}.rotary .number:nth-child(9):before{content:"9";transform:rotate(195deg)}
+.rotary .number:nth-child(10){transform:rotate(-225deg)}.rotary .number:nth-child(10):before{content:"0";transform:rotate(225deg)}
+.rotary .hole-wrapper{position:absolute;left:calc(50% - 1em);top:.5em;width:2em;height:calc(50% - .5em);transform-origin:50% 100%;cursor:pointer;touch-action:none;z-index:8}
+.rotary .hole-wrapper:nth-child(1){transform:rotate(45deg)}.rotary .hole-wrapper:nth-child(2){transform:rotate(15deg)}.rotary .hole-wrapper:nth-child(3){transform:rotate(-15deg)}.rotary .hole-wrapper:nth-child(4){transform:rotate(-45deg)}.rotary .hole-wrapper:nth-child(5){transform:rotate(-75deg)}.rotary .hole-wrapper:nth-child(6){transform:rotate(-105deg)}.rotary .hole-wrapper:nth-child(7){transform:rotate(-135deg)}.rotary .hole-wrapper:nth-child(8){transform:rotate(-165deg)}.rotary .hole-wrapper:nth-child(9){transform:rotate(-195deg)}.rotary .hole-wrapper:nth-child(10){transform:rotate(-225deg)}
+.rotary .center{position:absolute;inset:36%;border-radius:50%;border:1px solid rgba(255,214,0,.26);background:#050505;z-index:30;display:grid;place-items:center;color:var(--gold);font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;pointer-events:none}
+.dial-status{width:min(82vw,520px);margin-top:14px;border:1px solid rgba(255,255,255,.1);background:rgba(0,0,0,.32);padding:12px 14px}.dial-status p{margin:0;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);min-height:18px}.progress{height:5px;background:rgba(255,255,255,.08);margin-top:10px;overflow:hidden}.progress span{display:block;height:100%;width:0;background:var(--gold);box-shadow:0 0 14px rgba(255,214,0,.45)}
+.hidden-input{position:absolute;opacity:0;pointer-events:none;width:0;height:0}
+.ring-loader{text-align:center}.ring-word{font-family:Abolition,Impact,sans-serif;font-size:clamp(76px,12vw,150px);line-height:.84;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;animation:ringPulse 1.2s infinite}@keyframes ringPulse{0%,100%{opacity:.55;transform:scale(.985)}50%{opacity:1;transform:scale(1.02)}}.loader-line{width:min(70vw,420px);height:5px;background:rgba(255,255,255,.08);margin:26px auto 0;overflow:hidden}.loader-line span{display:block;height:100%;width:45%;background:var(--gold);animation:loading 1.4s infinite ease-in-out}@keyframes loading{0%{transform:translateX(-110%)}100%{transform:translateX(260%)}}
+.wave-wrap{width:min(44vw,320px);height:180px;display:flex;gap:8px;align-items:center;justify-content:center}.wave-wrap span{width:8px;border-radius:999px;background:rgba(255,214,0,.74);animation:wave 1.1s infinite ease-in-out}.wave-wrap span:nth-child(1){height:28px}.wave-wrap span:nth-child(2){height:84px;animation-delay:.08s}.wave-wrap span:nth-child(3){height:48px;animation-delay:.16s}.wave-wrap span:nth-child(4){height:118px;animation-delay:.24s}.wave-wrap span:nth-child(5){height:66px;animation-delay:.32s}.wave-wrap span:nth-child(6){height:92px;animation-delay:.4s}.wave-wrap span:nth-child(7){height:40px;animation-delay:.48s}.wave-wrap span:nth-child(8){height:126px;animation-delay:.56s}.wave-wrap span:nth-child(9){height:58px;animation-delay:.64s}@keyframes wave{0%,100%{transform:scaleY(.72);opacity:.45}50%{transform:scaleY(1.08);opacity:1}}
+.truth-card-img{width:2.92in;height:4.13in;max-width:min(82vw,360px);max-height:68vh;object-fit:contain;border:1px solid rgba(255,214,0,.25);box-shadow:0 20px 70px rgba(0,0,0,.55),0 0 36px rgba(255,214,0,.1);background:#050505}.card-reveal-wrap{text-align:center;display:grid;gap:16px;justify-items:center}.final-note{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.44)}
+
+/* Admin */
+.admin-toggle{
+  position:absolute;
+  right:22px;
+  bottom:18px;
+  z-index:20;
+  opacity:.15;
+  border:1px solid rgba(255,255,255,.12);
+  background:transparent;
+  color:white;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  letter-spacing:.18em;
+  padding:8px 10px;
+}
+.admin-panel{
+  position:fixed;
+  inset:0;
+  z-index:2000;
+  background:rgba(0,0,0,.86);
+  backdrop-filter:blur(12px);
+  display:none;
+  place-items:center;
+  padding:18px;
+}
+.admin-panel.open{display:grid}
+.admin-box{
+  width:min(96vw,900px);
+  max-height:90vh;
+  overflow:auto;
+  background:#101010;
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 20px 80px rgba(0,0,0,.8);
+  padding:22px;
+}
+.admin-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  margin-bottom:16px;
+}
+.admin-title{
+  font-family:Abolition,Impact,sans-serif;
+  color:var(--gold);
+  font-size:34px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.admin-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+.admin-card{
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.025);
+  padding:12px;
+}
+.admin-card.full{
+  border-color:rgba(255,95,63,.38);
+  background:rgba(255,95,63,.08);
+}
+.admin-name{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:white;
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+}
+.admin-count{color:var(--gold)}
+.admin-actions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:10px;
+}
+.admin-btn{
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.04);
+  color:rgba(255,255,255,.72);
+  padding:8px 8px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.admin-btn.gold{background:var(--gold);color:#050505;border-color:var(--gold)}
+.admin-btn.danger{color:#ffb09f;border-color:rgba(255,95,63,.35);background:rgba(255,95,63,.12)}
+.admin-footer{
+  margin-top:16px;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:8px;
+}
+.admin-note{
+  margin-top:12px;
+  font-family:'IBM Plex Mono',monospace;
+  color:rgba(255,255,255,.38);
+  font-size:9px;
+  line-height:1.6;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+@media(max-width:760px){
+  .admin-grid{grid-template-columns:1fr}
+  .admin-footer{grid-template-columns:1fr}
+}
+
+@media(max-width:760px){.app{padding:10px}.shell{height:96svh;padding:18px}.layout{grid-template-columns:1fr;text-align:center;gap:22px}.right{text-align:center}.subcopy{margin-left:auto;margin-right:auto}.call-rings{width:min(82vw,320px)}.cta-row{grid-template-columns:1fr}.step{grid-template-columns:36px 1fr}.step-num{width:36px;height:36px}.rotary-wrap{width:min(88vw,350px);height:min(88vw,350px)}.rotary{font-size:13px}.digit{width:46px;height:46px}.wave-wrap{width:min(84vw,320px)}.serif-title{font-size:clamp(38px,11vw,62px)}.main-title{font-size:clamp(38px,12vw,64px)}}
+</style>
+</head>
+<body class="nojs">
+<main class="app"><section class="shell">
+<div class="sysline"><span><span class="dot"></span><span id="statusLine">Incoming_Call</span></span><span id="screenLabel">Screen_01</span></div>
+<button class="admin-toggle" onclick="openAdmin()">ADMIN</button>
+
+<section class="screen active" data-screen="landing">
+  <div class="hero"><div class="layout"><div class="left"><div class="call-rings"><div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div><div class="ring r4"></div><div class="receiver-icon"><svg class="receiver-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42" aria-hidden="true"><path d="M15.562 20.766c-1.328-1.922-2.118-4.241-2.281-4.438c1.945-1.356 5.749-3.06 5.962-5.505c.271-3.159-5.081-9.763-6.107-9.823c-2.808.03-7.947 4.782-8.556 6.218c-1.132 2.969-.571 5.732 1.375 9.732c2.478 5.95 11.682 17.237 16.947 20.78c3.484 2.674 6.029 3.724 9.068 3.09c1.413-.268 6.516-4.455 7.027-7.286c.125-1.05-5.807-8.011-8.875-8.287c-2.382-.22-4.666 3.346-6.303 5.089c-.163-.208-1.559-1.297-3.057-3.021c-1.95-2.049-3.762-4.456-5.2-6.549z"/></svg></div></div></div><div class="right"><p class="eyebrow">Incoming Call</p><h1 class="serif-title">The line is<br>waiting.</h1><p class="subcopy">Begin when you are ready to listen.</p><div class="status-chip"><span class="pill"></span> the spirit that's still moving</div></div></div></div>
+  <button class="cta" onclick="go('walkthrough')">Begin Experience</button>
+</section>
+
+<section class="screen" data-screen="walkthrough">
+  <div class="hero"><div class="center-only"><p class="eyebrow">Before You Begin</p><h1 class="serif-title">Here’s what<br>will happen.</h1><div class="step-list"><div class="step"><div class="step-num">01</div><div class="step-copy">Hold the receiver to your ear.</div></div><div class="step"><div class="step-num">02</div><div class="step-copy">Dial the line: 2026.</div></div><div class="step"><div class="step-num">03</div><div class="step-copy">The call will ring and connect.</div></div><div class="step"><div class="step-num">04</div><div class="step-copy">Listen, then see what you received.</div></div></div></div></div>
+  <div class="cta-row"><button class="cta secondary" onclick="go('landing')">Back</button><button class="cta" onclick="go('receiver')">I’m Ready</button></div>
+</section>
+
+<section class="screen" data-screen="receiver">
+  <div class="hero"><div class="center-only"><p class="eyebrow">Receiver Check</p><h1 class="serif-title">Hold the receiver<br>to your ear.</h1><p class="subcopy">Once you are ready, dial the line to open the call.</p><div class="receiver-check-box">Next: dial 2026. The call will begin after the number is complete.</div></div></div>
+  <div class="cta-row"><button class="cta secondary" onclick="go('walkthrough')">Back</button><button class="cta" onclick="go('dial')">Continue</button></div>
+</section>
+
+<section class="screen" data-screen="dial">
+  <div class="hero"><div class="dial-screen-wrap">
+    <p class="dial-title-small">Dial The Line</p>
+    <h1 class="dial-heading">Dial 2026</h1>
+    <div class="dial-number"><div class="digit" id="d0">_</div><div class="digit" id="d1">_</div><div class="digit" id="d2">_</div><div class="digit" id="d3">_</div></div>
+    <p class="dial-helper" id="dialHelper">Put your finger in the correct hole and pull clockwise until the guard stops you.</p>
+    <input class="hidden-input" type="tel" id="input" data-rotary="#revivalRotary">
+    <div class="rotary-wrap" id="revivalRotary">
+      <div class="rotary">
+        <div class="numbers"><div class="number"></div><div class="number"></div><div class="number"></div><div class="number"></div><div class="number"></div><div class="number"></div><div class="number"></div><div class="number"></div><div class="number"></div><div class="number"></div></div>
+        <div class="dial">
+          <div class="hole-wrapper"><div class="hole" data-num="1"></div></div>
+          <div class="hole-wrapper"><div class="hole" data-num="2"></div></div>
+          <div class="hole-wrapper"><div class="hole" data-num="3"></div></div>
+          <div class="hole-wrapper"><div class="hole" data-num="4"></div></div>
+          <div class="hole-wrapper"><div class="hole" data-num="5"></div></div>
+          <div class="hole-wrapper"><div class="hole" data-num="6"></div></div>
+          <div class="hole-wrapper"><div class="hole" data-num="7"></div></div>
+          <div class="hole-wrapper"><div class="hole" data-num="8"></div></div>
+          <div class="hole-wrapper"><div class="hole" data-num="9"></div></div>
+          <div class="hole-wrapper"><div class="hole" data-num="0"></div></div>
+          <div class="center">Dial</div>
+        </div>
+        <div class="guard"></div>
+      </div>
+    </div>
+    <div class="dial-status"><p id="dialMessage">Dial the first digit: 2</p><div class="progress"><span id="dialProgress"></span></div></div>
+  </div></div>
+  <div class="cta-row"><button class="cta secondary" onclick="go('receiver')">Back</button><button class="cta secondary" onclick="resetRotary()">Reset Number</button></div>
+</section>
+
+<section class="screen" data-screen="ringing"><div class="hero"><div class="ring-loader"><p class="eyebrow">Line Connected</p><div class="ring-word">RING...<br>RING...</div><p class="subcopy" style="margin-left:auto;margin-right:auto">The call is coming through.</p><div class="loader-line"><span></span></div></div></div></section>
+<section class="screen" data-screen="call"><div class="hero"><div class="layout"><div class="left"><div><div class="wave-wrap"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="progress"><span id="listenProgress" style="width:0%"></span></div></div></div><div class="right"><p class="eyebrow">Call In Progress</p><h1 class="serif-title">Listen<br>closely.</h1><p class="subcopy">A short spoken message plays here through the receiver.</p><div class="status-chip"><span class="pill"></span> <span id="listenTimer">00:00 playing</span></div></div></div></div></section>
+<section class="screen" data-screen="received"><div class="hero"><div class="center-only"><p class="eyebrow">Message Received</p><h1 class="serif-title">You received<br>a message.</h1><p class="subcopy" style="margin-left:auto;margin-right:auto">Reveal the truth when you are ready.</p></div></div><div class="cta-row"><button class="cta secondary" onclick="replayMessage()">Listen Again</button><button class="cta" onclick="go('reveal')">See What I Received</button></div></section>
+<section class="screen" data-screen="reveal"><div class="hero"><div class="card-reveal-wrap"><p class="eyebrow">You Received This Truth Today</p><img id="truthCardImage" class="truth-card-img" src="" alt="Receiver Card"><div class="final-note" id="takeCardText">Take the matching Receiver Card before you go.</div></div></div><div class="cta-row"><button class="cta secondary" onclick="go('received')">Back</button><button class="cta" onclick="go('sendoff')">I’ll Carry This</button></div></section>
+<section class="screen" data-screen="sendoff"><div class="hero"><div class="center-only"><p class="eyebrow">Send Off</p><h1 class="serif-title">Carry this<br>truth with you.</h1><p class="subcopy" style="margin-left:auto;margin-right:auto" id="sendoffText">Take the matching receiver card before you go.</p><div class="status-chip"><span class="pill"></span> next call ready</div></div></div><div class="cta-row"><button class="cta secondary" onclick="go('reveal')">Back</button><button class="cta" onclick="restart()">Next Call</button></div></section>
+
+<section class="screen" data-screen="empty">
+  <div class="hero">
+    <div class="center-only">
+      <p class="eyebrow">Transmission Paused</p>
+      <h1 class="serif-title">All Receiver Cards<br>have been received.</h1>
+      <p class="subcopy" style="margin-left:auto;margin-right:auto">Please call a booth facilitator before continuing.</p>
+    </div>
+  </div>
+  <button class="cta" onclick="openAdmin()">Open Admin</button>
+</section>
+
+</section></main>
+
+
+<div id="adminPanel" class="admin-panel">
+  <div class="admin-box">
+    <div class="admin-head">
+      <div>
+        <div class="admin-title">Receiver Admin</div>
+        <div class="admin-note">Local inventory for this device. Each card limit is 16.</div>
+      </div>
+      <button class="admin-btn" onclick="closeAdmin()">Close</button>
+    </div>
+    <div id="adminGrid" class="admin-grid"></div>
+    <div class="admin-footer">
+      <button class="admin-btn gold" onclick="undoLastTransmission()">Undo Last Transmission</button>
+      <button class="admin-btn" onclick="exportInventory()">Export Counts</button>
+      <button class="admin-btn danger" onclick="resetAllCounts()">Reset All Counts</button>
+    </div>
+    <div class="admin-note">For final event use, this local inventory works best on one iPad. If you use multiple devices, move counts to Firestore.</div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+
+<script>
+/* =========================
+   RECEIVER CARD DATA
+   Folder setup:
+   publicAudio/
+   publicCards/
+========================= */
+
+const CARD_DATA = [
+  { id:"guide", display:"Guide", audio:"Audio/Guide.mp3", image:"Cards/GUIDE.png", limit:16 },
+  { id:"helper", display:"Helper", audio:"Audio/Helper.mp3", image:"Cards/HELPER.png", limit:16 },
+  { id:"intercessor", display:"Intercessor", audio:"Audio/Intercessor.mp3", image:"Cards/INTERCESSOR.png", limit:16 },
+  { id:"joy", display:"Joy-Giver", audio:"Audio/Joy.mp3", image:"Cards/JOY.png", limit:16 },
+  { id:"life", display:"Life-Giver", audio:"Audio/Life.mp3", image:"Cards/LIFE.png", limit:16 },
+  { id:"power", display:"Power", audio:"Audio/Power.mp3", image:"Cards/POWER.png", limit:16 },
+  { id:"vision", display:"Vision-Giver", audio:"Audio/Vision.mp3", image:"Cards/VISION.png", limit:16 },
+  { id:"witness", display:"Witness", audio:"Audio/Witness.mp3", image:"Cards/WITNESS.png", limit:16 }
+];
+
+const RING_AUDIO_SRC = "Audio/Ring.mp3";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAaxjL-NuYE1VeAoYb1_pWHAE3C4VdCBBY",
+  authDomain: "enc-malolos-revival-2026.firebaseapp.com",
+  projectId: "enc-malolos-revival-2026",
+  storageBucket: "enc-malolos-revival-2026.firebasestorage.app",
+  messagingSenderId: "893658387609",
+  appId: "1:893658387609:web:f15e870fb82b729e759408",
+  measurementId: "G-4VH26Y026V"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+const RECEIVER_CARDS_COLLECTION = "receiverCards";
+const RECEIVER_HISTORY_COLLECTION = "receiverHistory";
+const ADMIN_PASSCODE = "admin";
+const ADMIN_SESSION_KEY = "receiver_admin_unlocked";
+
+let selectedCard = null;
+let currentAudio = null;
+
+/* =========================
+   SCREEN FLOW
+========================= */
+
+const screens = Array.from(document.querySelectorAll(".screen"));
+const statusLine = document.getElementById("statusLine");
+const screenLabel = document.getElementById("screenLabel");
+const screenNames = ["landing","walkthrough","receiver","dial","ringing","call","received","reveal","sendoff","empty"];
+
+let ringTimer = null;
+let listenTimerId = null;
+
+function go(name){
+  clearTimeout(ringTimer);
+  clearInterval(listenTimerId);
+
+  if(name !== "call" && currentAudio){
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+  }
+
+  screens.forEach(s => s.classList.remove("active"));
+  const targetScreen = document.querySelector(`[data-screen="${name}"]`);
+  if(targetScreen) targetScreen.classList.add("active");
+
+  const idx = screenNames.indexOf(name) + 1;
+  statusLine.textContent = name === "dial" ? "Dial_2026" : name + "_Active";
+  screenLabel.textContent = "Screen_" + String(idx).padStart(2,"0");
+
+  if(name === "ringing") startRingThenVoiceover();
+  if(name === "call") startVoiceover();
+  if(name === "reveal") renderReveal();
+}
+
+function restart(){
+  resetRotary();
+  selectedCard = null;
+  go("landing");
+}
+
+function replayMessage(){
+  go("call");
+}
+
+/* =========================
+   FIRESTORE INVENTORY
+========================= */
+
+function cardRef(id){
+  return db.collection(RECEIVER_CARDS_COLLECTION).doc(id);
+}
+
+async function ensureFirestoreCards(){
+  const tasks = CARD_DATA.map(async card => {
+    const ref = cardRef(card.id);
+    const snap = await ref.get();
+
+    if(!snap.exists){
+      await ref.set({
+        title: card.display,
+        used: 0,
+        limit: card.limit,
+        enabled: true,
+        audio: card.audio,
+        image: card.image,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    }else{
+      await ref.set({
+        title: card.display,
+        limit: card.limit,
+        audio: card.audio,
+        image: card.image,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+    }
+  });
+
+  await Promise.all(tasks);
+}
+
+async function getInventory(){
+  await ensureFirestoreCards();
+
+  const snapshot = await db.collection(RECEIVER_CARDS_COLLECTION).get();
+  const inv = {};
+
+  snapshot.forEach(doc => {
+    inv[doc.id] = doc.data();
+  });
+
+  CARD_DATA.forEach(card => {
+    if(!inv[card.id]){
+      inv[card.id] = {
+        title: card.display,
+        used: 0,
+        limit: card.limit,
+        enabled: true,
+        audio: card.audio,
+        image: card.image
+      };
+    }
+  });
+
+  return inv;
+}
+
+async function pickAvailableCard(){
+  await ensureFirestoreCards();
+
+  for(let attempt = 0; attempt < 8; attempt++){
+    const inv = await getInventory();
+
+    const available = CARD_DATA.filter(card => {
+      const item = inv[card.id] || {};
+      const used = Number(item.used || 0);
+      const limit = Number(item.limit || card.limit);
+      return item.enabled !== false && used < limit;
+    });
+
+    if(available.length === 0) return null;
+
+    const maxRemaining = Math.max(...available.map(card => {
+      const item = inv[card.id];
+      return Number(item.limit || card.limit) - Number(item.used || 0);
+    }));
+
+    const bestPool = available.filter(card => {
+      const item = inv[card.id];
+      return (Number(item.limit || card.limit) - Number(item.used || 0)) === maxRemaining;
+    });
+
+    const picked = bestPool[Math.floor(Math.random() * bestPool.length)];
+    const pickedRef = cardRef(picked.id);
+    const historyRef = db.collection(RECEIVER_HISTORY_COLLECTION).doc();
+
+    try{
+      await db.runTransaction(async transaction => {
+        const snap = await transaction.get(pickedRef);
+
+        if(!snap.exists){
+          throw new Error("Card document missing: " + picked.id);
+        }
+
+        const data = snap.data();
+        const used = Number(data.used || 0);
+        const limit = Number(data.limit || picked.limit);
+        const enabled = data.enabled !== false;
+
+        if(!enabled || used >= limit){
+          throw new Error("Card no longer available: " + picked.id);
+        }
+
+        transaction.update(pickedRef, {
+          used: used + 1,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        transaction.set(historyRef, {
+          cardId: picked.id,
+          title: picked.display,
+          action: "transmitted",
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          clientAt: Date.now()
+        });
+      });
+
+      return picked;
+    }catch(err){
+      console.warn("Retrying card pick:", err.message);
+    }
+  }
+
+  return null;
+}
+
+async function reserveCardAfterDial(){
+  selectedCard = await pickAvailableCard();
+
+  if(!selectedCard){
+    go("empty");
+    return false;
+  }
+
+  return true;
+}
+
+/* =========================
+   AUDIO
+========================= */
+
+async function playAudio(src){
+  return new Promise(resolve => {
+    if(currentAudio){
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+    }
+
+    const audio = new Audio(src);
+    currentAudio = audio;
+    audio.preload = "auto";
+    audio.volume = 1;
+
+    audio.onended = () => resolve();
+    audio.onerror = () => {
+      console.error("Audio failed:", src);
+      alert("Audio could not load: " + src);
+      resolve();
+    };
+
+    const playPromise = audio.play();
+
+    if(playPromise && typeof playPromise.catch === "function"){
+      playPromise.catch(err => {
+        console.error("Audio blocked or failed:", err);
+        alert("Audio was blocked or failed. Check file path or tap interaction.");
+        resolve();
+      });
+    }
+  });
+}
+
+async function startRingThenVoiceover(){
+  await playAudio(RING_AUDIO_SRC);
+  go("call");
+}
+
+function startVoiceover(){
+  if(!selectedCard){
+    selectedCard = pickAvailableCard();
+    if(!selectedCard){
+      go("empty");
+      return;
+    }
+  }
+
+  const progress = document.getElementById("listenProgress");
+  const timer = document.getElementById("listenTimer");
+
+  progress.style.width = "0%";
+  timer.textContent = "message playing";
+
+  if(currentAudio){
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+  }
+
+  const audio = new Audio(selectedCard.audio);
+  currentAudio = audio;
+  audio.preload = "auto";
+
+  listenTimerId = setInterval(() => {
+    if(audio.duration && isFinite(audio.duration)){
+      const pct = Math.min(100, (audio.currentTime / audio.duration) * 100);
+      progress.style.width = pct + "%";
+      timer.textContent = formatTime(audio.currentTime) + " playing";
+    }else{
+      const current = parseFloat(progress.style.width) || 0;
+      progress.style.width = Math.min(90, current + 2) + "%";
+      timer.textContent = "message playing";
+    }
+  }, 250);
+
+  audio.onended = () => {
+    clearInterval(listenTimerId);
+    progress.style.width = "100%";
+    go("received");
+  };
+
+  audio.onerror = () => {
+    clearInterval(listenTimerId);
+    console.error("Voiceover failed:", selectedCard.audio);
+    alert("Voiceover could not load: " + selectedCard.audio);
+    go("received");
+  };
+
+  const playPromise = audio.play();
+
+  if(playPromise && typeof playPromise.catch === "function"){
+    playPromise.catch(err => {
+      console.error("Voiceover blocked:", err);
+      alert("Voiceover was blocked or failed to play.");
+      clearInterval(listenTimerId);
+      go("received");
+    });
+  }
+}
+
+function formatTime(seconds){
+  const s = Math.floor(seconds || 0);
+  const m = Math.floor(s / 60);
+  const rest = String(s % 60).padStart(2,"0");
+  return String(m).padStart(2,"0") + ":" + rest;
+}
+
+function renderReveal(){
+  if(!selectedCard){
+    go("empty");
+    return;
+  }
+
+  const img = document.getElementById("truthCardImage");
+  const takeText = document.getElementById("takeCardText");
+  const sendoffText = document.getElementById("sendoffText");
+
+  img.src = selectedCard.image;
+  img.alt = "Receiver Card: " + selectedCard.display;
+
+  takeText.textContent = "Take the Receiver Card marked: " + selectedCard.display.toUpperCase();
+  sendoffText.textContent = "Take the Receiver Card marked " + selectedCard.display.toUpperCase() + " before you go.";
+}
+
+/* =========================
+   ROTARY MASTER LOGIC
+========================= */
+
+const target = ["2","0","2","6"];
+let targetIndex = 0;
+
+const dialInput = document.getElementById("input");
+const dialEl = document.querySelector("#revivalRotary .dial");
+const dialMessage = document.getElementById("dialMessage");
+const dialHelper = document.getElementById("dialHelper");
+const dialProgress = document.querySelector("#dialProgress");
+const holeEls = Array.from(document.querySelectorAll("#revivalRotary .hole"));
+
+function getRotationDegrees(el){
+  const st = window.getComputedStyle(el, null);
+  const matrix = st.getPropertyValue("-webkit-transform") ||
+                 st.getPropertyValue("-moz-transform") ||
+                 st.getPropertyValue("-ms-transform") ||
+                 st.getPropertyValue("-o-transform") ||
+                 st.getPropertyValue("transform");
+
+  if(matrix && matrix !== "none"){
+    const values = matrix.split("(")[1].split(")")[0].split(",");
+    const a = values[0];
+    const b = values[1];
+    let angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
+    return angle < 0 ? angle + 360 : angle;
+  }
+
+  return 0;
+}
+
+function convertThetaToCssDegs(theta, rotation){
+  let cssDegs = (90 - theta - rotation);
+  cssDegs = (cssDegs + 360) % 360;
+  return cssDegs;
+}
+
+function getPointer(e){
+  return e.touches && e.touches[0]
+    ? e.touches[0]
+    : e.changedTouches && e.changedTouches[0]
+      ? e.changedTouches[0]
+      : e;
+}
+
+function rotateDial(rotary, event, hole){
+  const wrapper = hole.parentElement;
+  const rotation = getRotationDegrees(wrapper);
+  const offset = (55 - getRotationDegrees(wrapper) + 360) % 360;
+
+  const p = getPointer(event);
+  const rect = rotary.getBoundingClientRect();
+
+  const x = p.pageX - (rect.left + window.scrollX) - rotary.offsetWidth / 2;
+  const y = -1 * (p.pageY - (rect.top + window.scrollY) - rotary.offsetHeight / 2);
+
+  const theta = Math.atan2(y, x) * (180 / Math.PI);
+  const cssDegs = convertThetaToCssDegs(theta, rotation);
+  const current = getRotationDegrees(dialEl);
+
+  if(cssDegs > (offset + 55) || cssDegs < 0 || cssDegs < current) return;
+
+  const rotate = "rotate(" + cssDegs + "deg)";
+  dialEl.style.transform = rotate;
+  dialEl.style.webkitTransform = rotate;
+
+  const progress = Math.min(100, Math.round((cssDegs / (offset + 55)) * 100));
+  dialProgress.style.width = progress + "%";
+
+  if(progress < 30) dialMessage.textContent = "Keep pulling clockwise.";
+  else if(progress < 80) dialMessage.textContent = "Good. Pull to the guard.";
+  else dialMessage.textContent = "Release to enter the digit.";
+}
+
+function calculateNum(){
+  const base = 40;
+  const interval = 30;
+  const deg = getRotationDegrees(dialEl);
+
+  let num = 0;
+
+  if(deg < base) return undefined;
+  else if(deg < base + 1 * interval) num = 1;
+  else if(deg < base + 2 * interval) num = 2;
+  else if(deg < base + 3 * interval) num = 3;
+  else if(deg < base + 4 * interval) num = 4;
+  else if(deg < base + 5 * interval) num = 5;
+  else if(deg < base + 6 * interval) num = 6;
+  else if(deg < base + 7 * interval) num = 7;
+  else if(deg < base + 8 * interval) num = 8;
+  else if(deg < base + 9 * interval) num = 9;
+
+  return String(num);
+}
+
+function initRotary(){
+  document.body.classList.remove("nojs");
+  const rotary = document.querySelector("#revivalRotary .rotary");
+  rotary.addEventListener("mousedown", startRotary);
+  rotary.addEventListener("touchstart", startRotary, { passive:false });
+  updateRotaryTarget();
+}
+
+function startRotary(e){
+  const hole = e.target.closest(".hole");
+  if(!hole) return;
+
+  e.preventDefault();
+
+  const expected = target[targetIndex];
+
+  if(hole.dataset.num !== expected){
+    dialMessage.textContent = "Wrong hole. Dial " + expected + " next.";
+    return;
+  }
+
+  if(getRotationDegrees(dialEl) !== 0) return;
+
+  dialEl.classList.remove("smooth");
+  dialProgress.style.width = "0%";
+
+  const rotary = document.querySelector("#revivalRotary .rotary");
+
+  const move = (ev) => {
+    ev.preventDefault();
+    rotateDial(rotary, ev, hole);
+  };
+
+  const end = (ev) => {
+    ev.preventDefault();
+
+    document.body.removeEventListener("mousemove", move);
+    document.body.removeEventListener("touchmove", move);
+    document.removeEventListener("mouseup", end);
+    document.removeEventListener("touchend", end);
+
+    const num = calculateNum();
+
+    dialEl.classList.add("smooth");
+    dialEl.removeAttribute("style");
+    dialProgress.style.width = "0%";
+
+    setTimeout(() => {
+      if(typeof num !== "undefined") handleDialed(num);
+      else dialMessage.textContent = "The dial returned. Try " + expected + " again.";
+    }, 900);
+  };
+
+  document.body.addEventListener("mousemove", move);
+  document.body.addEventListener("touchmove", move, { passive:false });
+  document.addEventListener("mouseup", end, { once:true });
+  document.addEventListener("touchend", end, { once:true, passive:false });
+}
+
+function handleDialed(num){
+  const expected = target[targetIndex];
+
+  if(num !== expected){
+    dialMessage.textContent = "That entered " + num + ". Dial " + expected + " next.";
+    return;
+  }
+
+  const box = document.getElementById("d" + targetIndex);
+  box.textContent = num;
+  box.classList.add("filled");
+
+  targetIndex++;
+
+  if(targetIndex >= target.length){
+    holeEls.forEach(h => h.classList.remove("target"));
+    dialMessage.textContent = "2026 entered. Calling now...";
+    dialHelper.textContent = "Line connected.";
+
+    reserveCardAfterDial().then(ok => {
+      if(ok){
+        setTimeout(() => go("ringing"), 700);
+      }
+    });
+  }else{
+    updateRotaryTarget();
+  }
+}
+
+function updateRotaryTarget(){
+  const expected = target[targetIndex];
+
+  holeEls.forEach(h => {
+    h.classList.toggle("target", h.dataset.num === expected);
+  });
+
+  dialMessage.textContent = "Dial the next digit: " + expected;
+  dialHelper.textContent = "Put your finger in " + expected + " and pull clockwise until the guard stops you.";
+}
+
+function resetRotary(){
+  targetIndex = 0;
+  dialInput.value = "";
+  dialEl.classList.add("smooth");
+  dialEl.removeAttribute("style");
+  dialProgress.style.width = "0%";
+
+  target.forEach((_, i) => {
+    const box = document.getElementById("d" + i);
+    box.textContent = "_";
+    box.classList.remove("filled");
+  });
+
+  updateRotaryTarget();
+}
+
+/* =========================
+   ADMIN PANEL
+========================= */
+
+function requireAdminPasscode(){
+  if(sessionStorage.getItem(ADMIN_SESSION_KEY) === "true") return true;
+
+  const pass = prompt("Enter admin passcode:");
+
+  if(pass === ADMIN_PASSCODE){
+    sessionStorage.setItem(ADMIN_SESSION_KEY, "true");
+    return true;
+  }
+
+  if(pass !== null){
+    alert("Wrong passcode.");
+  }
+
+  return false;
+}
+
+async function openAdmin(){
+  if(!requireAdminPasscode()) return;
+
+  document.getElementById("adminPanel").classList.add("open");
+  await renderAdmin();
+}
+
+function closeAdmin(){
+  document.getElementById("adminPanel").classList.remove("open");
+}
+
+async function renderAdmin(){
+  const inv = await getInventory();
+  const grid = document.getElementById("adminGrid");
+
+  grid.innerHTML = "";
+
+  CARD_DATA.forEach(card => {
+    const item = inv[card.id] || { used:0, limit:card.limit, enabled:true };
+    const used = Number(item.used || 0);
+    const limit = Number(item.limit || card.limit);
+    const remaining = Math.max(0, limit - used);
+    const disabled = item.enabled === false;
+    const full = remaining <= 0 || disabled;
+
+    const div = document.createElement("div");
+    div.className = "admin-card" + (full ? " full" : "");
+
+    div.innerHTML = `
+      <div class="admin-name">
+        <span>${card.display}</span>
+        <span class="admin-count">${remaining} / ${limit} LEFT${disabled ? " OFF" : remaining <= 0 ? " FULL" : ""}</span>
+      </div>
+      <div class="admin-actions">
+        <button class="admin-btn" onclick="adjustCount('${card.id}', 1)">Give 1</button>
+        <button class="admin-btn" onclick="adjustCount('${card.id}', -1)">Return 1</button>
+        <button class="admin-btn" onclick="toggleEnabled('${card.id}')">${disabled ? "Enable" : "Disable"}</button>
+      </div>
+    `;
+
+    grid.appendChild(div);
+  });
+}
+
+async function adjustCount(id, delta){
+  const ref = cardRef(id);
+
+  await db.runTransaction(async transaction => {
+    const snap = await transaction.get(ref);
+
+    if(!snap.exists) throw new Error("Missing card: " + id);
+
+    const data = snap.data();
+    const used = Number(data.used || 0);
+    const limit = Number(data.limit || 16);
+    const nextUsed = Math.max(0, Math.min(limit, used + delta));
+
+    transaction.update(ref, {
+      used: nextUsed,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    transaction.set(db.collection(RECEIVER_HISTORY_COLLECTION).doc(), {
+      cardId: id,
+      title: data.title || id,
+      action: delta > 0 ? "admin_give_1" : "admin_return_1",
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      clientAt: Date.now()
+    });
+  });
+
+  await renderAdmin();
+}
+
+async function toggleEnabled(id){
+  const ref = cardRef(id);
+
+  await db.runTransaction(async transaction => {
+    const snap = await transaction.get(ref);
+
+    if(!snap.exists) throw new Error("Missing card: " + id);
+
+    const data = snap.data();
+    const nextEnabled = data.enabled === false ? true : false;
+
+    transaction.update(ref, {
+      enabled: nextEnabled,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    transaction.set(db.collection(RECEIVER_HISTORY_COLLECTION).doc(), {
+      cardId: id,
+      title: data.title || id,
+      action: nextEnabled ? "enabled" : "disabled",
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      clientAt: Date.now()
+    });
+  });
+
+  await renderAdmin();
+}
+
+async function undoLastTransmission(){
+  const snapshot = await db.collection(RECEIVER_HISTORY_COLLECTION)
+    .where("action", "==", "transmitted")
+    .orderBy("clientAt", "desc")
+    .limit(1)
+    .get();
+
+  if(snapshot.empty){
+    alert("No transmission to undo.");
+    return;
+  }
+
+  const historyDoc = snapshot.docs[0];
+  const history = historyDoc.data();
+  const id = history.cardId;
+
+  await db.runTransaction(async transaction => {
+    const ref = cardRef(id);
+    const snap = await transaction.get(ref);
+
+    if(!snap.exists) throw new Error("Missing card: " + id);
+
+    const data = snap.data();
+    const used = Number(data.used || 0);
+
+    transaction.update(ref, {
+      used: Math.max(0, used - 1),
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    transaction.update(historyDoc.ref, {
+      action: "undone",
+      undoneAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    transaction.set(db.collection(RECEIVER_HISTORY_COLLECTION).doc(), {
+      cardId: id,
+      title: history.title || id,
+      action: "admin_undo_last",
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      clientAt: Date.now()
+    });
+  });
+
+  await renderAdmin();
+  alert("Undid last transmission: " + (history.title || id));
+}
+
+async function resetAllCounts(){
+  const ok = confirm("Reset all Receiver Card counts to 16 / 16 LEFT?");
+  if(!ok) return;
+
+  const batch = db.batch();
+
+  CARD_DATA.forEach(card => {
+    batch.set(cardRef(card.id), {
+      title: card.display,
+      used: 0,
+      limit: card.limit,
+      enabled: true,
+      audio: card.audio,
+      image: card.image,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+  });
+
+  batch.set(db.collection(RECEIVER_HISTORY_COLLECTION).doc(), {
+    action: "admin_reset_all",
+    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    clientAt: Date.now()
+  });
+
+  await batch.commit();
+  await renderAdmin();
+}
+
+async function exportInventory(){
+  const inv = await getInventory();
+
+  const snapshot = await db.collection(RECEIVER_HISTORY_COLLECTION)
+    .orderBy("clientAt", "desc")
+    .limit(100)
+    .get();
+
+  const history = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+  const report = {
+    exportedAt: new Date().toISOString(),
+    inventory: inv,
+    recentHistory: history
+  };
+
+  const text = JSON.stringify(report, null, 2);
+
+  navigator.clipboard.writeText(text).then(() => {
+    alert("Inventory report copied to clipboard.");
+  }).catch(() => {
+    console.log(text);
+    alert("Could not copy. Report printed in console.");
+  });
+}
+
+db.collection(RECEIVER_CARDS_COLLECTION).onSnapshot(() => {
+  const panel = document.getElementById("adminPanel");
+  if(panel && panel.classList.contains("open")){
+    renderAdmin();
+  }
+});
+
+if(new URLSearchParams(window.location.search).get("admin") === "1"){
+  setTimeout(openAdmin, 500);
+}
+
+initRotary();
+ensureFirestoreCards();
+</script>
+</body>
+</html>
