@@ -1,4 +1,5 @@
 
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -7,7 +8,7 @@
 <title>REVIVAL // Rotary Receiver Flow</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700;900&family=Inter:wght@400;700;900&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <style>
-@font-face{font-family:Abolition;src:url('abolition-regular.ttf') format('truetype')}
+@font-face{font-family:Abolition;src:url('/abolition-regular.ttf') format('truetype')}
 :root{--black:#050505;--panel:#101010;--gold:#ffd600;--cream:#f5f1e8;--muted:rgba(255,255,255,.43)}
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;background:var(--black);color:var(--cream);font-family:Inter,sans-serif;overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:none}
@@ -184,7 +185,6 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;opa
 <body class="nojs">
 <main class="app"><section class="shell">
 <div class="sysline"><span><span class="dot"></span><span id="statusLine">Incoming_Call</span></span><span id="screenLabel">Screen_01</span></div>
-<button class="admin-toggle" onclick="openAdmin()">ADMIN</button>
 
 <section class="screen active" data-screen="landing">
   <div class="hero"><div class="layout"><div class="left"><div class="call-rings"><div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div><div class="ring r4"></div><div class="receiver-icon"><svg class="receiver-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42" aria-hidden="true"><path d="M15.562 20.766c-1.328-1.922-2.118-4.241-2.281-4.438c1.945-1.356 5.749-3.06 5.962-5.505c.271-3.159-5.081-9.763-6.107-9.823c-2.808.03-7.947 4.782-8.556 6.218c-1.132 2.969-.571 5.732 1.375 9.732c2.478 5.95 11.682 17.237 16.947 20.78c3.484 2.674 6.029 3.724 9.068 3.09c1.413-.268 6.516-4.455 7.027-7.286c.125-1.05-5.807-8.011-8.875-8.287c-2.382-.22-4.666 3.346-6.303 5.089c-.163-.208-1.559-1.297-3.057-3.021c-1.95-2.049-3.762-4.456-5.2-6.549z"/></svg></div></div></div><div class="right"><p class="eyebrow">Incoming Call</p><h1 class="serif-title">The line is<br>waiting.</h1><p class="subcopy">Begin when you are ready to listen.</p><div class="status-chip"><span class="pill"></span> the spirit that's still moving</div></div></div></div>
@@ -267,7 +267,6 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;opa
       <button class="admin-btn" onclick="exportInventory()">Export Counts</button>
       <button class="admin-btn danger" onclick="resetAllCounts()">Reset All Counts</button>
     </div>
-    <div class="admin-note">For final event use, this local inventory works best on one iPad. If you use multiple devices, move counts to Firestore.</div>
   </div>
 </div>
 
@@ -298,6 +297,16 @@ const CARD_DATA = [
 ];
 
 const RING_AUDIO_SRC = ASSET_BASE + "Audio/Ring.mp3";
+
+const ROTARY_MOVE_AUDIO_SRC = ASSET_BASE + "Audio/RotaryMove.wav";
+const DIAL_CORRECT_AUDIO_SRC = ASSET_BASE + "Audio/DialCorrect.wav";
+
+const rotaryMoveAudio = new Audio(ROTARY_MOVE_AUDIO_SRC);
+rotaryMoveAudio.loop = true;
+rotaryMoveAudio.volume = 0.28;
+
+const dialCorrectAudio = new Audio(DIAL_CORRECT_AUDIO_SRC);
+dialCorrectAudio.volume = 0.75;
 
 const firebaseConfig = {
   apiKey: "AIzaSyAaxjL-NuYE1VeAoYb1_pWHAE3C4VdCBBY",
@@ -510,6 +519,37 @@ async function reserveCardAfterDial(){
 /* =========================
    AUDIO
 ========================= */
+
+function playRotaryMoveSound(){
+  try{
+    rotaryMoveAudio.currentTime = 0;
+    rotaryMoveAudio.play().catch(err => {
+      console.warn("Rotary movement audio blocked or failed:", err);
+    });
+  }catch(e){
+    console.warn("Rotary movement audio error:", e);
+  }
+}
+
+function stopRotaryMoveSound(){
+  try{
+    rotaryMoveAudio.pause();
+    rotaryMoveAudio.currentTime = 0;
+  }catch(e){
+    console.warn("Rotary movement stop error:", e);
+  }
+}
+
+function playDialCorrectSound(){
+  try{
+    dialCorrectAudio.currentTime = 0;
+    dialCorrectAudio.play().catch(err => {
+      console.warn("Dial correct audio blocked or failed:", err);
+    });
+  }catch(e){
+    console.warn("Dial correct audio error:", e);
+  }
+}
 
 async function playAudio(src){
   return new Promise(resolve => {
@@ -753,6 +793,7 @@ function startRotary(e){
   if(getRotationDegrees(dialEl) !== 0) return;
 
   dialEl.classList.remove("smooth");
+  playRotaryMoveSound();
   dialProgress.style.width = "0%";
 
   const rotary = document.querySelector("#revivalRotary .rotary");
@@ -764,6 +805,8 @@ function startRotary(e){
 
   const end = (ev) => {
     ev.preventDefault();
+
+    stopRotaryMoveSound();
 
     document.body.removeEventListener("mousemove", move);
     document.body.removeEventListener("touchmove", move);
@@ -795,6 +838,8 @@ function handleDialed(num){
     dialMessage.textContent = "That entered " + num + ". Dial " + expected + " next.";
     return;
   }
+
+  playDialCorrectSound();
 
   const box = document.getElementById("d" + targetIndex);
   box.textContent = num;
