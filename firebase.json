@@ -9,6 +9,7 @@
     ],
     "cleanUrls": true,
     "rewrites": [
+      { "source": "/receiver", "destination": "/receiver/index.html" },
       { "source": "/user/**", "destination": "/index.html" },
       { "source": "/vault", "destination": "/vault.html" },
       { "source": "/about", "destination": "/index.html" },

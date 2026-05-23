@@ -282,18 +282,22 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;opa
    publicCards/
 ========================= */
 
+const ASSET_BASE = window.location.pathname.startsWith("/receiver")
+  ? "/receiver/"
+  : "";
+
 const CARD_DATA = [
-  { id:"guide", display:"Guide", audio:"Audio/Guide.mp3", image:"Cards/GUIDE.png", limit:16 },
-  { id:"helper", display:"Helper", audio:"Audio/Helper.mp3", image:"Cards/HELPER.png", limit:16 },
-  { id:"intercessor", display:"Intercessor", audio:"Audio/Intercessor.mp3", image:"Cards/INTERCESSOR.png", limit:16 },
-  { id:"joy", display:"Joy-Giver", audio:"Audio/Joy.mp3", image:"Cards/JOY.png", limit:16 },
-  { id:"life", display:"Life-Giver", audio:"Audio/Life.mp3", image:"Cards/LIFE.png", limit:16 },
-  { id:"power", display:"Power", audio:"Audio/Power.mp3", image:"Cards/POWER.png", limit:16 },
-  { id:"vision", display:"Vision-Giver", audio:"Audio/Vision.mp3", image:"Cards/VISION.png", limit:16 },
-  { id:"witness", display:"Witness", audio:"Audio/Witness.mp3", image:"Cards/WITNESS.png", limit:16 }
+  { id:"guide", display:"Guide", audio: ASSET_BASE + "Audio/Guide.mp3", image: ASSET_BASE + "Cards/GUIDE.png", limit:16 },
+  { id:"helper", display:"Helper", audio: ASSET_BASE + "Audio/Helper.mp3", image: ASSET_BASE + "Cards/HELPER.png", limit:16 },
+  { id:"intercessor", display:"Intercessor", audio: ASSET_BASE + "Audio/Intercessor.mp3", image: ASSET_BASE + "Cards/INTERCESSOR.png", limit:16 },
+  { id:"joy", display:"Joy-Giver", audio: ASSET_BASE + "Audio/Joy.mp3", image: ASSET_BASE + "Cards/JOY.png", limit:16 },
+  { id:"life", display:"Life-Giver", audio: ASSET_BASE + "Audio/Life.mp3", image: ASSET_BASE + "Cards/LIFE.png", limit:16 },
+  { id:"power", display:"Power", audio: ASSET_BASE + "Audio/Power.mp3", image: ASSET_BASE + "Cards/POWER.png", limit:16 },
+  { id:"vision", display:"Vision-Giver", audio: ASSET_BASE + "Audio/Vision.mp3", image: ASSET_BASE + "Cards/VISION.png", limit:16 },
+  { id:"witness", display:"Witness", audio: ASSET_BASE + "Audio/Witness.mp3", image: ASSET_BASE + "Cards/WITNESS.png", limit:16 }
 ];
 
-const RING_AUDIO_SRC = "Audio/Ring.mp3";
+const RING_AUDIO_SRC = ASSET_BASE + "Audio/Ring.mp3";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAaxjL-NuYE1VeAoYb1_pWHAE3C4VdCBBY",
