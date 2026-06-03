@@ -1,0 +1,861 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>REVIVAL // 2026 TV Check-In</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    @font-face {
+      font-family: 'Abolition';
+      src: url('https://encmalolos-revival2026.web.app/receiver/Audio/abolition-regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --yellow: #facc15;
+      --yellow-2: #ffd600;
+      --cream: #f4f1ea;
+      --black: #030303;
+      --line: rgba(250, 204, 21, .72);
+      --bg-url: url("https://firebasestorage.googleapis.com/v0/b/enc-malolos-revival-2026.firebasestorage.app/o/TV%20BG.png?alt=media&token=8ed75528-b384-4e96-a252-5727442037ee");
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      margin: 0;
+      background: #000;
+      color: var(--cream);
+      font-family: Inter, sans-serif;
+      overflow: hidden;
+    }
+
+    body {
+      cursor: none;
+    }
+
+    .tv-stage {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+      background: #000;
+      isolation: isolate;
+    }
+
+    .bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-image: var(--bg-url);
+      background-size: cover;
+      background-position: center;
+      filter: contrast(1.04) brightness(.95);
+      transform: scale(1.002);
+    }
+
+    .readability {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at center, rgba(0,0,0,0) 20%, rgba(0,0,0,.12) 72%, rgba(0,0,0,.30) 100%),
+        linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,0) 44%, rgba(0,0,0,.14));
+    }
+
+    .grain {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+      opacity: .11;
+      background-image: radial-gradient(circle, rgba(255,255,255,.30) 0 1px, transparent 1px);
+      background-size: 4px 4px;
+      mix-blend-mode: overlay;
+      animation: grainShift .8s steps(2) infinite;
+    }
+
+    @keyframes grainShift {
+      0% { transform: translate(0,0); }
+      50% { transform: translate(-1%,1%); }
+      100% { transform: translate(1%,-1%); }
+    }
+
+    .constant-scanlines {
+      position: absolute;
+      inset: 0;
+      z-index: 7;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,.20) 50%),
+        linear-gradient(90deg, rgba(255,0,0,.025), rgba(0,255,0,.010), rgba(0,0,255,.025));
+      background-size: 100% 3px, 3px 100%;
+      opacity: .86;
+      animation: scanlineDrift 7s linear infinite;
+      mix-blend-mode: multiply;
+    }
+
+    @keyframes scanlineDrift {
+      from { background-position: 0 0, 0 0; }
+      to { background-position: 0 36px, 0 0; }
+    }
+
+    .slow-scan {
+      position: absolute;
+      left: 0;
+      top: -25%;
+      width: 100%;
+      height: 22%;
+      z-index: 6;
+      pointer-events: none;
+      opacity: .95;
+      background: linear-gradient(transparent, rgba(250,204,21,.11), transparent);
+      animation: softScanPass 4.8s ease-in-out infinite;
+      mix-blend-mode: screen;
+    }
+
+    @keyframes softScanPass {
+      0% { transform: translateY(0); opacity: 0; }
+      15% { opacity: .54; }
+      55% { opacity: .25; }
+      100% { transform: translateY(560%); opacity: 0; }
+    }
+
+    .tracking-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 2px;
+      z-index: 8;
+      background: rgba(255,255,255,.65);
+      box-shadow: 0 0 20px rgba(255,255,255,.7);
+      animation: tracking 4.5s linear infinite;
+      pointer-events: none;
+    }
+
+    .tracking-line.second {
+      height: 1px;
+      opacity: .45;
+      animation-duration: 6.8s;
+      animation-delay: -2.2s;
+    }
+
+    @keyframes tracking {
+      0% { transform: translateY(-20vh); opacity: 0; }
+      12% { opacity: .55; }
+      35% { opacity: .2; }
+      100% { transform: translateY(120vh); opacity: 0; }
+    }
+
+    .burst-noise {
+      position: absolute;
+      inset: 0;
+      z-index: 9;
+      pointer-events: none;
+      opacity: 0;
+      background:
+        repeating-linear-gradient(90deg, rgba(255,255,255,.08) 0 2px, transparent 2px 5px),
+        repeating-radial-gradient(circle at 24% 28%, rgba(255,255,255,.30) 0 1px, transparent 1px 3px);
+      mix-blend-mode: screen;
+    }
+
+    .flash {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      pointer-events: none;
+      background: var(--yellow);
+      opacity: 0;
+    }
+
+    .tv-stage.playing-in .burst-noise,
+    .tv-stage.playing-out .burst-noise {
+      animation: noiseBurst .65s steps(4) both;
+    }
+
+    .tv-stage.playing-in .flash {
+      animation: flash .42s ease-out both;
+    }
+
+    @keyframes noiseBurst {
+      0% { opacity: 0; transform: translate(0,0); }
+      20% { opacity: .54; transform: translate(2%,-1%); }
+      55% { opacity: .22; transform: translate(-2%,2%); }
+      100% { opacity: 0; transform: translate(0,0); }
+    }
+
+    @keyframes flash {
+      0% { opacity: 0; }
+      12% { opacity: .42; }
+      100% { opacity: 0; }
+    }
+
+    .idle {
+      position: absolute;
+      inset: 0;
+      z-index: 18;
+      display: grid;
+      place-items: end center;
+      padding-bottom: 6vh;
+      pointer-events: none;
+      transition: opacity .35s ease;
+    }
+
+    .idle.hidden {
+      opacity: 0;
+    }
+
+    .idle-card {
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.54);
+      backdrop-filter: blur(8px);
+      padding: 18px 26px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+    }
+
+    .idle-title {
+      font-family: 'IBM Plex Mono', monospace;
+      color: var(--yellow);
+      text-transform: uppercase;
+      letter-spacing: .28em;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .idle-sub {
+      font-family: 'IBM Plex Mono', monospace;
+      color: rgba(255,255,255,.46);
+      text-transform: uppercase;
+      letter-spacing: .22em;
+      font-size: 10px;
+      margin-top: 8px;
+      animation: idlePulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes idlePulse {
+      0%, 100% { opacity: .35; }
+      50% { opacity: 1; }
+    }
+
+    .box-wrap {
+      position: absolute;
+      z-index: 20;
+      left: 50%;
+      top: 64%;
+      transform: translate(-50%, -50%);
+      width: min(1055px, 68.5vw);
+    }
+
+    .checkin-box {
+      display: grid;
+      grid-template-columns: .85fr 1.15fr;
+      border: 1px solid var(--line);
+      min-height: 420px;
+      background: transparent;
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,.20),
+        0 26px 70px rgba(0,0,0,.18);
+      animation-duration: 900ms;
+      animation-fill-mode: both;
+      animation-timing-function: cubic-bezier(.19,1,.22,1);
+      opacity: 0;
+    }
+
+    .checkin-box.enter { animation-name: inFlipRise; }
+
+    .checkin-box.out {
+      animation-name: outFlipRise;
+      animation-timing-function: cubic-bezier(.77,0,.175,1);
+    }
+
+    @keyframes inFlipRise {
+      0% {
+        opacity: 0;
+        transform: translateY(34px) rotateX(8deg) scale(.98);
+        filter: blur(10px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) rotateX(0) scale(1);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes outFlipRise {
+      0% {
+        opacity: 1;
+        transform: translateY(0) rotateX(0) scale(1);
+        filter: blur(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-28px) rotateX(-8deg) scale(.985);
+        filter: blur(10px);
+      }
+    }
+
+    .left-panel {
+      background: var(--yellow);
+      color: #050505;
+      padding: 36px 44px 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .right-panel {
+      background: rgba(0,0,0,.95);
+      color: var(--cream);
+      padding: 38px 52px 34px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-left: 1px solid rgba(0,0,0,.35);
+      min-width: 0;
+    }
+
+    .mono {
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: .25em;
+      font-weight: 700;
+    }
+
+    .date, .time {
+      text-align: center;
+      font-size: 17px;
+      line-height: 1;
+    }
+
+    .day {
+      font-family: 'Abolition', Impact, sans-serif;
+      font-size: clamp(5.2rem, 7.7vw, 7.8rem);
+      line-height: .86;
+      letter-spacing: .045em;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .label {
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: .32em;
+      font-size: 12px;
+      line-height: 1;
+      color: rgba(255,255,255,.72);
+      font-weight: 600;
+    }
+
+    .status-pill {
+      margin-top: 17px;
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      border: 2px solid var(--yellow);
+      color: var(--yellow);
+      padding: 12px 18px 10px;
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      font-size: 22px;
+      line-height: 1;
+      font-weight: 700;
+      box-shadow: inset 0 0 0 1px rgba(250,204,21,.12);
+      white-space: nowrap;
+    }
+
+    .participant-block {
+      margin-top: 30px;
+      min-width: 0;
+    }
+
+    .name-box {
+      margin-top: 18px;
+      width: 100%;
+      min-height: 128px;
+      max-height: 128px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    .participant-name {
+      font-family: Inter, sans-serif;
+      font-size: 60px;
+      line-height: 1.06;
+      font-weight: 900;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      color: #fff;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+      word-break: normal;
+      text-wrap: balance;
+    }
+
+    .bottom-row {
+      display: grid;
+      grid-template-columns: .92fr 1.08fr;
+      gap: 36px;
+      align-items: end;
+      margin-top: 24px;
+    }
+
+    .meta-value {
+      margin-top: 11px;
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: .02em;
+      font-size: 19px;
+      line-height: 1.15;
+      font-weight: 700;
+      color: var(--yellow);
+      white-space: nowrap;
+    }
+
+    .debug {
+      position: fixed;
+      right: 12px;
+      bottom: 12px;
+      z-index: 120;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.32);
+      background: rgba(0,0,0,.5);
+      border: 1px solid rgba(255,255,255,.08);
+      padding: 8px 10px;
+      max-width: 42vw;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .audio-enable {
+      position: fixed;
+      inset: 0;
+      z-index: 180;
+      display: grid;
+      place-items: center;
+      background: rgba(0,0,0,.82);
+      backdrop-filter: blur(10px);
+      transition: opacity .25s ease;
+    }
+
+    .audio-enable.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .audio-card {
+      border: 1px solid rgba(250,204,21,.35);
+      background: rgba(0,0,0,.72);
+      padding: 28px;
+      text-align: center;
+      max-width: 520px;
+    }
+
+    .audio-title {
+      font-family: 'Abolition', Impact, sans-serif;
+      color: var(--yellow);
+      font-size: 48px;
+      letter-spacing: .08em;
+      line-height: .9;
+      text-transform: uppercase;
+    }
+
+    .audio-text {
+      font-family: 'IBM Plex Mono', monospace;
+      color: rgba(255,255,255,.46);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      line-height: 1.8;
+      margin-top: 14px;
+    }
+
+    .audio-btn {
+      margin-top: 22px;
+      background: var(--yellow);
+      color: #000;
+      border: none;
+      padding: 14px 20px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    @media (max-width: 1100px) {
+      .box-wrap {
+        width: min(1080px, 78vw);
+        top: 64%;
+      }
+
+      .checkin-box {
+        min-height: 390px;
+      }
+
+      .left-panel {
+        padding: 30px 32px 28px;
+      }
+
+      .right-panel {
+        padding: 32px 36px 28px;
+      }
+    }
+
+    @media (max-aspect-ratio: 4/3) {
+      .box-wrap {
+        width: 86vw;
+        top: 63%;
+      }
+
+      .checkin-box {
+        grid-template-columns: 1fr;
+        min-height: unset;
+      }
+
+      .left-panel, .right-panel {
+        padding: 24px;
+      }
+
+      .day {
+        white-space: normal;
+      }
+
+      .bottom-row {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .meta-value {
+        white-space: normal;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main id="tvStage" class="tv-stage">
+    <div class="bg"></div>
+    <div class="readability"></div>
+    <div class="slow-scan"></div>
+    <div class="tracking-line"></div>
+    <div class="tracking-line second"></div>
+    <div class="grain"></div>
+    <div class="constant-scanlines"></div>
+    <div class="burst-noise"></div>
+    <div class="flash"></div>
+
+    <section id="idle" class="idle">
+      <div class="idle-card">
+        <div class="idle-title">REVIVAL // 2026</div>
+        <div class="idle-sub">Awaiting check-in signal</div>
+      </div>
+    </section>
+
+    <section class="box-wrap">
+      <div id="checkinBox" class="checkin-box">
+        <div class="left-panel">
+          <p id="displayDate" class="mono date">05.29.2026</p>
+          <h1 id="displayDay" class="day">DAY 1</h1>
+          <p id="displayTime" class="mono time">08:03 AM</p>
+        </div>
+
+        <div class="right-panel">
+          <div>
+            <div>
+              <p class="label">Status</p>
+              <div id="displayStatus" class="status-pill">Checked In</div>
+            </div>
+
+            <div class="participant-block">
+              <p id="displayPersonLabel" class="label">Participant</p>
+              <div class="name-box">
+                <h2 id="displayName" class="participant-name fit-name">ALMOGUEZ, ROMAR S.</h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="bottom-row">
+            <div>
+              <p id="displayCampusLabel" class="label">Campus</p>
+              <p id="displayCampus" class="meta-value">BULSU</p>
+            </div>
+
+            <div>
+              <p class="label">Local Church</p>
+              <p id="displayChurch" class="meta-value">VICTORY MALOLOS</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="debug" class="debug">Connecting to Firestore...</div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import {
+      getFirestore,
+      doc,
+      onSnapshot
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAaxjL-NuYE1VeAoYb1_pWHAE3C4VdCBBY",
+      authDomain: "enc-malolos-revival-2026.firebaseapp.com",
+      projectId: "enc-malolos-revival-2026",
+      storageBucket: "enc-malolos-revival-2026.firebasestorage.app",
+      messagingSenderId: "893658387609",
+      appId: "1:893658387609:web:f15e870fb82b729e759408"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const stage = document.getElementById("tvStage");
+    const card = document.getElementById("checkinBox");
+    const idle = document.getElementById("idle");
+    const debug = document.getElementById("debug");
+
+    const els = {
+      date: document.getElementById("displayDate"),
+      day: document.getElementById("displayDay"),
+      time: document.getElementById("displayTime"),
+      status: document.getElementById("displayStatus"),
+      personLabel: document.getElementById("displayPersonLabel"),
+      name: document.getElementById("displayName"),
+      campusLabel: document.getElementById("displayCampusLabel"),
+      campus: document.getElementById("displayCampus"),
+      church: document.getElementById("displayChurch")
+    };
+
+    let revealDuration = 5000;
+    let soundEnabled = true;
+    let lastNonce = null;
+    let hideTimer = null;
+    let displayEnabled = false;
+
+    window.enableDisplay = function enableDisplay() {
+      displayEnabled = true;
+      document.getElementById("audioEnable").classList.add("hidden");
+      debug.textContent = "Display enabled. Waiting for check-in...";
+    };
+
+    function dayLabel(dayValue) {
+      if (!dayValue) return "DAY 1";
+      const normalized = String(dayValue).toLowerCase().replace(/\\s+/g, "");
+      if (normalized === "day2" || normalized === "2") return "DAY 2";
+      return "DAY 1";
+    }
+
+    function dateForDay(dayValue) {
+      const label = dayLabel(dayValue);
+      return label === "DAY 2" ? "05.30.2026" : "05.29.2026";
+    }
+
+    function jsDateFromFirestore(value) {
+      if (!value) return new Date();
+      if (typeof value.toDate === "function") return value.toDate();
+      if (value.seconds) return new Date(value.seconds * 1000);
+      if (typeof value === "string") {
+        const parsed = new Date(value);
+        if (!Number.isNaN(parsed.getTime())) return parsed;
+      }
+      return new Date();
+    }
+
+    function formatTime(value) {
+      const date = jsDateFromFirestore(value);
+      return date.toLocaleTimeString("en-PH", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true
+      }).replace(/^0/, "");
+    }
+
+    function cleanText(value, fallback = "") {
+      return String(value || fallback).trim().toUpperCase();
+    }
+
+    function fitName(el) {
+      const box = el.closest(".name-box");
+      if (!box) return;
+
+      let size = 60;
+      const min = 22;
+      const maxHeight = box.clientHeight;
+      const maxWidth = box.clientWidth;
+
+      el.style.fontSize = size + "px";
+      el.style.lineHeight = "1.06";
+
+      while ((el.scrollWidth > maxWidth || el.scrollHeight > maxHeight) && size > min) {
+        size -= 1;
+        el.style.fontSize = size + "px";
+      }
+    }
+
+    function fitAllNames() {
+      document.querySelectorAll(".fit-name").forEach(fitName);
+    }
+
+    window.addEventListener("resize", fitAllNames);
+
+    function isServeRecord(data) {
+      const rawType = String(data.type || data.collectionName || data.accessType || "").toLowerCase();
+      const rawRole = String(data.role || "").toLowerCase();
+      const rawUid = String(data.uid || data.shortId || "").toUpperCase();
+
+      return (
+        rawType === "serve" ||
+        rawType === "servemembers" ||
+        rawRole.includes("serving") ||
+        rawRole.includes("campus missionary") ||
+        rawUid.startsWith("ST26-") ||
+        rawUid.startsWith("CM26-")
+      );
+    }
+
+    function setDisplayData(data) {
+      const day = data.day || "day1";
+      const isServe = isServeRecord(data);
+
+      els.date.textContent = data.date || dateForDay(day);
+      els.day.textContent = dayLabel(day);
+      els.time.textContent = data.time || formatTime(data.timestamp || data.checkedInAt);
+
+      if (isServe) {
+        els.status.textContent = cleanText(data.statusText || "Your Yes Is In The Room", "YOUR YES IS IN THE ROOM");
+        els.personLabel.textContent = "Serving Team";
+        els.campusLabel.textContent = "Role";
+        els.campus.textContent = cleanText(data.role || data.campus || "Serving Team", "SERVING TEAM");
+      } else {
+        els.status.textContent = cleanText(data.statusText || "Checked In", "CHECKED IN");
+        els.personLabel.textContent = "Participant";
+        els.campusLabel.textContent = "Campus";
+        els.campus.textContent = cleanText(data.campus, "CAMPUS");
+      }
+
+      els.name.textContent = cleanText(data.name, "TEST USER");
+      els.church.textContent = cleanText(data.church, "LOCAL CHURCH");
+
+      requestAnimationFrame(fitAllNames);
+    }
+
+    function animateIn() {
+      stage.classList.remove("playing-out");
+      card.classList.remove("out");
+      void card.offsetWidth;
+
+      idle.classList.add("hidden");
+      stage.classList.add("playing-in");
+      card.style.opacity = "1";
+      card.classList.add("enter");
+
+      setTimeout(() => {
+        stage.classList.remove("playing-in");
+        card.classList.remove("enter");
+        card.style.opacity = "1";
+        fitAllNames();
+      }, 950);
+    }
+
+    function animateOut() {
+      stage.classList.remove("playing-in");
+      card.classList.remove("enter");
+      card.style.opacity = "1";
+      void card.offsetWidth;
+
+      stage.classList.add("playing-out");
+      card.classList.add("out");
+
+      setTimeout(() => {
+        stage.classList.remove("playing-out");
+        card.classList.remove("out");
+        card.style.opacity = "0";
+        idle.classList.remove("hidden");
+      }, 950);
+    }
+
+    function reveal(data) {
+      clearTimeout(hideTimer);
+      setDisplayData(data);
+      animateIn();
+
+      hideTimer = setTimeout(() => {
+        animateOut();
+      }, revealDuration);
+    }
+
+    onSnapshot(doc(db, "settings", "checkin"), (snap) => {
+      if (!snap.exists()) {
+        debug.textContent = "Missing settings/checkin. Using defaults.";
+        return;
+      }
+
+      const data = snap.data();
+      revealDuration = Number(data.revealDuration || 5000);
+      soundEnabled = data.soundEnabled !== false;
+
+      debug.textContent = `Settings loaded // reveal ${revealDuration}ms`;
+    }, (error) => {
+      console.error(error);
+      debug.textContent = "Settings error: " + error.message;
+    });
+
+    onSnapshot(doc(db, "liveDisplay", "current"), (snap) => {
+      if (!snap.exists()) {
+        debug.textContent = "Missing liveDisplay/current";
+        return;
+      }
+
+      const data = snap.data();
+      const nonce = data.nonce || `${data.uid || ""}-${data.timestamp?.seconds || ""}`;
+
+      if (!data.status || data.status === "idle") {
+        debug.textContent = "Live display idle.";
+        return;
+      }
+
+      if (nonce && nonce === lastNonce) {
+        return;
+      }
+
+      lastNonce = nonce;
+
+      debug.textContent = `Showing ${data.name || "participant"} // ${data.day || "day1"}`;
+
+      // The overlay is only for enabling sound later. The TV will still update even if no one clicks it.
+      reveal(data);
+    }, (error) => {
+      console.error(error);
+      debug.textContent = "Live display error: " + error.message;
+    });
+
+    // Initial state
+    card.style.opacity = "0";
+    idle.classList.remove("hidden");
+  </script>
+</body>
+</html>

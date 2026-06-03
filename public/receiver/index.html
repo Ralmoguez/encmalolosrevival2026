@@ -1,10 +1,15 @@
 
 
+
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"/>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="REVIVAL Receiver">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>REVIVAL // Rotary Receiver Flow</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700;900&family=Inter:wght@400;700;900&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <style>
@@ -61,6 +66,8 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;opa
 .rotary .hole-wrapper{position:absolute;left:calc(50% - 1em);top:.5em;width:2em;height:calc(50% - .5em);transform-origin:50% 100%;cursor:pointer;touch-action:none;z-index:8}
 .rotary .hole-wrapper:nth-child(1){transform:rotate(45deg)}.rotary .hole-wrapper:nth-child(2){transform:rotate(15deg)}.rotary .hole-wrapper:nth-child(3){transform:rotate(-15deg)}.rotary .hole-wrapper:nth-child(4){transform:rotate(-45deg)}.rotary .hole-wrapper:nth-child(5){transform:rotate(-75deg)}.rotary .hole-wrapper:nth-child(6){transform:rotate(-105deg)}.rotary .hole-wrapper:nth-child(7){transform:rotate(-135deg)}.rotary .hole-wrapper:nth-child(8){transform:rotate(-165deg)}.rotary .hole-wrapper:nth-child(9){transform:rotate(-195deg)}.rotary .hole-wrapper:nth-child(10){transform:rotate(-225deg)}
 .rotary .center{position:absolute;inset:36%;border-radius:50%;border:1px solid rgba(255,214,0,.26);background:#050505;z-index:30;display:grid;place-items:center;color:var(--gold);font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;pointer-events:none}
+.rotary .center.ready{background:var(--gold);color:#050505;cursor:pointer;pointer-events:auto;box-shadow:0 0 26px rgba(255,214,0,.38),0 0 70px rgba(255,214,0,.14);animation:centerReadyPulse 1.1s infinite ease-in-out}
+@keyframes centerReadyPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
 .dial-status{width:min(82vw,520px);margin-top:14px;border:1px solid rgba(255,255,255,.1);background:rgba(0,0,0,.32);padding:12px 14px}.dial-status p{margin:0;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);min-height:18px}.progress{height:5px;background:rgba(255,255,255,.08);margin-top:10px;overflow:hidden}.progress span{display:block;height:100%;width:0;background:var(--gold);box-shadow:0 0 14px rgba(255,214,0,.45)}
 .hidden-input{position:absolute;opacity:0;pointer-events:none;width:0;height:0}
 .ring-loader{text-align:center}.ring-word{font-family:Abolition,Impact,sans-serif;font-size:clamp(76px,12vw,150px);line-height:.84;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;animation:ringPulse 1.2s infinite}@keyframes ringPulse{0%,100%{opacity:.55;transform:scale(.985)}50%{opacity:1;transform:scale(1.02)}}.loader-line{width:min(70vw,420px);height:5px;background:rgba(255,255,255,.08);margin:26px auto 0;overflow:hidden}.loader-line span{display:block;height:100%;width:45%;background:var(--gold);animation:loading 1.4s infinite ease-in-out}@keyframes loading{0%{transform:translateX(-110%)}100%{transform:translateX(260%)}}
@@ -180,11 +187,549 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;opa
 }
 
 @media(max-width:760px){.app{padding:10px}.shell{height:96svh;padding:18px}.layout{grid-template-columns:1fr;text-align:center;gap:22px}.right{text-align:center}.subcopy{margin-left:auto;margin-right:auto}.call-rings{width:min(82vw,320px)}.cta-row{grid-template-columns:1fr}.step{grid-template-columns:36px 1fr}.step-num{width:36px;height:36px}.rotary-wrap{width:min(88vw,350px);height:min(88vw,350px)}.rotary{font-size:13px}.digit{width:46px;height:46px}.wave-wrap{width:min(84vw,320px)}.serif-title{font-size:clamp(38px,11vw,62px)}.main-title{font-size:clamp(38px,12vw,64px)}}
+
+
+/* =========================================================
+   REVIVAL RECEIVER — IPAD 6TH GEN LANDSCAPE POLISH
+   Target booth device: iPad 6th gen, iPadOS Safari, 1024 x 768 landscape.
+   Design goals: full-screen, readable, balanced, no cramped dial screen.
+========================================================= */
+@media (orientation: landscape) {
+  :root{
+    --booth-pad-x: 34px;
+    --booth-pad-top: 26px;
+    --booth-pad-bottom: 24px;
+    --booth-bottom-bar: 82px;
+  }
+
+  html,
+  body{
+    width:100vw;
+    height:100vh;
+    height:100svh;
+    height:100dvh;
+    overflow:hidden;
+  }
+
+  .app{
+    width:100vw;
+    height:100vh;
+    height:100svh;
+    height:100dvh;
+    padding:0;
+    display:block;
+  }
+
+  .shell{
+    width:100vw;
+    height:100vh;
+    height:100svh;
+    height:100dvh;
+    max-width:none;
+    max-height:none;
+    border:0;
+    padding:var(--booth-pad-top) var(--booth-pad-x) var(--booth-pad-bottom);
+    display:flex;
+    flex-direction:column;
+    background:
+      radial-gradient(circle at 78% 22%, rgba(255,214,0,.075), transparent 32%),
+      radial-gradient(circle at 18% 80%, rgba(255,214,0,.05), transparent 34%),
+      linear-gradient(135deg, #121212 0%, #080808 58%, #101010 100%);
+  }
+
+  .shell:after{
+    background:radial-gradient(circle at 50% 50%, transparent 58%, rgba(0,0,0,.42) 100%);
+  }
+
+  .sysline{
+    flex:0 0 auto;
+    min-height:22px;
+    font-size:12px;
+    letter-spacing:.22em;
+    color:rgba(255,255,255,.46);
+    margin-bottom:18px;
+  }
+
+  .dot{width:10px;height:10px;margin-right:10px;}
+
+  .screen.active{
+    flex:1 1 auto;
+    min-height:0;
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+  }
+
+  .hero{
+    flex:1 1 auto;
+    min-height:0;
+    width:100%;
+    display:grid;
+    place-items:center;
+  }
+
+  .layout{
+    width:100%;
+    max-width:980px;
+    grid-template-columns:360px minmax(0, 1fr);
+    gap:52px;
+  }
+
+  .center-only{width:min(90vw, 900px);}
+
+  .eyebrow,
+  .dial-title-small{
+    font-size:14px;
+    letter-spacing:.32em;
+    margin-bottom:14px;
+  }
+
+  .serif-title{
+    font-size:clamp(72px, 8.3vw, 94px);
+    line-height:.9;
+    letter-spacing:-.045em;
+  }
+
+  .main-title,
+  .dial-heading{
+    font-size:clamp(68px, 7.8vw, 92px);
+    line-height:.86;
+  }
+
+  .subcopy{
+    max-width:650px;
+    margin-top:18px;
+    font-size:16px;
+    line-height:1.78;
+    letter-spacing:.13em;
+    color:rgba(255,255,255,.58);
+  }
+
+  .status-chip{
+    margin-top:24px;
+    font-size:13px;
+    letter-spacing:.16em;
+    padding:13px 16px;
+  }
+
+  .cta-row{
+    flex:0 0 auto;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+
+  .cta{
+    min-height:68px;
+    padding:20px 18px;
+    font-size:15px;
+    letter-spacing:.18em;
+  }
+
+  .call-rings{width:330px;}
+  .receiver-icon{width:156px;height:156px;}
+
+  .step-list{
+    max-width:760px;
+    gap:14px;
+    margin-top:28px;
+  }
+
+  .step{
+    grid-template-columns:58px 1fr;
+    padding:18px 20px;
+  }
+
+  .step-num{
+    width:58px;
+    height:58px;
+    font-size:14px;
+  }
+
+  .step-copy,
+  .receiver-check-box,
+  .final-note{
+    font-size:15px;
+    line-height:1.7;
+    letter-spacing:.12em;
+  }
+
+  .receiver-check-box{
+    max-width:700px;
+    padding:24px 28px;
+    margin-top:28px;
+  }
+
+  .ring-word{font-size:clamp(116px, 13vw, 156px);}
+  .loader-line{width:520px;height:7px;}
+  .wave-wrap{width:360px;height:220px;gap:10px;}
+  .wave-wrap span{width:10px;}
+
+  .truth-card-img{
+    width:3.25in;
+    height:4.6in;
+    max-height:66vh;
+    max-width:390px;
+  }
+
+  .admin-toggle{
+    right:22px;
+    bottom:18px;
+    font-size:10px;
+    opacity:.18;
+  }
+}
+
+/* ===========================
+   DIAL SCREEN: REFINED IPAD LANDSCAPE LAYOUT
+   More balanced, less empty, stronger booth hierarchy.
+=========================== */
+@media (orientation: landscape) {
+  .screen[data-screen="dial"]{
+    gap:16px;
+  }
+
+  .screen[data-screen="dial"] .hero{
+    align-items:stretch;
+    justify-items:stretch;
+  }
+
+  .screen[data-screen="dial"] .dial-screen-wrap{
+    width:min(100%, 980px);
+    height:100%;
+    margin:0 auto;
+    max-width:980px;
+    min-height:0;
+    display:grid;
+    grid-template-columns:minmax(320px, 390px) minmax(420px, 1fr);
+    grid-template-areas:
+      "title dial"
+      "heading dial"
+      "number dial"
+      "helper dial"
+      "status dial";
+    column-gap:42px;
+    row-gap:16px;
+    align-content:center;
+    align-items:start;
+    justify-content:center;
+    text-align:left;
+    padding:4px 0 0;
+  }
+
+  .screen[data-screen="dial"] .dial-title-small{
+    grid-area:title;
+    margin:0;
+    font-size:13px;
+    letter-spacing:.36em;
+    color:rgba(255,214,0,.92);
+  }
+
+  .screen[data-screen="dial"] .dial-heading{
+    grid-area:heading;
+    margin:0;
+    font-size:72px;
+    line-height:.84;
+    letter-spacing:.06em;
+    text-shadow:0 8px 30px rgba(0,0,0,.45);
+  }
+
+  .screen[data-screen="dial"] .dial-number{
+    grid-area:number;
+    justify-content:flex-start;
+    gap:10px;
+    margin:4px 0 2px;
+  }
+
+  .screen[data-screen="dial"] .digit{
+    width:62px;
+    height:62px;
+    border:1px solid rgba(255,255,255,.14);
+    background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.36));
+    font-size:28px;
+    box-shadow:inset 0 0 24px rgba(0,0,0,.34);
+  }
+
+  .screen[data-screen="dial"] .digit.filled{
+    box-shadow:0 0 24px rgba(255,214,0,.18), inset 0 0 14px rgba(255,255,255,.12);
+  }
+
+  .screen[data-screen="dial"] .dial-helper{
+    grid-area:helper;
+    width:100%;
+    margin:0;
+    padding:18px 20px;
+    border:1px solid rgba(255,255,255,.10);
+    background:linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.02));
+    font-size:14px;
+    line-height:1.72;
+    letter-spacing:.12em;
+    color:rgba(255,255,255,.73);
+  }
+
+  .screen[data-screen="dial"] .dial-status{
+    grid-area:status;
+    width:100%;
+    margin:0;
+    padding:16px 18px 18px;
+    border:1px solid rgba(255,214,0,.22);
+    background:linear-gradient(180deg, rgba(255,214,0,.09), rgba(255,214,0,.03) 36%, rgba(0,0,0,.26) 100%);
+    box-shadow:0 10px 30px rgba(0,0,0,.18), inset 0 0 0 1px rgba(255,214,0,.05);
+  }
+
+  .screen[data-screen="dial"] .dial-status p{
+    min-height:0;
+    font-size:15px;
+    line-height:1.5;
+    letter-spacing:.14em;
+    color:var(--gold);
+  }
+
+  .screen[data-screen="dial"] .dial-status .progress{
+    height:7px;
+    margin-top:14px;
+    border-radius:999px;
+    overflow:hidden;
+    background:rgba(255,255,255,.08);
+  }
+
+  .screen[data-screen="dial"] .dial-status .progress span{
+    border-radius:999px;
+  }
+
+  .screen[data-screen="dial"] .rotary-wrap{
+    grid-area:dial;
+    justify-self:end;
+    align-self:center;
+    width:min(50vw, 500px, calc(100svh - 168px));
+    height:min(50vw, 500px, calc(100svh - 168px));
+    filter:drop-shadow(0 22px 44px rgba(0,0,0,.48));
+  }
+
+  .screen[data-screen="dial"] .rotary{
+    font-size:16px;
+    border-width:.44em;
+    border-color:rgba(255,214,0,.70);
+    background:
+      radial-gradient(circle at 50% 45%, rgba(255,214,0,.05) 0%, rgba(255,214,0,0) 28%),
+      radial-gradient(circle at 50% 52%, #141414 0%, #080808 66%, #040404 100%);
+    box-shadow:
+      0 0 56px rgba(255,214,0,.10),
+      inset 0 0 76px rgba(0,0,0,.66),
+      inset 0 0 0 1px rgba(255,255,255,.04);
+  }
+
+  .screen[data-screen="dial"] .rotary .dial{
+    left:2.25em;
+    top:2.25em;
+    width:calc(100% - 4.5em);
+    height:calc(100% - 4.5em);
+    border:1px solid rgba(255,255,255,.10);
+    background:radial-gradient(circle at 50% 50%, #090909 0%, #060606 100%);
+    box-shadow:inset 0 0 0 1px rgba(255,214,0,.10), 0 0 24px rgba(255,214,0,.07);
+  }
+
+  .screen[data-screen="dial"] .rotary .number:before{
+    font-size:1.22em;
+    color:rgba(255,255,255,.88);
+    text-shadow:0 3px 10px rgba(0,0,0,.45);
+  }
+
+  .screen[data-screen="dial"] .rotary .hole{
+    width:2.12em;
+    height:2.12em;
+    border-width:2px;
+    background:#070707;
+    border-color:rgba(255,214,0,.42);
+  }
+
+  .screen[data-screen="dial"] .rotary .hole.target{
+    box-shadow:0 0 26px rgba(255,214,0,.34), inset 0 0 10px rgba(255,255,255,.10);
+  }
+
+  .screen[data-screen="dial"] .rotary .center{
+    inset:35.5%;
+    font-size:.92rem;
+    letter-spacing:.20em;
+    border-color:rgba(255,214,0,.32);
+    box-shadow:inset 0 0 20px rgba(255,214,0,.04);
+  }
+
+  .screen[data-screen="dial"] .rotary .center.ready{
+    box-shadow:0 0 26px rgba(255,214,0,.34), 0 0 72px rgba(255,214,0,.12), inset 0 0 18px rgba(255,255,255,.14);
+  }
+
+  .screen[data-screen="dial"] .rotary .guard:before{
+    height:6em;
+    box-shadow:0 0 28px rgba(255,214,0,.36);
+  }
+
+  .screen[data-screen="dial"] .cta-row{
+    gap:14px;
+    width:min(100%, 980px);
+    margin:0 auto;
+  }
+
+  .screen[data-screen="dial"] .cta{
+    min-height:60px;
+    font-size:14px;
+    padding:17px 16px;
+  }
+}
+
+/* Exact iPad 6th-gen landscape pass: 1024 x 768. */
+@media (orientation: landscape) and (max-width: 1100px) and (max-height: 820px) {
+  :root{
+    --booth-pad-x: 28px;
+    --booth-pad-top: 22px;
+    --booth-pad-bottom: 20px;
+  }
+
+  .sysline{margin-bottom:14px;}
+
+  .screen[data-screen="dial"] .dial-screen-wrap{
+    width:min(100%, 948px);
+    grid-template-columns:minmax(300px, 360px) minmax(410px, 1fr);
+    column-gap:34px;
+    row-gap:14px;
+  }
+
+  .screen[data-screen="dial"] .dial-heading{
+    font-size:66px;
+  }
+
+  .screen[data-screen="dial"] .digit{
+    width:58px;
+    height:58px;
+    font-size:26px;
+  }
+
+  .screen[data-screen="dial"] .dial-helper{
+    padding:16px 18px;
+    font-size:13.5px;
+    line-height:1.64;
+  }
+
+  .screen[data-screen="dial"] .dial-status{
+    padding:15px 17px 17px;
+  }
+
+  .screen[data-screen="dial"] .dial-status p{
+    font-size:14px;
+    line-height:1.45;
+  }
+
+  .screen[data-screen="dial"] .rotary-wrap{
+    width:min(48vw, 470px, calc(100svh - 160px));
+    height:min(48vw, 470px, calc(100svh - 160px));
+  }
+
+  .screen[data-screen="dial"] .rotary{
+    font-size:15px;
+  }
+
+  .screen[data-screen="dial"] .cta{
+    min-height:58px;
+    font-size:13.5px;
+  }
+
+  .serif-title{font-size:clamp(64px, 8vw, 82px);}
+  .subcopy{font-size:15px;}
+}
+
+
+/* =========================================================
+   ROTARY VISIBILITY FIX
+   Forces the yellow rotary accents to stay visible in iPad kiosk/fullscreen browsers.
+========================================================= */
+@media (orientation: landscape) {
+  .screen[data-screen="dial"] .rotary {
+    border-color: #ffd600 !important;
+    box-shadow:
+      0 0 42px rgba(255,214,0,.16),
+      inset 0 0 70px rgba(0,0,0,.72),
+      inset 0 0 0 1px rgba(255,214,0,.10) !important;
+  }
+
+  .screen[data-screen="dial"] .rotary .dial {
+    box-shadow:
+      inset 0 0 0 1px rgba(255,214,0,.18),
+      0 0 26px rgba(255,214,0,.08) !important;
+  }
+
+  .screen[data-screen="dial"] .rotary .hole {
+    background: #050505 !important;
+    border: 2px solid rgba(255,214,0,.58) !important;
+    box-shadow:
+      inset 0 0 16px rgba(255,255,255,.04),
+      0 0 10px rgba(255,214,0,.06) !important;
+  }
+
+  .screen[data-screen="dial"] .rotary .hole.target {
+    background: #ffd600 !important;
+    border-color: #ffd600 !important;
+    box-shadow:
+      0 0 34px rgba(255,214,0,.58),
+      0 0 70px rgba(255,214,0,.18),
+      inset 0 0 12px rgba(255,255,255,.18) !important;
+  }
+
+  .screen[data-screen="dial"] .rotary .guard:before {
+    background: #ffd600 !important;
+    box-shadow:
+      0 0 26px rgba(255,214,0,.55),
+      0 0 58px rgba(255,214,0,.18) !important;
+  }
+
+  .screen[data-screen="dial"] .rotary .center {
+    color: #ffd600 !important;
+    border-color: rgba(255,214,0,.42) !important;
+  }
+
+  .screen[data-screen="dial"] .rotary .center.ready {
+    background: #ffd600 !important;
+    color: #050505 !important;
+    border-color: #ffd600 !important;
+  }
+
+  .screen[data-screen="dial"] .dial-status,
+  .screen[data-screen="dial"] .digit.filled {
+    border-color: #ffd600 !important;
+  }
+
+  .screen[data-screen="dial"] .dial-status p {
+    color: #ffd600 !important;
+  }
+
+  .screen[data-screen="dial"] .progress span {
+    background: #ffd600 !important;
+    box-shadow: 0 0 18px rgba(255,214,0,.5) !important;
+  }
+}
+
+
+/* =========================================================
+   TYPED NUMBER COLOR FIX
+   Keeps entered dial digits yellow for better booth readability.
+========================================================= */
+@media (orientation: landscape) {
+  .screen[data-screen="dial"] .digit.filled {
+    background: rgba(255,214,0,.10) !important;
+    color: #ffd600 !important;
+    border-color: #ffd600 !important;
+    text-shadow: 0 0 16px rgba(255,214,0,.45) !important;
+    box-shadow:
+      0 0 22px rgba(255,214,0,.16),
+      inset 0 0 18px rgba(255,214,0,.05) !important;
+  }
+}
+
 </style>
 </head>
 <body class="nojs">
 <main class="app"><section class="shell">
 <div class="sysline"><span><span class="dot"></span><span id="statusLine">Incoming_Call</span></span><span id="screenLabel">Screen_01</span></div>
+<button class="admin-toggle" onclick="openAdmin()">ADMIN</button>
 
 <section class="screen active" data-screen="landing">
   <div class="hero"><div class="layout"><div class="left"><div class="call-rings"><div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div><div class="ring r4"></div><div class="receiver-icon"><svg class="receiver-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42" aria-hidden="true"><path d="M15.562 20.766c-1.328-1.922-2.118-4.241-2.281-4.438c1.945-1.356 5.749-3.06 5.962-5.505c.271-3.159-5.081-9.763-6.107-9.823c-2.808.03-7.947 4.782-8.556 6.218c-1.132 2.969-.571 5.732 1.375 9.732c2.478 5.95 11.682 17.237 16.947 20.78c3.484 2.674 6.029 3.724 9.068 3.09c1.413-.268 6.516-4.455 7.027-7.286c.125-1.05-5.807-8.011-8.875-8.287c-2.382-.22-4.666 3.346-6.303 5.089c-.163-.208-1.559-1.297-3.057-3.021c-1.95-2.049-3.762-4.456-5.2-6.549z"/></svg></div></div></div><div class="right"><p class="eyebrow">Incoming Call</p><h1 class="serif-title">The line is<br>waiting.</h1><p class="subcopy">Begin when you are ready to listen.</p><div class="status-chip"><span class="pill"></span> the spirit that's still moving</div></div></div></div>
@@ -222,7 +767,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;opa
           <div class="hole-wrapper"><div class="hole" data-num="8"></div></div>
           <div class="hole-wrapper"><div class="hole" data-num="9"></div></div>
           <div class="hole-wrapper"><div class="hole" data-num="0"></div></div>
-          <div class="center">Dial</div>
+          <div id="rotaryCenterAction" class="center" onclick="handleCenterDialClick()">Dial</div>
         </div>
         <div class="guard"></div>
       </div>
@@ -232,8 +777,8 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;opa
   <div class="cta-row"><button class="cta secondary" onclick="go('receiver')">Back</button><button class="cta secondary" onclick="resetRotary()">Reset Number</button></div>
 </section>
 
-<section class="screen" data-screen="ringing"><div class="hero"><div class="ring-loader"><p class="eyebrow">Line Connected</p><div class="ring-word">RING...<br>RING...</div><p class="subcopy" style="margin-left:auto;margin-right:auto">The call is coming through.</p><div class="loader-line"><span></span></div></div></div></section>
-<section class="screen" data-screen="call"><div class="hero"><div class="layout"><div class="left"><div><div class="wave-wrap"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="progress"><span id="listenProgress" style="width:0%"></span></div></div></div><div class="right"><p class="eyebrow">Call In Progress</p><h1 class="serif-title">Listen<br>closely.</h1><p class="subcopy">A short spoken message plays here through the receiver.</p><div class="status-chip"><span class="pill"></span> <span id="listenTimer">00:00 playing</span></div></div></div></div></section>
+<section class="screen" data-screen="ringing"><div class="hero"><div class="ring-loader"><p class="eyebrow">Calling</p><div class="ring-word">RING...<br>RING...</div><p class="subcopy" style="margin-left:auto;margin-right:auto">Waiting for the line to connect.</p><div class="loader-line"><span></span></div></div></div></section>
+<section class="screen" data-screen="call"><div class="hero"><div class="layout"><div class="left"><div><div class="wave-wrap"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="progress"><span id="listenProgress" style="width:0%"></span></div></div></div><div class="right"><p class="eyebrow">Call In Progress</p><h1 class="serif-title">Listen<br>closely.</h1><p class="subcopy" id="callSubcopy">The message is connecting through the receiver.</p><div class="status-chip"><span class="pill"></span> <span id="listenTimer">connecting...</span></div></div></div></div><button id="playMessageBtn" class="cta" style="display:none" onclick="playMessageManually()">PLAY MESSAGE</button></section>
 <section class="screen" data-screen="received"><div class="hero"><div class="center-only"><p class="eyebrow">Message Received</p><h1 class="serif-title">You received<br>a message.</h1><p class="subcopy" style="margin-left:auto;margin-right:auto">Reveal the truth when you are ready.</p></div></div><div class="cta-row"><button class="cta secondary" onclick="replayMessage()">Listen Again</button><button class="cta" onclick="go('reveal')">See What I Received</button></div></section>
 <section class="screen" data-screen="reveal"><div class="hero"><div class="card-reveal-wrap"><p class="eyebrow">You Received This Truth Today</p><img id="truthCardImage" class="truth-card-img" src="" alt="Receiver Card"><div class="final-note" id="takeCardText">Take the matching Receiver Card before you go.</div></div></div><div class="cta-row"><button class="cta secondary" onclick="go('received')">Back</button><button class="cta" onclick="go('sendoff')">I’ll Carry This</button></div></section>
 <section class="screen" data-screen="sendoff"><div class="hero"><div class="center-only"><p class="eyebrow">Send Off</p><h1 class="serif-title">Carry this<br>truth with you.</h1><p class="subcopy" style="margin-left:auto;margin-right:auto" id="sendoffText">Take the matching receiver card before you go.</p><div class="status-chip"><span class="pill"></span> next call ready</div></div></div><div class="cta-row"><button class="cta secondary" onclick="go('reveal')">Back</button><button class="cta" onclick="restart()">Next Call</button></div></section>
@@ -267,6 +812,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;opa
       <button class="admin-btn" onclick="exportInventory()">Export Counts</button>
       <button class="admin-btn danger" onclick="resetAllCounts()">Reset All Counts</button>
     </div>
+    <div class="admin-note">For final event use, this local inventory works best on one iPad. If you use multiple devices, move counts to Firestore.</div>
   </div>
 </div>
 
@@ -358,8 +904,7 @@ function go(name){
   statusLine.textContent = name === "dial" ? "Dial_2026" : name + "_Active";
   screenLabel.textContent = "Screen_" + String(idx).padStart(2,"0");
 
-  if(name === "ringing") startRingThenVoiceover();
-  if(name === "call") startVoiceover();
+  if(name === "call") prepareCallScreen();
   if(name === "reveal") renderReveal();
 }
 
@@ -521,6 +1066,7 @@ async function reserveCardAfterDial(){
 ========================= */
 
 function playRotaryMoveSound(){
+  if(typeof rotaryMoveAudio === "undefined") return;
   try{
     rotaryMoveAudio.currentTime = 0;
     rotaryMoveAudio.play().catch(err => {
@@ -532,6 +1078,7 @@ function playRotaryMoveSound(){
 }
 
 function stopRotaryMoveSound(){
+  if(typeof rotaryMoveAudio === "undefined") return;
   try{
     rotaryMoveAudio.pause();
     rotaryMoveAudio.currentTime = 0;
@@ -541,6 +1088,7 @@ function stopRotaryMoveSound(){
 }
 
 function playDialCorrectSound(){
+  if(typeof dialCorrectAudio === "undefined") return;
   try{
     dialCorrectAudio.currentTime = 0;
     dialCorrectAudio.play().catch(err => {
@@ -551,56 +1099,104 @@ function playDialCorrectSound(){
   }
 }
 
-async function playAudio(src){
+function playAudioSoft(src){
   return new Promise(resolve => {
-    if(currentAudio){
-      currentAudio.pause();
-      currentAudio.currentTime = 0;
-    }
-
     const audio = new Audio(src);
-    currentAudio = audio;
     audio.preload = "auto";
     audio.volume = 1;
 
-    audio.onended = () => resolve();
+    audio.onended = () => resolve(true);
     audio.onerror = () => {
-      console.error("Audio failed:", src);
-      alert("Audio could not load: " + src);
-      resolve();
+      console.warn("Audio failed softly:", src);
+      resolve(false);
     };
 
     const playPromise = audio.play();
 
     if(playPromise && typeof playPromise.catch === "function"){
       playPromise.catch(err => {
-        console.error("Audio blocked or failed:", err);
-        alert("Audio was blocked or failed. Check file path or tap interaction.");
-        resolve();
+        console.warn("Audio blocked softly:", src, err);
+        resolve(false);
       });
     }
   });
 }
 
-async function startRingThenVoiceover(){
-  await playAudio(RING_AUDIO_SRC);
-  go("call");
+function prepareCallScreen(){
+  const progress = document.getElementById("listenProgress");
+  const timer = document.getElementById("listenTimer");
+  const playBtn = document.getElementById("playMessageBtn");
+  const callSubcopy = document.getElementById("callSubcopy");
+
+  if(progress) progress.style.width = "0%";
+  if(timer) timer.textContent = "connecting...";
+  if(playBtn) playBtn.style.display = "none";
+  if(callSubcopy) callSubcopy.textContent = "The message is connecting through the receiver.";
 }
 
-function startVoiceover(){
-  if(!selectedCard){
-    selectedCard = pickAvailableCard();
-    if(!selectedCard){
+function handleCenterDialClick(){
+  const center = document.getElementById("rotaryCenterAction");
+  if(!center || !center.classList.contains("ready")) return;
+
+  center.classList.remove("ready");
+  center.textContent = "Dial";
+  center.style.pointerEvents = "none";
+
+  startCallSequence();
+}
+
+async function startCallSequence(){
+  go("ringing");
+
+  // Screen flow should not depend on audio or Firestore speed.
+  const ringPromise = playAudioSoft(RING_AUDIO_SRC);
+  const reservePromise = reserveCardAfterDial();
+
+  setTimeout(async () => {
+    const ok = await reservePromise.catch(err => {
+      console.error("Card reservation failed:", err);
+      return false;
+    });
+
+    if(!ok){
       go("empty");
       return;
     }
+
+    await ringPromise;
+    go("call");
+    tryAutoPlayVoiceover();
+  }, 2500);
+}
+
+function tryAutoPlayVoiceover(){
+  if(!selectedCard){
+    go("empty");
+    return;
+  }
+
+  playSelectedVoiceover({ fromUserTap:false });
+}
+
+function playMessageManually(){
+  playSelectedVoiceover({ fromUserTap:true });
+}
+
+function playSelectedVoiceover({ fromUserTap } = { fromUserTap:false }){
+  if(!selectedCard){
+    go("empty");
+    return;
   }
 
   const progress = document.getElementById("listenProgress");
   const timer = document.getElementById("listenTimer");
+  const playBtn = document.getElementById("playMessageBtn");
+  const callSubcopy = document.getElementById("callSubcopy");
 
-  progress.style.width = "0%";
-  timer.textContent = "message playing";
+  if(progress) progress.style.width = "0%";
+  if(timer) timer.textContent = "message playing";
+  if(playBtn) playBtn.style.display = "none";
+  if(callSubcopy) callSubcopy.textContent = "The message is now playing through the receiver. Stay on the line.";
 
   if(currentAudio){
     currentAudio.pause();
@@ -611,41 +1207,65 @@ function startVoiceover(){
   currentAudio = audio;
   audio.preload = "auto";
 
+  clearInterval(listenTimerId);
+
   listenTimerId = setInterval(() => {
     if(audio.duration && isFinite(audio.duration)){
       const pct = Math.min(100, (audio.currentTime / audio.duration) * 100);
-      progress.style.width = pct + "%";
-      timer.textContent = formatTime(audio.currentTime) + " playing";
+      if(progress) progress.style.width = pct + "%";
+      if(timer) timer.textContent = formatTime(audio.currentTime) + " playing";
     }else{
-      const current = parseFloat(progress.style.width) || 0;
-      progress.style.width = Math.min(90, current + 2) + "%";
-      timer.textContent = "message playing";
+      const current = progress ? (parseFloat(progress.style.width) || 0) : 0;
+      if(progress) progress.style.width = Math.min(90, current + 2) + "%";
+      if(timer) timer.textContent = "message playing";
     }
   }, 250);
 
   audio.onended = () => {
     clearInterval(listenTimerId);
-    progress.style.width = "100%";
+    if(progress) progress.style.width = "100%";
     go("received");
   };
 
   audio.onerror = () => {
     clearInterval(listenTimerId);
-    console.error("Voiceover failed:", selectedCard.audio);
-    alert("Voiceover could not load: " + selectedCard.audio);
-    go("received");
+    console.warn("Voiceover failed:", selectedCard.audio);
+    showPlayMessageFallback("The message could not start. Tap PLAY MESSAGE to try again.");
   };
 
   const playPromise = audio.play();
 
   if(playPromise && typeof playPromise.catch === "function"){
     playPromise.catch(err => {
-      console.error("Voiceover blocked:", err);
-      alert("Voiceover was blocked or failed to play.");
       clearInterval(listenTimerId);
-      go("received");
+      console.warn("Voiceover blocked:", err);
+
+      if(fromUserTap){
+        showPlayMessageFallback("Audio was blocked. Check the file path or device audio settings.");
+      }else{
+        showPlayMessageFallback("The line is ready. Tap PLAY MESSAGE to listen.");
+      }
     });
   }
+}
+
+function showPlayMessageFallback(message){
+  const timer = document.getElementById("listenTimer");
+  const playBtn = document.getElementById("playMessageBtn");
+  const callSubcopy = document.getElementById("callSubcopy");
+  const progress = document.getElementById("listenProgress");
+
+  if(timer) timer.textContent = "call ready";
+  if(callSubcopy) callSubcopy.textContent = message;
+  if(playBtn) playBtn.style.display = "block";
+  if(progress) progress.style.width = "0%";
+}
+
+function replayMessage(){
+  go("call");
+  setTimeout(() => {
+    playMessageManually();
+  }, 50);
 }
 
 function formatTime(seconds){
@@ -850,13 +1470,14 @@ function handleDialed(num){
   if(targetIndex >= target.length){
     holeEls.forEach(h => h.classList.remove("target"));
     dialMessage.textContent = "2026 entered. Calling now...";
-    dialHelper.textContent = "Line connected.";
+    dialHelper.textContent = "Number entered. Tap the highlighted DIAL center to open the line.";
 
-    reserveCardAfterDial().then(ok => {
-      if(ok){
-        setTimeout(() => go("ringing"), 700);
-      }
-    });
+    const centerAction = document.getElementById("rotaryCenterAction");
+    if(centerAction){
+      centerAction.textContent = "Dial";
+      centerAction.classList.add("ready");
+      centerAction.style.pointerEvents = "auto";
+    }
   }else{
     updateRotaryTarget();
   }
@@ -875,6 +1496,14 @@ function updateRotaryTarget(){
 
 function resetRotary(){
   targetIndex = 0;
+
+  const centerAction = document.getElementById("rotaryCenterAction");
+  if(centerAction){
+    centerAction.textContent = "Dial";
+    centerAction.classList.remove("ready");
+    centerAction.style.pointerEvents = "";
+  }
+
   dialInput.value = "";
   dialEl.classList.add("smooth");
   dialEl.removeAttribute("style");

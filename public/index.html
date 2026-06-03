@@ -1,5 +1,11 @@
 
 
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -167,11 +173,24 @@
                 class="bg-[#ffd600] hidden text-black font-mono-vhs text-[10px] px-4 md:px-6 py-1.5 font-bold uppercase tracking-widest hover:bg-white transition-all active:scale-95">
             REGISTER
         </button>
+
+        <button id="photosNavBtn"
+            onclick="openPhotosPage()"
+            class="hidden text-yellow-400 font-mono-vhs text-[10px] px-2 md:px-3 py-1.5 font-bold uppercase tracking-widest hover:text-white transition-all active:scale-95">
+        PHOTOS
+    </button>
+
+        <button id="recordingsNavBtn"
+            onclick="openRecordingsPage()"
+            class="hidden text-yellow-400 font-mono-vhs text-[10px] px-2 md:px-3 py-1.5 font-bold uppercase tracking-widest hover:text-white transition-all active:scale-95">
+        RECORDINGS
+    </button>
     <button id="vaultNavBtn"
             onclick="openVaultManual()"
             class="bg-[#ffd600] hidden text-black font-mono-vhs text-[10px] px-4 md:px-6 py-1.5 font-bold uppercase tracking-widest hover:bg-white transition-all active:scale-95">
         VAULT
     </button>
+
         <button onclick="toggleMenu()" class="z-[110] flex flex-col gap-1.5 p-2">
             <div id="line1" class="w-6 h-0.5 bg-yellow-400 transition-all duration-300"></div>
             <div id="line2" class="w-6 h-0.5 bg-yellow-400 transition-all duration-300"></div>
@@ -185,11 +204,15 @@
             <a href="javascript:void(0)" onclick="handleNavClick('about')" class="hover:text-yellow-400">About</a>
             <a href="javascript:void(0)" onclick="handleNavClick('details')" class="hover:text-yellow-400">Details</a>
             <a href="javascript:void(0)" onclick="handleNavClick('playlist')" class="hover:text-yellow-400">Sound Bank</a>
+            <a href="javascript:void(0)" onclick="handleNavClick('prayer')" class="hover:text-yellow-400">Prayer</a>
+            <a id="photosMenuLink" href="javascript:void(0)" onclick="openPhotosPage()" class="hover:text-yellow-400 hidden">Photos</a>
+            <a id="recordingsMenuLink" href="javascript:void(0)" onclick="openRecordingsPage()" class="hover:text-yellow-400 hidden">Recordings</a>
             
             <a href="javascript:void(0)" onclick="handleNavClick('register')" class="text-yellow-400 hidden hover:scale-110 transition-transform">Registration</a>
             <a href="javascript:void(0)" onclick="handleNavClick('faq')" class="hover:text-yellow-400">FAQ</a>
             <a id="vaultMenuLink" href="javascript:void(0)" onclick="openVaultManual()" class="hover:text-yellow-400 hidden"> Vault </a>
             <a href="javascript:void(0)" onclick="handleNavClick('countdown')" class="hover:text-yellow-400">Countdown</a>
+            <a href="javascript:void(0)" onclick="handleNavClick('help')" class="hover:text-yellow-400">Need Help?</a>
         </div>
     </div>
 </nav>
@@ -303,6 +326,57 @@ function toggleMenu() {
                     class="w-full aspect-square object-cover block bg-[#181818]">
             </div>
 
+        </div>
+    </div>
+</section>
+
+<!-- PRAYER POINTS SECTION -->
+<section id="prayer" class="py-16 md:py-24 px-5 bg-[#080808] border-y border-white/5">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-[.9fr_1.1fr] gap-8 items-center">
+
+        <!-- TEXT SIDE -->
+        <div>
+            <p class="font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[.35em] mb-5">
+                Prayer Points
+            </p>
+
+            <h2 class="font-abolition text-yellow-400 text-6xl md:text-9xl uppercase leading-none">
+                Start<br>With<br>Prayer
+            </h2>
+
+            <p class="font-mono-vhs text-white/35 text-[10px] uppercase tracking-[.25em] mt-7 leading-relaxed max-w-md">
+                Before the sessions. Before the songs. Before the room fills. We ask God to move.
+            </p>
+        </div>
+
+        <!-- PRAYER CARDS -->
+        <div class="border border-white/10 bg-black p-4 md:p-6 shadow-2xl">
+            <div class="border border-black/20 p-5 bg-[#ffd600] text-black mb-4 shadow-[8px_8px_0_rgba(255,255,255,0.06)]">
+                <p class="font-mono-vhs text-black text-[9px] uppercase tracking-[.3em] font-bold">
+                    01 // Hunger
+                </p>
+                <p class="font-mono-vhs text-black/70 text-[11px] leading-relaxed uppercase tracking-[.07em] mt-2">
+                    Ask God to give every student a deep hunger for His presence, removing distractions and preparing hearts to seek Him at Revival 2026.
+                </p>
+            </div>
+
+            <div class="border border-black/20 p-5 bg-[#ffd600] text-black mb-4 shadow-[8px_8px_0_rgba(255,255,255,0.06)]">
+                <p class="font-mono-vhs text-black text-[9px] uppercase tracking-[.3em] font-bold">
+                    02 // Encounter
+                </p>
+                <p class="font-mono-vhs text-black/70 text-[11px] leading-relaxed uppercase tracking-[.07em] mt-2">
+                    Pray that the Holy Spirit would move freely during Revival 2026, bringing conviction, healing, and transformation so that no student leaves unchanged.
+                </p>
+            </div>
+
+            <div class="border border-black/20 p-5 bg-[#ffd600] text-black shadow-[8px_8px_0_rgba(255,255,255,0.06)]">
+                <p class="font-mono-vhs text-black text-[9px] uppercase tracking-[.3em] font-bold">
+                    03 // Continuation
+                </p>
+                <p class="font-mono-vhs text-black/70 text-[11px] leading-relaxed uppercase tracking-[.07em] mt-2">
+                    Pray that the fire of Revival 2026 would continue beyond the event, and that every student would keep walking closely with and being led by the Holy Spirit daily.
+                </p>
+            </div>
         </div>
     </div>
 </section>
@@ -548,6 +622,69 @@ function toggleMenu() {
             </section>
 
 
+
+            <section id="photos" class="py-14 md:py-28 px-4 md:px-6 bg-black border-y border-white/5 hidden">
+                <div class="max-w-6xl mx-auto">
+                    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-5 mb-7 md:mb-10">
+                        <div>
+                            <p class="font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[0.35em] mb-3">
+                                Photos Archive
+                            </p>
+                            <h2 class="font-abolition text-white text-5xl md:text-7xl uppercase leading-none">
+                                Moments from<br class="hidden md:block"> the room.
+                            </h2>
+                        </div>
+
+                        <p id="photosIntroText" class="font-mono-vhs text-white/40 text-[10px] md:text-xs uppercase tracking-[0.16em] leading-relaxed max-w-md md:text-right">
+                            View the full Revival // 2026 photo archive on the dedicated photos page.
+                        </p>
+                    </div>
+
+                    <div id="photosEmptyState" class="border border-white/10 bg-[#111111] p-8 md:p-10 text-center">
+                        <p class="font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[0.35em] mb-3">
+                            Standby
+                        </p>
+
+                        <h3 class="font-abolition text-white text-4xl md:text-6xl uppercase leading-none">
+                            Photos will appear here soon.
+                        </h3>
+
+                        <p class="font-mono-vhs text-white/35 text-[10px] md:text-xs uppercase tracking-[0.16em] leading-relaxed mt-5 max-w-xl mx-auto">
+                            The archive will open after photos are published.
+                        </p>
+                    </div>
+
+                    <div id="photosContent" class="hidden">
+                        <button id="featuredPhotoBtn"
+                            type="button"
+                            onclick="openPhotosPage()"
+                            class="group relative w-full min-h-[420px] md:min-h-[620px] overflow-hidden border border-white/10 bg-[#111111] text-left">
+
+                            <img id="featuredPhotoImg"
+                                src=""
+                                alt="Featured Revival photo"
+                                class="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-[1.03] transition-transform duration-700">
+
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent"></div>
+
+                            <div class="absolute left-5 right-5 bottom-5 md:left-8 md:right-8 md:bottom-8">
+                                <p class="font-mono-vhs text-yellow-400 text-[9px] uppercase tracking-[0.28em] mb-3">
+                                    Featured Moment
+                                </p>
+
+                                <h3 id="featuredPhotoTitle" class="font-abolition text-white text-5xl md:text-8xl uppercase leading-none">
+                                    Revival in motion.
+                                </h3>
+
+                                <div class="mt-6 inline-flex items-center bg-[#ffd600] text-black px-5 py-3 font-mono-vhs text-[10px] uppercase tracking-[0.25em] font-bold group-hover:bg-white transition-all">
+                                    View All Photos
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
             <section id="register" class="hidden-registration py-20 md:py-32 bg-[#ffd600] text-[#1a1a1b] relative">
         <div class="max-w-xl mx-auto px-6">
             <h2 class="font-abolition text-black text-[30px] uppercase text-center md:text-center">// REGISTRATION </h2>
@@ -751,7 +888,7 @@ function toggleMenu() {
                                 <span class="shrink-0 text-yellow-400 group-open:rotate-45 transition-transform text-lg">+</span>
                             </summary>
                             <p class="mt-2 text-white/50 text-[10px] md:text-xs leading-relaxed">
-                                Please bring your Bible, notebook and pen, jacket, tumbler or water bottle, and an expectant heart.
+                                Please bring your Bible, Campus ID Lanyard, notebook and pen, jacket, tumbler or water bottle, and an expectant heart.
                             </p>
                         </details>
                     </div>
@@ -842,6 +979,61 @@ function toggleMenu() {
     Get ready to be <span class="italic">moved</span> by the <br>
      <span class="text-yellow-400 font-bold">Spirit that's still moving.</span>
 </p>
+    </section>
+
+    <section id="help" class="py-20 md:py-32 px-5 bg-[#080808] border-t border-white/5">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-[.9fr_1.1fr] gap-8 items-center">
+            <div>
+                <p class="font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[.35em] mb-5">
+                    Questions & Concerns
+                </p>
+
+                <h2 class="font-abolition text-yellow-400 text-6xl md:text-9xl uppercase leading-none">
+                    Need<br>Help?
+                </h2>
+
+                <p class="font-mono-vhs text-white/35 text-[10px] uppercase tracking-[.25em] mt-7 leading-relaxed max-w-md">
+                    If you have any concerns, questions, or clarifications before Revival 2026, send us a message and our team will respond as soon as possible.
+                </p>
+            </div>
+
+            <form id="needHelpForm" class="border border-white/10 bg-black p-4 md:p-6 font-mono-vhs">
+                <input type="text" name="website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true">
+
+                <div class="border border-white/10 bg-[#111111] p-5 mb-4">
+                    <label for="helpName" class="block text-yellow-400 text-[9px] uppercase tracking-[.3em] font-bold mb-3">
+                        Your Name *
+                    </label>
+                    <input id="helpName" name="name" type="text" placeholder="Juan Dela Cruz" required
+                        class="w-full bg-black border border-white/10 px-4 py-3 text-white font-mono-vhs text-[11px] uppercase tracking-[.08em] outline-none focus:border-yellow-400 transition-all placeholder:text-white/15">
+                </div>
+
+                <div class="border border-white/10 bg-[#111111] p-5 mb-4">
+                    <label for="helpEmail" class="block text-yellow-400 text-[9px] uppercase tracking-[.3em] font-bold mb-3">
+                        Email Address *
+                    </label>
+                    <input id="helpEmail" name="email" type="email" placeholder="you@example.com" required
+                        class="w-full bg-black border border-white/10 px-4 py-3 text-white font-mono-vhs text-[11px] tracking-[.08em] outline-none focus:border-yellow-400 transition-all placeholder:text-white/15">
+                </div>
+
+                <div class="border border-white/10 bg-[#111111] p-5 mb-4">
+                    <label for="helpMessage" class="block text-yellow-400 text-[9px] uppercase tracking-[.3em] font-bold mb-3">
+                        Your Message *
+                    </label>
+                    <textarea id="helpMessage" name="message" rows="6" placeholder="Type your question here..." required
+                        class="w-full bg-black border border-white/10 px-4 py-3 text-white font-mono-vhs text-[11px] tracking-[.08em] outline-none focus:border-yellow-400 transition-all resize-none placeholder:text-white/15"></textarea>
+                </div>
+
+                <button id="needHelpSubmitBtn" type="submit"
+                    class="w-full bg-[#ffd600] text-black py-4 font-mono-vhs text-[10px] uppercase tracking-[.3em] font-bold hover:bg-white transition-all active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed">
+                    Send Message
+                </button>
+
+                <p id="needHelpStatus" class="min-h-[1.2rem] mt-4 font-mono-vhs text-[10px] uppercase tracking-[.18em] text-white/35 leading-relaxed"></p>
+            </form>
+        </div>
+    </section>
+
               
     </main>
 
@@ -876,6 +1068,7 @@ function toggleMenu() {
         <div class="absolute inset-0 bg-gradient-to-r from-transparent via-yellow-400/20 to-transparent"></div>
     </div>
 </footer>
+
 
 <!-- scripts -->
     <script>
@@ -974,9 +1167,11 @@ function toggleMenu() {
                 '/about': 'about',
                 '/details': 'details',
                 '/playlist': 'playlist',
+                '/prayer': 'prayer',
                 '/register': 'register',
                 '/faq': 'faq',
-                '/countdown': 'countdown'
+                '/countdown': 'countdown',
+                '/help': 'help'
             };
 
             const registerSection = document.getElementById('register');
@@ -1059,9 +1254,13 @@ function toggleMenu() {
             setDoc,
             updateDoc,
             getDoc,
-            getDocs,    
-            collection, 
-            getCountFromServer, 
+            getDocs,
+            collection,
+            query,
+            where,
+            orderBy,
+            onSnapshot,
+            getCountFromServer,
             serverTimestamp 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
@@ -1088,6 +1287,21 @@ function toggleMenu() {
         let vaultActive = false;
         let pendingVaultSubPage = null;
 
+        let photoState = {
+            photosVisible: false,
+            day1Visible: false,
+            day2Visible: false
+        };
+
+        let recordingState = {
+            recordingsVisible: false,
+            day1Visible: false,
+            day2Visible: false
+        };
+
+        let publicPhotos = [];
+        let activePhotoFilter = "day1";
+
             async function checkVaultNavState() {
         try {
             const eventStateDoc = await getDoc(doc(db, "settings", "eventState"));
@@ -1110,7 +1324,198 @@ function toggleMenu() {
         }
     }
 
+
     checkVaultNavState();
+
+    window.openPhotosPage = function() {
+        window.location.href = "/photos";
+    };
+
+    window.openRecordingsPage = function() {
+        window.location.href = "/recordings";
+    };
+
+    async function checkRecordingsNavState() {
+        try {
+            const recordingStateDoc = await getDoc(doc(db, "settings", "recordingState"));
+
+            if (recordingStateDoc.exists()) {
+                recordingState = { ...recordingState, ...recordingStateDoc.data() };
+            }
+
+            applyRecordingsVisibility();
+        } catch (error) {
+            console.error("Recording state check failed:", error);
+            applyRecordingsVisibility();
+        }
+    }
+
+    function applyRecordingsVisibility() {
+        const hasDay1 = recordingState.recordingsVisible === true && recordingState.day1Visible === true;
+        const hasDay2 = recordingState.recordingsVisible === true && recordingState.day2Visible === true;
+        const shouldShowRecordings = hasDay1 || hasDay2;
+
+        const recordingsNavBtn = document.getElementById("recordingsNavBtn");
+        const recordingsMenuLink = document.getElementById("recordingsMenuLink");
+
+        if (recordingsNavBtn) recordingsNavBtn.classList.toggle("hidden", !shouldShowRecordings);
+        if (recordingsMenuLink) recordingsMenuLink.classList.toggle("hidden", !shouldShowRecordings);
+    }
+
+    async function checkPhotosNavState() {
+        try {
+            const photoStateDoc = await getDoc(doc(db, "settings", "photoState"));
+
+            if (photoStateDoc.exists()) {
+                photoState = { ...photoState, ...photoStateDoc.data() };
+            }
+
+            applyPhotosVisibility();
+            await loadPublicPhotos();
+
+        } catch (error) {
+            console.error("Photo state check failed:", error);
+            applyPhotosVisibility();
+        }
+    }
+
+    function applyPhotosVisibility() {
+        const hasDay1 = photoState.photosVisible === true && photoState.day1Visible === true;
+        const hasDay2 = photoState.photosVisible === true && photoState.day2Visible === true;
+        const shouldShowPhotos = hasDay1 || hasDay2;
+
+        const photosSection = document.getElementById("photos");
+        const photosNavBtn = document.getElementById("photosNavBtn");
+        const photosMenuLink = document.getElementById("photosMenuLink");
+
+        if (photosNavBtn) photosNavBtn.classList.toggle("hidden", !shouldShowPhotos);
+        if (photosMenuLink) photosMenuLink.classList.toggle("hidden", !shouldShowPhotos);
+        if (photosSection) photosSection.classList.toggle("hidden", !shouldShowPhotos);
+
+        if (hasDay2) {
+            activePhotoFilter = "all";
+        } else if (hasDay1) {
+            activePhotoFilter = "day1";
+        }
+    }
+
+    function renderPhotoTabs() {
+        const tabs = document.getElementById("photoTabs");
+        if (!tabs) return;
+
+        const hasDay1 = photoState.photosVisible === true && photoState.day1Visible === true;
+        const hasDay2 = photoState.photosVisible === true && photoState.day2Visible === true;
+
+        const options = [];
+
+        if (hasDay1 && hasDay2) {
+            options.push({ id: "all", label: "All" });
+            options.push({ id: "day1", label: "Day 1" });
+            options.push({ id: "day2", label: "Day 2" });
+        } else if (hasDay1) {
+            options.push({ id: "day1", label: "Day 1" });
+        } else if (hasDay2) {
+            options.push({ id: "day2", label: "Day 2" });
+        }
+
+        if (!options.some(option => option.id === activePhotoFilter)) {
+            activePhotoFilter = options[0]?.id || "day1";
+        }
+
+        tabs.innerHTML = options.map(option => `
+            <button type="button"
+                    onclick="setPhotoFilter('${option.id}')"
+                    class="${option.id === activePhotoFilter ? 'bg-[#ffd600] text-black border-[#ffd600]' : 'bg-white/5 text-white/45 border-white/10'} shrink-0 border px-4 py-3 text-[10px] uppercase tracking-[0.22em] font-bold transition-all">
+                ${option.label}
+            </button>
+        `).join("");
+    }
+
+    window.setPhotoFilter = function(filter) {
+        activePhotoFilter = filter;
+        renderPhotos();
+    };
+
+    async function loadPublicPhotos() {
+        try {
+            const photosQuery = query(
+                collection(db, "photos"),
+                where("status", "==", "approved"),
+                where("source", "==", "admin"),
+                orderBy("createdAt", "desc")
+            );
+
+            onSnapshot(photosQuery, (snapshot) => {
+                publicPhotos = [];
+                snapshot.forEach(photoDoc => publicPhotos.push({ id: photoDoc.id, ...photoDoc.data() }));
+                renderPhotos();
+            }, (error) => {
+                console.error("Photos listener failed:", error);
+            });
+
+        } catch (error) {
+            console.error("Public photos load failed:", error);
+        }
+    }
+
+    function visiblePhotosByState() {
+        return publicPhotos.filter(photo => {
+            if (!photo || !photo.url) return false;
+            if (photo.day === "day1" && photoState.day1Visible !== true) return false;
+            if (photo.day === "day2" && photoState.day2Visible !== true) return false;
+
+            if (activePhotoFilter === "day1") return photo.day === "day1";
+            if (activePhotoFilter === "day2") return photo.day === "day2";
+            return true;
+        });
+    }
+
+    function renderPhotos() {
+        applyPhotosVisibility();
+
+        const emptyState = document.getElementById("photosEmptyState");
+        const content = document.getElementById("photosContent");
+        const featuredImg = document.getElementById("featuredPhotoImg");
+        const featuredTitle = document.getElementById("featuredPhotoTitle");
+        const introText = document.getElementById("photosIntroText");
+
+        if (!emptyState || !content || !featuredImg) return;
+
+        const photos = visiblePhotosByState();
+
+        if (introText) {
+            introText.textContent = photoState.day2Visible
+                ? "View the full Day 1 and Day 2 Revival // 2026 photo archive."
+                : "View the full Day 1 Revival // 2026 photo archive.";
+        }
+
+        if (photos.length === 0) {
+            emptyState.classList.remove("hidden");
+            content.classList.add("hidden");
+            return;
+        }
+
+        emptyState.classList.add("hidden");
+        content.classList.remove("hidden");
+
+        const featured = photos.find(photo => photo.featured) || photos[0];
+
+        featuredImg.src = featured.url;
+
+        if (featuredTitle) {
+            featuredTitle.textContent = featured.day === "day2"
+                ? "Day 2 in motion."
+                : "Day 1 in motion.";
+        }
+
+        const featuredBtn = document.getElementById("featuredPhotoBtn");
+        if (featuredBtn) {
+            featuredBtn.onclick = openPhotosPage;
+        }
+    }
+
+    checkPhotosNavState();
+    checkRecordingsNavState();
 
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzoBQKLWkcCrB0FVjM0ot-HTwY-PmAQw0XS6MmfhnWUKlcUi_Xx5Haj1QYgPNg9aE9qKQ/exec';
         const form = document.getElementById('revivalForm');
@@ -1355,7 +1760,7 @@ function toggleMenu() {
 
         window.handleVHSGatewayAction = function() {
             if (vaultActive && currentGatewayUserId) {
-                window.location.href = `/vault/${currentGatewayUserId}`;
+                window.location.href = `/vault/user/${currentGatewayUserId}`;
                 return;
             }
 
@@ -1367,23 +1772,48 @@ function toggleMenu() {
         let currentVaultUserData = null;
 
         async function loadVaultRoute() {
-            const pathArray = window.location.pathname.split('/');
+            const params = new URLSearchParams(window.location.search);
+            const pathArray = window.location.pathname.split('/').filter(Boolean);
             const vaultIndex = pathArray.indexOf('vault');
+            const userIndex = pathArray.indexOf('user');
 
-            // If URL is not /vault or /vault/:id, do nothing
+            // If URL is not /vault, do nothing.
             if (vaultIndex === -1) return;
 
             document.body.style.overflow = 'hidden';
 
-        const userId = pathArray[vaultIndex + 1];
-        const vaultSubPage = pathArray[vaultIndex + 2];
+            let userId = null;
+            let vaultSubPage = null;
 
-        if (userId) {
-            pendingVaultSubPage = vaultSubPage || null;
-            await showVaultLogin(userId);
-        } else {
-            showVaultLookup();
-        }
+            // Preferred route:
+            // /vault/user/R26-LTXK
+            // /vault/user/R26-LTXK/side-a
+            // /vault/user/R26-LTXK/side-b
+            if (userIndex !== -1 && pathArray[userIndex + 1]) {
+                userId = pathArray[userIndex + 1];
+                vaultSubPage = pathArray[userIndex + 2] || null;
+            }
+
+            // Backward-compatible route:
+            // /vault/R26-LTXK
+            // /vault/R26-LTXK/side-a
+            // /vault/R26-LTXK/side-b
+            if (!userId && pathArray[vaultIndex + 1]) {
+                userId = pathArray[vaultIndex + 1];
+                vaultSubPage = pathArray[vaultIndex + 2] || null;
+            }
+
+            // Local/test support:
+            // ?vault=R26-LTXK&side=side-a
+            userId = params.get('vault') || params.get('id') || userId;
+            vaultSubPage = params.get('side') || vaultSubPage;
+
+            if (userId) {
+                pendingVaultSubPage = vaultSubPage || null;
+                await showVaultLogin(userId);
+            } else {
+                showVaultLookup();
+            }
         }
         function showVaultLookup() {
             const lookupScreen = document.getElementById('vaultLookupScreen');
@@ -1478,7 +1908,7 @@ function toggleMenu() {
                     `;
 
                     btn.onclick = () => {
-                        window.location.href = `/vault/${user.id}`;
+                        window.location.href = `/vault/user/${user.id}`;
                     };
 
                     resultsBox.appendChild(btn);
@@ -1536,7 +1966,7 @@ function toggleMenu() {
         window.openVaultSide = function(side) {
             if (side === 'A') {
                 if (currentVaultUserId) {
-                    window.history.pushState({}, '', `/vault/${currentVaultUserId}/side-a`);
+                    window.history.pushState({}, '', `/vault/user/${currentVaultUserId}/side-a`);
                 }
 
                 window.showSideAScreen();
@@ -1545,7 +1975,7 @@ function toggleMenu() {
 
             if (side === 'B') {
                 if (currentVaultUserId) {
-                    window.history.pushState({}, '', `/vault/${currentVaultUserId}/side-b`);
+                    window.history.pushState({}, '', `/vault/user/${currentVaultUserId}/side-b`);
                 }
 
                 window.showSideBScreen();
@@ -1588,14 +2018,7 @@ function toggleMenu() {
         loadVaultRoute();
         
         window.openVaultManual = function() {
-            window.history.pushState({}, '', '/vault');
-
-            const navOverlay = document.getElementById('nav-overlay');
-            if (navOverlay && navOverlay.classList.contains('flex')) {
-                toggleMenu();
-            }
-
-            loadVaultRoute();
+            window.location.href = '/vault';
         };
 
 
@@ -2110,7 +2533,7 @@ function toggleMenu() {
             if (vaultSideScreen) vaultSideScreen.classList.remove('hidden');
 
             if (currentVaultUserId) {
-                window.history.pushState({}, '', `/vault/${currentVaultUserId}`);
+                window.history.pushState({}, '', `/vault/user/${currentVaultUserId}`);
             }
         };
 
@@ -3227,6 +3650,71 @@ function toggleMenu() {
         </div>
     </div>
 </div>
+
+
+<script>
+(function() {
+    const NEED_HELP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbydolayVbKuNyqYgv2Q4TIS4z31rg2yqyHDOuhBgkJpQY9uXPZymihnUr4rKctKB4dU1A/exec";
+
+    function setNeedHelpStatus(message, type) {
+        const status = document.getElementById('needHelpStatus');
+        if (!status) return;
+        status.textContent = message || '';
+        status.className = 'min-h-[1.2rem] mt-4 font-mono-vhs text-[10px] uppercase tracking-[.18em] leading-relaxed ' +
+            (type === 'success' ? 'text-yellow-400' : type === 'error' ? 'text-red-400' : 'text-white/35');
+    }
+
+    window.addEventListener('load', function() {
+        const form = document.getElementById('needHelpForm');
+        const submitBtn = document.getElementById('needHelpSubmitBtn');
+        if (!form || !submitBtn) return;
+
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+            const name = (formData.get('name') || '').toString().trim();
+            const email = (formData.get('email') || '').toString().trim();
+            const message = (formData.get('message') || '').toString().trim();
+            const website = (formData.get('website') || '').toString().trim();
+
+            if (website) return;
+
+            if (!name || !email || !message) {
+                setNeedHelpStatus('Please complete your name, email, and message.', 'error');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            setNeedHelpStatus('Submitting your message...', 'neutral');
+
+            try {
+                const payload = new FormData();
+                payload.append('name', name);
+                payload.append('email', email);
+                payload.append('message', message);
+                payload.append('source', 'REVIVAL Website Need Help Form');
+
+                await fetch(NEED_HELP_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: payload
+                });
+
+                form.reset();
+                setNeedHelpStatus('Message sent. Our team will respond through your email.', 'success');
+            } catch (error) {
+                console.error('Need Help form error:', error);
+                setNeedHelpStatus('Message was not sent. Please try again or email the team directly.', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            }
+        });
+    });
+})();
+</script>
 
 </body>
 

@@ -1,0 +1,1359 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>REVIVAL // 2026 Check-In Scanner</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    @font-face {
+      font-family: 'Abolition';
+      src: url('https://encmalolos-revival2026.web.app/receiver/Audio/abolition-regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --yellow: #facc15;
+      --cream: #f4f1ea;
+      --green: #22c55e;
+      --red: #ef4444;
+      --blue: #3b82f6;
+      --black: #050505;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #050505;
+      color: var(--cream);
+      font-family: Inter, sans-serif;
+      min-height: 100vh;
+    }
+
+    .page {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(250,204,21,.10), transparent 24%),
+        radial-gradient(circle at 88% 28%, rgba(255,255,255,.035), transparent 26%),
+        #050505;
+    }
+
+    .shell {
+      max-width: 540px;
+      margin: 0 auto;
+      min-height: 100vh;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      padding-top: 4px;
+    }
+
+    .logo {
+      font-family: 'Abolition', Impact, sans-serif;
+      color: var(--yellow);
+      font-size: 32px;
+      line-height: .9;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .tiny {
+      font-family: 'IBM Plex Mono', monospace;
+      color: rgba(255,255,255,.42);
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      font-size: 9px;
+      line-height: 1.6;
+    }
+
+    .pill {
+      border: 1px solid var(--yellow);
+      color: var(--yellow);
+      background: rgba(250,204,21,.08);
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 9px 10px;
+      white-space: nowrap;
+    }
+
+    .panel {
+      border: 1px solid rgba(255,255,255,.11);
+      background: rgba(255,255,255,.04);
+      padding: 14px;
+    }
+
+    .yellow { border-color: rgba(250,204,21,.40); background: rgba(250,204,21,.08); }
+    .green { border-color: rgba(34,197,94,.42); background: rgba(34,197,94,.08); }
+    .red { border-color: rgba(239,68,68,.45); background: rgba(239,68,68,.08); }
+    .blue { border-color: rgba(59,130,246,.42); background: rgba(59,130,246,.08); }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .label {
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: .22em;
+      font-size: 9px;
+      color: rgba(255,255,255,.45);
+      font-weight: 800;
+    }
+
+    .status {
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--yellow);
+      line-height: 1.4;
+    }
+
+    .status.success { color: var(--green); }
+    .status.error { color: var(--red); }
+    .status.info { color: #93c5fd; }
+
+    .mode-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .mode-btn {
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.72);
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 12px;
+      cursor: pointer;
+    }
+
+    .mode-btn.active {
+      background: var(--yellow);
+      color: #000;
+      border-color: var(--yellow);
+    }
+
+    .test-toggle {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .switch {
+      width: 74px;
+      height: 36px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      position: relative;
+      cursor: pointer;
+      flex: none;
+    }
+
+    .switch::after {
+      content: "";
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      width: 24px;
+      height: 24px;
+      background: rgba(255,255,255,.78);
+      transition: .18s ease;
+    }
+
+    .switch.on {
+      border-color: var(--yellow);
+      background: rgba(250,204,21,.18);
+    }
+
+    .switch.on::after {
+      transform: translateX(38px);
+      background: var(--yellow);
+    }
+
+    .scanner {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      background:
+        radial-gradient(circle at center, rgba(250,204,21,.07), transparent 40%),
+        linear-gradient(135deg, rgba(255,255,255,.04), transparent);
+      border: 1px solid rgba(255,255,255,.14);
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      min-height: 300px;
+    }
+
+    #reader {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      z-index: 3;
+    }
+
+    #reader video {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover;
+    }
+
+    #reader__dashboard_section,
+    #reader__scan_region img,
+    #reader__header_message {
+      display: none !important;
+    }
+
+    .idle {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      z-index: 2;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at center, rgba(250,204,21,.06), transparent 44%),
+        rgba(0,0,0,.32);
+    }
+
+    .scanner.active .idle { display: none; }
+
+    .frame {
+      position: absolute;
+      inset: 18px;
+      border: 2px solid rgba(250,204,21,.72);
+      box-shadow: 0 0 30px rgba(250,204,21,.11);
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .frame:before,
+    .frame:after {
+      content: "";
+      position: absolute;
+      width: 54px;
+      height: 54px;
+      border-color: white;
+      opacity: .7;
+    }
+
+    .frame:before {
+      left: 10px;
+      top: 10px;
+      border-top: 2px solid;
+      border-left: 2px solid;
+    }
+
+    .frame:after {
+      right: 10px;
+      bottom: 10px;
+      border-right: 2px solid;
+      border-bottom: 2px solid;
+    }
+
+    .scan-line {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      height: 2px;
+      background: rgba(255,255,255,.65);
+      box-shadow: 0 0 16px rgba(255,255,255,.7);
+      animation: scanMove 2.4s ease-in-out infinite;
+      z-index: 6;
+      pointer-events: none;
+    }
+
+    @keyframes scanMove {
+      0% { top: 20px; opacity: 0; }
+      18% { opacity: .9; }
+      50% { opacity: .45; }
+      100% { top: calc(100% - 22px); opacity: 0; }
+    }
+
+    .scan-label {
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: .20em;
+      font-size: 10px;
+      color: rgba(255,255,255,.46);
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    .value {
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-size: 13px;
+      color: white;
+      font-weight: 800;
+      line-height: 1.45;
+      margin-top: 8px;
+      overflow-wrap: anywhere;
+    }
+
+    .value-lg {
+      font-size: 18px;
+      line-height: 1.25;
+      letter-spacing: .05em;
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .main {
+      width: 100%;
+      border: none;
+      background: var(--yellow);
+      color: #000;
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      font-size: 11px;
+      font-weight: 900;
+      padding: 16px 12px;
+      cursor: pointer;
+    }
+
+    .secondary {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.72);
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: .13em;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 14px 12px;
+      cursor: pointer;
+    }
+
+    .secondary:hover {
+      border-color: var(--yellow);
+      color: var(--yellow);
+    }
+
+    .danger {
+      border-color: rgba(239,68,68,.40);
+      color: #fecaca;
+      background: rgba(239,68,68,.08);
+    }
+
+    .search {
+      width: 100%;
+      background: rgba(0,0,0,.42);
+      border: 1px solid rgba(255,255,255,.14);
+      color: white;
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-size: 12px;
+      padding: 13px;
+      outline: none;
+    }
+
+    .search:focus { border-color: var(--yellow); }
+
+    .results {
+      display: grid;
+      gap: 8px;
+      margin-top: 10px;
+      max-height: 220px;
+      overflow: auto;
+    }
+
+    .result-btn {
+      text-align: left;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      padding: 11px;
+      cursor: pointer;
+      color: white;
+    }
+
+    .result-btn:hover { border-color: var(--yellow); }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .bottom {
+      margin-top: auto;
+      display: grid;
+      gap: 10px;
+    }
+
+    .hidden { display: none !important; }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      top: 16px;
+      transform: translateX(-50%) translateY(-30px);
+      z-index: 100;
+      width: min(92vw, 480px);
+      opacity: 0;
+      pointer-events: none;
+      transition: .25s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 380px) {
+      .logo { font-size: 26px; }
+      .scanner { min-height: 260px; }
+      .meta { grid-template-columns: 1fr; }
+      .action-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <section class="shell">
+      <div class="top">
+        <div>
+          <div class="logo">CHECK-IN</div>
+          <div class="tiny mt-2">REVIVAL // 2026</div>
+        </div>
+        <div id="activeDayPill" class="pill">Loading</div>
+      </div>
+
+      <div class="panel yellow">
+        <div class="row">
+          <div>
+            <p class="label">Active Check-In Day</p>
+            <p id="settingsSummary" class="tiny mt-1">Loading settings...</p>
+          </div>
+          <span id="scannerModePill" class="pill">Live Mode</span>
+        </div>
+        <div class="mode-grid">
+          <button id="day1Btn" class="mode-btn">Day 1</button>
+          <button id="day2Btn" class="mode-btn">Day 2</button>
+        </div>
+      </div>
+
+      <div id="testPanel" class="panel">
+        <div class="test-toggle">
+          <div>
+            <p class="label">Test Mode</p>
+            <p id="testModeText" class="tiny mt-1">Off — scans will update attendance.</p>
+          </div>
+          <button id="testSwitch" class="switch" aria-label="Toggle test mode"></button>
+        </div>
+      </div>
+
+      <div class="scanner" id="scannerBox">
+        <div id="reader"></div>
+        <div class="idle"><div class="scan-label">Press Start Camera<br>to scan receipt QR</div></div>
+        <div class="frame"></div>
+        <div class="scan-line"></div>
+      </div>
+
+      <div id="resultPanel" class="panel">
+        <p id="resultTypeLabel" class="label">Participant</p>
+        <p id="resultName" class="value value-lg">No scan yet</p>
+        <div class="meta">
+          <div>
+            <p id="resultMetaLabel" class="label">Campus</p>
+            <p id="resultCampus" class="value">—</p>
+          </div>
+          <div>
+            <p class="label">Church</p>
+            <p id="resultChurch" class="value">—</p>
+          </div>
+        </div>
+        <div id="firstScanRow" class="hidden mt-4">
+          <p class="label">First Scan</p>
+          <p id="firstScanValue" class="value">—</p>
+        </div>
+      </div>
+
+      <div id="lastActionPanel" class="panel blue hidden">
+        <div class="row">
+          <p id="lastActionTitle" class="status info">Last Action</p>
+          <p id="lastActionTime" class="tiny">—</p>
+        </div>
+        <p id="lastActionText" class="tiny mt-2">—</p>
+      </div>
+
+      <div id="statusPanel" class="panel yellow">
+        <div class="row">
+          <p id="statusText" class="status">Scanner Idle</p>
+          <p id="statusTime" class="tiny">—</p>
+        </div>
+        <p id="statusSubtext" class="tiny mt-2">Start the camera to begin scanning.</p>
+      </div>
+
+      <div id="testActions" class="panel blue hidden">
+        <p class="status info">Test scan only</p>
+        <p class="tiny mt-2">QR is valid. Attendance was not changed. TV was not updated.</p>
+        <div class="action-grid mt-4">
+          <button id="previewTvBtn" class="main">Preview on TV</button>
+          <button id="continueTestBtn" class="secondary">Continue Testing</button>
+        </div>
+      </div>
+
+      <div id="duplicateActions" class="panel red hidden">
+        <p class="status error">Already checked in</p>
+        <p class="tiny mt-2">First check-in was preserved. Attendance was not changed. TV was not updated.</p>
+        <div class="action-grid mt-4">
+          <button id="showTvAnywayBtn" class="main">Show on TV Anyway</button>
+          <button id="continueBtn1" class="secondary">Continue Scanning</button>
+        </div>
+      </div>
+
+      <div id="successActions" class="panel green hidden">
+        <p class="status success">Check-in complete</p>
+        <p class="tiny mt-2">Attendance updated. TV display triggered.</p>
+        <div class="action-grid mt-4">
+          <button id="showTvAgainBtn" class="secondary">Show on TV Again</button>
+          <button id="undoLastBtn" class="secondary danger">Undo Last</button>
+          <button id="continueBtn2" class="main col-span-2">Continue Scanning</button>
+        </div>
+      </div>
+
+      <div id="manualPanel" class="panel yellow hidden">
+        <p class="label">Manual Search</p>
+        <input id="manualSearchInput" class="search mt-3" placeholder="Search name, UID, campus, church, role">
+        <div id="manualResults" class="results"></div>
+      </div>
+
+      <div class="bottom">
+        <button id="cameraBtn" class="main">Start Camera Scanner</button>
+        <div class="action-grid">
+          <button id="manualBtn" class="secondary">Manual Search</button>
+          <button id="refreshBtn" class="secondary">Refresh Settings</button>
+        </div>
+      </div>
+    </section>
+
+    <div id="toast" class="toast">
+      <div id="toastInner" class="panel yellow">
+        <p id="toastTitle" class="status">Notice</p>
+        <p id="toastText" class="tiny mt-2">—</p>
+      </div>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      getDocs,
+      collection,
+      updateDoc,
+      setDoc,
+      deleteField,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAaxjL-NuYE1VeAoYb1_pWHAE3C4VdCBBY",
+      authDomain: "enc-malolos-revival-2026.firebaseapp.com",
+      projectId: "enc-malolos-revival-2026",
+      storageBucket: "enc-malolos-revival-2026.firebasestorage.app",
+      messagingSenderId: "893658387609",
+      appId: "1:893658387609:web:f15e870fb82b729e759408"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const els = {
+      activeDayPill: document.getElementById("activeDayPill"),
+      settingsSummary: document.getElementById("settingsSummary"),
+      scannerModePill: document.getElementById("scannerModePill"),
+      day1Btn: document.getElementById("day1Btn"),
+      day2Btn: document.getElementById("day2Btn"),
+      testSwitch: document.getElementById("testSwitch"),
+      testModeText: document.getElementById("testModeText"),
+      scannerBox: document.getElementById("scannerBox"),
+      resultTypeLabel: document.getElementById("resultTypeLabel"),
+      resultName: document.getElementById("resultName"),
+      resultMetaLabel: document.getElementById("resultMetaLabel"),
+      resultCampus: document.getElementById("resultCampus"),
+      resultChurch: document.getElementById("resultChurch"),
+      firstScanRow: document.getElementById("firstScanRow"),
+      firstScanValue: document.getElementById("firstScanValue"),
+      lastActionPanel: document.getElementById("lastActionPanel"),
+      lastActionTitle: document.getElementById("lastActionTitle"),
+      lastActionTime: document.getElementById("lastActionTime"),
+      lastActionText: document.getElementById("lastActionText"),
+      statusPanel: document.getElementById("statusPanel"),
+      statusText: document.getElementById("statusText"),
+      statusTime: document.getElementById("statusTime"),
+      statusSubtext: document.getElementById("statusSubtext"),
+      testActions: document.getElementById("testActions"),
+      duplicateActions: document.getElementById("duplicateActions"),
+      successActions: document.getElementById("successActions"),
+      previewTvBtn: document.getElementById("previewTvBtn"),
+      showTvAnywayBtn: document.getElementById("showTvAnywayBtn"),
+      showTvAgainBtn: document.getElementById("showTvAgainBtn"),
+      undoLastBtn: document.getElementById("undoLastBtn"),
+      continueTestBtn: document.getElementById("continueTestBtn"),
+      continueBtn1: document.getElementById("continueBtn1"),
+      continueBtn2: document.getElementById("continueBtn2"),
+      cameraBtn: document.getElementById("cameraBtn"),
+      manualBtn: document.getElementById("manualBtn"),
+      manualPanel: document.getElementById("manualPanel"),
+      manualSearchInput: document.getElementById("manualSearchInput"),
+      manualResults: document.getElementById("manualResults"),
+      refreshBtn: document.getElementById("refreshBtn"),
+      toast: document.getElementById("toast"),
+      toastInner: document.getElementById("toastInner"),
+      toastTitle: document.getElementById("toastTitle"),
+      toastText: document.getElementById("toastText")
+    };
+
+    let settings = {
+      activeDay: "day1",
+      cooldownMs: 3000,
+      revealDuration: 30000,
+      soundEnabled: true
+    };
+
+    let scanner = null;
+    let scannerRunning = false;
+    let processing = false;
+    let pausedAfterResult = false;
+    let cooldownUntil = 0;
+    let lastScannedUid = "";
+    let lastParticipant = null;
+    let lastRealCheckIn = null;
+    let testMode = false;
+
+    function dayLabel(day) {
+      return String(day).toLowerCase() === "day2" ? "DAY 2" : "DAY 1";
+    }
+
+    function cleanText(value, fallback = "—") {
+      return String(value || fallback).trim();
+    }
+
+    function nowTime() {
+      return new Date().toLocaleTimeString("en-PH", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true
+      }).replace(/^0/, "");
+    }
+
+    function jsDateFromFirestore(value) {
+      if (!value) return null;
+      if (typeof value.toDate === "function") return value.toDate();
+      if (value.seconds) return new Date(value.seconds * 1000);
+      if (typeof value === "string") {
+        const parsed = new Date(value);
+        if (!Number.isNaN(parsed.getTime())) return parsed;
+      }
+      return null;
+    }
+
+    function formatDateTime(value) {
+      const date = jsDateFromFirestore(value);
+      if (!date) return "—";
+      return date.toLocaleString("en-PH", {
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true
+      }).replace(", ", " // ").replace(/ 0/g, " ");
+    }
+
+    function setPanelClass(el, type) {
+      el.classList.remove("yellow", "green", "red", "blue");
+      if (type === "success") el.classList.add("green");
+      else if (type === "error") el.classList.add("red");
+      else if (type === "info") el.classList.add("blue");
+      else el.classList.add("yellow");
+    }
+
+    function setStatus(type, title, subtext) {
+      setPanelClass(els.statusPanel, type);
+      els.statusText.className = "status";
+      if (type === "success") els.statusText.classList.add("success");
+      if (type === "error") els.statusText.classList.add("error");
+      if (type === "info") els.statusText.classList.add("info");
+
+      els.statusText.textContent = title;
+      els.statusSubtext.textContent = subtext || "";
+      els.statusTime.textContent = nowTime();
+    }
+
+    function showToast(type, title, text) {
+      setPanelClass(els.toastInner, type);
+      els.toastTitle.textContent = title;
+      els.toastText.textContent = text;
+      els.toast.classList.add("show");
+      setTimeout(() => els.toast.classList.remove("show"), 2500);
+    }
+
+    function setLastAction(type, title, text) {
+      els.lastActionPanel.classList.remove("hidden");
+      setPanelClass(els.lastActionPanel, type);
+      els.lastActionTitle.className = "status";
+      if (type === "success") els.lastActionTitle.classList.add("success");
+      if (type === "error") els.lastActionTitle.classList.add("error");
+      if (type === "info") els.lastActionTitle.classList.add("info");
+      els.lastActionTitle.textContent = title;
+      els.lastActionText.textContent = text;
+      els.lastActionTime.textContent = nowTime();
+    }
+
+    function hideActionPanels() {
+      els.testActions.classList.add("hidden");
+      els.duplicateActions.classList.add("hidden");
+      els.successActions.classList.add("hidden");
+    }
+
+    function updateDayButtons() {
+      const activeDay = settings.activeDay || "day1";
+      els.day1Btn.classList.toggle("active", activeDay === "day1");
+      els.day2Btn.classList.toggle("active", activeDay === "day2");
+      els.activeDayPill.textContent = dayLabel(activeDay);
+      els.settingsSummary.textContent = `${dayLabel(activeDay)} // TV ${Math.round(Number(settings.revealDuration || 30000) / 1000)}s`;
+    }
+
+    function updateTestModeUI() {
+      els.testSwitch.classList.toggle("on", testMode);
+      els.scannerModePill.textContent = testMode ? "Test Mode" : "Live Mode";
+      els.scannerModePill.style.borderColor = testMode ? "var(--blue)" : "var(--yellow)";
+      els.scannerModePill.style.color = testMode ? "#93c5fd" : "var(--yellow)";
+      els.testModeText.textContent = testMode
+        ? "On — scans will not update attendance or TV automatically."
+        : "Off — scans will update attendance.";
+      setPanelClass(document.getElementById("testPanel"), testMode ? "info" : "neutral");
+    }
+
+    function setParticipantView(record, firstScanValue = null) {
+      const user = record.data;
+      const typeLabel = recordTypeLabel(record.type);
+      const roleOrCampus = recordRoleOrCampus(record);
+      const isServe = record.type === "serve";
+
+      els.resultTypeLabel.textContent = isServe ? "Serving Team" : "Participant";
+      els.resultMetaLabel.textContent = isServe ? "Role" : "Campus";
+      els.resultName.textContent = cleanText(user.name, `Unnamed ${typeLabel}`).toUpperCase();
+      els.resultCampus.textContent = roleOrCampus.toUpperCase();
+      els.resultChurch.textContent = cleanText(user.church, "—").toUpperCase();
+
+      if (firstScanValue) {
+        els.firstScanRow.classList.remove("hidden");
+        els.firstScanValue.textContent = firstScanValue;
+      } else {
+        els.firstScanRow.classList.add("hidden");
+        els.firstScanValue.textContent = "—";
+      }
+
+      lastParticipant = {
+        uid: record.uid,
+        collectionName: record.collectionName,
+        type: record.type,
+        typeLabel,
+        name: cleanText(user.name),
+        campus: record.type === "serve" ? typeLabel : cleanText(user.campus),
+        role: cleanText(user.role, record.type === "serve" ? "Serving Team" : ""),
+        church: cleanText(user.church),
+        day: settings.activeDay || "day1"
+      };
+    }
+
+    async function loadSettings(showToastAfter = true) {
+      try {
+        const snap = await getDoc(doc(db, "settings", "checkin"));
+
+        if (snap.exists()) {
+          settings = { ...settings, ...snap.data() };
+        }
+
+        if (!settings.revealDuration) settings.revealDuration = 30000;
+
+        updateDayButtons();
+        setStatus("neutral", "Scanner Ready", `Mode: ${dayLabel(settings.activeDay)}. TV reveal: ${Math.round(Number(settings.revealDuration || 30000) / 1000)}s.`);
+
+        if (showToastAfter) {
+          showToast("success", "Settings Loaded", `${dayLabel(settings.activeDay)} // ${Math.round(Number(settings.revealDuration || 30000) / 1000)}s reveal`);
+        }
+      } catch (error) {
+        console.error(error);
+        els.activeDayPill.textContent = "DAY ?";
+        setStatus("error", "Settings Error", error.message);
+      }
+    }
+
+    async function setActiveDay(day) {
+      const label = dayLabel(day);
+      const ok = confirm(`Switch active check-in day to ${label}?`);
+      if (!ok) return;
+
+      try {
+        settings.activeDay = day;
+        updateDayButtons();
+
+        await setDoc(doc(db, "settings", "checkin"), {
+          activeDay: day,
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+
+        await loadSettings(false);
+        showToast("success", "Active Day Updated", `Scanner is now set to ${label}.`);
+      } catch (error) {
+        console.error(error);
+        showToast("error", "Day Toggle Error", error.message);
+        await loadSettings(false);
+      }
+    }
+
+    function extractUidFromQr(text) {
+      const raw = String(text || "").trim();
+
+      try {
+        const url = new URL(raw);
+        const parts = url.pathname.split("/").filter(Boolean);
+        const userIndex = parts.indexOf("user");
+        const serveIndex = parts.indexOf("serve");
+
+        if (userIndex >= 0 && parts[userIndex + 1]) {
+          return decodeURIComponent(parts[userIndex + 1]).toUpperCase();
+        }
+
+        if (serveIndex >= 0 && parts[serveIndex + 1]) {
+          return decodeURIComponent(parts[serveIndex + 1]).toUpperCase();
+        }
+      } catch (e) {}
+
+      const routeMatch = raw.match(/\/(user|serve)\/([^/?#]+)/i);
+      if (routeMatch) return decodeURIComponent(routeMatch[2]).toUpperCase();
+
+      if (/^(R26|ST26|CM26)-[A-Z0-9]+$/i.test(raw)) {
+        return raw.toUpperCase();
+      }
+
+      return null;
+    }
+
+    function recordTypeFromCollection(collectionName) {
+      return collectionName === "serveMembers" ? "serve" : "participant";
+    }
+
+    function recordTypeLabel(type) {
+      return type === "serve" ? "SERVING TEAM" : "PARTICIPANT";
+    }
+
+    function recordRoleOrCampus(record) {
+      if (record.type === "serve") {
+        return cleanText(record.data.role, "Serving Team");
+      }
+
+      return cleanText(record.data.campus, "—");
+    }
+
+    async function findCheckInRecord(uid) {
+      const normalizedUid = String(uid || "").trim().toUpperCase();
+
+      const userRef = doc(db, "users", normalizedUid);
+      const userSnap = await getDoc(userRef);
+
+      if (userSnap.exists()) {
+        return {
+          uid: normalizedUid,
+          ref: userRef,
+          data: userSnap.data(),
+          collectionName: "users",
+          type: "participant"
+        };
+      }
+
+      const serveRef = doc(db, "serveMembers", normalizedUid);
+      const serveSnap = await getDoc(serveRef);
+
+      if (serveSnap.exists()) {
+        return {
+          uid: normalizedUid,
+          ref: serveRef,
+          data: serveSnap.data(),
+          collectionName: "serveMembers",
+          type: "serve"
+        };
+      }
+
+      return null;
+    }
+
+    function isAlreadyCheckedIn(user, day) {
+      return Boolean(user?.attendance?.[day]?.checkedIn);
+    }
+
+    function getExistingCheckIn(user, day) {
+      return user?.attendance?.[day] || null;
+    }
+
+    async function sendToTv(participant, reason = "checked-in", isTestPreview = false) {
+      if (!participant) {
+        showToast("error", "No Record", "There is no check-in record selected.");
+        return;
+      }
+
+      const isServe = participant.type === "serve";
+      const displayPayload = {
+        uid: participant.uid,
+        collectionName: participant.collectionName || (isServe ? "serveMembers" : "users"),
+        type: participant.type || "participant",
+        typeLabel: participant.typeLabel || (isServe ? "SERVING TEAM" : "PARTICIPANT"),
+        name: cleanText(participant.name),
+        campus: isServe ? "SERVING TEAM" : cleanText(participant.campus),
+        role: cleanText(participant.role, isServe ? "Serving Team" : ""),
+        church: cleanText(participant.church),
+        day: participant.day || settings.activeDay || "day1",
+        status: "checked-in",
+        statusText: isTestPreview ? "Test Preview" : (isServe ? "Your Yes Is In The Room" : "Checked In"),
+        timestamp: serverTimestamp(),
+        reason,
+        testMode: isTestPreview,
+        nonce: `${participant.uid}-${participant.day || settings.activeDay}-${participant.type || "participant"}-${reason}-${Date.now()}`
+      };
+
+      await setDoc(doc(db, "liveDisplay", "current"), displayPayload, { merge: true });
+    }
+
+    function pauseAfterResult() {
+      pausedAfterResult = true;
+      els.cameraBtn.textContent = scannerRunning ? "Continue Scanning" : "Start Camera Scanner";
+    }
+
+    function resumeScanning() {
+      hideActionPanels();
+      pausedAfterResult = false;
+      processing = false;
+      setStatus("neutral", scannerRunning ? "Scanner Active" : "Scanner Ready", "Ready for the next check-in.");
+      els.cameraBtn.textContent = scannerRunning ? "Stop Camera Scanner" : "Start Camera Scanner";
+    }
+
+    async function checkInUid(uid, source = "qr") {
+      const now = Date.now();
+
+      if (processing) return;
+
+      if (pausedAfterResult && source === "qr") {
+        return;
+      }
+
+      const normalizedUid = String(uid || "").trim().toUpperCase();
+
+      if (now < cooldownUntil && normalizedUid === lastScannedUid) {
+        showToast("info", "Cooldown Active", "Same QR was just scanned. Ignored for safety.");
+        return;
+      }
+
+      processing = true;
+      lastScannedUid = normalizedUid;
+      cooldownUntil = now + Number(settings.cooldownMs || 3000);
+      hideActionPanels();
+
+      try {
+        setStatus("info", "Checking Record", `Looking for ${normalizedUid} in participants and serving team...`);
+
+        const record = await findCheckInRecord(normalizedUid);
+
+        if (!record) {
+          setStatus("error", "Record Not Found", `${normalizedUid} was not found in users or serveMembers.`);
+          setLastAction("error", "Not Found", `${normalizedUid} was scanned but no participant or serving team record was found.`);
+          showToast("error", "Not Found", "Record does not exist.");
+          pauseAfterResult();
+          return;
+        }
+
+        const user = record.data;
+        const activeDay = settings.activeDay || "day1";
+        const existing = getExistingCheckIn(user, activeDay);
+        const firstScanText = existing?.checkedInAt ? formatDateTime(existing.checkedInAt) : null;
+        const typeLabel = recordTypeLabel(record.type);
+
+        setParticipantView(record, firstScanText);
+
+        if (testMode) {
+          setStatus("info", "Test Scan Only", `${typeLabel} QR is valid. Attendance was not changed. TV was not updated.`);
+          setLastAction("info", "Test Scan", `${cleanText(user.name)} // ${typeLabel} // ${dayLabel(activeDay)} // no attendance changes.`);
+          els.testActions.classList.remove("hidden");
+          pauseAfterResult();
+          return;
+        }
+
+        if (isAlreadyCheckedIn(user, activeDay)) {
+          setStatus(
+            "error",
+            "Already Checked In",
+            "First check-in was preserved. TV was not updated."
+          );
+
+          setLastAction("error", "Already Checked In", `${cleanText(user.name)} // ${typeLabel} was already checked in for ${dayLabel(activeDay)}.`);
+          els.duplicateActions.classList.remove("hidden");
+          showToast("error", "Already Checked In", "Attendance was not changed.");
+          pauseAfterResult();
+          return;
+        }
+
+        await updateDoc(record.ref, {
+          [`attendance.${activeDay}`]: {
+            checkedIn: true,
+            checkedInAt: serverTimestamp(),
+            method: source,
+            firstScanHonored: true,
+            type: record.type
+          }
+        });
+
+        const participant = {
+          uid: record.uid,
+          collectionName: record.collectionName,
+          type: record.type,
+          typeLabel,
+          name: cleanText(user.name),
+          campus: record.type === "serve" ? typeLabel : cleanText(user.campus),
+          role: cleanText(user.role, record.type === "serve" ? "Serving Team" : ""),
+          church: cleanText(user.church),
+          day: activeDay
+        };
+
+        lastParticipant = participant;
+        lastRealCheckIn = {
+          uid: record.uid,
+          collectionName: record.collectionName,
+          type: record.type,
+          day: activeDay,
+          participant
+        };
+
+        await sendToTv(participant, "first-check-in", false);
+
+        setStatus("success", "Checked In", `${typeLabel} first scan honored. TV display triggered for ${dayLabel(activeDay)}.`);
+        setLastAction("success", "Checked In", `${participant.name} // ${typeLabel} // ${dayLabel(activeDay)} // TV sent.`);
+        els.successActions.classList.remove("hidden");
+        showToast("success", "Checked In", "TV display triggered.");
+        pauseAfterResult();
+
+      } catch (error) {
+        console.error(error);
+        setStatus("error", "Check-In Error", error.message);
+        setLastAction("error", "Error", error.message);
+        showToast("error", "Error", error.message);
+        pauseAfterResult();
+      } finally {
+        processing = false;
+      }
+    }
+
+    async function undoLastCheckIn() {
+      if (!lastRealCheckIn) {
+        showToast("error", "Nothing to Undo", "No real check-in has been completed in this session.");
+        return;
+      }
+
+      const ok = confirm(`Undo last check-in for ${lastRealCheckIn.participant.name} on ${dayLabel(lastRealCheckIn.day)}?`);
+      if (!ok) return;
+
+      try {
+        const collectionName = lastRealCheckIn.collectionName || (lastRealCheckIn.type === "serve" ? "serveMembers" : "users");
+        const recordRef = doc(db, collectionName, lastRealCheckIn.uid);
+        await updateDoc(recordRef, {
+          [`attendance.${lastRealCheckIn.day}`]: deleteField()
+        });
+
+        setStatus("success", "Last Check-In Undone", "Attendance was removed for the last real check-in.");
+        setLastAction("success", "Undo Complete", `${lastRealCheckIn.participant.name} // ${dayLabel(lastRealCheckIn.day)} attendance removed.`);
+        showToast("success", "Undo Complete", "Last real check-in was removed.");
+        lastRealCheckIn = null;
+        els.successActions.classList.add("hidden");
+      } catch (error) {
+        console.error(error);
+        setStatus("error", "Undo Error", error.message);
+        showToast("error", "Undo Error", error.message);
+      }
+    }
+
+    async function onScanSuccess(decodedText) {
+      const uid = extractUidFromQr(decodedText);
+
+      if (!uid) {
+        setStatus("error", "Invalid QR", "QR does not contain a valid /user/R26-XXXX or /serve/ST26-XXXX link.");
+        setLastAction("error", "Invalid QR", "The scanned QR could not be matched to a participant or serving team link.");
+        showToast("error", "Invalid QR", "Could not extract check-in ID.");
+        pauseAfterResult();
+        return;
+      }
+
+      await checkInUid(uid, "qr");
+    }
+
+    async function startScanner() {
+      if (pausedAfterResult) {
+        resumeScanning();
+        return;
+      }
+
+      if (scannerRunning) {
+        await stopScanner();
+        return;
+      }
+
+      try {
+        scanner = new Html5Qrcode("reader");
+
+        await scanner.start(
+          { facingMode: "environment" },
+          {
+            fps: 10,
+            qrbox: (w, h) => {
+              const size = Math.floor(Math.min(w, h) * 0.72);
+              return { width: size, height: size };
+            },
+            aspectRatio: 1
+          },
+          onScanSuccess,
+          () => {}
+        );
+
+        scannerRunning = true;
+        pausedAfterResult = false;
+        els.scannerBox.classList.add("active");
+        els.cameraBtn.textContent = "Stop Camera Scanner";
+        setStatus("neutral", "Scanner Active", "Align the receipt QR inside the frame.");
+      } catch (error) {
+        console.error(error);
+        setStatus("error", "Camera Error", error.message || "Could not start camera.");
+        showToast("error", "Camera Error", "Allow camera permission and try again.");
+      }
+    }
+
+    async function stopScanner() {
+      try {
+        if (scanner) {
+          await scanner.stop();
+          scanner.clear();
+        }
+      } catch (error) {
+        console.warn(error);
+      }
+
+      scannerRunning = false;
+      scanner = null;
+      pausedAfterResult = false;
+      els.scannerBox.classList.remove("active");
+      els.cameraBtn.textContent = "Start Camera Scanner";
+      setStatus("neutral", "Scanner Idle", "Start the camera to begin scanning.");
+    }
+
+    async function runManualSearch() {
+      const query = els.manualSearchInput.value.trim().toLowerCase();
+      els.manualResults.innerHTML = "";
+
+      if (query.length < 2) {
+        els.manualResults.innerHTML = `<div class="tiny">Type at least 2 characters.</div>`;
+        return;
+      }
+
+      try {
+        els.manualResults.innerHTML = `<div class="tiny">Searching participants and serving team...</div>`;
+
+        const [usersSnap, serveSnap] = await Promise.all([
+          getDocs(collection(db, "users")),
+          getDocs(collection(db, "serveMembers"))
+        ]);
+
+        const matches = [];
+
+        usersSnap.forEach((docSnap) => {
+          const user = docSnap.data();
+          const haystack = [
+            docSnap.id,
+            user.name,
+            user.campus,
+            user.church,
+            user.email,
+            user.contact
+          ].join(" ").toLowerCase();
+
+          if (haystack.includes(query)) {
+            matches.push({
+              uid: docSnap.id,
+              collectionName: "users",
+              type: "participant",
+              typeLabel: "PARTICIPANT",
+              searchLine: `${cleanText(user.campus).toUpperCase()} // ${cleanText(user.church).toUpperCase()} // ${docSnap.id}`,
+              ...user
+            });
+          }
+        });
+
+        serveSnap.forEach((docSnap) => {
+          const member = docSnap.data();
+          const haystack = [
+            docSnap.id,
+            member.shortId,
+            member.name,
+            member.role,
+            member.church,
+            member.email,
+            member.contact,
+            "serving team",
+            "serve"
+          ].join(" ").toLowerCase();
+
+          if (haystack.includes(query)) {
+            matches.push({
+              uid: docSnap.id,
+              collectionName: "serveMembers",
+              type: "serve",
+              typeLabel: "SERVING TEAM",
+              searchLine: `${cleanText(member.role, "Serving Team").toUpperCase()} // ${cleanText(member.church).toUpperCase()} // ${docSnap.id}`,
+              ...member
+            });
+          }
+        });
+
+        matches.sort((a, b) => {
+          if (a.type !== b.type) return a.type === "participant" ? -1 : 1;
+          return cleanText(a.name).localeCompare(cleanText(b.name));
+        });
+
+        if (!matches.length) {
+          els.manualResults.innerHTML = `<div class="tiny">No matching participants or serving team found.</div>`;
+          return;
+        }
+
+        els.manualResults.innerHTML = matches.slice(0, 16).map(user => `
+          <button class="result-btn" data-uid="${user.uid}">
+            <div class="value">${cleanText(user.name).toUpperCase()}</div>
+            <div class="tiny mt-1">${user.typeLabel} // ${user.searchLine}</div>
+          </button>
+        `).join("");
+
+        els.manualResults.querySelectorAll(".result-btn").forEach(btn => {
+          btn.addEventListener("click", () => {
+            checkInUid(btn.dataset.uid, "manual");
+          });
+        });
+      } catch (error) {
+        console.error(error);
+        els.manualResults.innerHTML = `<div class="tiny">Search error: ${error.message}</div>`;
+      }
+    }
+
+    els.cameraBtn.addEventListener("click", startScanner);
+
+    els.manualBtn.addEventListener("click", () => {
+      els.manualPanel.classList.toggle("hidden");
+      if (!els.manualPanel.classList.contains("hidden")) {
+        els.manualSearchInput.focus();
+      }
+    });
+
+    els.manualSearchInput.addEventListener("input", () => {
+      clearTimeout(window.__manualTimer);
+      window.__manualTimer = setTimeout(runManualSearch, 350);
+    });
+
+    els.refreshBtn.addEventListener("click", () => loadSettings(true));
+    els.day1Btn.addEventListener("click", () => setActiveDay("day1"));
+    els.day2Btn.addEventListener("click", () => setActiveDay("day2"));
+
+    els.testSwitch.addEventListener("click", () => {
+      testMode = !testMode;
+      updateTestModeUI();
+      showToast(testMode ? "info" : "success", testMode ? "Test Mode On" : "Live Mode On", testMode ? "Scans will not change attendance." : "Scans will update attendance.");
+      setStatus(testMode ? "info" : "neutral", testMode ? "Test Mode Active" : "Live Mode Active", testMode ? "Safe to scan real QR codes for testing." : "Scans will update attendance.");
+    });
+
+    els.continueTestBtn.addEventListener("click", resumeScanning);
+    els.continueBtn1.addEventListener("click", resumeScanning);
+    els.continueBtn2.addEventListener("click", resumeScanning);
+
+    els.previewTvBtn.addEventListener("click", async () => {
+      try {
+        await sendToTv(lastParticipant, "test-preview", true);
+        setStatus("success", "Test Preview Sent", "TV display triggered. Attendance was not changed.");
+        setLastAction("success", "Test TV Preview", `${lastParticipant?.name || "Record"} shown on TV as a test.`);
+        showToast("success", "Preview Sent", "TV display triggered for testing.");
+      } catch (error) {
+        setStatus("error", "TV Preview Error", error.message);
+        showToast("error", "Error", error.message);
+      }
+    });
+
+    els.showTvAnywayBtn.addEventListener("click", async () => {
+      try {
+        await sendToTv(lastParticipant, "duplicate-show-anyway", false);
+        setStatus("success", "TV Sent Again", "Attendance was not changed. TV display was triggered again.");
+        setLastAction("success", "Shown on TV", `${lastParticipant?.name || "Record"} was shown on TV again.`);
+        showToast("success", "Sent to TV", "Duplicate was shown on TV anyway.");
+        els.duplicateActions.classList.add("hidden");
+        els.successActions.classList.remove("hidden");
+      } catch (error) {
+        setStatus("error", "TV Send Error", error.message);
+        showToast("error", "Error", error.message);
+      }
+    });
+
+    els.showTvAgainBtn.addEventListener("click", async () => {
+      try {
+        await sendToTv(lastParticipant, "show-again", false);
+        setStatus("success", "TV Sent Again", "TV display was triggered again.");
+        setLastAction("success", "Shown on TV", `${lastParticipant?.name || "Record"} was shown on TV again.`);
+        showToast("success", "Sent to TV", "Record shown again.");
+      } catch (error) {
+        setStatus("error", "TV Send Error", error.message);
+        showToast("error", "Error", error.message);
+      }
+    });
+
+    els.undoLastBtn.addEventListener("click", undoLastCheckIn);
+
+    updateTestModeUI();
+    loadSettings(false);
+  </script>
+</body>
+</html>

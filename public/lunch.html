@@ -1,0 +1,1535 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Lunch Orders | REVIVAL // 2026</title>
+
+  <link rel="icon" type="image/png" href="/VHS.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&family=Special+Elite&display=swap" rel="stylesheet">
+
+  <style>
+    @font-face {
+      font-family: 'Abolition';
+      src: url('/abolition-regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    :root {
+      --text: #f4f1ea;
+      --muted: rgba(244, 241, 234, .45);
+      --line: rgba(255,255,255,.10);
+      --yellow: #ffd600;
+      --red: #d71920;
+      --green: #0c7f3b;
+      --shadow: 0 24px 70px rgba(0,0,0,.55);
+      --mono: 'IBM Plex Mono', monospace;
+      --sans: 'Inter', sans-serif;
+      --abolition: 'Abolition', sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: var(--sans);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255, 214, 0, .14), transparent 34rem),
+        radial-gradient(circle at 0% 30%, rgba(215, 25, 32, .15), transparent 34rem),
+        radial-gradient(circle at 100% 40%, rgba(12, 127, 59, .13), transparent 34rem),
+        linear-gradient(180deg, #050505 0%, #111111 48%, #050505 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 50;
+      opacity: .04;
+      background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+    }
+
+    .crt-overlay {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .crt-overlay::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      background:
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.12) 50%),
+        linear-gradient(90deg, rgba(255, 0, 0, 0.035), rgba(0, 255, 0, 0.015), rgba(0, 0, 255, 0.035));
+      background-size: 100% 3px, 3px 100%;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .page {
+      width: min(1180px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 16px 0 64px;
+    }
+
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+      background: rgba(0, 0, 0, .72);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      padding: 8px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .site-logo {
+      font-family: var(--abolition);
+      color: var(--yellow);
+      font-size: 24px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .home-link {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      border: 1px solid rgba(255,255,255,.10);
+      padding: 9px 12px;
+      transition: .18s ease;
+    }
+
+    .home-link:hover {
+      background: #fff;
+      color: #000;
+      border-color: #fff;
+    }
+
+    .floating-tabs {
+      position: sticky;
+      top: 58px;
+      z-index: 90;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      margin: 14px 0 24px;
+      background: rgba(10,10,10,.82);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      backdrop-filter: blur(18px);
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+
+    .brand-mini {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #050505;
+      font-family: var(--mono);
+      font-weight: 900;
+      background: var(--yellow);
+      flex-shrink: 0;
+    }
+
+    .brand-mini strong {
+      display: block;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .brand-mini span {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      white-space: nowrap;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pill-btn {
+      appearance: none;
+      border: 1px solid var(--line);
+      color: var(--text);
+      background: rgba(255,255,255,.06);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+    }
+
+    .pill-btn:hover {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.1);
+    }
+
+    .pill-btn.active {
+      background: var(--yellow);
+      color: #111;
+      border-color: var(--yellow);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(28px, 6vw, 64px);
+      margin-bottom: 24px;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 22% 25%, rgba(255, 214, 0, .22), transparent 18rem),
+        radial-gradient(circle at 80% 15%, rgba(215, 25, 32, .18), transparent 20rem),
+        linear-gradient(135deg, rgba(255,255,255,.09), rgba(255,255,255,.025));
+      box-shadow: var(--shadow);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      right: -180px;
+      top: -160px;
+      background: conic-gradient(from 90deg, transparent, rgba(255,214,0,.17), transparent, rgba(215,25,32,.13), transparent);
+      border-radius: 50%;
+      filter: blur(2px);
+      opacity: .8;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      margin-bottom: 18px;
+      border: 1px solid rgba(255,255,255,.16);
+      color: #fff6da;
+      background: rgba(255,255,255,.06);
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 0 5px rgba(34,197,94,.14);
+    }
+
+    .status-dot.closed {
+      background: #ef4444;
+      box-shadow: 0 0 0 5px rgba(239,68,68,.14);
+    }
+
+    h1 {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      max-width: 900px;
+      font-family: var(--abolition);
+      color: var(--yellow);
+      font-size: clamp(46px, 11vw, 96px);
+      line-height: .85;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 22px 0 0;
+      color: rgba(244, 241, 234, .58);
+      font-family: var(--mono);
+      font-size: 11px;
+      line-height: 1.8;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .notice-row {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .notice {
+      padding: 16px;
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,.24);
+    }
+
+    .notice b {
+      display: block;
+      margin-bottom: 7px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--yellow);
+    }
+
+    .notice span {
+      color: rgba(244, 241, 234, .48);
+      font-family: var(--mono);
+      font-size: 10px;
+      line-height: 1.65;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .day-switch-wrap {
+      margin-bottom: 24px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      padding: 14px;
+    }
+
+    .day-switch-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .2em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .day-switch {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .day-btn {
+      border: 1px solid rgba(255,255,255,.10);
+      padding: 16px;
+      color: var(--muted);
+      background: rgba(0,0,0,.32);
+      cursor: pointer;
+      text-align: left;
+      transition: background .18s ease, color .18s ease, transform .18s ease, border-color .18s ease;
+    }
+
+    .day-btn:hover {
+      background: rgba(255,255,255,.06);
+      transform: translateY(-1px);
+    }
+
+    .day-btn.active {
+      background: var(--yellow);
+      color: #090909;
+      border-color: var(--yellow);
+    }
+
+    .day-btn strong {
+      display: block;
+      font-size: 22px;
+      letter-spacing: -.03em;
+    }
+
+    .day-btn span {
+      display: block;
+      margin-top: 4px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      opacity: .76;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 390px;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .menu-stack {
+      display: grid;
+      gap: 20px;
+    }
+
+    .restaurant {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.055);
+      box-shadow: 0 18px 60px rgba(0,0,0,.32);
+    }
+
+    .restaurant.jollibee { --accent: var(--red); --accent-2: var(--yellow); }
+    .restaurant.chowking { --accent: #c4121a; --accent-2: var(--yellow); }
+    .restaurant.mang-inasal { --accent: var(--green); --accent-2: var(--yellow); }
+
+    .restaurant-head {
+      position: relative;
+      min-height: 220px;
+      display: grid;
+      grid-template-columns: 1fr 210px;
+      gap: 18px;
+      align-items: center;
+      padding: 26px;
+      background:
+        radial-gradient(circle at 25% 25%, rgba(255,214,0,.30), transparent 17rem),
+        linear-gradient(135deg, var(--accent), #0a0a0a);
+    }
+
+    .restaurant-head::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: .14;
+      background-image: repeating-linear-gradient(115deg, transparent 0 18px, rgba(255,255,255,.32) 18px 20px);
+      pointer-events: none;
+    }
+
+    .restaurant-title {
+      position: relative;
+      z-index: 1;
+    }
+
+    .restaurant-title .logo-text {
+      display: inline-flex;
+      padding: 8px 12px;
+      color: #111;
+      background: #fff;
+      font-weight: 1000;
+      font-size: clamp(30px, 5vw, 56px);
+      line-height: .95;
+      letter-spacing: -.06em;
+      box-shadow: 0 12px 22px rgba(0,0,0,.25);
+    }
+
+    .restaurant-title p {
+      margin: 14px 0 0;
+      max-width: 500px;
+      color: rgba(255,255,255,.88);
+      font-family: var(--mono);
+      font-size: 10px;
+      line-height: 1.65;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .poster-preview {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      border: 3px solid rgba(255,255,255,.8);
+      background: #222;
+      box-shadow: 0 18px 42px rgba(0,0,0,.38);
+      transform: rotate(2deg);
+    }
+
+    .poster-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .items {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      padding: 18px;
+      background: rgba(0,0,0,.16);
+    }
+
+    .meal-card {
+      position: relative;
+      display: grid;
+      grid-template-columns: 82px 1fr;
+      gap: 14px;
+      padding: 14px;
+      min-height: 154px;
+      border: 1px solid rgba(255,255,255,.1);
+      background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.035));
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease, opacity .18s ease;
+      text-align: left;
+      color: inherit;
+      font: inherit;
+    }
+
+    .meal-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-2);
+      background: linear-gradient(180deg, rgba(255,255,255,.13), rgba(255,255,255,.05));
+    }
+
+    .meal-card.selected {
+      border-color: var(--accent-2);
+      box-shadow: 0 0 0 3px rgba(255,214,0,.20);
+    }
+
+    .meal-card.preview-only {
+      cursor: not-allowed;
+      opacity: .62;
+    }
+
+    .meal-card.preview-only::after {
+      content: "Preview";
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      padding: 5px 7px;
+      background: var(--yellow);
+      color: #000;
+      font-family: var(--mono);
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .meal-image {
+      width: 82px;
+      height: 82px;
+      align-self: start;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 10px 18px rgba(0,0,0,.25);
+    }
+
+    .meal-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .meal-body { min-width: 0; }
+
+    .meal-kicker {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .letter {
+      display: inline-grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      flex: 0 0 auto;
+      color: #111;
+      background: var(--accent-2);
+      border-radius: 50%;
+      font-weight: 1000;
+      font-size: 20px;
+      box-shadow: inset 0 0 0 3px rgba(255,255,255,.65);
+    }
+
+    .price {
+      color: var(--accent-2);
+      font-weight: 1000;
+      font-size: 22px;
+      letter-spacing: -.03em;
+      white-space: nowrap;
+    }
+
+    .meal-title {
+      margin: 0;
+      color: #fff;
+      font-size: 16px;
+      line-height: 1.22;
+      letter-spacing: -.02em;
+    }
+
+    .meal-meta {
+      margin-top: 9px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 10px;
+      line-height: 1.45;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .checkmark {
+      position: absolute;
+      right: 12px;
+      bottom: 12px;
+      width: 26px;
+      height: 26px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #111;
+      background: var(--accent-2);
+      opacity: 0;
+      transform: scale(.8);
+      transition: opacity .18s ease, transform .18s ease;
+      font-weight: 900;
+    }
+
+    .meal-card.selected .checkmark {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .order-panel {
+      position: sticky;
+      top: 134px;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.04)),
+        #101010;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .order-head {
+      padding: 22px;
+      border-bottom: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(255,214,0,.18), transparent 14rem),
+        rgba(255,255,255,.04);
+    }
+
+    .order-head p {
+      margin: 0 0 10px;
+      font-family: var(--mono);
+      font-size: 9px;
+      color: var(--yellow);
+      letter-spacing: .3em;
+      text-transform: uppercase;
+    }
+
+    .order-head h2 {
+      margin: 0;
+      color: var(--yellow);
+      font-family: var(--abolition);
+      font-size: 46px;
+      line-height: .9;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .order-head span {
+      display: block;
+      margin-top: 12px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 10px;
+      line-height: 1.55;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    form { padding: 22px; }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--yellow);
+      font-family: var(--mono);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+    }
+
+    input, select {
+      width: 100%;
+      min-height: 52px;
+      padding: 13px 14px;
+      color: var(--text);
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.13);
+      outline: none;
+      font: 700 12px var(--mono);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      transition: border-color .18s ease, background .18s ease;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--yellow);
+      background: rgba(255,255,255,.11);
+    }
+
+    .field { margin-bottom: 16px; }
+    .field.hidden { display: none; }
+
+    .required-star {
+      color: #fff;
+      margin-left: 4px;
+    }
+
+    .summary {
+      padding: 16px;
+      margin: 18px 0;
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--line);
+      font-family: var(--mono);
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 9px 0;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .summary-row:last-child { border-bottom: 0; }
+    .summary-row b { color: #fff; text-align: right; }
+    .summary-row.total { align-items: center; color: #fff; }
+    .summary-row.total span { font-weight: 800; }
+    .summary-row.total b {
+      color: var(--yellow);
+      font-family: var(--sans);
+      font-size: 34px;
+      letter-spacing: -.05em;
+    }
+
+    .submit-btn {
+      width: 100%;
+      min-height: 56px;
+      border: 0;
+      color: #121212;
+      background: var(--yellow);
+      font: 900 11px var(--mono);
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 12px 26px rgba(255,214,0,.2);
+      transition: transform .18s ease, filter .18s ease, opacity .18s ease;
+    }
+
+    .submit-btn:hover { transform: translateY(-1px); filter: brightness(1.03); }
+    .submit-btn:disabled { cursor: not-allowed; opacity: .45; transform: none; }
+
+    .fineprint {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 9px;
+      line-height: 1.6;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .notice-card {
+      display: none;
+      padding: 16px;
+      margin: 18px 22px 0;
+      border: 1px solid rgba(255,214,0,.32);
+      background: rgba(255,214,0,.08);
+      color: rgba(255,255,255,.78);
+      font-family: var(--mono);
+      font-size: 10px;
+      line-height: 1.6;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .notice-card.show { display: block; }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      z-index: 160;
+      width: min(520px, calc(100% - 28px));
+      padding: 18px;
+      border: 1px solid var(--line);
+      background: rgba(10,10,10,.94);
+      box-shadow: var(--shadow);
+      transform: translate(-50%, 140%);
+      opacity: 0;
+      transition: transform .28s ease, opacity .28s ease;
+      backdrop-filter: blur(18px);
+    }
+
+    .toast.show {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+
+    .toast strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--yellow);
+      font-family: var(--abolition);
+      font-size: 34px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .toast span {
+      display: block;
+      color: #eaeaea;
+      font-family: var(--mono);
+      font-size: 10px;
+      line-height: 1.6;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 980px) {
+      .layout { grid-template-columns: 1fr; }
+      .order-panel { position: static; }
+      .notice-row { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .site-nav { padding: 8px 12px; }
+      .site-logo { font-size: 20px; }
+      .home-link { font-size: 9px; padding: 8px 10px; }
+
+      .page {
+        width: min(100% - 20px, 1180px);
+        padding-top: 10px;
+      }
+
+      .floating-tabs {
+        top: 49px;
+        border-radius: 0;
+        align-items: stretch;
+        flex-direction: column;
+        margin-top: 10px;
+      }
+
+      .top-actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .pill-btn { width: 100%; }
+      .hero { padding: 26px 20px; }
+
+      h1 {
+        font-size: clamp(48px, 15vw, 76px);
+        line-height: .9;
+      }
+
+      .day-switch { grid-template-columns: 1fr; }
+
+      .restaurant-head {
+        grid-template-columns: 1fr;
+        min-height: 0;
+        padding: 20px;
+      }
+
+      .poster-preview {
+        width: min(210px, 65vw);
+        aspect-ratio: 3 / 4;
+        justify-self: start;
+      }
+
+      .items {
+        grid-template-columns: 1fr;
+        padding: 14px;
+      }
+
+      .meal-card { grid-template-columns: 76px 1fr; }
+
+      .meal-image {
+        width: 76px;
+        height: 76px;
+      }
+
+      .restaurant-title .logo-text { font-size: 38px; }
+      .toast { bottom: 12px; }
+    }
+  </style>
+</head>
+
+<body>
+  <nav id="navbar" class="site-nav">
+    <a href="/">
+      <div class="site-logo">REVIVAL // 2026</div>
+    </a>
+    <a class="home-link" href="/">Home</a>
+  </nav>
+
+  <main class="page">
+    <nav class="floating-tabs" aria-label="Lunch order navigation">
+      <div class="brand-mini">
+        <div class="brand-mark">//</div>
+        <div>
+          <strong>REVIVAL // 2026</strong>
+          <span>Lunch order form</span>
+        </div>
+      </div>
+
+      <div class="top-actions">
+        <button class="pill-btn active" type="button" data-jump="menu">Menu</button>
+        <button class="pill-btn" type="button" data-jump="order">Order</button>
+      </div>
+    </nav>
+
+    <section class="hero crt-overlay">
+      <div class="eyebrow">
+        <span id="statusDot" class="status-dot"></span>
+        <span id="statusText">Lunch orders open</span>
+      </div>
+
+      <h1>Lunch Orders</h1>
+
+      <p class="hero-copy">
+        Select a day, choose one meal, enter your name, then submit your order. Payment will be settled onsite through Cash or GCash at the registration booth.
+      </p>
+
+      <div class="notice-row">
+        <div class="notice">
+          <b>Cutoff</b>
+          <span>Orders are collected until 10:00 AM, or until the admin closes lunch orders.</span>
+        </div>
+        <div class="notice">
+          <b>Payment</b>
+          <span>After submitting, approach the registration booth to pay via Cash or GCash.</span>
+        </div>
+        <div class="notice">
+          <b>One meal per submission</b>
+          <span>Need another meal? Submit another order with the same name.</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="menu" class="day-switch-wrap" aria-label="Select event day">
+      <div class="day-switch-title">
+        <span>Menu Day</span>
+        <span id="dayModeText">Day 2 is preview only</span>
+      </div>
+
+      <div class="day-switch" id="daySwitch">
+        <button class="day-btn active" type="button" data-day="day1">
+          <strong>Day 1</strong>
+          <span>Jollibee + Chowking</span>
+        </button>
+        <button class="day-btn" type="button" data-day="day2">
+          <strong>Day 2</strong>
+          <span>Jollibee + Mang Inasal</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="layout">
+      <div class="menu-stack" id="menuStack"></div>
+
+      <aside id="order" class="order-panel crt-overlay">
+        <div class="order-head">
+          <p>Order Slip</p>
+          <h2>Your Meal</h2>
+          <span>Pick one meal from the active day, then enter your name exactly as you want it recorded.</span>
+        </div>
+
+        <div id="closedCard" class="notice-card">
+          Lunch orders are currently closed. Please approach the registration booth for assistance.
+        </div>
+
+        <div id="previewCard" class="notice-card">
+          This day is for preview only. You can view the menu, but ordering will open when the admin switches the active lunch day.
+        </div>
+
+        <form id="orderForm">
+          <div class="field">
+            <label for="name">Full name <span class="required-star">*</span></label>
+            <input id="name" name="name" type="text" autocomplete="name" placeholder="Juan Dela Cruz" required />
+          </div>
+
+          <div class="field hidden" id="variantField">
+            <label for="variantChoice">Choose Option <span class="required-star">*</span></label>
+            <select id="variantChoice" name="variantChoice">
+              <option value="">Choose option</option>
+            </select>
+          </div>
+
+          <div class="field hidden" id="drinkField">
+            <label for="drinkChoice">Drink <span class="required-star">*</span></label>
+            <select id="drinkChoice" name="drinkChoice">
+              <option value="">Choose drink</option>
+              <option value="Coke">Coke</option>
+              <option value="Iced Tea">Iced Tea</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="paymentMethod">Payment Method <span class="required-star">*</span></label>
+            <select id="paymentMethod" name="paymentMethod" required>
+              <option value="">Choose payment method</option>
+              <option value="Cash">Cash</option>
+              <option value="GCash">GCash</option>
+            </select>
+          </div>
+
+          <div class="summary" aria-live="polite">
+            <div class="summary-row"><span>Day</span><b id="summaryDay">Day 1</b></div>
+            <div class="summary-row"><span>Restaurant</span><b id="summaryRestaurant">No meal selected</b></div>
+            <div class="summary-row"><span>Meal</span><b id="summaryMeal">Choose from the menu</b></div>
+            <div class="summary-row"><span>Drink</span><b id="summaryDrink">None</b></div>
+            <div class="summary-row"><span>Payment</span><b id="summaryPayment">Choose method</b></div>
+            <div class="summary-row total"><span>Total</span><b id="summaryPrice">₱0</b></div>
+          </div>
+
+          <button id="submitBtn" class="submit-btn" type="submit" disabled>Submit lunch order</button>
+
+          <p class="fineprint">
+            Submitting this form does not mean paid yet. Please proceed to the registration booth to settle your order onsite.
+          </p>
+        </form>
+      </aside>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite">
+    <strong id="toastTitle">Order received.</strong>
+    <span id="toastText">Please proceed to the registration booth to settle your payment.</span>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseApp = initializeApp({
+      apiKey: "AIzaSyAaxjL-NuYE1VeAoYb1_pWHAE3C4VdCBBY",
+      authDomain: "enc-malolos-revival-2026.firebaseapp.com",
+      projectId: "enc-malolos-revival-2026",
+      storageBucket: "enc-malolos-revival-2026.firebasestorage.app",
+      messagingSenderId: "893658387609",
+      appId: "1:893658387609:web:f15e870fb82b729e759408"
+    });
+
+    const db = getFirestore(firebaseApp);
+
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzB21mAaTR2NxlbJDQ7gh5gou7RjnhkfJHnW08rkxcJWZUETYJ-hyFUPkTP0tSPYqTqUw/exec"
+    const LUNCH_SETTINGS = {
+      ordersOpen: true,
+      activeDay: "day1",
+      showDay2Preview: true,
+      hideDay1WhenDay2: true
+    };
+
+    async function loadLunchSettingsFromFirestore() {
+      try {
+        const lunchSnap = await getDoc(doc(db, "settings", "lunchState"));
+
+        if (lunchSnap.exists()) {
+          Object.assign(LUNCH_SETTINGS, lunchSnap.data());
+        }
+      } catch (error) {
+        console.warn("Using default lunch settings because Firestore settings could not be loaded:", error);
+      }
+    }
+
+    const IMAGE_ASSETS = {
+      posters: {
+        jollibee: "/assets/lunch/jollibee-menu.png",
+        chowking: "/assets/lunch/chowking-menu.png",
+        mangInasal: "/assets/lunch/mang-inasal-menu.png"
+      },
+      meals: {
+        jollibeeA: "/assets/lunch/jollibee-a.png",
+        jollibeeB: "/assets/lunch/jollibee-b.png",
+        jollibeeC: "/assets/lunch/jollibee-c.png",
+        jollibeeD: "/assets/lunch/jollibee-d.png",
+        chowkingA: "/assets/lunch/chowking-a.png",
+        chowkingB: "/assets/lunch/chowking-b.png",
+        chowkingC: "/assets/lunch/chowking-c.png",
+        chowkingD: "/assets/lunch/chowking-d.png",
+        mangA: "/assets/lunch/mang-a.png",
+        mangB: "/assets/lunch/mang-b.png",
+        mangC: "/assets/lunch/mang-c.png",
+        mangD: "/assets/lunch/mang-d.png"
+      }
+    };
+
+    const MENUS = {
+      day1: {
+        label: "Day 1",
+        restaurants: [
+          {
+            id: "jollibee",
+            name: "Jollibee",
+            className: "jollibee",
+            poster: IMAGE_ASSETS.posters.jollibee,
+            note: "Classic favorites for Day 1 lunch orders.",
+            items: [
+              { code: "A", title: "1pc. Burger Steak Solo w/ Drink", price: 88, img: IMAGE_ASSETS.meals.jollibeeA, drinkRequired: true },
+              { code: "B", title: "1pc. Chickenjoy w/ Drink", price: 101, img: IMAGE_ASSETS.meals.jollibeeB, drinkRequired: true },
+              { code: "C", title: "1-pc. Chickenjoy, Half Jolly Spaghetti, Reg. Fries w/ Rice and Reg. Drink", price: 210, img: IMAGE_ASSETS.meals.jollibeeC, drinkRequired: true },
+              { code: "D", title: "2pc. Chickenjoy w/ Drink", price: 216, img: IMAGE_ASSETS.meals.jollibeeD, drinkRequired: true }
+            ]
+          },
+          {
+            id: "chowking",
+            name: "Chowking",
+            className: "chowking",
+            poster: IMAGE_ASSETS.posters.chowking,
+            note: "Rice meals and chao fan choices for Day 1.",
+            items: [
+              { code: "A", title: "Chicken Chop w/ Drink", price: 95, img: IMAGE_ASSETS.meals.chowkingA, drinkRequired: true },
+              {
+                code: "B",
+                title: "Chao Fan w/ Toppings w/ Drink",
+                price: 119,
+                img: IMAGE_ASSETS.meals.chowkingB,
+                drinkRequired: true,
+                variantRequired: true,
+                variants: [
+                  "Chao Fan w/ Siomai w/ Drink",
+                  "Chao Fan w/ Shanghai w/ Drink"
+                ]
+              },
+              { code: "C", title: "Siomai Spicy Chao Fan w/ Drink", price: 145, img: IMAGE_ASSETS.meals.chowkingC, drinkRequired: true },
+              { code: "D", title: "1pc. Chinese-Style Fried Chicken w/ Drink", price: 115, img: IMAGE_ASSETS.meals.chowkingD, drinkRequired: true }
+            ]
+          }
+        ]
+      },
+      day2: {
+        label: "Day 2",
+        restaurants: [
+          {
+            id: "jollibee",
+            name: "Jollibee",
+            className: "jollibee",
+            poster: IMAGE_ASSETS.posters.jollibee,
+            note: "Classic favorites available again for Day 2.",
+            items: [
+              { code: "A", title: "1pc. Burger Steak Solo w/ Drink", price: 79, img: IMAGE_ASSETS.meals.jollibeeA, drinkRequired: true },
+              { code: "B", title: "1pc. Chickenjoy w/ Drink", price: 99, img: IMAGE_ASSETS.meals.jollibeeB, drinkRequired: true },
+              { code: "C", title: "1-pc. Chickenjoy, Half Jolly Spaghetti, Reg. Fries w/ Rice and Reg. Drink", price: 190, img: IMAGE_ASSETS.meals.jollibeeC, drinkRequired: true },
+              { code: "D", title: "2pc. Chickenjoy w/ Drink", price: 195, img: IMAGE_ASSETS.meals.jollibeeD, drinkRequired: true }
+            ]
+          },
+          {
+            id: "mangInasal",
+            name: "Mang Inasal",
+            className: "mang-inasal",
+            poster: IMAGE_ASSETS.posters.mangInasal,
+            note: "Ihaw-sarap value meals for Day 2.",
+            items: [
+              { code: "A", title: "Regular Chicken 1 Rice Value Meal", price: 129, img: IMAGE_ASSETS.meals.mangA, drinkRequired: true },
+              { code: "B", title: "Paa Large 1 Rice Value Meal", price: 165, img: IMAGE_ASSETS.meals.mangB, drinkRequired: true },
+              { code: "C", title: "Pecho Large 1 Rice Value Meal", price: 195, img: IMAGE_ASSETS.meals.mangC, drinkRequired: true },
+              { code: "D", title: "Pork Sisig 1 Rice", price: 105, img: IMAGE_ASSETS.meals.mangD, drinkRequired: false }
+            ]
+          }
+        ]
+      }
+    };
+
+    let currentDay = LUNCH_SETTINGS.activeDay;
+    let selectedOrder = null;
+
+    const menuStack = document.getElementById("menuStack");
+    const statusDot = document.getElementById("statusDot");
+    const statusText = document.getElementById("statusText");
+    const submitBtn = document.getElementById("submitBtn");
+    const form = document.getElementById("orderForm");
+    const toast = document.getElementById("toast");
+    const closedCard = document.getElementById("closedCard");
+    const previewCard = document.getElementById("previewCard");
+    const dayModeText = document.getElementById("dayModeText");
+
+    const variantField = document.getElementById("variantField");
+    const variantChoice = document.getElementById("variantChoice");
+    const drinkField = document.getElementById("drinkField");
+    const drinkChoice = document.getElementById("drinkChoice");
+    const paymentMethod = document.getElementById("paymentMethod");
+
+    function peso(value) {
+      return `₱${Number(value || 0).toLocaleString("en-PH")}`;
+    }
+
+    function isOrderableDay() {
+      return LUNCH_SETTINGS.ordersOpen && currentDay === LUNCH_SETTINGS.activeDay;
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function getFinalMealName() {
+      if (!selectedOrder) return "";
+      if (selectedOrder.variantRequired && variantChoice.value) return variantChoice.value;
+      return selectedOrder.title;
+    }
+
+    function formatForSheet(order, name) {
+      return {
+        name: name.trim(),
+        day: MENUS[currentDay].label,
+        restaurant: order.restaurantName,
+        option: order.code,
+        meal: getFinalMealName(),
+        drink: order.drinkRequired ? drinkChoice.value : "None",
+        price: order.price,
+        paymentMethod: paymentMethod.value
+      };
+    }
+
+    function setupDayButtons() {
+      const day1Btn = document.querySelector('[data-day="day1"]');
+      const day2Btn = document.querySelector('[data-day="day2"]');
+
+      if (LUNCH_SETTINGS.activeDay === "day2" && LUNCH_SETTINGS.hideDay1WhenDay2) {
+        currentDay = "day2";
+        if (day1Btn) day1Btn.style.display = "none";
+        if (day2Btn) day2Btn.classList.add("active");
+      }
+
+      if (LUNCH_SETTINGS.activeDay === "day1" && !LUNCH_SETTINGS.showDay2Preview) {
+        if (day2Btn) day2Btn.style.display = "none";
+      }
+
+      document.querySelectorAll(".day-btn").forEach(btn => {
+        btn.addEventListener("click", () => setDay(btn.dataset.day));
+      });
+    }
+
+    function setDay(day) {
+      if (LUNCH_SETTINGS.activeDay === "day2" && day === "day1" && LUNCH_SETTINGS.hideDay1WhenDay2) return;
+
+      currentDay = day;
+      selectedOrder = null;
+
+      drinkChoice.value = "";
+      paymentMethod.value = "";
+      variantChoice.innerHTML = `<option value="">Choose option</option>`;
+
+      document.querySelectorAll(".day-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.day === day);
+      });
+
+      renderMenus();
+      updateOpenState();
+      updateSummary();
+      updateChoiceFields();
+    }
+
+    function updateOpenState() {
+      const isOpen = Boolean(LUNCH_SETTINGS.ordersOpen);
+      const isPreview = currentDay !== LUNCH_SETTINGS.activeDay;
+
+      statusDot.classList.toggle("closed", !isOpen);
+      statusText.textContent = isOpen ? "Lunch orders open" : "Lunch orders closed";
+
+      closedCard.classList.toggle("show", !isOpen);
+      previewCard.classList.toggle("show", isOpen && isPreview);
+
+      dayModeText.textContent = currentDay === LUNCH_SETTINGS.activeDay
+        ? `${MENUS[currentDay].label} is open for ordering`
+        : `${MENUS[currentDay].label} is preview only`;
+
+      form.style.opacity = isOrderableDay() ? "1" : ".46";
+      form.style.pointerEvents = isOrderableDay() ? "auto" : "none";
+
+      updateSummary();
+    }
+
+    function renderMenus() {
+      const dayData = MENUS[currentDay];
+      const previewOnly = currentDay !== LUNCH_SETTINGS.activeDay;
+      menuStack.innerHTML = dayData.restaurants.map(restaurant => restaurantTemplate(restaurant, previewOnly)).join("");
+    }
+
+    function restaurantTemplate(restaurant, previewOnly) {
+      return `
+        <article class="restaurant ${restaurant.className}" data-restaurant="${restaurant.id}">
+          <header class="restaurant-head">
+            <div class="restaurant-title">
+              <div class="logo-text">${restaurant.name}</div>
+              <p>${previewOnly ? "Preview only. Ordering for this day is not yet active." : restaurant.note}</p>
+            </div>
+
+            <figure class="poster-preview" aria-label="${restaurant.name} menu poster preview">
+              <img src="${restaurant.poster}" alt="${restaurant.name} menu poster" onerror="this.parentElement.style.display='none'" />
+            </figure>
+          </header>
+
+          <div class="items">
+            ${restaurant.items.map(item => mealTemplate(restaurant, item, previewOnly)).join("")}
+          </div>
+        </article>
+      `;
+    }
+
+    function mealTemplate(restaurant, item, previewOnly) {
+      const id = `${currentDay}-${restaurant.id}-${item.code}`;
+      const variants = JSON.stringify(item.variants || []).replaceAll("'", "&#039;");
+
+      return `
+        <button
+          class="meal-card ${previewOnly ? "preview-only" : ""}"
+          type="button"
+          data-id="${id}"
+          data-restaurant-id="${restaurant.id}"
+          data-restaurant-name="${restaurant.name}"
+          data-code="${item.code}"
+          data-title="${escapeHtml(item.title)}"
+          data-price="${item.price}"
+          data-drink-required="${item.drinkRequired ? "true" : "false"}"
+          data-variant-required="${item.variantRequired ? "true" : "false"}"
+          data-variants='${variants}'
+        >
+          <div class="meal-image">
+            <img src="${item.img}" alt="${restaurant.name} Meal ${item.code}: ${escapeHtml(item.title)}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect width=%22200%22 height=%22200%22 fill=%22%231f1f1f%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23ffd600%22 font-family=%22Arial%22 font-size=%2252%22 font-weight=%22900%22%3E${item.code}%3C/text%3E%3C/svg%3E'" />
+          </div>
+
+          <div class="meal-body">
+            <div class="meal-kicker">
+              <span class="letter">${item.code}</span>
+              <span class="price">${peso(item.price)}</span>
+            </div>
+            <h3 class="meal-title">${item.title}</h3>
+            <div class="meal-meta">${restaurant.name} · ${MENUS[currentDay].label}</div>
+          </div>
+
+          <span class="checkmark">✓</span>
+        </button>
+      `;
+    }
+
+    function selectMeal(card) {
+      if (!isOrderableDay()) {
+        showToast("Preview only.", "This menu can be viewed, but ordering is not active for this day yet.");
+        return;
+      }
+
+      document.querySelectorAll(".meal-card").forEach(el => el.classList.remove("selected"));
+      card.classList.add("selected");
+
+      selectedOrder = {
+        day: MENUS[currentDay].label,
+        restaurantId: card.dataset.restaurantId,
+        restaurantName: card.dataset.restaurantName,
+        code: card.dataset.code,
+        title: card.dataset.title,
+        price: Number(card.dataset.price),
+        drinkRequired: card.dataset.drinkRequired === "true",
+        variantRequired: card.dataset.variantRequired === "true",
+        variants: JSON.parse(card.dataset.variants || "[]")
+      };
+
+      drinkChoice.value = "";
+      variantChoice.innerHTML = `<option value="">Choose option</option>`;
+
+      if (selectedOrder.variantRequired) {
+        selectedOrder.variants.forEach(function(option) {
+          var opt = document.createElement("option");
+          opt.value = option;
+          opt.textContent = option;
+          variantChoice.appendChild(opt);
+        });
+      }
+
+      updateChoiceFields();
+      updateSummary();
+      document.getElementById("order").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function updateChoiceFields() {
+      const needsDrink = selectedOrder && selectedOrder.drinkRequired;
+      const needsVariant = selectedOrder && selectedOrder.variantRequired;
+
+      drinkField.classList.toggle("hidden", !needsDrink);
+      variantField.classList.toggle("hidden", !needsVariant);
+
+      drinkChoice.required = !!needsDrink;
+      variantChoice.required = !!needsVariant;
+    }
+
+    function updateSummary() {
+      document.getElementById("summaryDay").textContent = MENUS[currentDay].label;
+      document.getElementById("summaryRestaurant").textContent = selectedOrder ? selectedOrder.restaurantName : "No meal selected";
+      document.getElementById("summaryMeal").textContent = selectedOrder ? `${selectedOrder.code} — ${getFinalMealName()}` : "Choose from the menu";
+      document.getElementById("summaryDrink").textContent = selectedOrder && selectedOrder.drinkRequired ? (drinkChoice.value || "Choose drink") : "None";
+      document.getElementById("summaryPayment").textContent = paymentMethod.value || "Choose method";
+      document.getElementById("summaryPrice").textContent = selectedOrder ? peso(selectedOrder.price) : "₱0";
+      submitBtn.disabled = !isOrderableDay() || !selectedOrder;
+    }
+
+    function validateOptions() {
+      if (!selectedOrder) return false;
+
+      if (selectedOrder.variantRequired && !variantChoice.value) {
+        showToast("Option required.", "Please choose Siomai or Shanghai before submitting.");
+        return false;
+      }
+
+      if (selectedOrder.drinkRequired && !drinkChoice.value) {
+        showToast("Drink required.", "Please choose Coke or Iced Tea before submitting.");
+        return false;
+      }
+
+      if (!paymentMethod.value) {
+        showToast("Payment method required.", "Please choose Cash or GCash before submitting.");
+        return false;
+      }
+
+      return true;
+    }
+
+    function showToast(title, message) {
+      document.getElementById("toastTitle").textContent = title;
+      document.getElementById("toastText").textContent = message;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 7000);
+    }
+
+    async function submitOrder(payload) {
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      });
+
+      return { ok: true };
+    }
+
+    document.querySelectorAll("[data-jump]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("[data-jump]").forEach(item => item.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.jump).scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+
+    menuStack.addEventListener("click", event => {
+      const card = event.target.closest(".meal-card");
+      if (!card) return;
+      selectMeal(card);
+    });
+
+    drinkChoice.addEventListener("change", updateSummary);
+    variantChoice.addEventListener("change", updateSummary);
+    paymentMethod.addEventListener("change", updateSummary);
+
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+
+      if (!isOrderableDay()) {
+        showToast("Ordering unavailable.", "This day is currently for preview only.");
+        return;
+      }
+
+      const name = document.getElementById("name").value.trim();
+
+      if (!name) {
+        showToast("Name required.", "Please enter your full name before submitting.");
+        return;
+      }
+
+      if (!selectedOrder) {
+        showToast("Choose a meal first.", "Select one meal from the active menu before submitting.");
+        return;
+      }
+
+      if (!validateOptions()) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Submitting...";
+
+      try {
+        const payload = formatForSheet(selectedOrder, name);
+        await submitOrder(payload);
+
+        let extraDetails = "";
+        if (payload.drink && payload.drink !== "None") extraDetails += ` Drink: ${payload.drink}.`;
+        extraDetails += ` Payment method: ${payload.paymentMethod}.`;
+
+        showToast(
+          "Order received.",
+          `${name}, your ${payload.day} order is ${payload.restaurant} ${payload.option} — ${payload.meal}.${extraDetails} Please proceed to the registration booth to settle your payment.`
+        );
+
+        form.reset();
+        selectedOrder = null;
+        document.querySelectorAll(".meal-card").forEach(el => el.classList.remove("selected"));
+        variantChoice.innerHTML = `<option value="">Choose option</option>`;
+        updateChoiceFields();
+        updateSummary();
+      } catch (error) {
+        console.error(error);
+        showToast("Order not submitted.", "Please try again or approach the registration booth for assistance.");
+      } finally {
+        submitBtn.textContent = "Submit lunch order";
+        updateSummary();
+      }
+    });
+
+    await loadLunchSettingsFromFirestore();
+    currentDay = LUNCH_SETTINGS.activeDay;
+
+    setupDayButtons();
+    setDay(currentDay);
+    updateOpenState();
+  </script>
+</body>
+</html>

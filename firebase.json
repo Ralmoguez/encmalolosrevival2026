@@ -9,14 +9,81 @@
     ],
     "cleanUrls": true,
     "rewrites": [
-      { "source": "/receiver", "destination": "/receiver/index.html" },
-      { "source": "/user/**", "destination": "/index.html" },
-      { "source": "/vault", "destination": "/vault.html" },
-      { "source": "/about", "destination": "/index.html" },
-      { "source": "/details", "destination": "/index.html" },
-      { "source": "/register", "destination": "/index.html" },
-      { "source": "/countdown", "destination": "/index.html" },
-      { "source": "**", "destination": "/index.html" }
+      {
+        "source": "/receiver",
+        "destination": "/receiver/index.html"
+      },
+      {
+        "source": "/user/**",
+        "destination": "/index.html"
+      },
+
+      {
+        "source": "/vault",
+        "destination": "/vault.html"
+      },
+      {
+        "source": "/vault/**",
+        "destination": "/vault.html"
+      },
+
+      {
+        "source": "/photos",
+        "destination": "/photos.html"
+      },
+      {
+        "source": "/photos/**",
+        "destination": "/photos.html"
+      },
+      {
+        "source": "/recordings",
+        "destination": "/recordings.html"
+      },
+      {
+        "source": "/recordings/**",
+        "destination": "/recordings.html"
+      },
+
+      {
+        "source": "/serve",
+        "destination": "/index.html"
+      },
+      {
+        "source": "/serve/**",
+        "destination": "/index.html"
+      },
+
+      {
+        "source": "/about",
+        "destination": "/index.html"
+      },
+      {
+        "source": "/details",
+        "destination": "/index.html"
+      },
+      {
+        "source": "/register",
+        "destination": "/index.html"
+      },
+      {
+        "source": "/countdown",
+        "destination": "/index.html"
+      },
+      {
+        "source": "/help",
+        "destination": "/index.html"
+      },
+
+      {
+        "source": "**",
+        "destination": "/index.html"
+      },
+
+      { "source": "/qna", "destination": "/qna.html" },
+      { "source": "/ledcontrol", "destination": "/ledcontrol.html" },
+      { "source": "/led", "destination": "/led.html" },
+      { "source": "/assessment", "destination": "/assessment.html" }
+
     ],
     "headers": [
       {
@@ -30,7 +97,6 @@
       }
     ]
   },
-
   "emulators": {
     "hosting": {
       "host": "0.0.0.0",

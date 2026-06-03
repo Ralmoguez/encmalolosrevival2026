@@ -1,0 +1,1151 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Inter:wght@300;400;700&family=Special+Elite&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/png" href="/VHS.png">
+    <meta name="title" content="REVIVAL // 2026 — Serve Registration">
+    <meta name="description" content="The Spirit that's Still Moving.">
+
+  <title>REVIVAL // 2026 — Serve Registration</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Inter:wght@300;400;700;900&family=Special+Elite&display=swap" rel="stylesheet">
+
+  <style>
+    @font-face {
+      font-family: 'Abolition';
+      src: url('/abolition-regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    :root {
+      --yellow: #ffd600;
+      --yellow-soft: #facc15;
+      --black: #050505;
+      --paper: #f4f1ea;
+      --ink: #111111;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--black);
+      color: var(--paper);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .font-mono-vhs { font-family: 'IBM Plex Mono', monospace; }
+    .font-typewriter { font-family: 'Special Elite', cursive; }
+    .font-abolition {
+      font-family: 'Abolition', Impact, sans-serif;
+      letter-spacing: 0.08em;
+    }
+
+    .screen {
+      display: none;
+      min-height: calc(100vh - 49px);
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    .grain::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      pointer-events: none;
+      opacity: 0.045;
+      background-image: radial-gradient(rgba(255,255,255,.28) 1px, transparent 1px);
+      background-size: 3px 3px;
+      mix-blend-mode: overlay;
+    }
+
+    .crt {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .crt::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 3;
+      background:
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0,0,0,.16) 50%),
+        linear-gradient(90deg, rgba(255,0,0,.035), rgba(0,255,0,.012), rgba(0,0,255,.035));
+      background-size: 100% 3px, 3px 100%;
+    }
+
+    .bg-grid {
+      background-image:
+        linear-gradient(rgba(255,214,0,.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,214,0,.07) 1px, transparent 1px);
+      background-size: 34px 34px;
+    }
+
+    .soft-glow { box-shadow: 0 0 55px rgba(255,214,0,.15); }
+
+    .osd-green {
+      color: #00ff00;
+      text-shadow: 0 0 8px #00ff00;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    .form-input {
+      width: 100%;
+      background: #18181b;
+      border: 1px solid #27272a;
+      color: #ffffff;
+      padding: 14px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      outline: none;
+      transition: all .2s ease;
+    }
+
+    .form-input:focus {
+      border-color: var(--yellow-soft);
+      box-shadow: 0 0 0 1px rgba(250,204,21,.35);
+    }
+
+    .form-input::placeholder { color: rgba(255,255,255,.22); }
+
+    .btn-primary {
+      background: var(--yellow);
+      color: black;
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .28em;
+      font-size: 10px;
+      padding: 18px 22px;
+      transition: all .2s ease;
+    }
+
+    .btn-primary:hover {
+      background: white;
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-outline {
+      border: 1px solid rgba(255,255,255,.18);
+      color: white;
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .24em;
+      font-size: 10px;
+      padding: 17px 22px;
+      transition: all .2s ease;
+    }
+
+    .btn-outline:hover {
+      background: white;
+      color: black;
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      color: rgba(255,255,255,.38);
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .2em;
+      font-size: 9px;
+      transition: color .2s ease;
+    }
+
+    .btn-ghost:hover { color: var(--yellow); }
+
+    #receipt-capture {
+      line-height: 1.2;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      background-color: #f4f1ea;
+
+      width: min(384px, calc(100vw - 32px));
+      max-width: 384px;
+
+      margin-left: auto;
+      margin-right: auto;
+      transform-origin: top center;
+    }
+
+    #receipt-capture h3 {
+      line-height: .8 !important;
+    }
+
+    @media (max-width: 640px) {
+      #receipt-capture {
+        width: min(384px, calc(100vw - 32px));
+        transform: none;
+        margin-bottom: 0;
+      }
+    }
+
+    @keyframes pulseLine {
+      0%, 100% { opacity: .15; transform: translateX(-30%); }
+      50% { opacity: .65; transform: translateX(30%); }
+    }
+
+    .pulse-line { animation: pulseLine 4s ease-in-out infinite; }
+
+    .role-card {
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.38);
+      transition: all .2s ease;
+      cursor: pointer;
+    }
+
+    .role-card:hover { border-color: rgba(255,214,0,.7); }
+
+    .role-card input:checked + div {
+      border-color: var(--yellow);
+      background: rgba(255,214,0,.10);
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%) translateY(24px);
+      width: min(92vw, 520px);
+      opacity: 0;
+      pointer-events: none;
+      transition: .25s ease;
+      z-index: 300;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    #saveConfirmPopup:not(.hidden) {
+      display: flex;
+    }
+  
+    /* RECEIPT SCREENSHOT MODE: keeps the receipt easier to capture on mobile/Messenger */
+    .screenshot-note-card {
+      border: 1px solid rgba(255, 214, 0, 0.25);
+      background: rgba(255, 214, 0, 0.06);
+      color: #ffd600;
+    }
+
+    #messengerScreenshotPopup.hidden {
+      display: none !important;
+    }
+
+    #messengerScreenshotPopup:not(.hidden) {
+      display: flex !important;
+    }
+
+    @media (max-width: 640px) {
+      #screen-receipt.active {
+        align-items: flex-start;
+        padding-top: 12px;
+        padding-bottom: 18px;
+      }
+
+      #screen-receipt .receipt-stage {
+        transform: scale(0.78);
+        transform-origin: top center;
+        width: calc(100vw / 0.78);
+        max-width: calc(100vw / 0.78);
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: -138px;
+      }
+
+      #screen-receipt .receipt-actions {
+        margin-top: 12px;
+      }
+
+      #receipt-capture {
+        width: 384px;
+        max-width: 384px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      #screen-receipt .receipt-stage {
+        transform: scale(0.72);
+        width: calc(100vw / 0.72);
+        max-width: calc(100vw / 0.72);
+        margin-bottom: -190px;
+      }
+    }
+
+    @media (max-height: 740px) and (max-width: 640px) {
+      #screen-receipt .receipt-stage {
+        transform: scale(0.68);
+        width: calc(100vw / 0.68);
+        max-width: calc(100vw / 0.68);
+        margin-bottom: -230px;
+      }
+    }
+
+  </style>
+</head>
+
+<body class="grain">
+
+  <!-- NAVBAR: logo only -->
+  <nav id="navbar" class="sticky top-0 w-full z-[100] bg-black/60 backdrop-blur-lg border-b border-white/5 px-6 py-2 flex justify-between items-center">
+    <a href="javascript:void(0)" onclick="goHome()" class="z-[110] hover:opacity-80 transition-opacity">
+      <div class="font-abolition font-bold text-yellow-400 text-2xl tracking-widest">
+        REVIVAL // 2026
+      </div>
+    </a>
+
+    <div class="font-mono-vhs text-white/30 text-[8px] uppercase tracking-[0.25em] hidden sm:block">
+      Serve Access
+    </div>
+  </nav>
+
+  <!-- GLOBAL BG -->
+  <div class="fixed inset-0 pointer-events-none z-0">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,214,0,.20),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(255,255,255,.08),transparent_28%)]"></div>
+    <div class="absolute left-0 right-0 top-1/2 h-px bg-yellow-400/20 pulse-line"></div>
+  </div>
+
+  <main class="relative z-10">
+
+    <!-- SCREEN 1: WELCOME -->
+    <section id="screen-welcome" class="screen active items-center justify-center px-6 py-16 bg-black">
+      <div class="max-w-4xl w-full">
+        <div class="border border-white/10 bg-[#101010]/90 soft-glow crt p-6 md:p-12 text-center">
+          <div class="relative z-10">
+            <p class="font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[0.38em] mb-6">
+              Serve Access // Revival 2026
+            </p>
+
+            <h1 class="font-abolition text-yellow-400 text-[54px] md:text-[92px] uppercase leading-none">
+              Your Yes<br>Is Part Of<br>The Movement
+            </h1>
+
+            <div class="mt-7 max-w-2xl mx-auto space-y-4">
+              <p class="text-white/72 text-base md:text-xl leading-relaxed">
+                REVIVAL // 2026 is not only carried by what happens on stage. It is carried by every person who says yes to serve, prepare, welcome, guide, and make room.
+              </p>
+
+              <p class="font-mono-vhs text-white/42 text-[10px] md:text-[11px] uppercase tracking-[0.16em] leading-relaxed">
+                Thank you for investing in the next generation through serving.
+              </p>
+            </div>
+
+            <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+              <button onclick="goToScreen('meaning')" class="btn-primary">
+                Begin
+              </button>
+
+              <button onclick="goToScreen('form')" class="btn-outline">
+                Skip Guide
+              </button>
+            </div>
+
+            <p class="font-mono-vhs text-white/26 text-[8px] uppercase tracking-[0.2em] mt-7">
+              For Serving Team Members and Campus Missionaries only.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 2: MEANING -->
+    <section id="screen-meaning" class="screen items-center justify-center px-6 py-16 bg-[#0d0d0d] bg-grid">
+      <div class="max-w-5xl w-full">
+
+        <div class="text-center mb-9">
+          <p class="font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[0.38em] mb-4">
+            Before The Form
+          </p>
+
+          <h2 class="font-abolition text-white text-[48px] md:text-[78px] uppercase leading-none">
+            This Is More<br class="hidden md:block"> Than A Role
+          </h2>
+
+          <p class="mt-6 max-w-3xl mx-auto text-white/62 text-base md:text-lg leading-relaxed">
+            Your serving is an investment in the next generation. Your time, attention, and willingness help create an environment where people can encounter God.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-4 font-mono-vhs">
+          <div class="border border-white/10 bg-black/60 p-6">
+            <div class="w-11 h-11 border border-yellow-400 text-yellow-400 flex items-center justify-center text-[11px] font-bold mb-6">
+              01
+            </div>
+
+            <h3 class="text-yellow-400 text-[11px] uppercase tracking-[0.23em] mb-3">
+              You prepare the way.
+            </h3>
+
+            <p class="text-white/42 text-[10px] uppercase tracking-[0.12em] leading-relaxed">
+              Before anyone enters the room, your preparation already matters.
+            </p>
+          </div>
+
+          <div class="border border-yellow-400/35 bg-yellow-400/5 p-6 soft-glow">
+            <div class="w-11 h-11 bg-yellow-400 text-black flex items-center justify-center text-[11px] font-bold mb-6">
+              02
+            </div>
+
+            <h3 class="text-yellow-400 text-[11px] uppercase tracking-[0.23em] mb-3">
+              You help carry the room.
+            </h3>
+
+            <p class="text-white/48 text-[10px] uppercase tracking-[0.12em] leading-relaxed">
+              The atmosphere is shaped by people who serve with humility and faith.
+            </p>
+          </div>
+
+          <div class="border border-white/10 bg-black/60 p-6">
+            <div class="w-11 h-11 border border-yellow-400 text-yellow-400 flex items-center justify-center text-[11px] font-bold mb-6">
+              03
+            </div>
+
+            <h3 class="text-yellow-400 text-[11px] uppercase tracking-[0.23em] mb-3">
+              You serve the next generation.
+            </h3>
+
+            <p class="text-white/42 text-[10px] uppercase tracking-[0.12em] leading-relaxed">
+              Your yes helps make room for students to listen, respond, and be changed.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-9 border border-yellow-400/20 bg-black/55 p-6 text-center">
+          <p class="font-typewriter text-white/72 text-xl md:text-2xl leading-relaxed">
+            “Thank you for saying yes before the room was full.”
+          </p>
+        </div>
+
+        <div class="mt-8 flex flex-col sm:flex-row justify-center gap-3">
+          <button onclick="goToScreen('welcome')" class="btn-outline">
+            Back
+          </button>
+
+          <button onclick="goToScreen('form')" class="btn-primary">
+            Continue To Serve Registration
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SCREEN 3: FORM -->
+    <section id="screen-form" class="screen items-center justify-center px-6 py-16 bg-[#ffd600] text-black">
+      <div class="max-w-xl w-full">
+
+        <div class="text-center mb-6">
+          <p class="font-mono-vhs text-[10px] uppercase tracking-[0.35em] mb-3">
+            /serve
+          </p>
+
+          <h2 class="font-abolition text-black text-[48px] md:text-[72px] uppercase leading-none">
+            Serve Registration
+          </h2>
+
+          <p class="font-mono-vhs text-black/65 text-[10px] uppercase tracking-[0.18em] mt-3 leading-relaxed">
+            Confirm your details and generate your serve receipt for check-in.
+          </p>
+        </div>
+
+        <div class="bg-[#121212] p-6 border-4 border-black space-y-4 relative shadow-2xl">
+          <div id="serve-osd-status" class="absolute top-2 left-4 font-mono-vhs text-[8px] text-yellow-400 opacity-40 font-bold uppercase tracking-tighter">
+            Status: Serve Standby
+          </div>
+
+          <form id="serveForm" class="font-mono-vhs space-y-3 pt-2">
+
+            <div>
+              <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-1 tracking-widest">Name *</label>
+              <input type="text" name="name" id="serveName" placeholder="Surname, First Name M.I." class="form-input" required>
+            </div>
+
+            <div>
+              <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-1 tracking-widest">Email Address *</label>
+              <input type="email" name="email" id="serveEmail" placeholder="email@example.com" class="form-input" required>
+            </div>
+
+            <div>
+              <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-1 tracking-widest">Contact Number *</label>
+              <input type="tel" name="contact" id="serveContact" placeholder="09XXXXXXXXX" class="form-input" required>
+            </div>
+
+            <div>
+              <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-1 tracking-widest">Local Church *</label>
+              <input type="text" name="church" id="serveChurch" placeholder="e.g. Victory Malolos" class="form-input" required>
+            </div>
+
+            <div>
+              <label class="block text-[8px] text-yellow-400 font-bold uppercase mb-3 tracking-widest">Role *</label>
+
+              <div class="grid grid-cols-1 gap-2">
+                <label class="role-card block">
+                  <input type="radio" name="role" value="Serving Team" class="hidden" required>
+                  <div class="border border-white/10 p-3 flex items-center justify-between gap-3">
+                    <span class="text-white text-[10px] font-bold uppercase tracking-[0.16em]">Serving Team</span>
+                    <span class="text-yellow-400 text-[8px] uppercase tracking-[0.16em]">ST26</span>
+                  </div>
+                </label>
+
+                <label class="role-card block">
+                  <input type="radio" name="role" value="Campus Missionary" class="hidden" required>
+                  <div class="border border-white/10 p-3 flex items-center justify-between gap-3">
+                    <span class="text-white text-[10px] font-bold uppercase tracking-[0.16em]">Campus Missionary</span>
+                    <span class="text-yellow-400 text-[8px] uppercase tracking-[0.16em]">CM26</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div class="border border-yellow-400/20 bg-yellow-400/5 p-4">
+              <p class="text-yellow-400/75 text-[9px] uppercase tracking-[0.16em] leading-relaxed">
+                After submitting, save your confirmation receipt. Your QR will be used for check-in.
+              </p>
+            </div>
+
+            <button type="submit" id="serveSubmitBtn" class="w-full bg-[#facc15] text-black py-5 font-bold uppercase tracking-[0.3em] text-xs hover:bg-white transition-all active:invert">
+              Generate My Serve Receipt
+            </button>
+
+          </form>
+        </div>
+
+        <div class="mt-5 flex justify-between items-center">
+          <button onclick="goToScreen('meaning')" class="btn-ghost !text-black/50 hover:!text-black">
+            ← Back to Message
+          </button>
+
+          <span class="font-mono-vhs text-[9px] uppercase tracking-[0.18em] text-black/50">
+            No passcode needed
+          </span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SCREEN 4: RECEIPT -->
+    <section id="screen-receipt" class="screen items-center justify-center px-4 py-16 bg-black">
+      <div class="receipt-stage w-full max-w-md mx-auto text-center">
+
+        <p class="font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[0.35em] mb-5">
+          Receipt Generated
+        </p>
+
+        <div id="receipt-capture" class="bg-[#f4f1ea] w-full max-w-sm relative shadow-[0_20px_50px_rgba(0,0,0,1)] font-mono-vhs text-black mx-auto">
+          <div class="absolute -top-3 left-0 w-full h-4 bg-[#f4f1ea]" style="clip-path: polygon(0% 100%, 5% 0%, 10% 100%, 15% 0%, 20% 100%, 25% 0%, 30% 100%, 35% 0%, 40% 100%, 45% 0%, 50% 100%, 55% 0%, 60% 100%, 65% 0%, 70% 100%, 75% 0%, 80% 100%, 85% 0%, 90% 100%, 95% 0%, 100% 100%);"></div>
+
+          <div class="p-8">
+            <div class="flex justify-between text-[8px] font-bold border-b border-black pb-1 mb-6 uppercase">
+              <span>[STATUS: SIGNAL_LOCKED]</span>
+              <span>[REF: 2026]</span>
+            </div>
+
+            <div class="text-center flex flex-col items-center">
+              <h3 class="font-abolition text-[68px] uppercase leading-none block h-[60px] mb-6">REVIVAL</h3>
+
+              <div class="w-full mb-4">
+                <p class="text-[10px] font-bold uppercase tracking-[0.1em]">The Spirit That's Still Moving</p>
+                <p class="text-[10px] font-black tracking-[0.25em] mt-1">05.29-30.2026</p>
+              </div>
+            </div>
+
+            <div class="text-[9px] font-bold space-y-1 mb-6 uppercase text-left">
+              <p>STAMP_IN: <span id="receipt-time">----</span></p>
+              <p>LOCATION: MALOLOS_BULACAN</p>
+              <p>ACCESS_TYPE: SERVE_CHECK_IN</p>
+            </div>
+
+            <div class="border-t-2 border-black border-double pt-4 mb-4 uppercase text-left">
+              <p class="text-[10px] font-black mb-4">>> SERVE_RECORD:</p>
+
+              <div class="space-y-4 text-[10px] font-bold">
+                <div class="flex justify-between opacity-40 text-[8px] mb-1">
+                  <span>QTY DESCRIPTION</span>
+                  <span>PRICE</span>
+                </div>
+
+                <div class="flex justify-between border-b border-black/10 pb-2 gap-3">
+                  <span>01 NAME: <span id="res-name" class="font-black italic uppercase">---</span></span>
+                  <span>₱0.00</span>
+                </div>
+
+                <div class="flex justify-between border-b border-black/10 pb-2 gap-3">
+                  <span>01 ROLE: <span id="res-role" class="font-black italic uppercase">---</span></span>
+                  <span>--</span>
+                </div>
+
+                <div class="flex justify-between border-b border-black/10 pb-2 gap-3">
+                  <span>01 LOCAL CHURCH: <span id="res-church" class="font-black italic uppercase">---</span></span>
+                  <span>--</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="border-t border-dashed border-black pt-4 mt-8 pb-4">
+              <div class="flex justify-between text-[11px] font-black uppercase">
+                <span>TOTAL PRICE:</span>
+                <span>₱0.00</span>
+              </div>
+
+              <div class="text-right mt-3">
+                <span class="text-[9px] font-black italic uppercase block">(PAID BY JESUS' BLOOD)</span>
+              </div>
+            </div>
+
+            <div class="mt-8 text-center space-y-6">
+              <p class="text-[11px] font-black tracking-tighter uppercase">[!] YOUR_YES_IS_RECORDED</p>
+
+              <div class="flex flex-col items-center">
+                <p id="res-id" class="text-[9px] font-black tracking-widest mb-3 uppercase opacity-80 text-black">SERVE_ID: [ ST26-0000 ]</p>
+
+                <img id="receipt-qr"
+                     src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://encmalolos-revival2026.web.app/serve"
+                     class="w-20 h-20 mix-blend-multiply mb-3"
+                     alt="Serve QR Code">
+
+                <p class="font-abolition text-2xl uppercase">REVIVAL // 2026</p>
+              </div>
+
+              <p class="text-[8px] font-bold opacity-50 uppercase tracking-[0.2em] mt-4">OFFICIAL_COPY / DO_NOT_DISCARD</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="receipt-actions mt-6 flex flex-col gap-3 font-mono-vhs">
+          <button onclick="downloadReceipt(event)" class="bg-[#ffd600] text-black py-4 px-6 text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-white transition-all">
+            Save Image
+          </button>
+
+          <button onclick="openSaveConfirm()" class="border border-white/20 text-white py-4 px-6 text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-white hover:text-black transition-all">
+            Finish
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SCREEN 5: THANK YOU / SEE YOU IN THE ROOM -->
+    <section id="screen-thankyou" class="screen items-center justify-center px-6 py-16 bg-[#0b0b0b]">
+      <div class="max-w-3xl w-full text-center">
+
+        <p class="font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[0.38em] mb-5">
+          Serve Record Complete
+        </p>
+
+        <h2 class="font-abolition text-yellow-400 text-[54px] md:text-[86px] uppercase leading-none">
+          Thank You<br>For Saying Yes
+        </h2>
+
+        <p class="mt-7 text-white/70 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
+          Thank you for investing in the next generation through serving in REVIVAL // 2026.
+          Come ready to serve, ready to listen, and ready to move with the Spirit that’s still moving.
+        </p>
+
+        <div class="mt-8 border border-white/10 bg-black/50 font-mono-vhs text-left overflow-hidden">
+          <div class="border-b border-white/10 p-4">
+            <p class="text-yellow-400 text-[9px] uppercase tracking-[0.3em]">
+              Event Details
+            </p>
+          </div>
+
+          <div class="divide-y divide-white/10">
+            <div class="grid grid-cols-[1fr_1.35fr] gap-4 p-4">
+              <p class="text-white/35 text-[9px] uppercase tracking-[0.22em]">Company Call</p>
+              <p class="text-yellow-400 text-[11px] uppercase font-bold">7:30 AM</p>
+            </div>
+
+            <div class="grid grid-cols-[1fr_1.35fr] gap-4 p-4">
+              <p class="text-white/35 text-[9px] uppercase tracking-[0.22em]">Open House / Registration</p>
+              <p class="text-yellow-400 text-[11px] uppercase font-bold">8:00 AM</p>
+            </div>
+
+            <div class="grid grid-cols-[1fr_1.35fr] gap-4 p-4">
+              <p class="text-white/35 text-[9px] uppercase tracking-[0.22em]">Date</p>
+              <p class="text-white text-[11px] uppercase font-bold">May 29–30, 2026</p>
+            </div>
+
+            <div class="grid grid-cols-[1fr_1.35fr] gap-4 p-4">
+              <p class="text-white/35 text-[9px] uppercase tracking-[0.22em]">Time</p>
+              <p class="text-white text-[11px] uppercase font-bold">9:00 AM – 5:00 PM</p>
+            </div>
+
+            <div class="grid grid-cols-[1fr_1.35fr] gap-4 p-4">
+              <p class="text-white/35 text-[9px] uppercase tracking-[0.22em]">Location</p>
+              <p class="text-yellow-400 text-[11px] uppercase font-bold">Victory Bulacan Complex</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-9 flex flex-col sm:flex-row justify-center gap-3">
+          <button onclick="goHome()" class="btn-primary">
+            Continue To Website
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SCREEN 6: SERVE QR VIEW -->
+    <section id="screen-serve-view" class="screen items-center justify-center px-6 py-16 bg-black">
+      <div class="max-w-lg w-full border border-yellow-400/30 bg-[#111111] text-center p-8 shadow-2xl crt">
+        <div class="relative z-10">
+          <p class="font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[0.35em] mb-4">
+            Serve Check-In Signal
+          </p>
+
+          <h2 class="font-abolition text-yellow-400 text-[54px] md:text-[72px] uppercase leading-none">
+            REVIVAL
+          </h2>
+
+          <p class="font-mono-vhs text-white/40 text-[10px] uppercase tracking-[0.25em] mt-2 mb-8">
+            Identity Record Found
+          </p>
+
+          <div class="border border-white/10 bg-black/40 p-5 font-mono-vhs text-left space-y-4">
+            <div>
+              <p class="text-white/30 text-[8px] uppercase tracking-[0.25em] mb-1">Name</p>
+              <p id="view-name" class="text-white text-sm uppercase font-bold">Loading...</p>
+            </div>
+
+            <div>
+              <p class="text-white/30 text-[8px] uppercase tracking-[0.25em] mb-1">Role</p>
+              <p id="view-role" class="text-yellow-400 text-sm uppercase font-bold">Loading...</p>
+            </div>
+
+            <div>
+              <p class="text-white/30 text-[8px] uppercase tracking-[0.25em] mb-1">Local Church</p>
+              <p id="view-church" class="text-white text-sm uppercase font-bold">Loading...</p>
+            </div>
+
+            <div>
+              <p class="text-white/30 text-[8px] uppercase tracking-[0.25em] mb-1">Status</p>
+              <p id="view-status" class="osd-green text-xs uppercase font-bold">Verifying...</p>
+            </div>
+          </div>
+
+          <div class="mt-7 border border-yellow-400/20 bg-yellow-400/5 p-4">
+            <p class="font-mono-vhs text-[9px] uppercase tracking-[0.18em] leading-relaxed text-white/45">
+              Present this screen to the check-in team when requested.
+            </p>
+          </div>
+
+          <button onclick="goHome()" class="mt-8 w-full bg-[#ffd600] text-black py-4 px-6 font-mono-vhs text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-white transition-all">
+            Continue To Homepage
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- SAVE CONFIRM POPUP -->
+  <div id="saveConfirmPopup" class="hidden fixed inset-0 z-[250] bg-black/90 backdrop-blur-md items-center justify-center p-6">
+    <div class="max-w-md w-full border border-yellow-400/30 bg-[#111111] p-6 text-center shadow-2xl">
+      <p class="font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[0.32em] mb-4">
+        Before You Leave
+      </p>
+
+      <h3 class="font-abolition text-yellow-400 text-[44px] uppercase leading-none">
+        Save Your Receipt
+      </h3>
+
+      <p class="text-white/60 text-sm leading-relaxed mt-5">
+        Have you saved your receipt? You will need this QR for check-in.
+        If you opened this link inside Messenger, please take a screenshot before leaving this page.
+      </p>
+
+      <div class="mt-7 flex flex-col gap-3">
+        <button onclick="downloadReceipt(event)" class="btn-primary">
+          Save Image
+        </button>
+
+        <button onclick="finishToThankYou()" class="btn-outline">
+          I Saved It — Finish
+        </button>
+
+        <button onclick="closeSaveConfirm()" class="btn-ghost">
+          Go Back
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- REQUIRED MESSENGER SCREENSHOT POPUP -->
+  <div id="messengerScreenshotPopup" class="hidden fixed inset-0 z-[260] bg-black/95 backdrop-blur-md items-center justify-center p-6">
+    <div class="max-w-md w-full border border-yellow-400/40 bg-[#111111] p-6 text-center shadow-2xl">
+      <p class="font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[0.32em] mb-4">
+        Important Reminder
+      </p>
+
+      <h3 class="font-abolition text-yellow-400 text-[42px] uppercase leading-none">
+        Screenshot This Receipt
+      </h3>
+
+      <p class="text-white/70 text-sm leading-relaxed mt-5">
+        If you registered by opening this link inside Messenger, please take a screenshot of this receipt instead of relying on Save Image.
+      </p>
+
+      <div class="screenshot-note-card mt-5 p-4 text-left">
+        <p class="font-mono-vhs text-[9px] uppercase tracking-[0.16em] leading-relaxed">
+          Make sure the full receipt is visible on your screen before taking the screenshot.
+        </p>
+      </div>
+
+      <button onclick="closeMessengerScreenshotPrompt()" class="mt-7 w-full btn-primary">
+        OK
+      </button>
+    </div>
+  </div>
+
+<!-- TOAST -->
+  <div id="toast" class="toast">
+    <div class="border border-yellow-400/30 bg-black text-white p-4">
+      <p id="toastTitle" class="font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[0.25em] font-bold">Notice</p>
+      <p id="toastText" class="font-mono-vhs text-white/50 text-[9px] uppercase tracking-[0.14em] leading-relaxed mt-2">—</p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+      getDoc,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAaxjL-NuYE1VeAoYb1_pWHAE3C4VdCBBY",
+      authDomain: "enc-malolos-revival-2026.firebaseapp.com",
+      projectId: "enc-malolos-revival-2026",
+      storageBucket: "enc-malolos-revival-2026.firebasestorage.app",
+      messagingSenderId: "893658387609",
+      appId: "1:893658387609:web:f15e870fb82b729e759408"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const registrationScriptURL = "https://script.google.com/macros/s/AKfycbx3YfZyzX8nRg-SGwxY3_gVtHIwgdXSHeGD0jujWWqwcN4VnxT8Mn8MnVF2r5d8fsaadQ/exec";
+    const siteOrigin = "https://encmalolos-revival2026.web.app";
+
+    let latestServeRecord = null;
+
+    window.goToScreen = function(screenName) {
+      document.querySelectorAll(".screen").forEach(screen => {
+        screen.classList.remove("active");
+      });
+
+      const target = document.getElementById("screen-" + screenName);
+      if (target) {
+        target.classList.add("active");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    };
+
+    window.goHome = function() {
+      const isLocal =
+        window.location.hostname === "127.0.0.1" ||
+        window.location.hostname === "localhost";
+
+      window.location.href = isLocal ? "/public/" : "/";
+    };
+
+    function showToast(title, text) {
+      const toast = document.getElementById("toast");
+      document.getElementById("toastTitle").innerText = title;
+      document.getElementById("toastText").innerText = text;
+
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 2800);
+    }
+
+    function generateServeId(role) {
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      const prefix = role === "Campus Missionary" ? "CM26-" : "ST26-";
+      let id = prefix;
+
+      for (let i = 0; i < 4; i++) {
+        id += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+
+      return id;
+    }
+
+    function getSelectedRole() {
+      const selected = document.querySelector('input[name="role"]:checked');
+      return selected ? selected.value : "";
+    }
+
+    function getTimeStamp() {
+      const now = new Date();
+      return `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, "0")}.${String(now.getDate()).padStart(2, "0")}_${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}_PST`;
+    }
+
+    function fillReceipt(record) {
+      document.getElementById("res-name").innerText = record.name;
+      document.getElementById("res-role").innerText = record.role;
+      document.getElementById("res-church").innerText = record.church;
+      document.getElementById("res-id").innerText = `SERVE_ID: [ ${record.shortId} ]`;
+      document.getElementById("receipt-time").innerText = getTimeStamp();
+
+      const qrData = `${siteOrigin}/serve/${record.shortId}`;
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(qrData)}`;
+
+      document.getElementById("receipt-qr").src = qrUrl;
+    }
+
+    window.downloadReceipt = function(e) {
+      const receipt = document.getElementById("receipt-capture");
+      const btn = e && e.target ? e.target : null;
+
+      if (!window.html2canvas) {
+        alert("Image saving is not available in this browser. Please screenshot your receipt instead.");
+        return;
+      }
+
+      const originalText = btn ? btn.innerText : "";
+
+      if (btn) btn.innerText = "PRINTING...";
+
+      html2canvas(receipt, {
+        backgroundColor: "#f4f1ea",
+        scale: 3,
+        useCORS: true,
+        logging: false
+      }).then(canvas => {
+        const fileId = latestServeRecord?.shortId || "SERVE";
+        const dataUrl = canvas.toDataURL("image/png");
+
+        const link = document.createElement("a");
+        link.download = `Revival_Serve_Confirmation_${fileId}.png`;
+        link.href = dataUrl;
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        if (btn) btn.innerText = originalText;
+
+        alert("If the image did not save, please take a screenshot of this receipt before leaving this page.");
+      }).catch(error => {
+        console.error(error);
+
+        if (btn) btn.innerText = originalText;
+
+        alert("Could not save the image in this browser. Please screenshot your receipt instead.");
+      });
+    };
+
+    window.openSaveConfirm = function() {
+      document.getElementById("saveConfirmPopup").classList.remove("hidden");
+    };
+
+    window.closeMessengerScreenshotPrompt = function() {
+      const popup = document.getElementById("messengerScreenshotPopup");
+      if (!popup) return;
+      popup.classList.add("hidden");
+      popup.style.display = "none";
+    };
+
+    window.openMessengerScreenshotPrompt = function() {
+      const popup = document.getElementById("messengerScreenshotPopup");
+      if (!popup) return;
+      popup.classList.remove("hidden");
+      popup.style.display = "flex";
+    };
+
+    window.closeSaveConfirm = function() {
+      document.getElementById("saveConfirmPopup").classList.add("hidden");
+    };
+
+    window.finishToThankYou = function() {
+      closeSaveConfirm();
+      window.goToScreen("thankyou");
+    };
+
+    
+
+
+    async function submitToSheets(record) {
+      const formData = new FormData();
+
+      formData.append("formType", "serve");
+      formData.append("shortId", record.shortId);
+      formData.append("name", record.name);
+      formData.append("email", record.email);
+      formData.append("contact", record.contact);
+      formData.append("church", record.church);
+      formData.append("role", record.role);
+      formData.append("type", "serve");
+      formData.append("qrLink", `${siteOrigin}/serve/${record.shortId}`);
+
+      fetch(registrationScriptURL, {
+        method: "POST",
+        mode: "no-cors",
+        body: formData
+      }).catch(error => {
+        console.error("Sheet submit warning:", error);
+      });
+
+      return true;
+    }
+
+    async function loadServeRecord(shortId) {
+      window.goToScreen("serve-view");
+
+      try {
+        const snap = await getDoc(doc(db, "serveMembers", shortId));
+
+        if (!snap.exists()) {
+          document.getElementById("view-name").innerText = "RECORD NOT FOUND";
+          document.getElementById("view-role").innerText = "INVALID SERVE ID";
+          document.getElementById("view-church").innerText = "—";
+          document.getElementById("view-status").innerText = `Unable to verify: ${shortId}`;
+          return;
+        }
+
+        const data = snap.data();
+
+        document.getElementById("view-name").innerText = (data.name || "Unnamed").toUpperCase();
+        document.getElementById("view-role").innerText = (data.role || "Serve Member").toUpperCase();
+        document.getElementById("view-church").innerText = (data.church || "—").toUpperCase();
+        document.getElementById("view-status").innerText = `Verified: ${shortId}`;
+
+      } catch (error) {
+        console.error(error);
+        document.getElementById("view-name").innerText = "SYSTEM ERROR";
+        document.getElementById("view-role").innerText = "CHECK CONNECTION";
+        document.getElementById("view-church").innerText = "—";
+        document.getElementById("view-status").innerText = error.message;
+      }
+    }
+
+    document.getElementById("serveForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById("serveName").value.trim();
+      const email = document.getElementById("serveEmail").value.trim();
+      const contact = document.getElementById("serveContact").value.trim();
+      const church = document.getElementById("serveChurch").value.trim();
+      const role = getSelectedRole();
+
+      if (!name.includes(",")) {
+        alert("SYSTEM_ERROR: INVALID_NAME_FORMAT. Use 'Surname, First Name'");
+        return;
+      }
+
+      if (!/^09\d{9}$/.test(contact)) {
+        alert("SYSTEM_ERROR: INVALID_PHONE_NUMBER. Use 09XXXXXXXXX.");
+        return;
+      }
+
+      if (!role) {
+        alert("SYSTEM_ERROR: SELECT_ROLE");
+        return;
+      }
+
+      const submitBtn = document.getElementById("serveSubmitBtn");
+      const status = document.getElementById("serve-osd-status");
+
+      submitBtn.disabled = true;
+      submitBtn.innerText = "SYNCING_RECORD...";
+      status.innerText = "Status: Syncing";
+
+      const shortId = generateServeId(role);
+
+      const record = {
+        shortId,
+        name,
+        email,
+        contact,
+        church,
+        role,
+        type: "serve"
+      };
+
+      try {
+        await setDoc(doc(db, "serveMembers", shortId), {
+          ...record,
+          createdAt: serverTimestamp()
+        });
+
+        try {
+          await submitToSheets(record);
+        } catch (externalSubmitError) {
+          // Keep technical warnings hidden from the registrant.
+          // Firestore has already saved the record, so continue to the receipt.
+          console.error("External submit warning:", externalSubmitError);
+        }
+
+        latestServeRecord = record;
+        fillReceipt(record);
+
+        status.innerText = "Status: Serve Record Ready";
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Generate My Serve Receipt";
+
+        window.goToScreen("receipt");
+
+        // Required Messenger screenshot reminder.
+        // Runs after the receipt screen appears so users must press OK before continuing.
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            if (typeof window.openMessengerScreenshotPrompt === "function") {
+              window.openMessengerScreenshotPrompt();
+            }
+          }, 250);
+        });
+
+      } catch (error) {
+        console.error(error);
+        status.innerText = "Status: Error";
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Generate My Serve Receipt";
+        alert("System Error: " + error.message);
+      }
+    });
+
+    window.addEventListener("load", () => {
+      const parts = window.location.pathname.split("/").filter(Boolean);
+
+      // /serve/ST26-XXXX or /serve/CM26-XXXX
+      if (parts[0] === "serve" && parts[1]) {
+        loadServeRecord(parts[1]);
+        return;
+      }
+
+      // /serve
+      window.goToScreen("welcome");
+    });
+  </script>
+</body>
+</html>

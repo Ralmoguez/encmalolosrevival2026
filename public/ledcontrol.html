@@ -1,0 +1,611 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>REVIVAL // 2026 LED Control</title>
+
+  <style>
+    
+    :root {
+      --bg: #050505;
+      --text: #fff7e8;
+      --muted: #aaa197;
+      --line: rgba(255,255,255,.14);
+      --gold: #e8c15a;
+      --green: #81e6a6;
+      --red: #ff7b7b;
+      --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 22px;
+      background:
+        radial-gradient(circle at top left, rgba(232,193,90,.18), transparent 34rem),
+        radial-gradient(circle at bottom right, rgba(255,255,255,.08), transparent 30rem),
+        var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+    }
+
+    button { font: inherit; cursor: pointer; }
+
+    .shell { width: min(1440px, 100%); margin: 0 auto; }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 20px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      border-radius: 28px;
+      padding: 22px;
+    }
+
+    .eyebrow {
+      font-family: var(--mono);
+      color: var(--gold);
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 5vw, 64px);
+      line-height: .9;
+      letter-spacing: -.07em;
+      text-transform: uppercase;
+    }
+
+    .sub { color: var(--muted); margin: 10px 0 0; line-height: 1.5; }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    button, a.button {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.09);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 12px 16px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-size: 12px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .primary { background: var(--gold); color: #111; border-color: var(--gold); }
+
+    .danger {
+      background: rgba(255,123,123,.12);
+      border-color: rgba(255,123,123,.35);
+      color: #ffd7d7;
+    }
+
+    .layout { display: grid; grid-template-columns: 420px 1fr; gap: 20px; }
+
+    .panel {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      border-radius: 28px;
+      padding: 18px;
+      min-height: calc(100vh - 190px);
+    }
+
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+
+    .chip {
+      padding: 9px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .chip.active {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: #111;
+      font-weight: 900;
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+      max-height: calc(100vh - 285px);
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .item {
+      border: 1px solid rgba(255,255,255,.11);
+      background: rgba(255,255,255,.055);
+      border-radius: 20px;
+      padding: 15px;
+      cursor: pointer;
+      transition: .18s ease;
+    }
+
+    .item:hover, .item.selected {
+      border-color: rgba(232,193,90,.8);
+      background: rgba(232,193,90,.13);
+    }
+
+    .meta {
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .09em;
+      margin-bottom: 8px;
+    }
+
+    .qtext { line-height: 1.38; color: #f7efe1; }
+
+    .empty {
+      color: var(--muted);
+      padding: 28px;
+      text-align: center;
+      border: 1px dashed var(--line);
+      border-radius: 20px;
+    }
+
+    .preview {
+      min-height: calc(100vh - 190px);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: #050505;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .screen {
+      flex: 1;
+      min-height: 470px;
+      border-radius: 28px;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at center, rgba(232,193,90,.13), transparent 52%),
+        linear-gradient(180deg, #090909, #030303);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 52px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .screen::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 100% 8px;
+      opacity: .3;
+      pointer-events: none;
+    }
+
+    .screen-inner { position: relative; max-width: 1100px; }
+
+    .label {
+      color: var(--gold);
+      font-family: var(--mono);
+      font-size: clamp(14px, 1.7vw, 22px);
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .big-question {
+      font-size: clamp(42px, 6vw, 92px);
+      line-height: 1.02;
+      letter-spacing: -.075em;
+      font-weight: 950;
+    }
+
+    .selected-info {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 16px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .selected-info b { color: var(--text); }
+
+    .preview-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .notice {
+      margin-bottom: 14px;
+      border: 1px solid rgba(232,193,90,.25);
+      background: rgba(232,193,90,.08);
+      color: #f7e7b6;
+      padding: 12px 14px;
+      border-radius: 18px;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .qr-preview {
+      display: none;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 18px;
+      background: rgba(255,255,255,.04);
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .qr-preview.show { display: flex; }
+
+    .qr-preview img {
+      width: 140px;
+      height: 140px;
+      border-radius: 18px;
+      background: #fff;
+      padding: 10px;
+    }
+
+    .qr-preview-text { min-width: 220px; flex: 1; }
+
+    .qr-preview-text strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 5px;
+    }
+
+    .qr-preview-text span {
+      color: var(--muted);
+      font-size: 14px;
+      word-break: break-all;
+    }
+
+    @media (max-width: 980px) {
+      .top { flex-direction: column; }
+      .actions { justify-content: flex-start; }
+      .layout { grid-template-columns: 1fr; }
+      .panel, .preview { min-height: auto; }
+      .list { max-height: 420px; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="shell">
+    <section class="top">
+      <div>
+        <div class="eyebrow">REVIVAL // 2026</div>
+        <h1>LED Control</h1>
+        <p class="sub">
+          Choose a submitted question, preview it as a fullscreen big card, show the Q&A QR, or hide the LED.
+        </p>
+      </div>
+
+      <div class="actions">
+        <a class="button" href="/led" target="_blank">Open /led</a>
+        <button id="refreshBtn">Refresh</button>
+        <button id="showQrBtn" class="primary">Show QR on /led</button>
+        <button id="hideBtn" class="danger">Hide LED</button>
+      </div>
+    </section>
+
+    <div class="notice">
+      Firestore mode. No Sheets, no Apps Script, no CORS.
+    </div>
+
+    <section class="layout">
+      <aside class="panel">
+        <div class="filters">
+          <button class="chip active" data-filter="pending">Pending</button>
+          <button class="chip" data-filter="live">Live</button>
+          <button class="chip" data-filter="answered">Answered</button>
+          <button class="chip" data-filter="all">All</button>
+        </div>
+
+        <div id="questionList" class="list">
+          <div class="empty">Loading questions...</div>
+        </div>
+      </aside>
+
+      <section class="preview">
+        <div class="screen">
+          <div class="screen-inner">
+            <div class="label" id="previewLabel">Q&A</div>
+            <div class="big-question" id="previewQuestion">
+              Select a question from the list.
+            </div>
+          </div>
+        </div>
+
+        <div class="qr-preview" id="qrPreview">
+          <img id="qrPreviewImage" alt="QNA QR Code">
+          <div class="qr-preview-text">
+            <strong>QR Preview</strong>
+            <span>https://encmalolos-revival2026.web.app/qna</span>
+          </div>
+        </div>
+
+        <div class="selected-info" id="selectedInfo">
+          No question selected yet.
+        </div>
+
+        <div class="preview-actions">
+          <button class="primary" id="showBtn">Show question on /led</button>
+          <button id="answeredBtn">Mark answered</button>
+          <button id="deleteBtn" class="danger">Delete</button>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      doc,
+      query,
+      orderBy,
+      onSnapshot,
+      updateDoc,
+      deleteDoc,
+      setDoc,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+    // IMPORTANT: Replace this with the same firebaseConfig from your existing website.
+    const firebaseConfig = {
+      apiKey: "AIzaSyAaxjL-NuYE1VeAoYb1_pWHAE3C4VdCBBY",
+      authDomain: "enc-malolos-revival-2026.firebaseapp.com",
+      projectId: "enc-malolos-revival-2026",
+      storageBucket: "enc-malolos-revival-2026.firebasestorage.app",
+      messagingSenderId: "893658387609",
+      appId: "1:893658387609:web:f15e870fb82b729e759408",
+      measurementId: "G-4VH26Y026V"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const QNA_URL = "https://encmalolos-revival2026.web.app/qna";
+    const QR_IMAGE_URL = "https://api.qrserver.com/v1/create-qr-code/?size=500x500&margin=18&data=" + encodeURIComponent(QNA_URL);
+
+    let questions = [];
+    let selectedQuestion = null;
+    let currentFilter = "pending";
+
+    const questionList = document.getElementById("questionList");
+    const previewLabel = document.getElementById("previewLabel");
+    const previewQuestion = document.getElementById("previewQuestion");
+    const selectedInfo = document.getElementById("selectedInfo");
+    const qrPreview = document.getElementById("qrPreview");
+    const qrPreviewImage = document.getElementById("qrPreviewImage");
+
+    qrPreviewImage.src = QR_IMAGE_URL;
+
+    function startListener() {
+      const q = query(collection(db, "qnaQuestions"), orderBy("createdAt", "desc"));
+
+      onSnapshot(q, (snapshot) => {
+        questions = snapshot.docs.map((docSnap) => {
+          return {
+            id: docSnap.id,
+            ...docSnap.data()
+          };
+        });
+
+        renderList();
+      }, (error) => {
+        console.error(error);
+        questionList.innerHTML = `
+          <div class="empty">
+            Could not load questions.<br><br>
+            ${escapeHtml(error.message)}
+          </div>
+        `;
+      });
+    }
+
+    function renderList() {
+      const filtered = questions.filter(q => {
+        const status = String(q.status || "pending").toLowerCase();
+
+        if (currentFilter === "all") return status !== "deleted";
+        return status === currentFilter;
+      });
+
+      if (!filtered.length) {
+        questionList.innerHTML = `<div class="empty">No ${currentFilter} questions.</div>`;
+        return;
+      }
+
+      questionList.innerHTML = "";
+
+      filtered.forEach(q => {
+        const item = document.createElement("div");
+        item.className = "item" + (
+          selectedQuestion && selectedQuestion.id === q.id ? " selected" : ""
+        );
+
+        item.innerHTML = `
+          <div class="meta">
+            ${escapeHtml(q.name || "Anonymous")} ·
+            ${escapeHtml(q.status || "pending")}
+          </div>
+          <div class="qtext">${escapeHtml(q.question || "")}</div>
+        `;
+
+        item.addEventListener("click", () => {
+          selectedQuestion = q;
+          qrPreview.classList.remove("show");
+          updatePreview();
+          renderList();
+        });
+
+        questionList.appendChild(item);
+      });
+    }
+
+    function updatePreview() {
+      if (!selectedQuestion) {
+        previewLabel.textContent = "Q&A";
+        previewQuestion.textContent = "Select a question from the list.";
+        selectedInfo.innerHTML = "No question selected yet.";
+        return;
+      }
+
+      previewLabel.textContent = "Question";
+      previewQuestion.textContent = selectedQuestion.question || "";
+
+      selectedInfo.innerHTML = `
+        <b>Selected Question:</b> ${escapeHtml(selectedQuestion.question || "")}<br>
+        <b>Name:</b> ${escapeHtml(selectedQuestion.name || "Anonymous")}<br>
+        <b>Status:</b> ${escapeHtml(selectedQuestion.status || "pending")}<br>
+        <b>ID:</b> ${escapeHtml(selectedQuestion.id)}
+      `;
+    }
+
+    async function showOnLed() {
+      if (!selectedQuestion) {
+        alert("Select a question first.");
+        return;
+      }
+
+      await setDoc(doc(db, "qnaControl", "live"), {
+        mode: "question",
+        questionId: selectedQuestion.id,
+        question: selectedQuestion.question || "",
+        name: selectedQuestion.name || "Anonymous",
+        qnaUrl: QNA_URL,
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+
+      await updateDoc(doc(db, "qnaQuestions", selectedQuestion.id), {
+        status: "live",
+        liveAt: serverTimestamp()
+      });
+
+      alert("Question is now live on /led.");
+    }
+
+    async function showQrOnLed() {
+      await setDoc(doc(db, "qnaControl", "live"), {
+        mode: "qr",
+        questionId: "",
+        question: "",
+        name: "",
+        qnaUrl: QNA_URL,
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+
+      selectedQuestion = null;
+      previewLabel.textContent = "Scan to ask";
+      previewQuestion.textContent = "QR is now live on /led.";
+      selectedInfo.innerHTML = `<b>QR URL:</b> ${escapeHtml(QNA_URL)}`;
+      qrPreview.classList.add("show");
+
+      alert("QR is now live on /led.");
+    }
+
+    async function markAnswered() {
+      if (!selectedQuestion) {
+        alert("Select a question first.");
+        return;
+      }
+
+      await updateDoc(doc(db, "qnaQuestions", selectedQuestion.id), {
+        status: "answered",
+        answeredAt: serverTimestamp()
+      });
+
+      selectedQuestion = null;
+      updatePreview();
+    }
+
+    async function hideLed() {
+      await setDoc(doc(db, "qnaControl", "live"), {
+        mode: "hidden",
+        questionId: "",
+        question: "",
+        name: "",
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+
+      selectedQuestion = null;
+      qrPreview.classList.remove("show");
+      updatePreview();
+
+      alert("LED hidden.");
+    }
+
+    async function deleteQuestion() {
+      if (!selectedQuestion) {
+        alert("Select a question first.");
+        return;
+      }
+
+      const confirmDelete = confirm("Delete this question permanently?");
+      if (!confirmDelete) return;
+
+      await deleteDoc(doc(db, "qnaQuestions", selectedQuestion.id));
+
+      selectedQuestion = null;
+      updatePreview();
+    }
+
+    document.querySelectorAll(".chip").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll(".chip").forEach(btn => btn.classList.remove("active"));
+        button.classList.add("active");
+        currentFilter = button.dataset.filter;
+        renderList();
+      });
+    });
+
+    document.getElementById("refreshBtn").addEventListener("click", renderList);
+    document.getElementById("showBtn").addEventListener("click", showOnLed);
+    document.getElementById("showQrBtn").addEventListener("click", showQrOnLed);
+    document.getElementById("answeredBtn").addEventListener("click", markAnswered);
+    document.getElementById("hideBtn").addEventListener("click", hideLed);
+    document.getElementById("deleteBtn").addEventListener("click", deleteQuestion);
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    startListener();
+  </script>
+</body>
+</html>

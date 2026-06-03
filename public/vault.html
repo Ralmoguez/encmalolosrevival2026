@@ -1,0 +1,3416 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Inter:wght@300;400;700&family=Special+Elite&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/VHS.png">
+    <title>REVIVAL // 2026 Vault</title>
+<style>
+
+        /* VHS CASSETTE ANIMATIONS */
+        @keyframes spool-spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spool { animation: spool-spin 4s linear infinite; }
+
+        .cassette-shell {
+            background: linear-gradient(145deg, #18181b, #09090b); /* zinc-900 to zinc-950 */
+            box-shadow: 20px 20px 60px #000000, -5px -5px 20px #27272a;
+        }
+
+        @font-face {
+            font-family: 'Abolition';
+            /* Make sure the filename matches your actual file exactly */
+            src: url('/abolition-regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* Create a specific class for your logo */
+        .font-abolition {
+            font-family: 'Abolition', sans-serif;
+            letter-spacing: 0.1em; /* Adjusts spacing to look more like a logo */
+        }
+
+        body { font-family: 'Inter', sans-serif; background-color: #1a1a1b; color: #f4f1ea; scroll-behavior: smooth !important; overflow-x: hidden; }
+        .font-mono-vhs { font-family: 'IBM Plex Mono', monospace; }
+        .font-typewriter { font-family: 'Special Elite', cursive; }
+        
+        /* ANALOG GRAIN & CRT SCANLINES */
+        .analog-grain::before {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 50; opacity: 0.04;
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+        }
+
+        .crt-overlay {
+            position: relative; overflow: hidden;
+        }
+        .crt-overlay::after {
+            content: " "; display: block; position: absolute; top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            z-index: 2; background-size: 100% 3px, 3px 100%; pointer-events: none;
+        }
+
+        /* HARDWARE UI */
+        .osd-green { color: #00ff00; text-shadow: 0 0 8px #00ff00; font-family: 'IBM Plex Mono', monospace; }
+        
+        ::-webkit-scrollbar { width: 8px; height: 4px;}
+        ::-webkit-scrollbar-track { background: #1a1a1b; }
+        ::-webkit-scrollbar-thumb { background: #ffd600; }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .view-section { display: none; }
+        .view-section.active { display: block; }
+
+        #navbar { transition: all 0.3s ease; }
+
+        /* Scroll margin for anchor links */
+        [id] { scroll-margin-top: 60px; }
+/* 1. RECEIPT CORE: Keeps the spacing clean and colors solid */
+#receipt-capture {
+    line-height: 1.2;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    background-color: #f4f1ea;
+    width: 384px;
+    margin: 0 auto;
+    transform-origin: top center;
+}
+
+/* 2. HEADER FIX: Reverts to the tight "REVIVAL" overlap look you liked */
+#receipt-capture h3 {
+    line-height: 0.8 !important;
+    margin-bottom: 1.5rem !important;
+}
+
+/* 3. BORDERS: Ensures lines show up in the downloaded image */
+.border-double { border-style: double !important; }
+.border-dashed { border-style: dashed !important; }
+
+/* 4. MOBILE AUTO-FIT: This is the "magic" that prevents scrolling */
+@media (max-width: 640px) {
+    #receipt-capture {
+        /* Adjust this scale (0.75 to 0.85) until it fits your specific screen perfectly */
+        transform: scale(0.8); 
+        margin-bottom: -6rem; /* Pulls layout up to remove dead space from scaling */
+    }
+    
+    #successPopup {
+        align-items: center; /* Centers the shrunken receipt vertically */
+        padding-top: 0;
+        padding-bottom: 0;
+        overflow: hidden; /* Disables scrolling because it's now a perfect fit */
+    }
+}
+
+/* 5. POPUP LAYOUT: General settings for the overlay */
+#successPopup:not(.hidden) {
+    display: flex;
+}
+
+.hidden-registration {
+  display: none;
+}
+
+.hidden-registration.show-registration {
+  display: block;
+}
+
+
+/* SIDE A MEDIA TABS */
+.side-a-media-tab.active {
+    background: #ffd600;
+    color: #000;
+    border-color: #ffd600;
+}
+.side-a-media-panel { display: none; }
+.side-a-media-panel.active { display: block; }
+.native-audio-fallback audio {
+    width: 100%;
+    accent-color: #ffd600;
+}
+.side-a-photo-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: contain;
+    background: rgba(0,0,0,.45);
+}
+.side-a-photo-card {
+    border: 1px solid rgba(255,255,255,.10);
+    background: rgba(0,0,0,.35);
+}
+.guide-step-card {
+    transition: transform .2s ease, border-color .2s ease, background-color .2s ease;
+}
+.guide-step-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 214, 0, .55);
+    background-color: rgba(0, 0, 0, .45);
+}
+
+/* VAULT LANDING PAGE */
+.vault-landing-section {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top left, rgba(255, 214, 0, 0.12), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(255, 214, 0, 0.06), transparent 35%),
+        #050505;
+}
+.vault-landing-shell {
+    background: linear-gradient(145deg, #171717, #050505);
+    box-shadow: 30px 30px 90px rgba(0,0,0,.85), inset 0 0 0 1px rgba(255,255,255,.08);
+}
+.vault-landing-scan::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 40;
+    background: linear-gradient(rgba(255,255,255,0.02) 50%, rgba(0,0,0,0.08) 50%);
+    background-size: 100% 4px;
+    mix-blend-mode: overlay;
+}
+
+    </style>
+</head>
+<body class="analog-grain bg-black text-white overflow-x-hidden">
+
+
+
+<!-- VAULT LANDING PAGE -->
+<main id="vaultLandingPage" class="vault-landing-section vault-landing-scan relative z-0 text-white overflow-hidden">
+    <nav class="sticky top-0 z-[90] bg-black/60 backdrop-blur-lg border-b border-white/5 px-5 md:px-8 py-3 flex items-center justify-between">
+        <div class="font-abolition text-yellow-400 text-2xl md:text-3xl uppercase tracking-widest">
+            REVIVAL // 2026
+        </div>
+        <button onclick="beginVaultAccess()"
+            class="bg-yellow-400 text-black font-mono-vhs text-[9px] md:text-[10px] px-4 md:px-6 py-2 font-bold uppercase tracking-[0.25em] hover:bg-white transition-all active:scale-95">
+            Access My Vault
+        </button>
+    </nav>
+
+    <section class="px-5 md:px-8 py-12 md:py-20">
+        <div class="max-w-6xl mx-auto grid lg:grid-cols-[0.95fr_1.05fr] gap-8 md:gap-12 items-center">
+            <div>
+                <div class="inline-flex items-center gap-3 border border-white/10 rounded-full px-4 py-1 mb-6 font-mono-vhs">
+                    <span class="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-pulse"></span>
+                    <p id="vaultLandingIdentity" class="text-white/40 text-[8px] md:text-[9px] uppercase tracking-[.22em]">
+                        Personal Archive // Ready
+                    </p>
+                </div>
+
+                <p class="font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[.35em] mb-4">
+                    After Revival
+                </p>
+
+                <h1 class="font-abolition text-yellow-400 text-[64px] sm:text-[82px] md:text-[112px] uppercase leading-[0.82]">
+                    Personal<br>Tape
+                </h1>
+
+                <p class="font-mono-vhs text-white/45 text-[10px] md:text-xs uppercase tracking-[.16em] leading-relaxed max-w-xl mt-7">
+                    A private vault for what was spoken over you, what you wrote down, and what you will carry after Revival // 2026.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-3 mt-8">
+                    <button onclick="beginVaultAccess()"
+                        class="bg-yellow-400 text-black px-7 py-4 font-mono-vhs text-[10px] uppercase tracking-[.28em] font-bold hover:bg-white transition-all active:scale-95">
+                        Access My Vault
+                    </button>
+                    <button onclick="document.getElementById('vaultHowItWorks').scrollIntoView({behavior:'smooth'})"
+                        class="border border-white/10 text-white/50 px-7 py-4 font-mono-vhs text-[10px] uppercase tracking-[.28em] font-bold hover:border-yellow-400 hover:text-yellow-400 transition-all active:scale-95">
+                        How It Works
+                    </button>
+                </div>
+            </div>
+
+            <div class="vault-landing-shell border border-white/10 rounded-[2rem] p-5 md:p-8 relative overflow-hidden">
+                <div class="absolute top-5 left-6 right-6 flex justify-between opacity-40 pointer-events-none">
+                    <span class="w-3 h-3 rounded-full border border-white/30"></span>
+                    <span class="w-3 h-3 rounded-full border border-white/30"></span>
+                </div>
+
+                <div class="flex justify-between px-8 md:px-14 mt-8 mb-10 opacity-60">
+                    <div class="w-16 h-16 md:w-20 md:h-20 border-4 border-dashed border-zinc-500 rounded-full animate-spool flex items-center justify-center">
+                        <div class="w-3 h-3 bg-zinc-500 rounded-full"></div>
+                    </div>
+                    <div class="w-16 h-16 md:w-20 md:h-20 border-4 border-dashed border-zinc-500 rounded-full animate-spool flex items-center justify-center">
+                        <div class="w-3 h-3 bg-zinc-500 rounded-full"></div>
+                    </div>
+                </div>
+
+                <div class="bg-[#f4f1ea] p-5 md:p-6 rounded-sm shadow-inner text-left border-l-[8px] border-yellow-400">
+                    <div class="flex justify-between items-center mb-3 border-b border-black/10 pb-2">
+                        <p class="font-mono-vhs text-[8px] text-zinc-500 font-bold uppercase tracking-widest">Archive_Label</p>
+                        <div class="h-2 w-2 bg-red-600 rounded-full animate-pulse"></div>
+                    </div>
+                    <h2 class="font-typewriter text-black text-3xl md:text-5xl font-bold uppercase tracking-tight leading-none">
+                        PERSONAL TAPE
+                    </h2>
+                    <p class="font-mono-vhs text-black/45 text-[9px] uppercase tracking-[.2em] mt-4">
+                        Side A + Side B // Personal Vault
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 mt-5 font-mono-vhs">
+                    <div class="border border-white/10 bg-black/40 p-4">
+                        <p class="text-yellow-400 text-[9px] uppercase tracking-[.25em] mb-2">Side A</p>
+                        <h3 class="font-abolition text-white text-4xl uppercase leading-none">Received</h3>
+                        <p class="text-white/30 text-[8px] uppercase tracking-[.12em] mt-3 leading-relaxed">Audio + paper photo</p>
+                    </div>
+                    <div class="border border-white/10 bg-black/40 p-4">
+                        <p class="text-yellow-400 text-[9px] uppercase tracking-[.25em] mb-2">Side B</p>
+                        <h3 class="font-abolition text-white text-4xl uppercase leading-none">Sent</h3>
+                        <p class="text-white/30 text-[8px] uppercase tracking-[.12em] mt-3 leading-relaxed">Remember + respond</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="vaultHowItWorks" class="px-5 md:px-8 pb-16 md:pb-24">
+        <div class="max-w-6xl mx-auto border border-white/10 bg-[#111111] p-5 md:p-8">
+            <div class="grid lg:grid-cols-[0.8fr_1.2fr] gap-8">
+                <div>
+                    <p class="font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[.35em] mb-4">
+                        How It Works
+                    </p>
+                    <h2 class="font-abolition text-white text-5xl md:text-7xl uppercase leading-none">
+                        Keep What<br>You Received
+                    </h2>
+                    <p class="font-mono-vhs text-white/35 text-[10px] uppercase tracking-[.15em] leading-relaxed mt-5">
+                        Your vault helps you return to the moment, remember the word, and respond with obedience after the event.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-3 font-mono-vhs">
+                    <div class="guide-step-card border border-white/10 bg-black/30 p-5">
+                        <div class="flex items-start gap-4">
+                            <div class="w-9 h-9 bg-yellow-400 text-black rounded-full grid place-items-center text-[10px] font-bold shrink-0">1</div>
+                            <div>
+                                <p class="text-yellow-400 text-[9px] uppercase tracking-[.25em] mb-2">Open Your Vault</p>
+                                <h3 class="font-abolition text-white text-4xl uppercase leading-none">Unlock</h3>
+                                <p class="text-white/40 text-[9px] uppercase tracking-[.12em] leading-relaxed mt-4">
+                                    If you scanned your QR, tap Enter Vault and type your personal passcode. If you opened this page manually, search your name first, select your record, then enter your passcode.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="guide-step-card border border-white/10 bg-black/30 p-5">
+                        <div class="flex items-start gap-4">
+                            <div class="w-9 h-9 bg-yellow-400 text-black rounded-full grid place-items-center text-[10px] font-bold shrink-0">2</div>
+                            <div>
+                                <p class="text-yellow-400 text-[9px] uppercase tracking-[.25em] mb-2">Choose A Side</p>
+                                <h3 class="font-abolition text-white text-4xl uppercase leading-none">Pick</h3>
+                                <p class="text-white/40 text-[9px] uppercase tracking-[.12em] leading-relaxed mt-4">
+                                    Side A is for what was spoken and written during the activation. Side B is for your personal response after Revival.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="guide-step-card border border-white/10 bg-black/30 p-5">
+                        <div class="flex items-start gap-4">
+                            <div class="w-9 h-9 bg-yellow-400 text-black rounded-full grid place-items-center text-[10px] font-bold shrink-0">3</div>
+                            <div>
+                                <p class="text-yellow-400 text-[9px] uppercase tracking-[.25em] mb-2">Side A // Received</p>
+                                <h3 class="font-abolition text-white text-4xl uppercase leading-none">Archive</h3>
+                                <p class="text-white/40 text-[9px] uppercase tracking-[.12em] leading-relaxed mt-4">
+                                    Upload the audio recording of the prayer or prophetic encouragement spoken over you. Then upload a clear photo of the paper where you wrote what you sensed from the Holy Spirit.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="guide-step-card border border-white/10 bg-black/30 p-5">
+                        <div class="flex items-start gap-4">
+                            <div class="w-9 h-9 bg-yellow-400 text-black rounded-full grid place-items-center text-[10px] font-bold shrink-0">4</div>
+                            <div>
+                                <p class="text-yellow-400 text-[9px] uppercase tracking-[.25em] mb-2">Side B // Sent</p>
+                                <h3 class="font-abolition text-white text-4xl uppercase leading-none">Respond</h3>
+                                <p class="text-white/40 text-[9px] uppercase tracking-[.12em] leading-relaxed mt-4">
+                                    Write what you want to remember, how you will respond, and a short prayer asking the Holy Spirit to help you carry what He has spoken.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="guide-step-card border border-yellow-400/25 bg-yellow-400/5 p-5 md:col-span-2">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                            <div>
+                                <p class="text-yellow-400 text-[9px] uppercase tracking-[.25em] mb-2">Come Back Anytime</p>
+                                <h3 class="font-abolition text-yellow-400 text-4xl uppercase leading-none">Replay + Remember</h3>
+                            </div>
+                            <p class="text-white/40 text-[9px] uppercase tracking-[.12em] leading-relaxed max-w-xl">
+                                Your vault is not only for uploading. Return to replay the prayer, view your paper, and remember what you chose to carry beyond the event.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+    <!-- Standalone Vault Page Extracted from index(27).html -->
+
+<!-- USER GATEWAY SCREEN (/user/:id preview) -->
+<div id="vhsPopup" class="fixed inset-0 z-[300] hidden bg-black/85 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none z-[310]" style="background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03)); background-size: 100% 3px, 2px 100%;"></div>
+
+    <header class="z-[320] flex flex-col items-center w-full max-w-[300px] mb-5 md:mb-4">
+        <p class="font-mono-vhs text-white/80 tracking-[0.4em] text-[10px] md:text-[11px] mb-1 uppercase">
+            Welcome To
+        </p>
+        <div class="flex flex-col items-center w-full justify-center">
+            <h1 class="font-abolition text-yellow-400 text-[75px] md:text-[85px] leading-[0.85] tracking-widest uppercase text-center w-full">
+                REVIVAL
+            </h1>
+            <p class="font-mono-vhs text-white tracking-[0.18em] md:tracking-[0.22em] text-[8.5px] md:text-[9.5px] mt-2 uppercase text-center w-full block">
+                The Spirit That's Still Moving
+            </p>
+        </div>
+    </header>
+
+    <main class="w-full max-w-[300px] z-[320] mb-8 md:mb-6">
+        <div class="cassette-shell border-t border-zinc-700 rounded-xl p-4 pt-8 pb-6 relative border-b-[10px] border-black shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
+            <div class="flex justify-between px-6 mb-8 opacity-50">
+                <div class="w-12 h-12 border-4 border-dashed border-zinc-400 rounded-full animate-spool flex items-center justify-center">
+                    <div class="w-2 h-2 bg-zinc-500 rounded-full"></div>
+                </div>
+                <div class="w-12 h-12 border-4 border-dashed border-zinc-400 rounded-full animate-spool flex items-center justify-center">
+                    <div class="w-2 h-2 bg-zinc-500 rounded-full"></div>
+                </div>
+            </div>
+
+            <div class="bg-[#f4f1ea] p-3 mx-1 rounded-sm shadow-inner text-left border-l-[6px] border-yellow-400">
+                <div class="flex justify-between items-center mb-1 border-b border-black/10 pb-1">
+                    <p id="vhs-status" class="font-mono-vhs text-[8px] text-zinc-500 font-bold uppercase tracking-widest">Decrypting_Signal...</p>
+                    <div class="h-1.5 w-1.5 bg-red-600 rounded-full animate-pulse"></div>
+                </div>
+                <h2 id="vhs-name" class="font-typewriter text-black text-lg font-bold uppercase tracking-tight truncate mt-1">
+                    LOADING...
+                </h2>
+            </div>
+
+            <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 flex gap-4">
+                <div class="w-6 h-1 bg-black rounded-full"></div>
+                <div class="w-6 h-1 bg-black rounded-full"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="z-[320] max-w-[320px] w-full flex flex-col items-center">
+        <p class="font-sans font-medium text-white/95 text-[12px] leading-relaxed mb-8 text-center drop-shadow-lg px-2">
+            The record didn't end in the Upper Room. The same Spirit that moved in Acts is moving in the present.
+            <span class="block text-yellow-400 font-bold mt-3 text-[15px] italic">
+                You are not just watching a playback— <span class="uppercase">you are part of the recording.</span>
+            </span>
+        </p>
+
+        <button id="vhs-action-btn" onclick="handleVHSGatewayAction()"
+                class="inline-block bg-yellow-400 text-black px-6 py-2.5 font-mono-vhs font-bold text-[10px] tracking-[0.3em] uppercase hover:bg-white transition-all active:scale-95 shadow-xl border border-black/10">
+            [ CONTINUE ]
+        </button>
+
+        <div class="mt-8 flex justify-between w-full max-w-[300px] font-mono-vhs text-[8px] text-white/40 tracking-widest uppercase px-2">
+            <span id="vhs-ref">Ref: ---</span>
+            <span id="vhs-archive-state">Archive_Locked</span>
+        </div>
+    </footer>
+</div>
+
+<!-- VAULT MANUAL SEARCH SCREEN -->
+<div id="vaultLookupScreen" class="fixed inset-0 z-[180] hidden bg-black/95 backdrop-blur-md px-6 flex items-center justify-center">
+    <div class="w-full max-w-md border border-yellow-400/40 bg-[#111111] p-6 md:p-8 shadow-[0_0_50px_rgba(250,204,21,0.12)] font-mono-vhs">
+        
+        <p class="text-yellow-400 text-[9px] uppercase tracking-[0.35em] mb-3">
+            Vault Access
+        </p>
+
+        <h2 class="font-abolition text-yellow-400 text-[42px] md:text-5xl uppercase leading-none mb-4">
+            Find Your Record
+        </h2>
+
+        <p class="text-white/40 text-[10px] leading-relaxed uppercase mb-6">
+            Enter your first name. Select your record, then unlock your vault using your personal access passcode.
+        </p>
+
+        <input id="vaultSearchInput"
+            type="text"
+            placeholder="e.g. Romar"
+            class="w-full bg-black border border-white/10 p-4 text-white text-sm uppercase focus:outline-none focus:border-yellow-400 placeholder:text-white/20 mb-4">
+
+        <button onclick="searchVaultUsers()"
+            class="w-full bg-yellow-400 text-black py-4 font-bold uppercase tracking-[0.25em] text-[10px] hover:bg-white transition-all">
+            Search Record
+        </button>
+
+        <div id="vaultSearchStatus" class="text-white/30 text-[9px] uppercase tracking-widest mt-5"></div>
+
+        <div id="vaultSearchResults" class="mt-5 space-y-2"></div>
+
+        <button onclick="closeVaultScreens()"
+            class="mt-6 text-white/30 hover:text-yellow-400 text-[9px] uppercase tracking-[0.25em]">
+            Close Vault
+        </button>
+    </div>
+</div>
+
+
+<!-- VAULT PASSKEY LOGIN SCREEN -->
+<div id="vaultLoginScreen" class="fixed inset-0 z-[181] hidden bg-black/95 backdrop-blur-md px-6 flex items-center justify-center">
+    <div class="w-full max-w-md border border-yellow-400/40 bg-[#111111] p-6 md:p-8 shadow-[0_0_50px_rgba(250,204,21,0.12)] font-mono-vhs">
+        
+        <p class="text-yellow-400 text-[9px] uppercase tracking-[0.35em] mb-3">
+            Personal Vault
+        </p>
+
+        <h2 id="vaultLoginName" class="font-abolition text-yellow-400 text-[38px] md:text-5xl uppercase leading-none mb-4">
+            Loading Record
+        </h2>
+
+        <p class="text-white/40 text-[10px] leading-relaxed uppercase mb-6">
+            Enter your personal access passcode to unlock your vault.
+        </p>
+
+        <input id="vaultPasskeyInput"
+            type="password"
+            placeholder="Enter passcode"
+            class="w-full bg-black border border-white/10 p-4 text-white text-center text-lg tracking-widest focus:outline-none focus:border-yellow-400 placeholder:text-white/20 mb-4">
+
+        <button onclick="unlockVault()"
+            class="w-full bg-yellow-400 text-black py-4 font-bold uppercase tracking-[0.25em] text-[10px] hover:bg-white transition-all">
+            Unlock Vault
+        </button>
+
+        <button onclick="openVaultResetFromLogin()"
+            class="w-full mt-3 border border-white/10 text-white/35 py-3 font-bold uppercase tracking-[0.22em] text-[9px] hover:text-yellow-400 hover:border-yellow-400/50 transition-all">
+            Forgot Passcode?
+        </button>
+
+        <p id="vaultLoginError" class="hidden text-red-400 text-[10px] text-center mt-4 uppercase tracking-widest">
+            Incorrect passcode.
+        </p>
+
+        <button onclick="closeVaultScreens()"
+            class="mt-6 text-white/30 hover:text-yellow-400 text-[9px] uppercase tracking-[0.25em]">
+            Close Vault
+        </button>
+    </div>
+</div>
+
+
+<!-- VAULT PASSCODE RESET SCREEN -->
+<div id="vaultResetScreen" class="fixed inset-0 z-[181] hidden bg-black/95 backdrop-blur-md px-6 overflow-y-auto">
+    <div class="w-full max-w-xl mx-auto min-h-screen py-10 md:py-16 flex items-center">
+        <div class="w-full border border-yellow-400/40 bg-[#111111] p-6 md:p-8 shadow-[0_0_50px_rgba(250,204,21,0.12)] font-mono-vhs">
+            <p class="text-yellow-400 text-[9px] uppercase tracking-[0.35em] mb-3">
+                Vault Access Help
+            </p>
+
+            <h2 class="font-abolition text-yellow-400 text-[42px] md:text-6xl uppercase leading-none mb-4">
+                Change Passcode
+            </h2>
+
+            <p id="vaultResetIntro" class="text-white/40 text-[10px] leading-relaxed uppercase mb-6">
+                Verify your record using your registered email or contact number. Your new passcode will replace the old one immediately.
+            </p>
+
+            <div id="vaultResetShortIdWrap" class="mb-4">
+                <label class="block text-yellow-400 text-[8px] uppercase tracking-[.25em] mb-2">Short ID</label>
+                <input id="vaultResetShortIdInput"
+                    type="text"
+                    placeholder="R26-XXXX"
+                    class="w-full bg-black border border-white/10 p-4 text-white text-sm uppercase focus:outline-none focus:border-yellow-400 placeholder:text-white/20">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-yellow-400 text-[8px] uppercase tracking-[.25em] mb-2">Registered Email or Contact Number</label>
+                <input id="vaultResetCredentialInput"
+                    type="text"
+                    placeholder="Email or 09XXXXXXXXX"
+                    class="w-full bg-black border border-white/10 p-4 text-white text-sm focus:outline-none focus:border-yellow-400 placeholder:text-white/20">
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-yellow-400 text-[8px] uppercase tracking-[.25em] mb-2">New Passcode</label>
+                    <input id="vaultResetNewPasskeyInput"
+                        type="password"
+                        placeholder="New passcode"
+                        class="w-full bg-black border border-white/10 p-4 text-white text-sm focus:outline-none focus:border-yellow-400 placeholder:text-white/20">
+                </div>
+                <div>
+                    <label class="block text-yellow-400 text-[8px] uppercase tracking-[.25em] mb-2">Confirm Passcode</label>
+                    <input id="vaultResetConfirmPasskeyInput"
+                        type="password"
+                        placeholder="Confirm passcode"
+                        class="w-full bg-black border border-white/10 p-4 text-white text-sm focus:outline-none focus:border-yellow-400 placeholder:text-white/20">
+                </div>
+            </div>
+
+            <p class="text-white/25 text-[8px] uppercase tracking-[.16em] leading-relaxed mt-4">
+                Use 6–20 characters. Avoid spaces. Choose something you can remember.
+            </p>
+
+            <button onclick="submitVaultPasskeyReset()"
+                class="w-full mt-6 bg-yellow-400 text-black py-4 font-bold uppercase tracking-[0.25em] text-[10px] hover:bg-white transition-all">
+                Update Passcode
+            </button>
+
+            <p id="vaultResetStatus" class="min-h-[1.2rem] text-white/35 text-[9px] uppercase tracking-[.16em] leading-relaxed mt-5 text-center"></p>
+
+            <div class="mt-6 border border-white/10 bg-black/35 p-4 text-left">
+                <p class="text-yellow-400 text-[8px] uppercase tracking-[.25em] mb-3">
+                    Access Help
+                </p>
+
+                <h3 class="font-abolition text-white text-3xl uppercase leading-none">
+                    Still Locked Out?
+                </h3>
+
+                <p class="text-white/35 text-[9px] uppercase tracking-[.13em] leading-relaxed mt-3">
+                    An usher can help you access your vault during the event. You may also send a concern through the
+                    <a href="/help" class="text-yellow-400 hover:text-white underline underline-offset-4">Need Help page</a>
+                    or email us at
+                    <a href="mailto:encmalolosrevival2026@gmail.com" class="text-yellow-400 hover:text-white underline underline-offset-4 normal-case tracking-normal">encmalolosrevival2026@gmail.com</a>.
+                </p>
+            </div>
+
+
+            <div id="vaultResetSuccessActions" class="hidden grid md:grid-cols-2 gap-3 mt-5">
+                <button onclick="returnToVaultAfterReset()"
+                    class="bg-yellow-400 text-black py-4 font-bold uppercase tracking-[0.22em] text-[9px] hover:bg-white transition-all">
+                    Return to Vault
+                </button>
+                <button onclick="showVaultLanding(currentGatewayUserId || currentVaultUserId || null)"
+                    class="border border-white/10 text-white/40 py-4 font-bold uppercase tracking-[0.22em] text-[9px] hover:text-yellow-400 hover:border-yellow-400/50 transition-all">
+                    Back to Landing
+                </button>
+            </div>
+
+            <button onclick="closeVaultScreens()"
+                class="block mx-auto mt-6 text-white/30 hover:text-yellow-400 text-[9px] uppercase tracking-[0.25em]">
+                Close Vault
+            </button>
+        </div>
+    </div>
+</div>
+
+
+        <!-- VAULT SIDE CHOOSER -->
+        <div id="vaultSideScreen" class="fixed inset-0 z-[182] hidden bg-black/95 backdrop-blur-md px-5 md:px-6 overflow-y-auto">
+            <div class="w-full max-w-6xl mx-auto min-h-screen py-10 md:py-16 flex items-center">
+                <div class="w-full font-mono-vhs">
+
+                    <div class="mb-8 md:mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-5">
+                        <div>
+                            <div class="inline-flex items-center gap-3 border border-white/10 rounded-full px-3 md:px-4 py-1 mb-5 max-w-full">
+                                <span class="w-1.5 h-1.5 bg-yellow-400 rounded-full shrink-0"></span>
+
+                                <p id="vaultArchiveIdentity" class="font-mono-vhs text-white/40 text-[8px] md:text-[9px] uppercase tracking-[.18em] md:tracking-[.25em] truncate">
+                                    Archive Open // ---
+                                </p>
+                            </div>
+
+                            <p class="font-mono-vhs text-yellow-400 text-[9px] md:text-[10px] uppercase tracking-[.3em] md:tracking-[.35em] mb-3 md:mb-4">
+                                Personal Vault
+                            </p>
+
+                            <h1 class="font-abolition text-white text-[48px] sm:text-[58px] md:text-7xl uppercase leading-[0.9]">
+                                The Tape<br>Has Two Sides
+                            </h1>
+                        </div>
+
+                        <p class="font-mono-vhs text-white/35 text-[9px] md:text-[10px] uppercase tracking-[.14em] md:tracking-[.18em] max-w-sm leading-relaxed">
+                            One side returns to what was received. One side moves with what was given.
+                        </p>
+                    </div>
+
+                    <div class="relative">
+                        <div class="hidden md:block absolute top-1/2 left-0 right-0 h-[1px] bg-yellow-400/30"></div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 relative">
+                            <button onclick="openVaultSide('A')" 
+                                class="bg-[#111] border border-white/10 hover:border-yellow-400 p-6 md:p-10 text-left transition-all active:scale-95">
+                                
+                                <div class="w-10 h-10 md:w-12 md:h-12 bg-yellow-400 text-black rounded-full grid place-items-center font-mono-vhs text-xs font-bold mb-6 md:mb-8">
+                                    A
+                                </div>
+
+                                <p class="font-mono-vhs text-white/30 text-[8px] md:text-[9px] uppercase tracking-[.22em] md:tracking-[.25em] mb-3">
+                                    Return to this
+                                </p>
+
+                                <h2 class="font-abolition text-yellow-400 text-[42px] md:text-5xl uppercase leading-none">
+                                    Received
+                                </h2>
+
+                                <p class="font-mono-vhs text-white/35 text-[9px] md:text-[10px] uppercase tracking-[.12em] md:tracking-[.15em] mt-4 leading-relaxed">
+                                    Listen again. Remember what was spoken.
+                                </p>
+                            </button>
+
+                            <button onclick="openVaultSide('B')" 
+                                class="bg-[#111] border border-white/10 hover:border-yellow-400 p-6 md:p-10 text-left md:mt-24 transition-all active:scale-95">
+                                
+                                <div class="w-10 h-10 md:w-12 md:h-12 bg-yellow-400 text-black rounded-full grid place-items-center font-mono-vhs text-xs font-bold mb-6 md:mb-8">
+                                    B
+                                </div>
+
+                                <p class="font-mono-vhs text-white/30 text-[8px] md:text-[9px] uppercase tracking-[.22em] md:tracking-[.25em] mb-3">
+                                    Carry this
+                                </p>
+
+                                <h2 class="font-abolition text-yellow-400 text-[42px] md:text-5xl uppercase leading-none">
+                                    Sent
+                                </h2>
+
+                                <p class="font-mono-vhs text-white/35 text-[9px] md:text-[10px] uppercase tracking-[.12em] md:tracking-[.15em] mt-4 leading-relaxed">
+                                    Move forward. Respond with what you received.
+                                </p>
+                            </button>
+                        </div>
+                    </div>
+
+                    <p id="vaultSideMessage" class="hidden mt-8 text-center text-yellow-400 text-[10px] uppercase tracking-[0.25em]"></p>
+
+                    <button onclick="closeVaultScreens()"
+                        class="block mx-auto mt-8 md:mt-10 text-white/30 hover:text-yellow-400 text-[9px] uppercase tracking-[0.25em]">
+                        Close Vault
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+            <!-- SIDE A AUDIO SCREEN -->
+        <div id="sideAScreen" class="fixed inset-0 z-[183] hidden bg-black/95 backdrop-blur-md px-5 md:px-6 overflow-y-auto">
+    <div class="w-full max-w-6xl mx-auto min-h-screen py-8 md:py-14">
+        <div class="w-full font-mono-vhs">
+
+            <input id="sideAFileInput" type="file" accept=".mp3,.m4a,.aac,.wav,.ogg,.webm,audio/*" multiple class="hidden">
+            <input id="sideAPaperPhotoInput" type="file" accept="image/*,.heic,.heif" multiple class="hidden">
+
+            <!-- HEADER -->
+            <div class="mb-7 md:mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-5">
+                <div>
+                    <div class="inline-flex items-center gap-3 border border-white/10 rounded-full px-3 md:px-4 py-1 mb-5 max-w-full">
+                        <span class="w-1.5 h-1.5 bg-yellow-400 rounded-full shrink-0"></span>
+                        <p id="sideAIdentity" class="text-white/40 text-[8px] md:text-[9px] uppercase tracking-[.18em] md:tracking-[.22em] truncate">
+                            Side A // ---
+                        </p>
+                    </div>
+
+                    <p class="text-yellow-400 text-[9px] md:text-[10px] uppercase tracking-[.3em] md:tracking-[.35em] mb-3">
+                        Side A // Received
+                    </p>
+
+                    <h1 id="sideATitle" class="font-abolition text-white text-[48px] sm:text-[60px] md:text-7xl uppercase leading-[0.9]">
+                        What You<br>Received
+                    </h1>
+                </div>
+
+                <p id="sideADescription" class="text-white/35 text-[9px] md:text-[10px] uppercase tracking-[.14em] md:tracking-[.18em] max-w-md leading-relaxed">
+                    Save the prophetic recording spoken over you and the paper where you wrote what you sensed from the Holy Spirit.
+                </p>
+            </div>
+
+            <!-- EMPTY STATE -->
+            <div id="sideAEmptyState" class="border border-white/10 bg-[#111] p-5 md:p-7 shadow-2xl">
+                <div class="grid lg:grid-cols-[.85fr_1.15fr] gap-5 md:gap-6 items-stretch">
+                    <div class="border border-yellow-400/25 bg-black/35 p-5 md:p-6 flex flex-col justify-between">
+                        <div>
+                            <p class="text-yellow-400 text-[9px] uppercase tracking-[.3em] mb-3">
+                                Nothing Saved Yet
+                            </p>
+                            <h2 class="font-abolition text-white text-4xl md:text-6xl uppercase leading-none">
+                                Upload<br>Your Side A
+                            </h2>
+                            <p class="text-white/35 text-[9px] md:text-[10px] uppercase tracking-[.13em] leading-relaxed mt-5">
+                                Side A is for preserving what was spoken and what you wrote down. Add both files, review them, then save them to your personal tape.
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-2 mt-6">
+                            <div class="border border-white/10 bg-white/[.03] p-3 text-center">
+                                <div class="mx-auto mb-2 w-7 h-7 rounded-full bg-yellow-400 text-black grid place-items-center text-[10px] font-bold">1</div>
+                                <p class="text-white/40 text-[8px] uppercase tracking-[.16em]">Choose</p>
+                            </div>
+                            <div class="border border-white/10 bg-white/[.03] p-3 text-center">
+                                <div class="mx-auto mb-2 w-7 h-7 rounded-full bg-yellow-400 text-black grid place-items-center text-[10px] font-bold">2</div>
+                                <p class="text-white/40 text-[8px] uppercase tracking-[.16em]">Review</p>
+                            </div>
+                            <div class="border border-white/10 bg-white/[.03] p-3 text-center">
+                                <div class="mx-auto mb-2 w-7 h-7 rounded-full bg-yellow-400 text-black grid place-items-center text-[10px] font-bold">3</div>
+                                <p class="text-white/40 text-[8px] uppercase tracking-[.16em]">Save</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-4 text-left">
+                        <div class="border border-white/10 bg-black/40 p-5 md:p-6 flex flex-col">
+                            <p class="text-yellow-400 text-[9px] uppercase tracking-[.25em] mb-3">
+                                01 // Prophetic Recordings
+                            </p>
+                            <h3 class="font-abolition text-white text-4xl md:text-5xl uppercase leading-none">
+                                Audio Files
+                            </h3>
+                            <p class="text-white/35 text-[9px] uppercase tracking-[.12em] mt-4 leading-relaxed flex-1">
+                                Upload one or more recordings of the prayers or prophetic encouragement spoken over you.
+                            </p>
+                            <button onclick="document.getElementById('sideAFileInput').click()"
+                                class="mt-6 w-full bg-yellow-400 text-black px-6 py-4 text-[10px] font-bold uppercase tracking-[.25em] hover:bg-white transition-all active:scale-95">
+                                Choose Audio Files
+                            </button>
+                        </div>
+
+                        <div class="border border-white/10 bg-black/40 p-5 md:p-6 flex flex-col">
+                            <p class="text-yellow-400 text-[9px] uppercase tracking-[.25em] mb-3">
+                                02 // Written Paper
+                            </p>
+                            <h3 class="font-abolition text-white text-4xl md:text-5xl uppercase leading-none">
+                                Paper Photos
+                            </h3>
+                            <p class="text-white/35 text-[9px] uppercase tracking-[.12em] mt-4 leading-relaxed flex-1">
+                                Upload one or more clear photos of the paper where you wrote what you sensed, heard, saw, or were reminded of.
+                            </p>
+                            <button onclick="document.getElementById('sideAPaperPhotoInput').click()"
+                                class="mt-6 w-full border border-yellow-400/50 text-yellow-400 px-6 py-4 text-[10px] font-bold uppercase tracking-[.25em] hover:bg-yellow-400 hover:text-black transition-all active:scale-95">
+                                Choose Paper Photos
+                            </button>
+                            <p id="sideAPaperPhotoSelectedHint" class="hidden mt-3 text-yellow-400 text-[8px] uppercase tracking-[.16em] leading-relaxed"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SELECTED STATE -->
+            <div id="sideASelectedState" class="hidden border border-yellow-400/35 bg-[#111] p-5 md:p-7 shadow-2xl">
+                <div class="mb-6 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+                    <div>
+                        <p class="text-yellow-400 text-[9px] uppercase tracking-[.3em] mb-3">
+                            Review Before Saving
+                        </p>
+                        <h2 class="font-abolition text-white text-4xl md:text-6xl uppercase leading-none">
+                            Ready To Archive
+                        </h2>
+                    </div>
+                    <p class="text-white/35 text-[9px] uppercase tracking-[.14em] leading-relaxed max-w-sm">
+                        Make sure the audio recording(s) and paper photos are correct. Side A will be marked saved after upload.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 text-left">
+                    <div class="bg-black border border-white/10 p-5">
+                        <div class="flex items-start justify-between gap-3 mb-4">
+                            <p class="text-yellow-400 text-[9px] uppercase tracking-[.25em]">
+                                01 // Audio Files Selected
+                            </p>
+                            <span class="text-black bg-yellow-400 px-2 py-1 text-[8px] uppercase tracking-[.16em] font-bold">Required</span>
+                        </div>
+                        <h2 id="sideASelectedFileName" class="font-abolition text-white text-4xl md:text-5xl uppercase leading-none break-words">
+                            prayer.mp3
+                        </h2>
+
+                        <div class="grid grid-cols-2 gap-2 mt-5">
+                            <p id="sideASelectedFileSize" class="text-white/30 border border-white/10 bg-black/30 p-2 text-[8px] uppercase tracking-[.16em]">
+                                ---
+                            </p>
+                            <p id="sideASelectedFileType" class="text-white/30 border border-white/10 bg-black/30 p-2 text-[8px] uppercase tracking-[.16em]">
+                                AUDIO
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="bg-black border border-white/10 p-5">
+                        <div class="flex items-start justify-between gap-3 mb-4">
+                            <p class="text-yellow-400 text-[9px] uppercase tracking-[.25em]">
+                                02 // Paper Photos
+                            </p>
+                            <span class="text-black bg-yellow-400 px-2 py-1 text-[8px] uppercase tracking-[.16em] font-bold">Required</span>
+                        </div>
+                        <h2 id="sideASelectedPaperPhotoName" class="font-abolition text-white text-4xl md:text-5xl uppercase leading-none break-words">
+                            No Photos Yet
+                        </h2>
+
+                        <p id="sideASelectedPaperPhotoMeta" class="text-white/30 border border-white/10 bg-black/30 p-2 text-[8px] uppercase tracking-[.16em] mt-5">
+                            Choose a clear photo of your paper
+                        </p>
+
+                        <button onclick="document.getElementById('sideAPaperPhotoInput').click()"
+                            class="mt-4 w-full border border-yellow-400/50 text-yellow-400 py-3 text-[9px] font-bold uppercase tracking-[.22em] hover:bg-yellow-400 hover:text-black transition-all active:scale-95">
+                            Choose Paper Photos
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-[.7fr_1.3fr] gap-3 mt-6">
+                    <button onclick="resetSideASelection()"
+                        class="border border-white/10 text-white/40 py-4 text-[10px] font-bold uppercase tracking-[.25em] hover:text-yellow-400 hover:border-yellow-400/50 transition-all active:scale-95">
+                        Start Over
+                    </button>
+
+                    <button onclick="uploadSideAAudio()"
+                        class="bg-yellow-400 text-black py-4 text-[10px] font-bold uppercase tracking-[.25em] hover:bg-white transition-all active:scale-95">
+                        Save Side A To Vault
+                    </button>
+                </div>
+            </div>
+
+            <!-- UPLOADING STATE -->
+            <div id="sideAUploadingState" class="hidden border border-white/10 bg-[#111] p-5 md:p-8 shadow-2xl text-center">
+                <p class="text-yellow-400 text-[9px] uppercase tracking-[.3em] mb-4">
+                    Saving Side A
+                </p>
+
+                <h2 class="font-abolition text-white text-5xl md:text-6xl uppercase leading-none">
+                    Archiving Files
+                </h2>
+
+                <div class="grid md:grid-cols-2 gap-3 max-w-2xl mx-auto mt-6 text-left">
+                    <div class="border border-white/10 bg-black/35 p-4">
+                        <p class="text-white/30 text-[8px] uppercase tracking-[.18em] mb-2">Audio</p>
+                        <p id="sideAUploadingFileName" class="text-yellow-400 text-[10px] uppercase tracking-[.14em] break-words">prayer.mp3</p>
+                    </div>
+                    <div class="border border-white/10 bg-black/35 p-4">
+                        <p class="text-white/30 text-[8px] uppercase tracking-[.18em] mb-2">Paper Photos</p>
+                        <p id="sideAUploadingPaperPhotoName" class="text-yellow-400 text-[10px] uppercase tracking-[.14em] break-words">paper photos pending</p>
+                    </div>
+                </div>
+
+                <div class="h-2 bg-white/10 overflow-hidden rounded-full mt-7 max-w-2xl mx-auto">
+                    <div id="sideAUploadProgressBar" class="h-full bg-yellow-400" style="width: 0%;"></div>
+                </div>
+
+                <div class="flex justify-between mt-3 text-[9px] uppercase tracking-[.18em] max-w-2xl mx-auto">
+                    <span id="sideAUploadPercent" class="text-yellow-400">0%</span>
+                    <span class="text-white/30">Please keep this page open</span>
+                </div>
+            </div>
+
+            <!-- SAVED / PLAYER STATE -->
+            <div id="sideAPlayerState" class="hidden border border-yellow-400/30 bg-[#111] p-5 md:p-7 shadow-2xl text-left">
+                <div class="mb-6 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+                    <div>
+                        <p id="sideAPlayerStatus" class="text-yellow-400 text-[9px] uppercase tracking-[.28em] mb-3">
+                            Side A Saved
+                        </p>
+                        <h2 id="sideAPlayerTitle" class="font-abolition text-white text-4xl md:text-6xl uppercase leading-none">
+                            Your Received Prayer
+                        </h2>
+                    </div>
+
+                    <p id="sideATimeDisplay" class="text-white/30 text-[9px] uppercase tracking-[.18em]">
+                        00:00 / 00:00
+                    </p>
+                </div>
+
+                <div class="flex gap-2 mb-5 font-mono-vhs">
+                    <button id="sideAAudioTab"
+                        class="side-a-media-tab active border border-white/10 px-5 py-3 text-[10px] uppercase tracking-[.25em] font-bold transition-all"
+                        onclick="showSideAMedia('audio')">
+                        Audio
+                    </button>
+                    <button id="sideAPhotoTab"
+                        class="side-a-media-tab border border-white/10 px-5 py-3 text-[10px] uppercase tracking-[.25em] font-bold transition-all text-yellow-400 hover:border-yellow-400"
+                        onclick="showSideAMedia('photo')">
+                        Paper Photos
+                    </button>
+                </div>
+
+                <div id="sideAAudioPanel" class="side-a-media-panel active border border-white/10 bg-black/35 p-4 md:p-5">
+                    <div class="flex items-center justify-between gap-3 mb-4">
+                        <p class="text-yellow-400 text-[8px] uppercase tracking-[.25em]">01 // Prophetic Recordings</p>
+                        <span id="sideAPlaybackState" class="text-white/30 text-[8px] uppercase tracking-[.16em]">Stopped</span>
+                    </div>
+
+                    <div id="sideAAudioList" class="grid md:grid-cols-2 gap-3 mb-4"></div>
+
+                    <div id="sideAWaveformReal" class="w-full min-h-[82px] border border-white/10 bg-black/40 px-2 py-3"></div>
+
+                    <div id="sideANativeAudioFallback" class="native-audio-fallback hidden mt-4 border border-yellow-400/30 bg-yellow-400/5 p-4">
+                        <p class="text-yellow-400 text-[8px] uppercase tracking-[.2em] mb-3">
+                            Waveform preview is unavailable in this browser. Use the player below instead.
+                        </p>
+                        <audio id="sideANativeAudio" controls preload="metadata"></audio>
+                    </div>
+
+                    <div class="mt-6 flex items-center justify-center gap-4">
+                        <button id="sideAResetBtn"
+                            onclick="resetSideAAudio()"
+                            aria-label="Reset audio"
+                            class="w-12 h-12 rounded-full bg-white/5 border border-white/10 text-white/50 grid place-items-center hover:border-yellow-400/60 hover:text-yellow-400 transition-all active:scale-95">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                                <path d="M12 5a7 7 0 1 1-6.3 4H3l3.6-3.6L10.2 9H7.9A5 5 0 1 0 12 7V5Z"/>
+                            </svg>
+                        </button>
+
+                        <button id="sideAPlayToggleBtn"
+                            onclick="toggleSideAAudio()"
+                            aria-label="Play or pause audio"
+                            class="w-14 h-14 rounded-full bg-yellow-400 text-black grid place-items-center hover:bg-white transition-all active:scale-95">
+                            <svg id="sideAPlayIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
+                                <path d="M8 5.14v13.72c0 .76.84 1.22 1.48.8l10.2-6.86a.95.95 0 0 0 0-1.6L9.48 4.34A.96.96 0 0 0 8 5.14Z"/>
+                            </svg>
+                            <svg id="sideAPauseIcon" class="hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
+                                <path d="M7 5h3.2v14H7V5Zm6.8 0H17v14h-3.2V5Z"/>
+                            </svg>
+                        </button>
+
+                        <button id="sideADownloadBtn"
+                            onclick="downloadSideAAudio()"
+                            aria-label="Download audio"
+                            class="w-12 h-12 rounded-full bg-white/5 border border-white/10 text-white/50 grid place-items-center hover:border-yellow-400/60 hover:text-yellow-400 transition-all active:scale-95">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                                <path d="M11 4h2v8.2l2.6-2.6L17 11l-5 5-5-5 1.4-1.4 2.6 2.6V4Zm-5 14h12v-3h2v5H4v-5h2v3Z"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <p id="sideAPlaybackHint" class="mt-4 text-center text-white/30 text-[8px] uppercase tracking-[.16em]">
+                        Ready to play
+                    </p>
+                </div>
+
+                <div id="sideAPhotoPanel" class="side-a-media-panel border border-white/10 bg-black/35 p-4 md:p-5">
+                    <div id="sideAPaperPhotoPanel">
+                        <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
+                            <div>
+                                <p class="text-yellow-400 text-[8px] uppercase tracking-[.25em] mb-2">
+                                    02 // Written Paper
+                                </p>
+                                <h3 id="sideAPaperPhotoTitle" class="font-abolition text-white text-4xl md:text-5xl uppercase leading-none">
+                                    No Paper Photo Yet
+                                </h3>
+                            </div>
+                            <button onclick="document.getElementById('sideAPaperPhotoInput').click()"
+                                class="border border-yellow-400/50 text-yellow-400 px-5 py-3 text-[9px] font-bold uppercase tracking-[.22em] hover:bg-yellow-400 hover:text-black transition-all active:scale-95 shrink-0">
+                                Upload Photos
+                            </button>
+                        </div>
+
+                        <p id="sideAPaperPhotoStatus" class="text-white/35 text-[9px] uppercase tracking-[.13em] leading-relaxed">
+                            Upload one or more photos of the paper where you wrote what you sensed from the Holy Spirit.
+                        </p>
+
+                        <div id="sideAPaperPhotoGallery" class="mt-5 grid md:grid-cols-2 gap-3"></div>
+
+                        <div id="sideAPaperPhotoEmpty" class="mt-5 border border-white/10 bg-black/40 min-h-[220px] flex items-center justify-center text-center p-8">
+                            <div>
+                                <p class="font-abolition text-white/50 text-4xl uppercase leading-none">No Photos Yet</p>
+                                <p class="font-mono-vhs text-white/25 text-[8px] uppercase tracking-[.16em] leading-relaxed mt-3 max-w-sm">
+                                    Choose or re-upload photos. HEIC uploads are converted to JPG so they can preview here.
+                                </p>
+                            </div>
+                        </div>
+
+                        <img id="sideAPaperPhotoPreview" src="" alt="Side A paper photo" class="hidden">
+
+                        <div class="grid md:grid-cols-2 gap-3 mt-5">
+                            <button id="sideAPaperPhotoViewBtn"
+                                onclick="viewSideAPaperPhoto()"
+                                class="hidden border border-white/10 text-white/40 px-4 py-4 text-[9px] font-bold uppercase tracking-[.22em] hover:text-yellow-400 hover:border-yellow-400/50 transition-all active:scale-95">
+                                View First Photo
+                            </button>
+                            <button onclick="document.getElementById('sideAPaperPhotoInput').click()"
+                                class="border border-yellow-400/50 text-yellow-400 px-4 py-4 text-[9px] font-bold uppercase tracking-[.22em] hover:bg-yellow-400 hover:text-black transition-all active:scale-95">
+                                Add More Photos
+                            </button>
+                        </div>
+
+                        <p class="mt-4 text-white/25 text-[8px] uppercase tracking-[.14em] leading-relaxed">
+                            Tip: choose well-lit photos where the handwriting is readable. HEIC photos are converted to JPG for preview.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-3 mt-6">
+                    <button id="sideAReplaceBtn"
+                        onclick="handleSideAReplaceClick()"
+                        class="border border-yellow-400/50 text-yellow-400 py-4 text-[10px] font-bold uppercase tracking-[.25em] hover:bg-yellow-400 hover:text-black transition-all active:scale-95">
+                        Add / Replace Audio
+                    </button>
+
+                    <button onclick="backToVaultChooser()"
+                        class="border border-white/10 text-white/40 py-4 text-[10px] font-bold uppercase tracking-[.25em] hover:text-yellow-400 hover:border-yellow-400/50 transition-all active:scale-95">
+                        Back to Vault
+                    </button>
+                </div>
+
+                <p id="sideAReplaceNotice" class="mt-5 text-center text-white/25 text-[8px] uppercase tracking-[.16em] leading-relaxed">
+                    Need to change this audio? Replacement access may be opened or closed by the admin.
+                </p>
+            </div>
+
+            <!-- ERROR -->
+            <p id="sideAError" class="hidden mt-5 border border-red-400/30 bg-red-500/10 p-4 text-red-300 text-[10px] uppercase tracking-[.18em] leading-relaxed text-center"></p>
+
+            <button onclick="backToVaultChooser()"
+                class="block mx-auto mt-8 text-white/30 hover:text-yellow-400 text-[9px] uppercase tracking-[0.25em]">
+                Back to Vault
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- SIDE B SENT RESPONSE SCREEN -->
+<div id="sideBScreen" class="fixed inset-0 z-[183] hidden bg-black/95 backdrop-blur-md px-5 md:px-6 overflow-y-auto">
+    <div class="w-full max-w-6xl mx-auto min-h-screen py-10 md:py-16 flex items-center">
+        <div class="w-full font-mono-vhs">
+
+            <div class="mb-8 flex flex-col md:flex-row md:items-end md:justify-between gap-5">
+                <div>
+                    <div class="inline-flex items-center gap-3 border border-white/10 rounded-full px-3 md:px-4 py-1 mb-5 max-w-full">
+                        <span class="w-1.5 h-1.5 bg-yellow-400 rounded-full shrink-0"></span>
+
+                        <p id="sideBIdentity" class="text-white/40 text-[8px] md:text-[9px] uppercase tracking-[.18em] md:tracking-[.22em] truncate">
+                            Side B // ---
+                        </p>
+                    </div>
+
+                    <p class="text-yellow-400 text-[9px] md:text-[10px] uppercase tracking-[.3em] md:tracking-[.35em] mb-3 md:mb-4">
+                        Carry This Forward
+                    </p>
+
+                    <h1 class="font-abolition text-white text-[48px] sm:text-[58px] md:text-7xl uppercase leading-[0.9]">
+                        Let The Moment<br>Become Prayer
+                    </h1>
+                </div>
+
+                <p class="text-white/35 text-[9px] md:text-[10px] uppercase tracking-[.14em] md:tracking-[.18em] max-w-sm leading-relaxed">
+                    Side A holds what was spoken. Side B marks what you will carry.
+                </p>
+            </div>
+
+            <!-- FORM STATE -->
+            <div id="sideBFormState">
+                <div class="grid md:grid-cols-3 gap-4">
+                    <!-- CARD 1 -->
+                    <div class="bg-[#111] border border-white/10 p-5">
+                        <p class="text-yellow-400 text-[9px] uppercase tracking-[.25em] mb-2">
+                            01 // Remember
+                        </p>
+
+                        <h2 class="font-abolition text-white text-4xl uppercase leading-none">
+                            Remember
+                        </h2>
+
+                        <p class="text-white/35 text-[9px] uppercase tracking-[.13em] leading-relaxed mt-3">
+                            What do you want to remember?
+                        </p>
+
+                        <textarea id="sideBGodPlacedInput"
+                            class="w-full min-h-[92px] mt-4 bg-black border border-white/10 text-white p-4 text-[10px] uppercase tracking-[.12em] leading-relaxed focus:outline-none focus:border-yellow-400 resize-none"
+                            placeholder="Write what stood out from the prayer, the paper, or what you sensed God highlighting..."></textarea>
+
+                        <details class="group mt-3">
+                            <summary class="cursor-pointer list-none flex items-center justify-between gap-3 border border-white/10 bg-black/30 px-3 py-2">
+                                <span class="text-white/30 text-[8px] uppercase tracking-[.2em]">
+                                    Guide me
+                                </span>
+                                <span class="text-yellow-400 group-open:rotate-45 transition-transform">+</span>
+                            </summary>
+
+                            <div class="grid gap-2 mt-3">
+                                <p class="border border-white/10 bg-black/30 text-white/35 text-[8px] uppercase tracking-[.12em] leading-relaxed p-3">
+                                    What stood out from the prophetic prayer, your paper, or the moment of activation?
+                                </p>
+                                <p class="border border-white/10 bg-black/30 text-white/35 text-[8px] uppercase tracking-[.12em] leading-relaxed p-3">
+                                    What do you sense God is highlighting for you to remember after Revival?
+                                </p>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- CARD 2 -->
+                    <div class="bg-[#111] border border-white/10 p-5">
+                        <p class="text-yellow-400 text-[9px] uppercase tracking-[.25em] mb-2">
+                            02 // Respond
+                        </p>
+
+                        <h2 class="font-abolition text-white text-4xl uppercase leading-none">
+                            Respond
+                        </h2>
+
+                        <p class="text-white/35 text-[9px] uppercase tracking-[.13em] leading-relaxed mt-3">
+                            How will you respond?
+                        </p>
+
+                        <textarea id="sideBDoNotForgetInput"
+                            class="w-full min-h-[92px] mt-4 bg-black border border-white/10 text-white p-4 text-[10px] uppercase tracking-[.12em] leading-relaxed focus:outline-none focus:border-yellow-400 resize-none"
+                            placeholder="Write one practical step of faith, obedience, surrender, or prayer you want to carry after Revival..."></textarea>
+
+                        <details class="group mt-3">
+                            <summary class="cursor-pointer list-none flex items-center justify-between gap-3 border border-white/10 bg-black/30 px-3 py-2">
+                                <span class="text-white/30 text-[8px] uppercase tracking-[.2em]">
+                                    Guide me
+                                </span>
+                                <span class="text-yellow-400 group-open:rotate-45 transition-transform">+</span>
+                            </summary>
+
+                            <div class="grid gap-2 mt-3">
+                                <p class="border border-white/10 bg-black/30 text-white/35 text-[8px] uppercase tracking-[.12em] leading-relaxed p-3">
+                                    What step of faith, obedience, surrender, or prayer can you take after Revival?
+                                </p>
+                                <p class="border border-white/10 bg-black/30 text-white/35 text-[8px] uppercase tracking-[.12em] leading-relaxed p-3">
+                                    What would it look like to live this out in school, home, friendships, or daily life?
+                                </p>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- CARD 3 -->
+                    <div class="bg-[#111] border border-white/10 p-5">
+                        <p class="text-yellow-400 text-[9px] uppercase tracking-[.25em] mb-2">
+                            03 // Pray
+                        </p>
+
+                        <h2 class="font-abolition text-white text-4xl uppercase leading-none">
+                            Prayer
+                        </h2>
+
+                        <p class="text-white/35 text-[9px] uppercase tracking-[.13em] leading-relaxed mt-3">
+                            What is your prayer?
+                        </p>
+
+                        <textarea id="sideBMoveWithThisInput"
+                            class="w-full min-h-[92px] mt-4 bg-black border border-white/10 text-white p-4 text-[10px] uppercase tracking-[.12em] leading-relaxed focus:outline-none focus:border-yellow-400 resize-none"
+                            placeholder="Holy Spirit, help me remember, obey, and carry what You have spoken..."></textarea>
+
+                        <details class="group mt-3">
+                            <summary class="cursor-pointer list-none flex items-center justify-between gap-3 border border-white/10 bg-black/30 px-3 py-2">
+                                <span class="text-white/30 text-[8px] uppercase tracking-[.2em]">
+                                    Guide me
+                                </span>
+                                <span class="text-yellow-400 group-open:rotate-45 transition-transform">+</span>
+                            </summary>
+
+                            <div class="grid gap-2 mt-3">
+                                <p class="border border-white/10 bg-black/30 text-white/35 text-[8px] uppercase tracking-[.12em] leading-relaxed p-3">
+                                    Ask the Holy Spirit for grace to remember and obey what He has spoken.
+                                </p>
+                                <p class="border border-white/10 bg-black/30 text-white/35 text-[8px] uppercase tracking-[.12em] leading-relaxed p-3">
+                                    Write a simple prayer you can return to when you need courage or faith.
+                                </p>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+
+                <!-- OPTIONAL NOTES PROMPT -->
+                <div class="bg-[#111] border border-yellow-400/20 p-5 md:p-6 mt-4">
+                    <div class="grid md:grid-cols-[0.8fr_1.2fr] gap-5">
+                        <div>
+                            <p class="text-yellow-400 text-[9px] uppercase tracking-[.25em] mb-2">
+                                04 // Keep More
+                            </p>
+
+                            <h2 class="font-abolition text-yellow-400 text-4xl md:text-5xl uppercase leading-none">
+                                Additional<br>Notes
+                            </h2>
+
+                            <p class="text-white/35 text-[9px] uppercase tracking-[.13em] leading-relaxed mt-4">
+                                Optional — paste any extra notes, verses, phrases, prayers, or reminders you want to keep in your vault.
+                            </p>
+                        </div>
+
+                        <div>
+                            <textarea id="sideBArchiveMoreInput"
+                                class="w-full min-h-[160px] bg-black border border-white/10 text-white p-4 text-[10px] uppercase tracking-[.12em] leading-relaxed focus:outline-none focus:border-yellow-400 resize-none"
+                                placeholder="Paste any extra notes, verses, phrases, or prayers here..."></textarea>
+
+                            <p class="text-white/25 text-[8px] uppercase tracking-[.16em] mt-3 leading-relaxed">
+                                Optional — this can be messy, raw, or copied straight from your notes app.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <p id="sideBError" class="hidden mt-5 text-red-400 text-center text-[10px] uppercase tracking-[.2em]"></p>
+
+                <div class="grid md:grid-cols-2 gap-3 mt-5">
+                    <button onclick="saveSideBResponse()"
+                        class="bg-yellow-400 text-black py-4 text-[10px] font-bold uppercase tracking-[.25em] hover:bg-white transition-all active:scale-95">
+                        Save Side B
+                    </button>
+
+                    <button onclick="backToVaultChooser()"
+                        class="border border-white/10 text-white/40 py-4 text-[10px] font-bold uppercase tracking-[.25em] hover:text-yellow-400 hover:border-yellow-400/50 transition-all active:scale-95">
+                        Back to Vault
+                    </button>
+                </div>
+            </div>
+
+            <!-- SAVING STATE -->
+            <div id="sideBSavingState" class="hidden bg-[#111] border border-yellow-400/30 p-8 md:p-10 text-center">
+                <p class="text-yellow-400 text-[9px] uppercase tracking-[.3em] mb-5">
+                    Marking Response
+                </p>
+
+                <h2 class="font-abolition text-white text-5xl uppercase leading-none">
+                    Saving Side B
+                </h2>
+
+                <p class="text-white/30 text-[10px] uppercase tracking-[.14em] mt-4">
+                    Please keep this page open.
+                </p>
+            </div>
+
+            <!-- SAVED STATE -->
+            <div id="sideBSavedState" class="hidden bg-[#111] border border-yellow-400/30 p-6 md:p-8">
+                <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-7">
+                    <div>
+                        <p class="text-yellow-400 text-[9px] uppercase tracking-[.28em] mb-3">
+                            Side B Saved
+                        </p>
+
+                        <h2 class="font-abolition text-white text-5xl uppercase leading-none">
+                            My Takeaway
+                        </h2>
+                    </div>
+
+                    <p class="text-white/30 text-[9px] uppercase tracking-[.18em]">
+                        Response Marked
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="border border-white/10 bg-black/30 p-4">
+                        <p class="text-yellow-400 text-[8px] uppercase tracking-[.2em] mb-3">
+                            What I want to remember
+                        </p>
+
+                        <p id="sideBSavedGodPlaced" class="font-typewriter text-white/80 text-lg leading-relaxed normal-case tracking-normal">
+                            —
+                        </p>
+                    </div>
+
+                    <div class="border border-white/10 bg-black/30 p-4">
+                        <p class="text-yellow-400 text-[8px] uppercase tracking-[.2em] mb-3">
+                            How I will respond
+                        </p>
+
+                        <p id="sideBSavedDoNotForget" class="font-typewriter text-white/80 text-lg leading-relaxed normal-case tracking-normal">
+                            —
+                        </p>
+                    </div>
+
+                    <div class="border border-white/10 bg-black/30 p-4">
+                        <p class="text-yellow-400 text-[8px] uppercase tracking-[.2em] mb-3">
+                            My prayer
+                        </p>
+
+                        <p id="sideBSavedMoveWithThis" class="font-typewriter text-white/80 text-lg leading-relaxed normal-case tracking-normal">
+                            —
+                        </p>
+                    </div>
+                </div>
+
+                <div id="sideBSavedArchiveMoreWrap" class="hidden border border-white/10 bg-black/30 p-4 mt-4">
+                    <p class="text-yellow-400 text-[8px] uppercase tracking-[.2em] mb-3">
+                        Additional notes
+                    </p>
+
+                    <p id="sideBSavedArchiveMore" class="font-typewriter text-white/75 text-lg leading-relaxed whitespace-pre-wrap normal-case tracking-normal">
+                        —
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-3 mt-7">
+                    <button onclick="editSideBResponse()"
+                        class="border border-yellow-400/50 text-yellow-400 py-4 text-[10px] font-bold uppercase tracking-[.25em] hover:bg-yellow-400 hover:text-black transition-all active:scale-95">
+                        Edit Response
+                    </button>
+
+                    <button onclick="backToVaultChooser()"
+                        class="border border-white/10 text-white/40 py-4 text-[10px] font-bold uppercase tracking-[.25em] hover:text-yellow-400 hover:border-yellow-400/50 transition-all active:scale-95">
+                        Back to Vault
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
+    <script type="module">
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import {
+            getFirestore,
+            doc,
+            updateDoc,
+            getDoc,
+            getDocs,
+            collection,
+            increment
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        import WaveSurfer from "https://cdn.jsdelivr.net/npm/wavesurfer.js@7/dist/wavesurfer.esm.js";
+
+        import {
+            getStorage,
+            ref,
+            uploadBytesResumable,
+            getDownloadURL,
+            deleteObject
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAaxjL-NuYE1VeAoYb1_pWHAE3C4VdCBBY",
+            authDomain: "enc-malolos-revival-2026.firebaseapp.com",
+            projectId: "enc-malolos-revival-2026",
+            storageBucket: "enc-malolos-revival-2026.firebasestorage.app",
+            messagingSenderId: "893658387609",
+            appId: "1:893658387609:web:f15e870fb82b729e759408"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+        let pendingVaultSubPage = null;
+        let currentGatewayUserId = null;
+        let vaultActive = false;
+
+        function safePushState(path) {
+            try {
+                if (window.location.protocol === 'file:') return;
+                window.history.pushState({}, '', path);
+            } catch (error) {
+                console.warn('Navigation preview mode:', error);
+            }
+        }
+
+// --- VAULT ROUTING + ACCESS SYSTEM ---
+        let currentVaultUserId = null;
+        let currentVaultUserData = null;
+
+
+        async function loadVaultRoute() {
+            const params = new URLSearchParams(window.location.search);
+            const pathArray = window.location.pathname.split('/').filter(Boolean);
+            const vaultIndex = pathArray.findIndex(part => part.toLowerCase() === 'vault');
+
+            // Canonical routes:
+            // /vault
+            // /vault/user/R26-XXXX
+            // /vault/user/R26-XXXX/side-a
+            // /vault/user/R26-XXXX/side-b
+            // Also supports local testing: vault.html?user=R26-XXXX&side=side-a
+            let routedUserId = params.get('user') || params.get('vault') || params.get('id') || null;
+            let routedSubPage = params.get('side') || null;
+
+            if (vaultIndex !== -1) {
+                const afterVault = pathArray.slice(vaultIndex + 1);
+                const first = (afterVault[0] || '').toLowerCase();
+
+                if (first === 'reset') {
+                    const resetUserId = (afterVault[1] || '').toLowerCase() === 'user' ? (afterVault[2] || null) : null;
+                    currentGatewayUserId = resetUserId;
+                    await showVaultReset(resetUserId);
+                    return;
+                } else if (first === 'user' && afterVault[1]) {
+                    routedUserId = afterVault[1];
+                    routedSubPage = afterVault[2] || routedSubPage;
+                } else if (afterVault[0] && afterVault[0].toLowerCase().startsWith('r26-')) {
+                    // Backward compatibility for older links like /vault/R26-XXXX
+                    routedUserId = afterVault[0];
+                    routedSubPage = afterVault[1] || routedSubPage;
+                    safePushState(`/vault/user/${routedUserId}${routedSubPage ? '/' + routedSubPage : ''}`);
+                }
+            }
+
+            if (params.get('reset') === '1') {
+                const resetUserId = routedUserId && routedUserId.toLowerCase() !== 'user' ? routedUserId : null;
+                currentGatewayUserId = resetUserId;
+                await showVaultReset(resetUserId);
+                return;
+            }
+
+            if (routedUserId && routedUserId.toLowerCase() === 'user') {
+                routedUserId = null;
+            }
+
+            currentGatewayUserId = routedUserId || null;
+            pendingVaultSubPage = routedSubPage || null;
+            await showVaultLanding(currentGatewayUserId);
+        }
+
+        async function showVaultLanding(userId = null) {
+            const landing = document.getElementById('vaultLandingPage');
+            const identity = document.getElementById('vaultLandingIdentity');
+
+            if (landing) landing.classList.remove('hidden');
+            document.body.style.overflow = '';
+            document.body.style.overflowX = 'hidden';
+
+            if (!identity) return;
+
+            if (!userId) {
+                identity.innerText = 'Personal Archive // Manual Access';
+                return;
+            }
+
+            identity.innerText = `Personal Archive // ${userId}`;
+
+            try {
+                const userDoc = await getDoc(doc(db, 'users', userId));
+                if (userDoc.exists()) {
+                    const name = userDoc.data().name || userId;
+                    identity.innerText = `Personal Archive // ${name}`;
+                }
+            } catch (error) {
+                console.warn('Could not load vault landing identity:', error);
+            }
+        }
+
+        window.beginVaultAccess = async function() {
+            const landing = document.getElementById('vaultLandingPage');
+            if (landing) landing.classList.add('hidden');
+
+            document.body.style.overflow = 'hidden';
+
+            if (currentGatewayUserId) {
+                const sidePath = pendingVaultSubPage ? `/${pendingVaultSubPage}` : '';
+                safePushState(`/vault/user/${currentGatewayUserId}${sidePath}`);
+                await showVaultLogin(currentGatewayUserId);
+                return;
+            }
+
+            safePushState('/vault');
+            showVaultLookup();
+        };
+
+        async function showUserGateway(userId) {
+            currentGatewayUserId = userId;
+            document.body.style.overflow = 'hidden';
+
+            const popup = document.getElementById('vhsPopup');
+            const refLabel = document.getElementById('vhs-ref');
+            const nameLabel = document.getElementById('vhs-name');
+            const statusLabel = document.getElementById('vhs-status');
+            const actionBtn = document.getElementById('vhs-action-btn');
+            const archiveState = document.getElementById('vhs-archive-state');
+
+            if (popup) popup.classList.remove('hidden');
+            if (refLabel) refLabel.innerText = `Ref: ${userId}`;
+            if (nameLabel) {
+                nameLabel.classList.remove('text-red-600');
+                nameLabel.innerText = 'LOADING...';
+            }
+            if (statusLabel) statusLabel.innerText = 'Decrypting_Signal...';
+            if (actionBtn) actionBtn.innerText = '[ CONTINUE ]';
+            if (archiveState) archiveState.innerText = 'Archive_Checking';
+
+            try {
+                const eventStateDoc = await getDoc(doc(db, 'settings', 'eventState'));
+                vaultActive = eventStateDoc.exists() && eventStateDoc.data().vaultActive === true;
+
+                const userDoc = await getDoc(doc(db, 'users', userId));
+
+                if (userDoc.exists()) {
+                    if (nameLabel) nameLabel.innerText = userDoc.data().name || 'ACTIVE USER';
+                    if (statusLabel) statusLabel.innerText = 'ACTIVE_USER';
+                    if (actionBtn) actionBtn.innerText = vaultActive ? '[ ENTER VAULT ]' : '[ CONTINUE ]';
+                    if (archiveState) archiveState.innerText = vaultActive ? 'Archive_Open' : 'Archive_Locked';
+                } else {
+                    if (nameLabel) {
+                        nameLabel.innerText = 'RECORD_NOT_FOUND';
+                        nameLabel.classList.add('text-red-600');
+                    }
+                    if (statusLabel) statusLabel.innerText = 'Error_404';
+                    if (actionBtn) actionBtn.innerText = '[ FIND RECORD ]';
+                    if (archiveState) archiveState.innerText = 'Invalid_Record';
+                }
+            } catch (error) {
+                console.error('User gateway error:', error);
+                if (nameLabel) nameLabel.innerText = 'SYSTEM_FAULT';
+                if (statusLabel) statusLabel.innerText = 'Connection_Error';
+                if (archiveState) archiveState.innerText = 'System_Fault';
+            }
+        }
+
+        window.exitVHSScreen = function() {
+            const vhsPopup = document.getElementById('vhsPopup');
+            if (vhsPopup) vhsPopup.classList.add('hidden');
+            document.body.style.overflow = '';
+            document.body.style.overflowX = 'hidden';
+            safePushState('/vault');
+            showVaultLookup();
+        };
+
+        window.handleVHSGatewayAction = async function() {
+            const vhsPopup = document.getElementById('vhsPopup');
+
+            if (vaultActive && currentGatewayUserId) {
+                if (vhsPopup) vhsPopup.classList.add('hidden');
+                pendingVaultSubPage = null;
+                safePushState(`/vault/user/${currentGatewayUserId}`);
+                await showVaultLogin(currentGatewayUserId);
+                return;
+            }
+
+            window.exitVHSScreen();
+        };
+
+        function resetStatus(message, type = "notice") {
+            const status = document.getElementById('vaultResetStatus');
+            if (!status) return;
+            status.innerText = message || "";
+            status.classList.remove('text-red-400', 'text-green-400', 'text-white/35', 'text-yellow-400');
+            if (type === "error") status.classList.add('text-red-400');
+            else if (type === "success") status.classList.add('text-green-400');
+            else if (type === "working") status.classList.add('text-yellow-400');
+            else status.classList.add('text-white/35');
+        }
+
+        function normalizeCredential(value) {
+            return String(value || '').trim().toLowerCase();
+        }
+
+        function digitsOnly(value) {
+            return String(value || '').replace(/\D/g, '');
+        }
+
+        function credentialMatches(input, userData) {
+            const typed = normalizeCredential(input);
+            const typedDigits = digitsOnly(input);
+            const savedEmail = normalizeCredential(userData.email);
+            const savedContact = normalizeCredential(userData.contact || userData.contactNumber || userData.phone);
+            const savedDigits = digitsOnly(savedContact);
+
+            const emailMatches = savedEmail && typed && typed === savedEmail;
+            const phoneMatches = savedDigits && typedDigits && (
+                typedDigits === savedDigits ||
+                typedDigits.endsWith(savedDigits) ||
+                savedDigits.endsWith(typedDigits)
+            );
+
+            return Boolean(emailMatches || phoneMatches);
+        }
+
+        function validNewPasskey(passkey) {
+            return /^\S{6,20}$/.test(String(passkey || ''));
+        }
+
+        async function showVaultReset(userId = null) {
+            const landing = document.getElementById('vaultLandingPage');
+            const lookupScreen = document.getElementById('vaultLookupScreen');
+            const loginScreen = document.getElementById('vaultLoginScreen');
+            const sideScreen = document.getElementById('vaultSideScreen');
+            const sideAScreen = document.getElementById('sideAScreen');
+            const sideBScreen = document.getElementById('sideBScreen');
+            const resetScreen = document.getElementById('vaultResetScreen');
+            const shortIdWrap = document.getElementById('vaultResetShortIdWrap');
+            const shortIdInput = document.getElementById('vaultResetShortIdInput');
+            const credentialInput = document.getElementById('vaultResetCredentialInput');
+            const newPassInput = document.getElementById('vaultResetNewPasskeyInput');
+            const confirmInput = document.getElementById('vaultResetConfirmPasskeyInput');
+            const successActions = document.getElementById('vaultResetSuccessActions');
+            const intro = document.getElementById('vaultResetIntro');
+
+            [landing, lookupScreen, loginScreen, sideScreen, sideAScreen, sideBScreen].forEach(el => {
+                if (el) el.classList.add('hidden');
+            });
+
+            if (sideAWaveSurfer) {
+                sideAWaveSurfer.pause();
+                updateSideAPlayToggleIcon(false);
+            }
+
+            currentGatewayUserId = userId || null;
+            currentVaultUserId = userId || null;
+            pendingVaultSubPage = null;
+
+            if (shortIdInput) shortIdInput.value = userId || '';
+            if (credentialInput) credentialInput.value = '';
+            if (newPassInput) newPassInput.value = '';
+            if (confirmInput) confirmInput.value = '';
+            if (successActions) successActions.classList.add('hidden');
+            if (shortIdWrap) shortIdWrap.classList.toggle('hidden', Boolean(userId));
+            if (intro) {
+                intro.innerText = userId
+                    ? 'Verify your record using your registered email or contact number. Your new passcode will replace the old one immediately.'
+                    : 'Enter your Short ID and verify your record using your registered email or contact number. Your new passcode will replace the old one immediately.';
+            }
+
+            resetStatus('');
+            if (resetScreen) resetScreen.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            safePushState(userId ? `/vault/reset/user/${userId}` : '/vault/reset');
+        }
+
+        window.openVaultResetFromLogin = function() {
+            showVaultReset(currentVaultUserId || currentGatewayUserId || null);
+        };
+
+        window.submitVaultPasskeyReset = async function() {
+            const shortIdInput = document.getElementById('vaultResetShortIdInput');
+            const credentialInput = document.getElementById('vaultResetCredentialInput');
+            const newPassInput = document.getElementById('vaultResetNewPasskeyInput');
+            const confirmInput = document.getElementById('vaultResetConfirmPasskeyInput');
+            const successActions = document.getElementById('vaultResetSuccessActions');
+
+            const userId = String(currentGatewayUserId || currentVaultUserId || shortIdInput?.value || '').trim().toUpperCase();
+            const credential = credentialInput?.value || '';
+            const newPasskey = String(newPassInput?.value || '').trim();
+            const confirmPasskey = String(confirmInput?.value || '').trim();
+
+            if (!userId || !userId.startsWith('R26-')) {
+                resetStatus('Enter a valid Short ID.', 'error');
+                return;
+            }
+
+            if (!credential.trim()) {
+                resetStatus('Enter your registered email or contact number.', 'error');
+                return;
+            }
+
+            if (!validNewPasskey(newPasskey)) {
+                resetStatus('Use a passcode with 6–20 characters and no spaces.', 'error');
+                return;
+            }
+
+            if (newPasskey !== confirmPasskey) {
+                resetStatus('Passcodes do not match.', 'error');
+                return;
+            }
+
+            resetStatus('Verifying record...', 'working');
+
+            try {
+                const userRef = doc(db, 'users', userId);
+                const userSnap = await getDoc(userRef);
+
+                if (!userSnap.exists()) {
+                    resetStatus('Record not found. Check your Short ID.', 'error');
+                    return;
+                }
+
+                const userData = userSnap.data();
+
+                if (!credentialMatches(credential, userData)) {
+                    resetStatus('Email or contact number does not match this record.', 'error');
+                    return;
+                }
+
+                await updateDoc(userRef, {
+                    passkey: newPasskey,
+                    passkeyUpdatedAt: new Date().toISOString(),
+                    passkeyResetMethod: 'self-service',
+                    passkeyResetCount: increment(1)
+                });
+
+                currentGatewayUserId = userId;
+                currentVaultUserId = userId;
+                currentVaultUserData = {
+                    ...userData,
+                    passkey: newPasskey,
+                    passkeyUpdatedAt: new Date().toISOString(),
+                    passkeyResetMethod: 'self-service'
+                };
+
+                if (successActions) successActions.classList.remove('hidden');
+                resetStatus('Your vault passcode has been updated. You can now return to your vault and unlock it.', 'success');
+            } catch (error) {
+                console.error('Vault reset error:', error);
+                resetStatus('Could not update passcode. Please try again or ask an admin for help.', 'error');
+            }
+        };
+
+        window.returnToVaultAfterReset = async function() {
+            const resetScreen = document.getElementById('vaultResetScreen');
+            if (resetScreen) resetScreen.classList.add('hidden');
+
+            if (currentGatewayUserId || currentVaultUserId) {
+                const userId = currentGatewayUserId || currentVaultUserId;
+                safePushState(`/vault/user/${userId}`);
+                await showVaultLogin(userId);
+                return;
+            }
+
+            safePushState('/vault');
+            showVaultLookup();
+        };
+
+        function showVaultLookup() {
+            const lookupScreen = document.getElementById('vaultLookupScreen');
+
+            if (lookupScreen) {
+                lookupScreen.classList.remove('hidden');
+            }
+        }
+
+        async function showVaultLogin(userId) {
+            currentVaultUserId = userId;
+
+            const loginScreen = document.getElementById('vaultLoginScreen');
+            const loginName = document.getElementById('vaultLoginName');
+
+            if (loginScreen) loginScreen.classList.remove('hidden');
+            if (loginName) loginName.innerText = "Loading Record";
+
+            try {
+                const userDoc = await getDoc(doc(db, "users", userId));
+
+                if (!userDoc.exists()) {
+                    if (loginName) loginName.innerText = "Record Not Found";
+                    return;
+                }
+
+                currentVaultUserData = userDoc.data();
+
+                if (loginName) {
+                    loginName.innerText = currentVaultUserData.name || "Vault User";
+                }
+
+            } catch (error) {
+                console.error("Vault login error:", error);
+
+                if (loginName) {
+                    loginName.innerText = "System Fault";
+                }
+            }
+        }
+
+        window.searchVaultUsers = async function() {
+            const searchInput = document.getElementById('vaultSearchInput');
+            const resultsBox = document.getElementById('vaultSearchResults');
+            const statusBox = document.getElementById('vaultSearchStatus');
+
+            const searchTerm = searchInput.value.trim().toLowerCase();
+
+            resultsBox.innerHTML = "";
+            statusBox.innerText = "";
+
+            if (searchTerm.length < 2) {
+                statusBox.innerText = "Type at least 2 letters.";
+                return;
+            }
+
+            statusBox.innerText = "Searching records...";
+
+            try {
+                const usersSnapshot = await getDocs(collection(db, "users"));
+                const matches = [];
+
+                usersSnapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const name = (data.name || "").toLowerCase();
+
+                    if (name.includes(searchTerm)) {
+                        matches.push({
+                            id: docSnap.id,
+                            ...data
+                        });
+                    }
+                });
+
+                if (matches.length === 0) {
+                    statusBox.innerText = "No matching records found.";
+                    return;
+                }
+
+                statusBox.innerText = `${matches.length} record(s) found. Select your name.`;
+
+                matches.forEach((user) => {
+                    const btn = document.createElement('button');
+                    btn.className = "w-full text-left border border-white/10 bg-black/40 p-4 hover:border-yellow-400 transition-all";
+                    btn.innerHTML = `
+                        <p class="text-yellow-400 text-[10px] uppercase tracking-[0.2em]">
+                            ${user.name || "Unnamed Record"}
+                        </p>
+                        <p class="text-white/35 text-[9px] uppercase tracking-widest mt-1">
+                            ${user.campus || "No campus listed"} // ${user.church || "No church listed"}
+                        </p>
+                    `;
+
+                    btn.onclick = () => {
+                        safePushState(`/vault/user/${user.id}`);
+                        document.getElementById('vaultLookupScreen').classList.add('hidden');
+                        showVaultLogin(user.id);
+                    };
+
+                    resultsBox.appendChild(btn);
+                });
+
+            } catch (error) {
+                console.error("Vault search error:", error);
+                statusBox.innerText = "System fault. Could not search records.";
+            }
+        };
+
+        window.unlockVault = async function() {
+            const input = document.getElementById('vaultPasskeyInput');
+            const error = document.getElementById('vaultLoginError');
+
+            const enteredPasskey = input.value.trim();
+
+            error.classList.add('hidden');
+
+            if (!currentVaultUserData) {
+                error.innerText = "Record not loaded.";
+                error.classList.remove('hidden');
+                return;
+            }
+
+            if (enteredPasskey === currentVaultUserData.passkey) {
+                document.getElementById('vaultLoginScreen').classList.add('hidden');
+
+                const displayName = currentVaultUserData.name || "Vault User";
+
+                const archiveIdentity = document.getElementById('vaultArchiveIdentity');
+                if (archiveIdentity) {
+                    archiveIdentity.innerText = `Archive Open // ${displayName}`;
+                }
+
+                input.value = "";
+
+                if (pendingVaultSubPage === "side-a") {
+                    await window.showSideAScreen();
+                    return;
+                }
+
+                if (pendingVaultSubPage === "side-b") {
+                    await window.showSideBScreen();
+                    return;
+                }
+
+                document.getElementById('vaultSideScreen').classList.remove('hidden');
+            } else {
+                error.innerText = "Incorrect passcode.";
+                error.classList.remove('hidden');
+            }
+        };
+
+        window.openVaultSide = function(side) {
+            if (side === 'A') {
+                if (currentVaultUserId) {
+                    safePushState(`/vault/user/${currentVaultUserId}/side-a`);
+                }
+
+                window.showSideAScreen();
+                return;
+            }
+
+            if (side === 'B') {
+                if (currentVaultUserId) {
+                    safePushState(`/vault/user/${currentVaultUserId}/side-b`);
+                }
+
+                window.showSideBScreen();
+                return;
+            }
+
+            const message = document.getElementById('vaultSideMessage');
+
+            if (message) {
+                message.classList.remove('hidden');
+                message.innerText = "SIDE SELECTED — CONTENT COMING NEXT.";
+            }
+        };
+
+        window.closeVaultScreens = function() {
+            const lookupScreen = document.getElementById('vaultLookupScreen');
+            const loginScreen = document.getElementById('vaultLoginScreen');
+            const sideScreen = document.getElementById('vaultSideScreen');
+            const sideAScreen = document.getElementById('sideAScreen');
+            const sideBScreen = document.getElementById('sideBScreen');
+            const resetScreen = document.getElementById('vaultResetScreen');
+            const landing = document.getElementById('vaultLandingPage');
+
+            if (sideAWaveSurfer) {
+                sideAWaveSurfer.pause();
+                updateSideAPlayToggleIcon(false);
+            }
+
+            if (lookupScreen) lookupScreen.classList.add('hidden');
+            if (loginScreen) loginScreen.classList.add('hidden');
+            if (sideScreen) sideScreen.classList.add('hidden');
+            if (sideAScreen) sideAScreen.classList.add('hidden');
+            if (sideBScreen) sideBScreen.classList.add('hidden');
+            if (resetScreen) resetScreen.classList.add('hidden');
+            if (landing) landing.classList.remove('hidden');
+
+            document.body.style.overflow = '';
+            document.body.style.overflowX = 'hidden';
+
+            currentGatewayUserId = null;
+            currentVaultUserId = null;
+            currentVaultUserData = null;
+            pendingVaultSubPage = null;
+
+            safePushState('/vault');
+            showVaultLanding(null);
+        };
+
+        // Run after all vault functions are registered.
+        window.openVaultManual = function() {
+            safePushState('/vault');
+            currentGatewayUserId = null;
+            showVaultLanding(null);
+        };
+
+
+                // --- SIDE A AUDIO SYSTEM ---
+        let selectedSideAFile = null;
+        let selectedSideAFiles = [];
+        let selectedSideAPaperPhotoFiles = [];
+        let sideAWaveSurfer = null;
+        let currentSideAData = null;
+        let currentSideAAudioUrl = "";
+        let currentSideAAudios = [];
+        let activeSideAAudioIndex = 0;
+        let globalAllowReplace = false;
+
+        function setSideAState(state) {
+            const states = [
+                'sideAEmptyState',
+                'sideASelectedState',
+                'sideAUploadingState',
+                'sideAPlayerState'
+            ];
+
+            states.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('hidden');
+            });
+
+            const active = document.getElementById(`sideA${state}State`);
+            if (active) active.classList.remove('hidden');
+
+            const error = document.getElementById('sideAError');
+            if (error) error.classList.add('hidden');
+        }
+
+        function showSideAError(message) {
+            const error = document.getElementById('sideAError');
+            if (!error) return;
+
+            error.innerText = message;
+            error.classList.remove('hidden');
+        }
+
+        function formatAudioTime(seconds) {
+            if (!seconds || isNaN(seconds)) return "00:00";
+
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function formatFileSize(bytes) {
+            if (!bytes) return "---";
+            const mb = bytes / (1024 * 1024);
+            return `${mb.toFixed(1)} MB`;
+        }
+
+        function getAudioExtension(fileName) {
+            const cleanName = fileName.toLowerCase();
+            const allowed = ["mp3", "m4a", "aac", "wav", "ogg", "webm"];
+
+            const ext = cleanName.split(".").pop();
+
+            if (allowed.includes(ext)) {
+                return ext;
+            }
+
+            return "mp3";
+        }
+
+        function getAudioContentType(file) {
+            if (file.type && file.type.startsWith("audio/")) {
+                return file.type;
+            }
+
+            const ext = getAudioExtension(file.name);
+
+            const typeMap = {
+                mp3: "audio/mpeg",
+                m4a: "audio/mp4",
+                aac: "audio/aac",
+                wav: "audio/wav",
+                ogg: "audio/ogg",
+                webm: "audio/webm"
+            };
+
+            return typeMap[ext] || "audio/mpeg";
+        }
+
+        function isHeicImage(file) {
+            const cleanName = (file?.name || "").toLowerCase();
+            return (
+                cleanName.endsWith(".heic") ||
+                cleanName.endsWith(".heif") ||
+                file?.type === "image/heic" ||
+                file?.type === "image/heif"
+            );
+        }
+
+        function getImageExtension(fileName) {
+            const cleanName = (fileName || "").toLowerCase();
+
+            if (cleanName.endsWith(".png")) return "png";
+            if (cleanName.endsWith(".webp")) return "webp";
+            if (cleanName.endsWith(".jpeg")) return "jpg";
+            if (cleanName.endsWith(".jpg")) return "jpg";
+
+            // HEIC/HEIF is converted to JPG before upload so it can preview in browsers.
+            if (cleanName.endsWith(".heic") || cleanName.endsWith(".heif")) return "jpg";
+
+            return "jpg";
+        }
+
+        function getImageContentType(file) {
+            if (isHeicImage(file)) return "image/jpeg";
+
+            const ext = getImageExtension(file?.name || "");
+
+            const typeMap = {
+                jpg: "image/jpeg",
+                png: "image/png",
+                webp: "image/webp"
+            };
+
+            return typeMap[ext] || file?.type || "image/jpeg";
+        }
+
+        async function normalizePaperPhotoFile(file) {
+            if (!file) throw new Error("No paper photo selected.");
+
+            if (!isHeicImage(file)) {
+                return {
+                    file,
+                    extension: getImageExtension(file.name),
+                    contentType: getImageContentType(file),
+                    originalFileName: file.name,
+                    displayFileName: file.name,
+                    wasConverted: false
+                };
+            }
+
+            if (!window.heic2any) {
+                throw new Error("HEIC converter is still loading. Please try uploading the photo again in a few seconds.");
+            }
+
+            const convertedBlob = await window.heic2any({
+                blob: file,
+                toType: "image/jpeg",
+                quality: 0.9
+            });
+
+            const convertedFileName = (file.name || "side-a-paper.heic").replace(/\.(heic|heif)$/i, ".jpg");
+            const convertedFile = new File([convertedBlob], convertedFileName, { type: "image/jpeg" });
+
+            return {
+                file: convertedFile,
+                extension: "jpg",
+                contentType: "image/jpeg",
+                originalFileName: file.name,
+                displayFileName: convertedFileName,
+                wasConverted: true
+            };
+        }
+
+        function getSelectedPaperPhotoDisplayNames() {
+            return selectedSideAPaperPhotoFiles.map((file) => {
+                return isHeicImage(file)
+                    ? file.name.replace(/\.(heic|heif)$/i, ".jpg")
+                    : file.name;
+            });
+        }
+
+        function updateSideAPaperPhotoSelectedUI() {
+            const selectedName = document.getElementById('sideASelectedPaperPhotoName');
+            const selectedMeta = document.getElementById('sideASelectedPaperPhotoMeta');
+            const hint = document.getElementById('sideAPaperPhotoSelectedHint');
+            const uploadingPaperPhotoName = document.getElementById('sideAUploadingPaperPhotoName');
+            const files = selectedSideAPaperPhotoFiles || [];
+
+            if (files.length > 0) {
+                const displayNames = getSelectedPaperPhotoDisplayNames();
+                const heicCount = files.filter(isHeicImage).length;
+                const totalSize = files.reduce((sum, file) => sum + (file.size || 0), 0);
+
+                if (selectedName) selectedName.innerText = files.length === 1 ? displayNames[0] : `${files.length} Photos Selected`;
+                if (selectedMeta) {
+                    selectedMeta.innerText = `${formatFileSize(totalSize)} // ${files.length} FILE${files.length > 1 ? 'S' : ''}${heicCount ? ` // ${heicCount} HEIC → JPG` : ''}`;
+                }
+                if (hint) {
+                    const sample = displayNames.slice(0, 2).join(', ');
+                    hint.innerText = `${files.length} photo${files.length > 1 ? 's' : ''} selected${sample ? `: ${sample}${files.length > 2 ? '...' : ''}` : ''}`;
+                    hint.classList.remove('hidden');
+                }
+                if (uploadingPaperPhotoName) uploadingPaperPhotoName.innerText = `${files.length} paper photo${files.length > 1 ? 's' : ''} selected`;
+            } else {
+                if (selectedName) selectedName.innerText = "No Photos Yet";
+                if (selectedMeta) selectedMeta.innerText = "Choose one or more clear photos of your paper";
+                if (hint) hint.classList.add('hidden');
+                if (uploadingPaperPhotoName) uploadingPaperPhotoName.innerText = "paper photos pending";
+            }
+        }
+
+        window.showSideAScreen = async function() {
+            document.getElementById('vaultSideScreen').classList.add('hidden');
+            document.getElementById('sideAScreen').classList.remove('hidden');
+
+            const displayName = currentVaultUserData?.name || "Vault User";
+
+            const identity = document.getElementById('sideAIdentity');
+            if (identity) {
+                identity.innerText = `Side A // ${displayName}`;
+            }
+
+            await loadSideAData();
+        };
+
+        async function loadSideAData() {
+            if (!currentVaultUserId) {
+                setSideAState('Empty');
+                showSideAError("No vault user loaded.");
+                return;
+            }
+
+            try {
+                const userDoc = await getDoc(doc(db, "users", currentVaultUserId));
+
+                if (!userDoc.exists()) {
+                    setSideAState('Empty');
+                    showSideAError("User record not found.");
+                    return;
+                }
+
+                currentVaultUserData = userDoc.data();
+
+                const sideA = currentVaultUserData.sideA;
+
+                if (sideA && getSideAAudios(sideA).length) {
+                    loadSideAPlayer(sideA);
+                } else {
+                    setSideAState('Empty');
+                }
+
+            } catch (error) {
+                console.error("Side A load error:", error);
+                setSideAState('Empty');
+                showSideAError("Could not load Side A.");
+            }
+        }
+
+        
+        function getSideAAudios(sideA = {}) {
+            const audios = [];
+
+            if (Array.isArray(sideA.audios)) {
+                sideA.audios.forEach((audio, index) => {
+                    if (audio && audio.url) {
+                        audios.push({
+                            url: audio.url,
+                            storagePath: audio.storagePath || "",
+                            fileName: audio.fileName || `Prayer Recording ${index + 1}`,
+                            label: audio.label || `Prayer ${index + 1}`,
+                            uploadedAt: audio.uploadedAt || ""
+                        });
+                    }
+                });
+            }
+
+            if (sideA.audioUrl && !audios.some(audio => audio.url === sideA.audioUrl)) {
+                audios.unshift({
+                    url: sideA.audioUrl,
+                    storagePath: sideA.storagePath || "",
+                    fileName: sideA.fileName || "Prayer Recording",
+                    label: "Prayer 1",
+                    uploadedAt: sideA.uploadedAt || ""
+                });
+            }
+
+            return audios;
+        }
+
+        function keepSideAAudioData(sideA = {}) {
+            const audios = getSideAAudios(sideA).map((audio, index) => ({
+                ...audio,
+                label: audio.label || `Prayer ${index + 1}`
+            }));
+            const first = audios[0] || {};
+            return {
+                audios,
+                audioUrl: first.url || "",
+                storagePath: first.storagePath || "",
+                fileName: first.fileName || "",
+                uploadedAt: first.uploadedAt || ""
+            };
+        }
+
+        function renderSideAAudioList(audios = []) {
+            const list = document.getElementById('sideAAudioList');
+            const status = document.getElementById('sideAPlayerStatus');
+            const title = document.getElementById('sideAPlayerTitle');
+
+            if (status) status.innerText = audios.length > 1 ? `${audios.length} Received Audios` : "Received Audio";
+            if (title) title.innerText = audios.length > 1 ? "Your Received Prayers" : "Your Received Prayer";
+            if (!list) return;
+
+            if (!audios.length) {
+                list.innerHTML = `
+                    <div class="border border-white/10 bg-black/30 p-4 md:col-span-2 text-center">
+                        <p class="text-white/30 text-[8px] uppercase tracking-[.16em]">No audio recordings saved yet.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = audios.map((audio, index) => {
+                const active = index === activeSideAAudioIndex;
+                const label = audio.label || `Prayer ${index + 1}`;
+                const fileName = audio.fileName || `Audio ${index + 1}`;
+                const safeFileName = String(fileName).replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+                return `
+                    <div class="border ${active ? 'border-yellow-400 bg-yellow-400 text-black' : 'border-white/10 bg-black/30 text-white/70'} p-4 transition-all">
+                        <button type="button"
+                            onclick="selectSideAAudio(${index})"
+                            class="block w-full text-left active:scale-[.99]">
+                            <p class="${active ? 'text-black/60' : 'text-yellow-400'} text-[8px] uppercase tracking-[.22em] mb-2">${label}</p>
+                            <p class="font-abolition text-3xl uppercase leading-none break-words">${safeFileName}</p>
+                        </button>
+
+                        <div class="grid grid-cols-2 gap-2 mt-4">
+                            <button type="button"
+                                onclick="downloadSideAAudio(${index})"
+                                class="${active ? 'border border-black/20 text-black/70 hover:bg-black hover:text-yellow-400' : 'border border-white/10 text-white/45 hover:border-yellow-400 hover:text-yellow-400'} py-3 text-[8px] font-bold uppercase tracking-[.18em] transition-all active:scale-95">
+                                Download
+                            </button>
+                            <button type="button"
+                                onclick="removeSideAAudio(${index})"
+                                class="${active ? 'border border-black/20 text-black/70 hover:bg-red-600 hover:text-white' : 'border border-red-400/40 text-red-300 hover:bg-red-500 hover:text-white'} py-3 text-[8px] font-bold uppercase tracking-[.18em] transition-all active:scale-95">
+                                Remove
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        window.selectSideAAudio = function(index = 0) {
+            const audios = currentSideAAudios || getSideAAudios(currentSideAData || {});
+            if (!audios.length || !audios[index]) return;
+            activeSideAAudioIndex = index;
+            loadSideAPlayer({ ...(currentSideAData || {}), activeAudioIndex: index });
+        };
+
+        async function uploadSideAAudioFiles(files, existingAudios = []) {
+            const fileList = Array.from(files || []);
+            const uploadedAudios = [];
+            const batchId = Date.now();
+
+            for (let i = 0; i < fileList.length; i++) {
+                const file = fileList[i];
+                const audioExtension = getAudioExtension(file.name);
+                const audioContentType = getAudioContentType(file);
+                const storagePath = `vault-audio/${currentVaultUserId}/side-a-audio-${batchId}-${i + 1}.${audioExtension}`;
+                const audioRef = ref(storage, storagePath);
+
+                const snapshot = await uploadBytesResumable(audioRef, file, {
+                    contentType: audioContentType
+                });
+
+                const downloadURL = await getDownloadURL(snapshot.ref);
+
+                uploadedAudios.push({
+                    url: downloadURL,
+                    storagePath,
+                    fileName: file.name,
+                    label: `Prayer ${(existingAudios || []).length + uploadedAudios.length + 1}`,
+                    uploadedAt: new Date().toISOString()
+                });
+            }
+
+            const audios = [...(existingAudios || []), ...uploadedAudios].map((audio, index) => ({
+                ...audio,
+                label: audio.label || `Prayer ${index + 1}`
+            }));
+            const first = audios[0] || {};
+
+            return {
+                audios,
+                audioUrl: first.url || "",
+                storagePath: first.storagePath || "",
+                fileName: first.fileName || "",
+                uploadedAt: first.uploadedAt || ""
+            };
+        }
+
+function loadSideAPlayer(sideA) {
+            currentSideAData = sideA;
+            const audios = getSideAAudios(sideA);
+            currentSideAAudios = audios;
+
+            if (!audios.length) {
+                setSideAState('Empty');
+                showSideAError("No audio recordings saved yet.");
+                return;
+            }
+
+            if (typeof sideA.activeAudioIndex === "number" && audios[sideA.activeAudioIndex]) {
+                activeSideAAudioIndex = sideA.activeAudioIndex;
+            } else if (!audios[activeSideAAudioIndex]) {
+                activeSideAAudioIndex = 0;
+            }
+
+            const activeAudio = audios[activeSideAAudioIndex] || audios[0];
+            currentSideAAudioUrl = activeAudio.url || "";
+            renderSideAPaperPhoto(sideA);
+            if (typeof window.showSideAMedia === "function") window.showSideAMedia('audio');
+            renderSideAAudioList(audios);
+
+            const waveformContainer = document.getElementById('sideAWaveformReal');
+            const title = document.getElementById('sideAPlayerTitle');
+            const status = document.getElementById('sideAPlayerStatus');
+            const timeDisplay = document.getElementById('sideATimeDisplay');
+            const playbackState = document.getElementById('sideAPlaybackState');
+            const playbackHint = document.getElementById('sideAPlaybackHint');
+
+            if (!waveformContainer) {
+                showSideAError("Waveform container not found.");
+                return;
+            }
+
+            if (sideAWaveSurfer) {
+                sideAWaveSurfer.destroy();
+                sideAWaveSurfer = null;
+            }
+
+            waveformContainer.innerHTML = "";
+            waveformContainer.classList.remove('hidden');
+
+            const fallback = document.getElementById('sideANativeAudioFallback');
+            const nativeAudio = document.getElementById('sideANativeAudio');
+            if (fallback) fallback.classList.add('hidden');
+            if (nativeAudio) nativeAudio.src = currentSideAAudioUrl || "";
+
+            if (title) title.innerText = audios.length > 1 ? "Your Received Prayers" : "Your Received Prayer";
+            if (status) status.innerText = activeAudio.label || `Prayer ${activeSideAAudioIndex + 1}`;
+            if (timeDisplay) timeDisplay.innerText = "00:00 / 00:00";
+            if (playbackState) playbackState.innerText = "Stopped";
+            if (playbackHint) playbackHint.innerText = activeAudio.fileName ? `Ready to play ${activeAudio.fileName}` : "Ready to play";
+
+            setSideAState('Player');
+            renderSideAAudioList(audios);
+
+            requestAnimationFrame(() => {
+                sideAWaveSurfer = WaveSurfer.create({
+                    container: '#sideAWaveformReal',
+                    url: currentSideAAudioUrl,
+                    waveColor: 'rgba(255,255,255,0.18)',
+                    progressColor: '#ffd600',
+                    cursorColor: '#ffd600',
+                    height: 76,
+                    barWidth: 3,
+                    barGap: 3,
+                    barRadius: 999,
+                    normalize: true
+                });
+
+                sideAWaveSurfer.on('ready', () => {
+                    updateSideATimeDisplay();
+                    updateSideAReplaceAccess();
+                });
+
+                sideAWaveSurfer.on('timeupdate', () => {
+                    updateSideATimeDisplay();
+                });
+
+                sideAWaveSurfer.on('play', () => {
+                    if (status) status.innerText = `Now Playing // ${activeAudio.label || `Prayer ${activeSideAAudioIndex + 1}`}`;
+                    if (playbackState) playbackState.innerText = "Playing";
+                    if (playbackHint) playbackHint.innerText = "Audio is playing";
+                    updateSideAPlayToggleIcon(true);
+                });
+
+                sideAWaveSurfer.on('pause', () => {
+                    if (status) status.innerText = `Paused at ${formatAudioTime(sideAWaveSurfer.getCurrentTime())}`;
+                    if (playbackState) playbackState.innerText = "Paused";
+                    if (playbackHint) playbackHint.innerText = "Resume anytime";
+                    updateSideAPlayToggleIcon(false);
+                });
+
+                sideAWaveSurfer.on('finish', () => {
+                    sideAWaveSurfer.setTime(0);
+                    if (status) status.innerText = activeAudio.label || `Prayer ${activeSideAAudioIndex + 1}`;
+                    if (playbackState) playbackState.innerText = "Finished";
+                    if (playbackHint) playbackHint.innerText = "Ready to replay";
+                    updateSideAPlayToggleIcon(false);
+                    updateSideATimeDisplay();
+                });
+
+                sideAWaveSurfer.on('error', (error) => {
+                    console.error("WaveSurfer error:", error);
+                    setupSideANativeAudioFallback(currentSideAAudioUrl);
+                    showSideAError("Waveform preview could not load because Firebase Storage CORS is not configured for this origin. The audio can still be played with the fallback player.");
+                });
+            });
+        }
+
+        
+        function getSideAPaperPhotos(sideA = {}) {
+            if (Array.isArray(sideA.paperPhotos) && sideA.paperPhotos.length) {
+                return sideA.paperPhotos.filter(photo => photo && photo.url);
+            }
+
+            if (sideA.paperPhotoUrl) {
+                return [{
+                    url: sideA.paperPhotoUrl,
+                    storagePath: sideA.paperPhotoStoragePath || "",
+                    fileName: sideA.paperPhotoFileName || "Paper Photo",
+                    originalFileName: sideA.paperPhotoOriginalFileName || sideA.paperPhotoFileName || "Paper Photo",
+                    wasConverted: sideA.paperPhotoWasConverted || false,
+                    uploadedAt: sideA.paperPhotoUploadedAt || ""
+                }];
+            }
+
+            return [];
+        }
+
+        function keepSideAPaperPhotoData(sideA = {}) {
+            const photos = getSideAPaperPhotos(sideA);
+            const first = photos[0] || {};
+            return {
+                paperPhotos: photos,
+                paperPhotoUrl: first.url || "",
+                paperPhotoStoragePath: first.storagePath || "",
+                paperPhotoFileName: first.fileName || "",
+                paperPhotoOriginalFileName: first.originalFileName || "",
+                paperPhotoWasConverted: first.wasConverted || false,
+                paperPhotoUploadedAt: first.uploadedAt || ""
+            };
+        }
+
+        function renderSideAPaperPhoto(sideA = {}) {
+            const title = document.getElementById('sideAPaperPhotoTitle');
+            const status = document.getElementById('sideAPaperPhotoStatus');
+            const preview = document.getElementById('sideAPaperPhotoPreview');
+            const empty = document.getElementById('sideAPaperPhotoEmpty');
+            const viewBtn = document.getElementById('sideAPaperPhotoViewBtn');
+            const gallery = document.getElementById('sideAPaperPhotoGallery');
+            const photos = getSideAPaperPhotos(sideA);
+
+            if (preview) {
+                preview.src = "";
+                preview.classList.add('hidden');
+            }
+
+            if (photos.length > 0) {
+                if (title) title.innerText = photos.length === 1 ? "Paper Photo Saved" : "Paper Photos Saved";
+                if (status) status.innerText = `${photos.length} photo${photos.length > 1 ? 's' : ''} saved in this vault.`;
+                if (empty) empty.classList.add('hidden');
+                if (viewBtn) viewBtn.classList.remove('hidden');
+
+                if (gallery) {
+                    gallery.innerHTML = photos.map((photo, index) => {
+                        const safeName = photo.fileName || `Paper Photo ${index + 1}`;
+                        const converted = photo.wasConverted ? " // converted" : "";
+                        return `
+                            <div class="side-a-photo-card overflow-hidden">
+                                <button type="button" onclick="viewSideAPaperPhoto(${index})" class="block w-full text-left hover:opacity-90 transition-all">
+                                    <img src="${photo.url}" alt="${safeName.replace(/"/g, '&quot;')}" loading="lazy">
+                                </button>
+                                <div class="p-3 border-t border-white/10">
+                                    <p class="text-yellow-400 text-[8px] uppercase tracking-[.2em] mb-1">Photo ${index + 1}${converted}</p>
+                                    <p class="text-white/35 text-[8px] uppercase tracking-[.12em] break-words">${safeName}</p>
+                                    <div class="grid grid-cols-2 gap-2 mt-3">
+                                        <button type="button"
+                                            onclick="viewSideAPaperPhoto(${index})"
+                                            class="border border-white/10 text-white/45 py-3 text-[8px] font-bold uppercase tracking-[.18em] hover:border-yellow-400 hover:text-yellow-400 transition-all active:scale-95">
+                                            View
+                                        </button>
+                                        <button type="button"
+                                            onclick="removeSideAPaperPhoto(${index})"
+                                            class="border border-red-400/40 text-red-300 py-3 text-[8px] font-bold uppercase tracking-[.18em] hover:bg-red-500 hover:text-white transition-all active:scale-95">
+                                            Remove
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+            } else {
+                if (title) title.innerText = "No Paper Photos Yet";
+                if (status) status.innerText = "Upload one or more clear photos of the paper where you wrote what you sensed from the Holy Spirit.";
+                if (empty) empty.classList.remove('hidden');
+                if (viewBtn) viewBtn.classList.add('hidden');
+                if (gallery) gallery.innerHTML = "";
+            }
+        }
+
+        async function uploadSideAPaperPhotoFiles(files, existingPhotos = []) {
+            const fileList = Array.from(files || []);
+            const uploadedPhotos = [];
+            const batchId = Date.now();
+
+            for (let i = 0; i < fileList.length; i++) {
+                const normalized = await normalizePaperPhotoFile(fileList[i]);
+                const storagePath = `vault-paper/${currentVaultUserId}/side-a-paper-${batchId}-${i + 1}.${normalized.extension}`;
+                const photoRef = ref(storage, storagePath);
+
+                const snapshot = await uploadBytesResumable(photoRef, normalized.file, {
+                    contentType: normalized.contentType
+                });
+
+                const downloadURL = await getDownloadURL(snapshot.ref);
+
+                uploadedPhotos.push({
+                    url: downloadURL,
+                    storagePath: storagePath,
+                    fileName: normalized.displayFileName,
+                    originalFileName: normalized.originalFileName,
+                    wasConverted: normalized.wasConverted,
+                    uploadedAt: new Date().toISOString()
+                });
+            }
+
+            const paperPhotos = [...(existingPhotos || []), ...uploadedPhotos];
+            const first = paperPhotos[0] || {};
+
+            return {
+                paperPhotos,
+                paperPhotoUrl: first.url || "",
+                paperPhotoStoragePath: first.storagePath || "",
+                paperPhotoFileName: first.fileName || "",
+                paperPhotoOriginalFileName: first.originalFileName || "",
+                paperPhotoWasConverted: first.wasConverted || false,
+                paperPhotoUploadedAt: first.uploadedAt || ""
+            };
+        }
+
+        async function uploadSideAPaperPhotoFile(file) {
+            return uploadSideAPaperPhotoFiles([file], []);
+        }
+
+        window.viewSideAPaperPhoto = function(index = 0) {
+            const photos = getSideAPaperPhotos(currentSideAData || {});
+            const photo = photos[index] || photos[0];
+
+            if (!photo || !photo.url) {
+                showSideAError("No paper photo available to view.");
+                return;
+            }
+
+            window.open(photo.url, "_blank", "noopener,noreferrer");
+        };
+
+        window.uploadSideAPaperPhotoOnly = async function() {
+            if (!currentVaultUserId) {
+                showSideAError("No vault user loaded.");
+                return;
+            }
+
+            if (!selectedSideAPaperPhotoFiles.length) {
+                showSideAError("Please choose at least one paper photo first.");
+                return;
+            }
+
+            try {
+                const photoData = await uploadSideAPaperPhotoFiles(
+                    selectedSideAPaperPhotoFiles,
+                    getSideAPaperPhotos(currentSideAData || currentVaultUserData?.sideA || {})
+                );
+
+                const updatedSideA = {
+                    ...(currentVaultUserData?.sideA || {}),
+                    ...photoData
+                };
+
+                await updateDoc(doc(db, "users", currentVaultUserId), {
+                    sideA: updatedSideA
+                });
+
+                currentVaultUserData = {
+                    ...currentVaultUserData,
+                    sideA: updatedSideA
+                };
+                currentSideAData = updatedSideA;
+                selectedSideAPaperPhotoFiles = [];
+                updateSideAPaperPhotoSelectedUI();
+
+                const input = document.getElementById('sideAPaperPhotoInput');
+                if (input) input.value = "";
+
+                renderSideAPaperPhoto(updatedSideA);
+                if (typeof window.showSideAMedia === "function") window.showSideAMedia('photo');
+            } catch (error) {
+                console.error("Side A paper photo upload error:", error);
+                showSideAError("Paper photo upload failed. Please try again.");
+            }
+        };
+
+
+        async function safelyDeleteStorageFile(storagePath) {
+            if (!storagePath) return;
+            try {
+                await deleteObject(ref(storage, storagePath));
+            } catch (error) {
+                console.warn("Storage file could not be deleted. Firestore will still be updated.", error);
+            }
+        }
+
+        window.removeSideAAudio = async function(index) {
+            if (!currentVaultUserId) {
+                showSideAError("No vault user loaded.");
+                return;
+            }
+
+            const audios = getSideAAudios(currentSideAData || currentVaultUserData?.sideA || {});
+            const audio = audios[index];
+
+            if (!audio) {
+                showSideAError("Audio not found.");
+                return;
+            }
+
+            const label = audio.label || `Prayer ${index + 1}`;
+            const confirmed = window.confirm(`Remove ${label} from your vault? This cannot be undone.`);
+            if (!confirmed) return;
+
+            try {
+                if (sideAWaveSurfer) {
+                    sideAWaveSurfer.pause();
+                    updateSideAPlayToggleIcon(false);
+                }
+
+                await safelyDeleteStorageFile(audio.storagePath);
+
+                const remainingAudios = audios
+                    .filter((_, audioIndex) => audioIndex !== index)
+                    .map((item, audioIndex) => ({
+                        ...item,
+                        label: `Prayer ${audioIndex + 1}`
+                    }));
+
+                const first = remainingAudios[0] || {};
+                const updatedSideA = {
+                    ...(currentVaultUserData?.sideA || {}),
+                    audios: remainingAudios,
+                    audioUrl: first.url || "",
+                    storagePath: first.storagePath || "",
+                    fileName: first.fileName || "",
+                    uploadedAt: first.uploadedAt || ""
+                };
+
+                await updateDoc(doc(db, "users", currentVaultUserId), {
+                    sideA: updatedSideA
+                });
+
+                currentVaultUserData = {
+                    ...currentVaultUserData,
+                    sideA: updatedSideA
+                };
+                currentSideAData = updatedSideA;
+                currentSideAAudios = remainingAudios;
+                activeSideAAudioIndex = Math.min(activeSideAAudioIndex, Math.max(remainingAudios.length - 1, 0));
+
+                if (remainingAudios.length) {
+                    loadSideAPlayer({ ...updatedSideA, activeAudioIndex: activeSideAAudioIndex });
+                    if (typeof window.showSideAMedia === "function") window.showSideAMedia('audio');
+                } else if (getSideAPaperPhotos(updatedSideA).length) {
+                    setSideAState('Player');
+                    renderSideAAudioList([]);
+                    renderSideAPaperPhoto(updatedSideA);
+                    if (typeof window.showSideAMedia === "function") window.showSideAMedia('photo');
+                } else {
+                    setSideAState('Empty');
+                }
+            } catch (error) {
+                console.error("Side A audio remove error:", error);
+                showSideAError("Could not remove this audio. Please try again.");
+            }
+        };
+
+        window.removeSideAPaperPhoto = async function(index) {
+            if (!currentVaultUserId) {
+                showSideAError("No vault user loaded.");
+                return;
+            }
+
+            const photos = getSideAPaperPhotos(currentSideAData || currentVaultUserData?.sideA || {});
+            const photo = photos[index];
+
+            if (!photo) {
+                showSideAError("Paper photo not found.");
+                return;
+            }
+
+            const confirmed = window.confirm(`Remove Paper Photo ${index + 1} from your vault? This cannot be undone.`);
+            if (!confirmed) return;
+
+            try {
+                await safelyDeleteStorageFile(photo.storagePath);
+
+                const remainingPhotos = photos.filter((_, photoIndex) => photoIndex !== index);
+                const first = remainingPhotos[0] || {};
+
+                const updatedSideA = {
+                    ...(currentVaultUserData?.sideA || {}),
+                    paperPhotos: remainingPhotos,
+                    paperPhotoUrl: first.url || "",
+                    paperPhotoStoragePath: first.storagePath || "",
+                    paperPhotoFileName: first.fileName || "",
+                    paperPhotoOriginalFileName: first.originalFileName || "",
+                    paperPhotoWasConverted: first.wasConverted || false,
+                    paperPhotoUploadedAt: first.uploadedAt || ""
+                };
+
+                await updateDoc(doc(db, "users", currentVaultUserId), {
+                    sideA: updatedSideA
+                });
+
+                currentVaultUserData = {
+                    ...currentVaultUserData,
+                    sideA: updatedSideA
+                };
+                currentSideAData = updatedSideA;
+                renderSideAPaperPhoto(updatedSideA);
+
+                if (!getSideAAudios(updatedSideA).length && !remainingPhotos.length) {
+                    setSideAState('Empty');
+                } else if (typeof window.showSideAMedia === "function") {
+                    window.showSideAMedia('photo');
+                }
+            } catch (error) {
+                console.error("Side A paper photo remove error:", error);
+                showSideAError("Could not remove this paper photo. Please try again.");
+            }
+        };
+
+
+        window.showSideAMedia = function(kind) {
+            const audioTab = document.getElementById('sideAAudioTab');
+            const photoTab = document.getElementById('sideAPhotoTab');
+            const audioPanel = document.getElementById('sideAAudioPanel');
+            const photoPanel = document.getElementById('sideAPhotoPanel');
+
+            const showAudio = kind !== 'photo';
+
+            if (audioTab) audioTab.classList.toggle('active', showAudio);
+            if (photoTab) photoTab.classList.toggle('active', !showAudio);
+            if (audioPanel) audioPanel.classList.toggle('active', showAudio);
+            if (photoPanel) photoPanel.classList.toggle('active', !showAudio);
+        };
+
+        function setupSideANativeAudioFallback(audioUrl) {
+            const fallback = document.getElementById('sideANativeAudioFallback');
+            const audio = document.getElementById('sideANativeAudio');
+            const waveform = document.getElementById('sideAWaveformReal');
+            const playbackState = document.getElementById('sideAPlaybackState');
+            const playbackHint = document.getElementById('sideAPlaybackHint');
+
+            if (!fallback || !audio) return;
+
+            audio.src = audioUrl || currentSideAAudioUrl || "";
+            fallback.classList.remove('hidden');
+            if (waveform) waveform.classList.add('hidden');
+            if (playbackState) playbackState.innerText = "Native Player";
+            if (playbackHint) playbackHint.innerText = "Use the audio player above";
+
+            audio.onplay = () => updateSideAPlayToggleIcon(true);
+            audio.onpause = () => updateSideAPlayToggleIcon(false);
+            audio.onended = () => updateSideAPlayToggleIcon(false);
+            audio.ontimeupdate = () => {
+                const timeDisplay = document.getElementById('sideATimeDisplay');
+                if (timeDisplay) {
+                    timeDisplay.innerText = `${formatAudioTime(audio.currentTime)} / ${formatAudioTime(audio.duration)}`;
+                }
+            };
+        }
+
+        function updateSideATimeDisplay() {
+            const timeDisplay = document.getElementById('sideATimeDisplay');
+
+            if (!timeDisplay || !sideAWaveSurfer) return;
+
+            const current = sideAWaveSurfer.getCurrentTime();
+            const duration = sideAWaveSurfer.getDuration();
+
+            timeDisplay.innerText = `${formatAudioTime(current)} / ${formatAudioTime(duration)}`;
+        }
+
+        async function getGlobalAllowReplace() {
+            try {
+                const eventStateDoc = await getDoc(doc(db, "settings", "eventState"));
+                globalAllowReplace = eventStateDoc.exists() && eventStateDoc.data().allowReplace === true;
+                return globalAllowReplace;
+            } catch (error) {
+                console.error("Could not read allowReplace:", error);
+                globalAllowReplace = false;
+                return false;
+            }
+        }
+
+        async function updateSideAReplaceAccess() {
+            const replaceBtn = document.getElementById('sideAReplaceBtn');
+            const notice = document.getElementById('sideAReplaceNotice');
+
+            if (!replaceBtn || !notice) return;
+
+            try {
+                const eventStateDoc = await getDoc(doc(db, "settings", "eventState"));
+                const allowReplace =
+                    eventStateDoc.exists() &&
+                    eventStateDoc.data().allowReplace === true;
+
+                if (allowReplace) {
+                    replaceBtn.classList.remove('hidden');
+                    notice.innerText = "Need to change this audio? Replacement access is currently open.";
+                } else {
+                    replaceBtn.classList.add('hidden');
+                    notice.innerText = "Replacement access is currently closed. Please ask an admin if this audio needs to be changed.";
+                }
+
+            } catch (error) {
+                console.error("Replace access check failed:", error);
+                replaceBtn.classList.add('hidden');
+                notice.innerText = "Replacement access could not be verified. Please ask an admin for help.";
+            }
+        }
+
+        const sideAFileInput = document.getElementById('sideAFileInput');
+
+        if (sideAFileInput) {
+            sideAFileInput.addEventListener('change', () => {
+                const files = Array.from(sideAFileInput.files || []);
+
+                if (!files.length) return;
+
+                const allowedAudioExtensions = [".mp3", ".m4a", ".aac", ".wav", ".ogg", ".webm"];
+                const invalidFile = files.find((file) => {
+                    const fileNameLower = file.name.toLowerCase();
+                    return !(file.type.startsWith("audio/") || allowedAudioExtensions.some(ext => fileNameLower.endsWith(ext)));
+                });
+
+                if (invalidFile) {
+                    sideAFileInput.value = "";
+                    selectedSideAFile = null;
+                    selectedSideAFiles = [];
+                    showSideAError("Please choose valid audio files.");
+                    return;
+                }
+
+                selectedSideAFiles = files;
+                selectedSideAFile = files[0];
+
+                const fileName = document.getElementById('sideASelectedFileName');
+                const fileSize = document.getElementById('sideASelectedFileSize');
+                const uploadingFileName = document.getElementById('sideAUploadingFileName');
+                const fileType = document.getElementById('sideASelectedFileType');
+                const totalBytes = files.reduce((sum, file) => sum + (file.size || 0), 0);
+
+                if (fileName) {
+                    fileName.innerText = files.length === 1 ? files[0].name : `${files.length} Audio Files Selected`;
+                }
+                if (fileSize) fileSize.innerText = files.length === 1 ? formatFileSize(files[0].size) : `${formatFileSize(totalBytes)} TOTAL`;
+                if (uploadingFileName) uploadingFileName.innerText = files.length === 1 ? files[0].name : `${files.length} audio files selected`;
+                if (fileType) fileType.innerText = files.length === 1 ? getAudioExtension(files[0].name).toUpperCase() : "MULTI";
+
+                setSideAState('Selected');
+            });
+        }
+
+                const sideAPaperPhotoInput = document.getElementById('sideAPaperPhotoInput');
+
+        if (sideAPaperPhotoInput) {
+            sideAPaperPhotoInput.addEventListener('change', async () => {
+                const files = Array.from(sideAPaperPhotoInput.files || []);
+
+                if (!files.length) return;
+
+                const allowedImageExtensions = [".jpg", ".jpeg", ".png", ".webp", ".heic", ".heif"];
+                const invalidFile = files.find((file) => {
+                    const fileNameLower = file.name.toLowerCase();
+                    return !(file.type.startsWith("image/") || allowedImageExtensions.some(ext => fileNameLower.endsWith(ext)));
+                });
+
+                if (invalidFile) {
+                    sideAPaperPhotoInput.value = "";
+                    selectedSideAPaperPhotoFiles = [];
+                    updateSideAPaperPhotoSelectedUI();
+                    showSideAError("Please choose valid image files for your paper photos.");
+                    return;
+                }
+
+                selectedSideAPaperPhotoFiles = files;
+                updateSideAPaperPhotoSelectedUI();
+
+                const playerState = document.getElementById('sideAPlayerState');
+                const playerVisible = playerState && !playerState.classList.contains('hidden');
+
+                if (playerVisible && getSideAAudios(currentSideAData || {}).length) {
+                    await window.uploadSideAPaperPhotoOnly();
+                } else if (!selectedSideAFiles.length) {
+                    showSideAError("Paper photos selected. Please choose the audio recording(s) too, then upload Side A.");
+                }
+            });
+        }
+
+        window.resetSideASelection = function() {
+            selectedSideAFile = null;
+            selectedSideAFiles = [];
+            selectedSideAPaperPhotoFiles = [];
+
+            const input = document.getElementById('sideAFileInput');
+            if (input) input.value = "";
+
+            const photoInput = document.getElementById('sideAPaperPhotoInput');
+            if (photoInput) photoInput.value = "";
+
+            updateSideAPaperPhotoSelectedUI();
+            setSideAState('Empty');
+        };
+
+        window.uploadSideAAudio = async function() {
+            if (!currentVaultUserId) {
+                showSideAError("No vault user loaded.");
+                return;
+            }
+
+            if (!selectedSideAFiles.length) {
+                showSideAError("Please choose at least one audio file first.");
+                return;
+            }
+
+            if (!selectedSideAPaperPhotoFiles.length && !getSideAPaperPhotos(currentSideAData || {}).length) {
+                showSideAError("Please choose at least one clear photo of your paper before uploading Side A.");
+                return;
+            }
+
+            setSideAState('Uploading');
+
+            const progressBar = document.getElementById('sideAUploadProgressBar');
+            const percentLabel = document.getElementById('sideAUploadPercent');
+            const uploadingFileName = document.getElementById('sideAUploadingFileName');
+            const uploadingPaperPhotoName = document.getElementById('sideAUploadingPaperPhotoName');
+
+            if (uploadingFileName) uploadingFileName.innerText = selectedSideAFiles.length === 1 ? selectedSideAFiles[0].name : `${selectedSideAFiles.length} audio files selected`;
+            if (uploadingPaperPhotoName) uploadingPaperPhotoName.innerText = selectedSideAPaperPhotoFiles.length ? `${selectedSideAPaperPhotoFiles.length} paper photo${selectedSideAPaperPhotoFiles.length > 1 ? "s" : ""} selected` : "keeping saved paper photos";
+
+            try {
+                if (progressBar) progressBar.style.width = `10%`;
+                if (percentLabel) percentLabel.innerText = `10%`;
+
+                const audioData = await uploadSideAAudioFiles(
+                    selectedSideAFiles,
+                    getSideAAudios(currentSideAData || currentVaultUserData?.sideA || {})
+                );
+
+                if (progressBar) progressBar.style.width = `75%`;
+                if (percentLabel) percentLabel.innerText = `75%`;
+
+                const photoData = selectedSideAPaperPhotoFiles.length
+                    ? await uploadSideAPaperPhotoFiles(selectedSideAPaperPhotoFiles, getSideAPaperPhotos(currentSideAData || {}))
+                    : keepSideAPaperPhotoData(currentSideAData || {});
+
+                if (progressBar) progressBar.style.width = `100%`;
+                if (percentLabel) percentLabel.innerText = `100%`;
+
+                const sideAData = {
+                    ...(currentVaultUserData?.sideA || {}),
+                    ...audioData,
+                    ...photoData,
+                    updatedAt: new Date().toISOString()
+                };
+
+                await updateDoc(doc(db, "users", currentVaultUserId), {
+                    sideA: sideAData
+                });
+
+                currentVaultUserData = {
+                    ...currentVaultUserData,
+                    sideA: sideAData
+                };
+
+                selectedSideAFile = null;
+                selectedSideAFiles = [];
+                selectedSideAPaperPhotoFiles = [];
+
+                const input = document.getElementById('sideAFileInput');
+                if (input) input.value = "";
+
+                const photoInput = document.getElementById('sideAPaperPhotoInput');
+                if (photoInput) photoInput.value = "";
+
+                updateSideAPaperPhotoSelectedUI();
+                activeSideAAudioIndex = Math.max(0, getSideAAudios(sideAData).length - 1);
+                loadSideAPlayer(sideAData);
+
+            } catch (error) {
+                console.error("Side A save error:", error);
+                setSideAState('Selected');
+                showSideAError("Saving Side A failed. Please try again.");
+            }
+        };
+
+                window.downloadSideAAudio = function(index = null) {
+            const audios = currentSideAAudios || getSideAAudios(currentSideAData || {});
+            const audioIndex = typeof index === "number" ? index : activeSideAAudioIndex;
+            const audio = audios[audioIndex] || audios[0];
+            const audioUrl = audio?.url || currentSideAAudioUrl;
+
+            if (!audioUrl) {
+                showSideAError("No audio available to download.");
+                return;
+            }
+
+            const link = document.createElement('a');
+            link.href = audioUrl;
+            link.download = audio?.fileName || "REVIVAL-2026-Received-Prayer";
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        };
+
+        function updateSideAPlayToggleIcon(isPlaying) {
+            const playIcon = document.getElementById('sideAPlayIcon');
+            const pauseIcon = document.getElementById('sideAPauseIcon');
+
+            if (!playIcon || !pauseIcon) return;
+
+            if (isPlaying) {
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+            } else {
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+            }
+        }
+
+        window.toggleSideAAudio = function() {
+            const nativeAudio = document.getElementById('sideANativeAudio');
+            const fallbackVisible = nativeAudio && !document.getElementById('sideANativeAudioFallback')?.classList.contains('hidden');
+
+            if (sideAWaveSurfer) {
+                sideAWaveSurfer.playPause();
+                return;
+            }
+
+            if (fallbackVisible && nativeAudio.src) {
+                if (nativeAudio.paused) nativeAudio.play();
+                else nativeAudio.pause();
+                return;
+            }
+
+            if (currentSideAAudioUrl) {
+                setupSideANativeAudioFallback(currentSideAAudioUrl);
+                return;
+            }
+
+            showSideAError("No audio loaded.");
+        };
+
+        window.playSideAAudio = function() {
+            const nativeAudio = document.getElementById('sideANativeAudio');
+            const fallbackVisible = nativeAudio && !document.getElementById('sideANativeAudioFallback')?.classList.contains('hidden');
+
+            if (sideAWaveSurfer) {
+                sideAWaveSurfer.play();
+                return;
+            }
+
+            if (fallbackVisible && nativeAudio.src) nativeAudio.play();
+        };
+
+        window.resetSideAAudio = function() {
+            const status = document.getElementById('sideAPlayerStatus');
+            const playbackState = document.getElementById('sideAPlaybackState');
+            const playbackHint = document.getElementById('sideAPlaybackHint');
+            const nativeAudio = document.getElementById('sideANativeAudio');
+
+            if (sideAWaveSurfer) {
+                sideAWaveSurfer.pause();
+                sideAWaveSurfer.setTime(0);
+            } else if (nativeAudio && nativeAudio.src) {
+                nativeAudio.pause();
+                nativeAudio.currentTime = 0;
+            } else {
+                return;
+            }
+
+            if (status) status.innerText = "Received Audio";
+            if (playbackState) playbackState.innerText = "Reset";
+            if (playbackHint) playbackHint.innerText = "Ready to replay";
+
+            updateSideAPlayToggleIcon(false);
+            updateSideATimeDisplay();
+        };
+
+        window.pauseSideAAudio = function() {
+            const nativeAudio = document.getElementById('sideANativeAudio');
+            if (sideAWaveSurfer) sideAWaveSurfer.pause();
+            if (nativeAudio && nativeAudio.src) nativeAudio.pause();
+        };
+
+        window.handleSideAReplaceClick = async function() {
+            try {
+                const eventStateDoc = await getDoc(doc(db, "settings", "eventState"));
+                const allowReplace =
+                    eventStateDoc.exists() &&
+                    eventStateDoc.data().allowReplace === true;
+
+                if (!allowReplace) {
+                    showSideAError("Replacement access is currently closed. Please ask an admin to update this audio.");
+                    return;
+                }
+
+                if (sideAWaveSurfer) {
+                    sideAWaveSurfer.pause();
+                    updateSideAPlayToggleIcon(false);
+                }
+
+                const input = document.getElementById('sideAFileInput');
+                if (input) input.click();
+
+            } catch (error) {
+                console.error("Replace access check failed:", error);
+                showSideAError("Could not verify replacement access. Please try again.");
+            }
+        };
+
+        window.backToVaultChooser = function() {
+            const sideAScreen = document.getElementById('sideAScreen');
+            const sideBScreen = document.getElementById('sideBScreen');
+            const vaultSideScreen = document.getElementById('vaultSideScreen');
+            const status = document.getElementById('sideAPlayerStatus');
+            const playbackState = document.getElementById('sideAPlaybackState');
+            const playbackHint = document.getElementById('sideAPlaybackHint');
+
+            // Stop/pause the audio before leaving Side A
+            if (sideAWaveSurfer) {
+                sideAWaveSurfer.pause();
+                updateSideAPlayToggleIcon(false);
+
+                if (status) status.innerText = "Received Audio";
+                if (playbackState) playbackState.innerText = "Paused";
+                if (playbackHint) playbackHint.innerText = "Paused while away";
+            }
+
+            if (sideAScreen) sideAScreen.classList.add('hidden');
+            if (sideBScreen) sideBScreen.classList.add('hidden');
+            if (vaultSideScreen) vaultSideScreen.classList.remove('hidden');
+
+            if (currentVaultUserId) {
+                window.history.pushState({}, '', `/vault/user/${currentVaultUserId}`);
+            }
+        };
+
+        // --- SIDE B SENT RESPONSE SYSTEM ---
+        function showSideBError(message) {
+            const error = document.getElementById('sideBError');
+            if (!error) return;
+
+            error.innerText = message;
+            error.classList.remove('hidden');
+        }
+
+        function clearSideBError() {
+            const error = document.getElementById('sideBError');
+            if (error) error.classList.add('hidden');
+        }
+
+        function setSideBState(state) {
+            const formState = document.getElementById('sideBFormState');
+            const savedState = document.getElementById('sideBSavedState');
+            const savingState = document.getElementById('sideBSavingState');
+
+            if (formState) formState.classList.add('hidden');
+            if (savedState) savedState.classList.add('hidden');
+            if (savingState) savingState.classList.add('hidden');
+
+            if (state === 'Form' && formState) formState.classList.remove('hidden');
+            if (state === 'Saved' && savedState) savedState.classList.remove('hidden');
+            if (state === 'Saving' && savingState) savingState.classList.remove('hidden');
+
+            clearSideBError();
+        }
+
+        function getSideBFieldValues() {
+            return {
+                godPlaced: document.getElementById('sideBGodPlacedInput')?.value.trim() || "",
+                doNotForget: document.getElementById('sideBDoNotForgetInput')?.value.trim() || "",
+                moveWithThis: document.getElementById('sideBMoveWithThisInput')?.value.trim() || "",
+                archiveMore: document.getElementById('sideBArchiveMoreInput')?.value.trim() || ""
+            };
+        }
+
+        function populateSideBForm(sideB = {}) {
+            const godPlaced = document.getElementById('sideBGodPlacedInput');
+            const doNotForget = document.getElementById('sideBDoNotForgetInput');
+            const moveWithThis = document.getElementById('sideBMoveWithThisInput');
+            const archiveMore = document.getElementById('sideBArchiveMoreInput');
+
+            if (godPlaced) godPlaced.value = sideB.godPlaced || "";
+            if (doNotForget) doNotForget.value = sideB.doNotForget || "";
+            if (moveWithThis) moveWithThis.value = sideB.moveWithThis || "";
+            if (archiveMore) archiveMore.value = sideB.archiveMore || "";
+        }
+
+        function renderSideBSaved(sideB = {}) {
+            const displayName = currentVaultUserData?.name || "Vault User";
+
+            const savedName = document.getElementById('sideBSavedName');
+            const savedGodPlaced = document.getElementById('sideBSavedGodPlaced');
+            const savedDoNotForget = document.getElementById('sideBSavedDoNotForget');
+            const savedMoveWithThis = document.getElementById('sideBSavedMoveWithThis');
+            const savedArchiveMore = document.getElementById('sideBSavedArchiveMore');
+            const savedArchiveWrap = document.getElementById('sideBSavedArchiveMoreWrap');
+
+            if (savedName) savedName.innerText = `${displayName}'s Takeaway`;
+            if (savedGodPlaced) savedGodPlaced.innerText = sideB.godPlaced || "—";
+            if (savedDoNotForget) savedDoNotForget.innerText = sideB.doNotForget || "—";
+            if (savedMoveWithThis) savedMoveWithThis.innerText = sideB.moveWithThis || "—";
+
+            if (sideB.archiveMore && sideB.archiveMore.trim()) {
+                if (savedArchiveMore) savedArchiveMore.innerText = sideB.archiveMore;
+                if (savedArchiveWrap) savedArchiveWrap.classList.remove('hidden');
+            } else {
+                if (savedArchiveWrap) savedArchiveWrap.classList.add('hidden');
+            }
+        }
+
+        window.showSideBScreen = async function() {
+            const vaultSideScreen = document.getElementById('vaultSideScreen');
+            const sideAScreen = document.getElementById('sideAScreen');
+            const sideBScreen = document.getElementById('sideBScreen');
+
+            if (vaultSideScreen) vaultSideScreen.classList.add('hidden');
+            if (sideAScreen) sideAScreen.classList.add('hidden');
+            if (sideBScreen) sideBScreen.classList.remove('hidden');
+
+            if (sideAWaveSurfer) {
+                sideAWaveSurfer.pause();
+                updateSideAPlayToggleIcon(false);
+            }
+
+            const displayName = currentVaultUserData?.name || "Vault User";
+            const identity = document.getElementById('sideBIdentity');
+
+            if (identity) {
+                identity.innerText = `Side B // ${displayName}`;
+            }
+
+            await loadSideBData();
+        };
+
+        async function loadSideBData() {
+            if (!currentVaultUserId) {
+                setSideBState('Form');
+                showSideBError("No vault user loaded.");
+                return;
+            }
+
+            try {
+                const userDoc = await getDoc(doc(db, "users", currentVaultUserId));
+
+                if (!userDoc.exists()) {
+                    setSideBState('Form');
+                    showSideBError("User record not found.");
+                    return;
+                }
+
+                currentVaultUserData = userDoc.data();
+
+                const sideB = currentVaultUserData.sideB;
+
+                if (sideB && (sideB.godPlaced || sideB.doNotForget || sideB.moveWithThis || sideB.archiveMore)) {
+                    renderSideBSaved(sideB);
+                    populateSideBForm(sideB);
+                    setSideBState('Saved');
+                } else {
+                    populateSideBForm({});
+                    setSideBState('Form');
+                }
+
+            } catch (error) {
+                console.error("Side B load error:", error);
+                setSideBState('Form');
+                showSideBError("Could not load Side B.");
+            }
+        }
+
+        window.saveSideBResponse = async function() {
+            if (!currentVaultUserId) {
+                showSideBError("No vault user loaded.");
+                return;
+            }
+
+            const values = getSideBFieldValues();
+
+            if (!values.godPlaced || !values.doNotForget || !values.moveWithThis) {
+                showSideBError("Please answer the first three prompts before saving.");
+                return;
+            }
+
+            setSideBState('Saving');
+
+            try {
+                const sideBData = {
+                    godPlaced: values.godPlaced,
+                    doNotForget: values.doNotForget,
+                    moveWithThis: values.moveWithThis,
+                    archiveMore: values.archiveMore,
+                    savedAt: new Date().toISOString()
+                };
+
+                await updateDoc(doc(db, "users", currentVaultUserId), {
+                    sideB: sideBData
+                });
+
+                currentVaultUserData = {
+                    ...currentVaultUserData,
+                    sideB: sideBData
+                };
+
+                renderSideBSaved(sideBData);
+                populateSideBForm(sideBData);
+                setSideBState('Saved');
+
+            } catch (error) {
+                console.error("Side B save error:", error);
+                setSideBState('Form');
+                showSideBError("Could not save Side B. Please try again.");
+            }
+        };
+
+        window.editSideBResponse = function() {
+            populateSideBForm(currentVaultUserData?.sideB || {});
+            setSideBState('Form');
+        };
+
+
+            
+
+        window.addEventListener('load', () => {
+            loadVaultRoute();
+        });
+
+    </script>
+</body>
+</html>

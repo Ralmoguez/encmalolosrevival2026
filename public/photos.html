@@ -1,0 +1,595 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Inter:wght@300;400;700&family=Special+Elite&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/png" href="/VHS.png">
+
+    <title>REVIVAL // 2026 Photos</title>
+    <meta name="title" content="REVIVAL // 2026">
+    <meta name="description" content="The Spirit that's Still Moving.">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="REVIVAL 2026">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:url" content="https://encmalolos-revival2026.web.app/">
+    <meta property="og:image:secure_url" content="https://encmalolos-revival2026.web.app/thumbnail.png">
+    <meta property="og:title" content="REVIVAL // 2026">
+    <meta property="og:description" content="The Spirit that's Still Moving.">
+    <meta property="og:image" content="https://encmalolos-revival2026.web.app/thumbnail.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://encmalolos-revival2026.web.app/">
+    <meta property="twitter:title" content="REVIVAL // 2026">
+    <meta property="twitter:description" content="The Spirit that's Still Moving.">
+    <meta property="twitter:image" content="https://encmalolos-revival2026.web.app/thumbnail.png">
+  <meta name="description" content="Moments from the room. REVIVAL // 2026 photo archive.">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700;900&family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/VHS.png">
+
+  <style>
+    @font-face {
+      font-family: 'Abolition';
+      src: url('/abolition-regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    :root {
+      --yellow: #ffd600;
+      --cream: #f4f1ea;
+      --line: rgba(255,255,255,.10);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 15% 0%, rgba(255,214,0,.12), transparent 28%),
+        radial-gradient(circle at 88% 10%, rgba(255,255,255,.055), transparent 24%),
+        #050505;
+      color: var(--cream);
+      font-family: Inter, sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 999;
+      opacity: .32;
+      background:
+        linear-gradient(rgba(255,255,255,.018) 50%, rgba(0,0,0,.08) 50%),
+        linear-gradient(90deg, rgba(255,214,0,.012), rgba(255,255,255,.004), rgba(255,214,0,.012));
+      background-size: 100% 3px, 3px 100%;
+    }
+
+    .font-abolition {
+      font-family: 'Abolition', Impact, sans-serif;
+      letter-spacing: .1em;
+    }
+
+    .font-mono-vhs {
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    .photo-tile img,
+    #featuredPhotoImg {
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .photo-tile {
+      -webkit-tap-highlight-color: transparent;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="sticky top-0 z-[100] bg-black/70 backdrop-blur-lg border-b border-white/5 px-5 md:px-6 py-3 flex justify-between items-center">
+    <a href="/" class="hover:opacity-80 transition-opacity">
+      <div class="font-abolition font-bold text-yellow-400 text-2xl tracking-widest">
+        REVIVAL // 2026
+      </div>
+    </a>
+
+    <div class="flex items-center gap-4">
+      <a href="/" class="font-mono-vhs text-yellow-400 hover:text-white transition-colors text-[10px] uppercase tracking-[0.24em] font-bold">
+        Home
+      </a>
+      <a href="/photos" class="font-mono-vhs text-white/60 hover:text-yellow-400 transition-colors text-[10px] uppercase tracking-[0.24em] font-bold">
+        Photos
+      </a>
+      <a href="/recordings" class="font-mono-vhs text-white/60 hover:text-yellow-400 transition-colors text-[10px] uppercase tracking-[0.24em] font-bold">
+        Recordings
+      </a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="min-h-[72vh] flex items-center px-4 md:px-6 py-12 md:py-20">
+      <div class="max-w-6xl mx-auto w-full">
+        <div class="border border-white/10 bg-white/[.035] p-5 md:p-10 overflow-hidden relative">
+          <div class="absolute -top-24 -right-24 w-72 h-72 bg-yellow-400/10 blur-3xl rounded-full"></div>
+
+          <div class="relative z-10">
+            <p class="font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[0.35em] mb-4">
+              Photos Archive
+            </p>
+
+            <h1 class="font-abolition text-white text-6xl md:text-8xl uppercase leading-none">
+              Moments from<br class="hidden md:block"> the room.
+            </h1>
+
+            <p id="photosIntroText" class="font-mono-vhs text-white/40 text-[10px] md:text-xs uppercase tracking-[0.16em] leading-relaxed max-w-2xl mt-6">
+              A living archive of what God is doing across Revival // 2026.
+            </p>
+
+            <div id="photoTabs" class="flex gap-2 overflow-x-auto no-scrollbar mt-8 font-mono-vhs"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="px-4 md:px-6 pb-20">
+      <div class="max-w-6xl mx-auto">
+
+        <div id="photosLoadingState" class="border border-white/10 bg-[#111111] p-8 md:p-10 text-center">
+          <p class="font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[0.35em] mb-3">
+            Loading
+          </p>
+          <h2 class="font-abolition text-white text-5xl md:text-7xl uppercase leading-none">
+            Loading photos...
+          </h2>
+          <p class="font-mono-vhs text-white/35 text-[10px] md:text-xs uppercase tracking-[0.16em] leading-relaxed mt-5 max-w-xl mx-auto">
+            Please wait while the archive connects.
+          </p>
+        </div>
+
+        <div id="photosErrorState" class="hidden border border-red-400/30 bg-red-500/5 p-8 md:p-10 text-center">
+          <p class="font-mono-vhs text-red-200 text-[10px] uppercase tracking-[0.35em] mb-3">
+            System notice
+          </p>
+          <h2 class="font-abolition text-white text-5xl md:text-7xl uppercase leading-none">
+            Photos could not load.
+          </h2>
+          <p id="photosErrorText" class="font-mono-vhs text-white/35 text-[10px] md:text-xs uppercase tracking-[0.16em] leading-relaxed mt-5 max-w-xl mx-auto">
+            Please refresh the page or check again later.
+          </p>
+        </div>
+
+        <div id="photosLockedState" class="hidden border border-white/10 bg-[#111111] p-8 md:p-10 text-center">
+          <p class="font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[0.35em] mb-3">
+            Standby
+          </p>
+          <h2 class="font-abolition text-white text-5xl md:text-7xl uppercase leading-none">
+            Photos will appear here soon.
+          </h2>
+          <p class="font-mono-vhs text-white/35 text-[10px] md:text-xs uppercase tracking-[0.16em] leading-relaxed mt-5 max-w-xl mx-auto">
+            The archive will open after Day 1 photos are published.
+          </p>
+        </div>
+
+        <div id="photosEmptyState" class="hidden border border-white/10 bg-[#111111] p-8 md:p-10 text-center">
+          <p class="font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[0.35em] mb-3">
+            No photos yet
+          </p>
+          <h2 class="font-abolition text-white text-5xl md:text-7xl uppercase leading-none">
+            The archive is open.
+          </h2>
+          <p class="font-mono-vhs text-white/35 text-[10px] md:text-xs uppercase tracking-[0.16em] leading-relaxed mt-5 max-w-xl mx-auto">
+            Photos will load here once they are uploaded by the team.
+          </p>
+        </div>
+
+        <div id="photosContent" class="hidden">
+          <div class="grid lg:grid-cols-[1.15fr_.85fr] gap-3 md:gap-4">
+            <button id="featuredPhotoBtn" type="button" class="group relative min-h-[390px] md:min-h-[560px] overflow-hidden border border-white/10 bg-[#111111] text-left">
+              <img id="featuredPhotoImg" src="" alt="Featured Revival photo" class="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-[1.03] transition-transform duration-700">
+              <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+              <div class="absolute left-5 right-5 bottom-5">
+                <p class="font-mono-vhs text-yellow-400 text-[9px] uppercase tracking-[0.28em] mb-2">
+                  Featured Moment
+                </p>
+                <h2 id="featuredPhotoTitle" class="font-abolition text-white text-5xl md:text-7xl uppercase leading-none">
+                  Revival in motion.
+                </h2>
+              </div>
+            </button>
+
+            <div id="photosRail" class="grid grid-cols-2 gap-3 md:gap-4"></div>
+          </div>
+
+          <div class="flex items-center justify-between gap-4 mt-8 mb-4">
+            <p id="photoCountText" class="font-mono-vhs text-white/35 text-[10px] uppercase tracking-[0.22em]">
+              0 Photos
+            </p>
+            <p class="font-mono-vhs text-yellow-400/70 text-[9px] uppercase tracking-[0.22em]">
+              Tap to view
+            </p>
+          </div>
+
+          <div id="photosGrid" class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4"></div>
+
+          <div id="loadMoreWrap" class="hidden text-center mt-8">
+            <button id="loadMoreBtn"
+                    type="button"
+                    onclick="loadMorePhotos()"
+                    class="font-mono-vhs bg-[#ffd600] text-black text-[10px] uppercase tracking-[0.25em] font-bold px-6 py-4 hover:bg-white transition-all active:scale-95">
+              Load More
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="py-14 bg-black/40 border-t border-white/5 flex flex-col items-center justify-center text-center">
+    <div class="font-abolition text-white/40 text-3xl md:text-xl mb-5 uppercase">REVIVAL // 2026</div>
+    <div class="font-mono-vhs text-[8px] text-white/20 uppercase tracking-[0.4em] leading-relaxed">
+      Every Nation Campus Malolos<br>// Photos Archive //
+    </div>
+  </footer>
+
+  <div id="photoLightbox" class="fixed inset-0 z-[200] bg-black/95 hidden items-center justify-center p-4">
+    <button onclick="closePhotoLightbox()" class="absolute top-5 right-5 font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[0.25em] border border-white/10 px-4 py-3 hover:bg-yellow-400 hover:text-black transition-all">
+      Close
+    </button>
+
+    <button onclick="showPreviousPhoto()" class="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[0.2em] border border-white/10 px-3 md:px-4 py-3 hover:bg-yellow-400 hover:text-black transition-all">
+      Prev
+    </button>
+
+    <button onclick="showNextPhoto()" class="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[0.2em] border border-white/10 px-3 md:px-4 py-3 hover:bg-yellow-400 hover:text-black transition-all">
+      Next
+    </button>
+
+    <div class="max-w-full max-h-[82vh]">
+      <img id="photoLightboxImg" src="" alt="Revival photo preview" class="max-w-full max-h-[82vh] object-contain border border-white/10 shadow-2xl">
+      <p id="photoLightboxCounter" class="font-mono-vhs text-white/35 text-[9px] uppercase tracking-[0.22em] text-center mt-3">—</p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      collection,
+      query,
+      where,
+      orderBy,
+      onSnapshot
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAaxjL-NuYE1VeAoYb1_pWHAE3C4VdCBBY",
+      authDomain: "enc-malolos-revival-2026.firebaseapp.com",
+      projectId: "enc-malolos-revival-2026",
+      storageBucket: "enc-malolos-revival-2026.firebasestorage.app",
+      messagingSenderId: "893658387609",
+      appId: "1:893658387609:web:f15e870fb82b729e759408"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    let photoState = {
+      photosVisible: false,
+      day1Visible: false,
+      day2Visible: false
+    };
+
+    let publicPhotos = [];
+    let activePhotoFilter = "day1";
+    let isPhotoStateLoaded = false;
+    let isPhotosLoaded = false;
+    let currentLightboxIndex = 0;
+    let visibleLimit = 24;
+
+    function isPhotoPageOpen() {
+      return photoState.photosVisible === true && (photoState.day1Visible === true || photoState.day2Visible === true);
+    }
+
+    async function loadPhotoState() {
+      try {
+        const photoStateDoc = await getDoc(doc(db, "settings", "photoState"));
+
+        if (photoStateDoc.exists()) {
+          photoState = { ...photoState, ...photoStateDoc.data() };
+        }
+
+        if (photoState.day2Visible) {
+          activePhotoFilter = "all";
+        } else if (photoState.day1Visible) {
+          activePhotoFilter = "day1";
+        }
+
+        isPhotoStateLoaded = true;
+        renderPhotos();
+      } catch (error) {
+        console.error("Photo state failed:", error);
+        showPhotoError("Photo settings could not load. Please refresh the page.");
+      }
+    }
+
+    function renderPhotoTabs() {
+      const tabs = document.getElementById("photoTabs");
+      if (!tabs) return;
+
+      const hasDay1 = photoState.photosVisible === true && photoState.day1Visible === true;
+      const hasDay2 = photoState.photosVisible === true && photoState.day2Visible === true;
+
+      const options = [];
+
+      if (hasDay1 && hasDay2) {
+        options.push({ id: "all", label: "All" });
+        options.push({ id: "day1", label: "Day 1" });
+        options.push({ id: "day2", label: "Day 2" });
+      } else if (hasDay1) {
+        options.push({ id: "day1", label: "Day 1" });
+      } else if (hasDay2) {
+        options.push({ id: "day2", label: "Day 2" });
+      }
+
+      if (!options.some(option => option.id === activePhotoFilter)) {
+        activePhotoFilter = options[0]?.id || "day1";
+      }
+
+      tabs.innerHTML = options.map(option => `
+        <button type="button"
+                onclick="setPhotoFilter('${option.id}')"
+                class="${option.id === activePhotoFilter ? 'bg-[#ffd600] text-black border-[#ffd600]' : 'bg-white/5 text-white/45 border-white/10'} shrink-0 border px-4 py-3 text-[10px] uppercase tracking-[0.22em] font-bold transition-all">
+          ${option.label} · ${countForFilter(option.id)}
+        </button>
+      `).join("");
+    }
+
+
+    function countForFilter(filter) {
+      return publicPhotos.filter(photo => {
+        if (!photo || !photo.url) return false;
+        if (photo.status !== "approved") return false;
+        if (photo.source !== "admin") return false;
+        if (photo.day === "day1" && photoState.day1Visible !== true) return false;
+        if (photo.day === "day2" && photoState.day2Visible !== true) return false;
+        if (filter === "day1") return photo.day === "day1";
+        if (filter === "day2") return photo.day === "day2";
+        return true;
+      }).length;
+    }
+
+    window.setPhotoFilter = function(filter) {
+      activePhotoFilter = filter;
+      visibleLimit = 24;
+      renderPhotos();
+    };
+
+    window.loadMorePhotos = function() {
+      visibleLimit += 24;
+      renderPhotos();
+    };
+
+    function visiblePhotosByState() {
+      return publicPhotos.filter(photo => {
+        if (!photo || !photo.url) return false;
+        if (photo.status !== "approved") return false;
+        if (photo.source !== "admin") return false;
+
+        if (photo.day === "day1" && photoState.day1Visible !== true) return false;
+        if (photo.day === "day2" && photoState.day2Visible !== true) return false;
+
+        if (activePhotoFilter === "day1") return photo.day === "day1";
+        if (activePhotoFilter === "day2") return photo.day === "day2";
+        return true;
+      });
+    }
+
+    function showOnly(stateId) {
+      ["photosLoadingState", "photosErrorState", "photosLockedState", "photosEmptyState", "photosContent"].forEach(id => {
+        const node = document.getElementById(id);
+        if (!node) return;
+        node.classList.toggle("hidden", id !== stateId);
+      });
+    }
+
+    function renderPhotos() {
+      renderPhotoTabs();
+
+      const introText = document.getElementById("photosIntroText");
+
+      if (introText) {
+        introText.textContent = photoState.day2Visible
+          ? "A living archive from Day 1 and Day 2 of Revival // 2026."
+          : "A living archive from Day 1 of Revival // 2026.";
+      }
+
+      if (!isPhotoStateLoaded || !isPhotosLoaded) {
+        showOnly("photosLoadingState");
+        return;
+      }
+
+      if (!isPhotoPageOpen()) {
+        showOnly("photosLockedState");
+        return;
+      }
+
+      const photos = visiblePhotosByState();
+
+      if (photos.length === 0) {
+        showOnly("photosEmptyState");
+        return;
+      }
+
+      showOnly("photosContent");
+
+      const featuredImg = document.getElementById("featuredPhotoImg");
+      const featuredTitle = document.getElementById("featuredPhotoTitle");
+      const featuredBtn = document.getElementById("featuredPhotoBtn");
+      const rail = document.getElementById("photosRail");
+      const grid = document.getElementById("photosGrid");
+      const countText = document.getElementById("photoCountText");
+
+      const featured = photos.find(photo => photo.featured) || photos[0];
+
+      if (featuredImg) featuredImg.src = featured.url;
+      if (featuredTitle) featuredTitle.textContent = featured.day === "day2" ? "Day 2 in motion." : "Day 1 in motion.";
+      if (featuredBtn) featuredBtn.onclick = () => openPhotoLightbox(featured.url);
+
+      const railPhotos = photos.filter(photo => photo.id !== featured.id).slice(0, 4);
+
+      if (rail) {
+        rail.innerHTML = railPhotos.map(photo => `
+          <button type="button"
+                  onclick="openPhotoLightbox('${photo.url}')"
+                  class="photo-tile relative min-h-[170px] md:min-h-[270px] overflow-hidden border border-white/10 bg-[#111111] group">
+            <img src="${photo.url}" alt="Revival photo" loading="lazy" class="absolute inset-0 w-full h-full object-cover opacity-85 group-hover:scale-[1.05] transition-transform duration-700">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <span class="absolute left-3 bottom-3 font-mono-vhs text-yellow-400 text-[8px] uppercase tracking-[0.22em]">
+              ${photo.day === "day2" ? "Day 2" : "Day 1"}
+            </span>
+          </button>
+        `).join("");
+      }
+
+      if (countText) {
+        countText.textContent = `${photos.length} ${photos.length === 1 ? "Photo" : "Photos"}`;
+      }
+
+      const limitedPhotos = photos.slice(0, visibleLimit);
+
+      if (grid) {
+        grid.innerHTML = limitedPhotos.map((photo, index) => `
+          <button type="button"
+                  onclick="openPhotoLightboxByIndex(${index})"
+                  class="photo-tile relative aspect-[3/4] md:aspect-square overflow-hidden border border-white/10 bg-[#111111] group">
+            <img src="${photo.url}" alt="Revival photo" loading="lazy" class="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-[1.05] transition-transform duration-700">
+            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors"></div>
+          </button>
+        `).join("");
+      }
+
+      const loadMoreWrap = document.getElementById("loadMoreWrap");
+      const loadMoreBtn = document.getElementById("loadMoreBtn");
+
+      if (loadMoreWrap) loadMoreWrap.classList.toggle("hidden", photos.length <= visibleLimit);
+      if (loadMoreBtn) loadMoreBtn.textContent = `Load More · ${Math.max(0, photos.length - visibleLimit)} left`;
+    }
+
+    function loadPublicPhotos() {
+      const photosQuery = query(
+        collection(db, "photos"),
+        where("status", "==", "approved"),
+        where("source", "==", "admin"),
+        orderBy("createdAt", "desc")
+      );
+
+      onSnapshot(photosQuery, (snapshot) => {
+        publicPhotos = [];
+        snapshot.forEach(photoDoc => publicPhotos.push({ id: photoDoc.id, ...photoDoc.data() }));
+        isPhotosLoaded = true;
+        renderPhotos();
+      }, (error) => {
+        console.error("Photos listener failed:", error);
+        showPhotoError("Photos could not load right now. Please refresh the page.");
+      });
+    }
+
+    function showPhotoError(message) {
+      const errorText = document.getElementById("photosErrorText");
+      if (errorText) errorText.textContent = message;
+      showOnly("photosErrorState");
+    }
+
+    function currentVisiblePhotos() {
+      return visiblePhotosByState();
+    }
+
+    function updateLightbox() {
+      const photos = currentVisiblePhotos();
+      const lightbox = document.getElementById("photoLightbox");
+      const img = document.getElementById("photoLightboxImg");
+      const counter = document.getElementById("photoLightboxCounter");
+
+      if (!lightbox || !img || !photos.length) return;
+
+      currentLightboxIndex = Math.max(0, Math.min(currentLightboxIndex, photos.length - 1));
+      img.src = photos[currentLightboxIndex].url;
+
+      if (counter) {
+        counter.textContent = `${currentLightboxIndex + 1} / ${photos.length} · ${photos[currentLightboxIndex].day === "day2" ? "Day 2" : "Day 1"}`;
+      }
+    }
+
+    window.openPhotoLightboxByIndex = function(index) {
+      currentLightboxIndex = index;
+      const lightbox = document.getElementById("photoLightbox");
+      if (!lightbox) return;
+      updateLightbox();
+      lightbox.classList.remove("hidden");
+      lightbox.classList.add("flex");
+      document.body.style.overflow = "hidden";
+    };
+
+    window.openPhotoLightbox = function(url) {
+      const photos = currentVisiblePhotos();
+      const foundIndex = photos.findIndex(photo => photo.url === url);
+      window.openPhotoLightboxByIndex(foundIndex >= 0 ? foundIndex : 0);
+    };
+
+    window.showPreviousPhoto = function() {
+      const photos = currentVisiblePhotos();
+      if (!photos.length) return;
+      currentLightboxIndex = (currentLightboxIndex - 1 + photos.length) % photos.length;
+      updateLightbox();
+    };
+
+    window.showNextPhoto = function() {
+      const photos = currentVisiblePhotos();
+      if (!photos.length) return;
+      currentLightboxIndex = (currentLightboxIndex + 1) % photos.length;
+      updateLightbox();
+    };
+
+    window.closePhotoLightbox = function() {
+      const lightbox = document.getElementById("photoLightbox");
+      const img = document.getElementById("photoLightboxImg");
+      if (!lightbox || !img) return;
+      img.src = "";
+      lightbox.classList.add("hidden");
+      lightbox.classList.remove("flex");
+      document.body.style.overflow = "";
+      document.body.style.overflowX = "hidden";
+    };
+
+    window.addEventListener("keydown", (event) => {
+      const lightbox = document.getElementById("photoLightbox");
+      const isOpen = lightbox && !lightbox.classList.contains("hidden");
+      if (!isOpen) return;
+
+      if (event.key === "Escape") closePhotoLightbox();
+      if (event.key === "ArrowLeft") showPreviousPhoto();
+      if (event.key === "ArrowRight") showNextPhoto();
+    });
+
+    await loadPhotoState();
+    loadPublicPhotos();
+  </script>
+</body>
+</html>

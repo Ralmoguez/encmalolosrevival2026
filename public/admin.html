@@ -1,0 +1,4200 @@
+
+
+
+
+
+
+
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Inter:wght@300;400;700&family=Special+Elite&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/png" href="/VHS.png">
+
+    <title>REVIVAL // 2026</title>
+    <meta name="title" content="REVIVAL // 2026">
+    <meta name="description" content="The Spirit that's Still Moving.">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="REVIVAL 2026">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:url" content="https://encmalolos-revival2026.web.app/">
+    <meta property="og:image:secure_url" content="https://encmalolos-revival2026.web.app/thumbnail.png">
+    <meta property="og:title" content="REVIVAL // 2026">
+    <meta property="og:description" content="The Spirit that's Still Moving.">
+    <meta property="og:image" content="https://encmalolos-revival2026.web.app/thumbnail.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://encmalolos-revival2026.web.app/">
+    <meta property="twitter:title" content="REVIVAL // 2026">
+    <meta property="twitter:description" content="The Spirit that's Still Moving.">
+    <meta property="twitter:image" content="https://encmalolos-revival2026.web.app/thumbnail.png">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    @font-face {
+      font-family: Abolition;
+      src: url("https://encmalolos-revival2026.web.app/receiver/Audio/abolition-regular.ttf") format("truetype");
+      font-display: swap;
+    }
+
+    :root {
+      --yellow: #facc15;
+      --green: #22c55e;
+      --red: #ef4444;
+      --blue: #3b82f6;
+      --cream: #f4f1ea;
+      --line: rgba(255,255,255,.11);
+      --panel: rgba(255,255,255,.045);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: #050505;
+      color: var(--cream);
+      font-family: Inter, sans-serif;
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    .page {
+      min-height: 100dvh;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(250,204,21,.12), transparent 24%),
+        radial-gradient(circle at 88% 28%, rgba(255,255,255,.04), transparent 26%),
+        #050505;
+    }
+
+    .abolition { font-family: Abolition, Impact, sans-serif; letter-spacing: .08em; }
+    .mono { font-family: "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .14em; }
+
+    .login-page {
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: max(22px, env(safe-area-inset-top)) 18px max(28px, env(safe-area-inset-bottom));
+    }
+
+    .sidebar {
+      background: rgba(0,0,0,.74);
+      border-right: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      box-shadow: 0 24px 70px rgba(0,0,0,.34);
+      min-width: 0;
+    }
+
+    .hero {
+      background: rgba(0,0,0,.62);
+      border: 1px solid rgba(250,204,21,.25);
+    }
+
+    .danger-card {
+      border: 1px solid rgba(239,68,68,.32);
+      background: rgba(239,68,68,.06);
+    }
+
+    .label {
+      font-family: "IBM Plex Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: .20em;
+      font-size: 10px;
+      color: rgba(255,255,255,.45);
+      font-weight: 800;
+    }
+
+    .kicker {
+      font-family: "IBM Plex Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: .24em;
+      font-size: 10px;
+      color: var(--yellow);
+      font-weight: 800;
+    }
+
+    .small {
+      font-family: "IBM Plex Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: .13em;
+      font-size: 10px;
+      line-height: 1.7;
+      color: rgba(255,255,255,.48);
+    }
+
+    .value {
+      font-family: "IBM Plex Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 800;
+      color: #fff;
+      overflow-wrap: anywhere;
+    }
+
+    .btn, .nav-btn, .input, .pill, .switch-btn, .table {
+      font-family: "IBM Plex Mono", monospace;
+      text-transform: uppercase;
+    }
+
+    .btn {
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.045);
+      color: rgba(255,255,255,.82);
+      letter-spacing: .12em;
+      font-size: 10px;
+      font-weight: 900;
+      padding: 13px 14px;
+      min-height: 48px;
+      cursor: pointer;
+      transition: .18s ease;
+    }
+
+    .btn:hover {
+      border-color: var(--yellow);
+      color: var(--yellow);
+      background: rgba(250,204,21,.08);
+    }
+
+    .btn-primary {
+      background: var(--yellow);
+      border-color: var(--yellow);
+      color: #050505;
+    }
+
+    .btn-primary:hover {
+      background: #fff;
+      border-color: #fff;
+      color: #050505;
+    }
+
+    .btn-danger {
+      border-color: rgba(239,68,68,.44);
+      color: #fecaca;
+      background: rgba(239,68,68,.08);
+    }
+
+    .btn-danger:hover {
+      border-color: var(--red);
+      color: #fff;
+      background: rgba(239,68,68,.20);
+    }
+
+    .nav-btn {
+      width: 100%;
+      text-align: left;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.035);
+      color: rgba(255,255,255,.62);
+      letter-spacing: .13em;
+      font-size: 10px;
+      padding: 13px;
+      cursor: pointer;
+      transition: .18s ease;
+    }
+
+    .nav-btn:hover,
+    .nav-btn.active {
+      background: var(--yellow);
+      border-color: var(--yellow);
+      color: #050505;
+      font-weight: 900;
+    }
+
+    .input, .textarea {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.35);
+      color: #fff;
+      outline: none;
+      padding: 14px;
+      letter-spacing: .06em;
+      font-size: 12px;
+    }
+
+    .textarea {
+      min-height: 100px;
+      resize: vertical;
+      text-transform: none;
+      line-height: 1.6;
+    }
+
+    .input:focus, .textarea:focus { border-color: var(--yellow); }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.055);
+      color: rgba(255,255,255,.72);
+      letter-spacing: .14em;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 9px 10px;
+      white-space: nowrap;
+    }
+
+    .pill-green { border-color: rgba(34,197,94,.52); background: rgba(34,197,94,.10); color: #4ade80; }
+    .pill-red { border-color: rgba(239,68,68,.52); background: rgba(239,68,68,.10); color: #fca5a5; }
+    .pill-yellow { border-color: var(--yellow); background: rgba(250,204,21,.10); color: var(--yellow); }
+    .pill-blue { border-color: rgba(59,130,246,.52); background: rgba(59,130,246,.10); color: #93c5fd; }
+
+    .switch-btn {
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.045);
+      color: rgba(255,255,255,.80);
+      letter-spacing: .12em;
+      font-size: 10px;
+      font-weight: 900;
+      padding: 13px;
+      min-height: 48px;
+      cursor: pointer;
+    }
+
+    .switch-btn.on {
+      background: var(--yellow);
+      border-color: var(--yellow);
+      color: #050505;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+    }
+
+    .table th {
+      text-align: left;
+      color: rgba(255,255,255,.42);
+      font-size: 9px;
+      letter-spacing: .18em;
+      padding: 12px 10px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      position: sticky;
+      top: 0;
+      background: rgba(5,5,5,.96);
+      z-index: 2;
+    }
+
+    .table td {
+      color: rgba(255,255,255,.82);
+      font-size: 11px;
+      letter-spacing: .06em;
+      padding: 13px 10px;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      vertical-align: top;
+      white-space: nowrap;
+    }
+
+    .table td.name-cell {
+      min-width: 280px;
+      white-space: normal;
+    }
+
+    .sheet-status {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,255,255,.14);
+      padding: 7px 9px;
+      font-size: 9px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .sheet-in { color: #4ade80; border-color: rgba(34,197,94,.52); background: rgba(34,197,94,.10); }
+    .sheet-out { color: #fca5a5; border-color: rgba(239,68,68,.52); background: rgba(239,68,68,.10); }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+    .hidden { display: none !important; }
+
+    .modal-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: none;
+      place-items: center;
+      padding: max(18px, env(safe-area-inset-top)) 18px max(18px, env(safe-area-inset-bottom));
+      background: rgba(0,0,0,.78);
+      backdrop-filter: blur(10px);
+      overflow-y: auto;
+    }
+
+    .modal-bg.show { display: grid; }
+
+    .modal {
+      width: min(100%, 760px);
+      max-height: calc(100dvh - 36px);
+      overflow: auto;
+      background: rgba(8,8,8,.96);
+      border: 1px solid rgba(250,204,21,.32);
+      box-shadow: 0 35px 100px rgba(0,0,0,.7);
+    }
+
+    .toast {
+      position: fixed;
+      top: max(14px, env(safe-area-inset-top));
+      left: 50%;
+      transform: translateX(-50%) translateY(-30px);
+      opacity: 0;
+      z-index: 9999;
+      transition: .22s ease;
+      width: min(92vw, 560px);
+      pointer-events: none;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+
+    .checkin-controls {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(160px, 1fr));
+      gap: 12px;
+      align-items: end;
+      width: 100%;
+    }
+
+    .control-group {
+      min-width: 0;
+    }
+
+    .control-label {
+      font-family: "IBM Plex Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: .20em;
+      font-size: 9px;
+      font-weight: 900;
+      color: rgba(255,255,255,.42);
+      margin-bottom: 8px;
+    }
+
+    .select-control {
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.44);
+      color: #fff;
+      font-family: "IBM Plex Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: .09em;
+      font-size: 11px;
+      font-weight: 900;
+      padding: 0 42px 0 14px;
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image:
+        linear-gradient(45deg, transparent 50%, var(--yellow) 50%),
+        linear-gradient(135deg, var(--yellow) 50%, transparent 50%);
+      background-position:
+        calc(100% - 18px) 21px,
+        calc(100% - 12px) 21px;
+      background-size: 6px 6px, 6px 6px;
+      background-repeat: no-repeat;
+    }
+
+    .select-control:hover,
+    .select-control:focus {
+      border-color: var(--yellow);
+      background-color: rgba(250,204,21,.07);
+    }
+
+    .checkin-hint {
+      font-family: "IBM Plex Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-size: 9px;
+      line-height: 1.6;
+      color: rgba(255,255,255,.42);
+      margin-top: 10px;
+    }
+
+    #checkinSheetArea {
+      max-width: 100%;
+      overflow-x: auto;
+    }
+
+    #checkinSheetArea .table {
+      table-layout: fixed;
+      width: 100%;
+      min-width: 1120px;
+    }
+
+    #checkinSheetArea .table th,
+    #checkinSheetArea .table td {
+      white-space: normal;
+      overflow-wrap: anywhere;
+      word-break: normal;
+      line-height: 1.45;
+    }
+
+    #checkinSheetArea .table th:nth-child(1),
+    #checkinSheetArea .table td:nth-child(1) { width: 46px; }
+
+    #checkinSheetArea .table th:nth-child(2),
+    #checkinSheetArea .table td:nth-child(2) { width: 260px; }
+
+    #checkinSheetArea .table th:nth-child(3),
+    #checkinSheetArea .table td:nth-child(3) { width: 110px; }
+
+    #checkinSheetArea .table th:nth-child(4),
+    #checkinSheetArea .table td:nth-child(4) { width: 220px; }
+
+    #checkinSheetArea .table th:nth-child(5),
+    #checkinSheetArea .table td:nth-child(5) { width: 250px; }
+
+    #checkinSheetArea .table th:nth-child(6),
+    #checkinSheetArea .table td:nth-child(6) { width: 210px; }
+
+    #checkinSheetArea .sheet-status {
+      white-space: nowrap;
+    }
+
+    #checkinSheetArea .name-cell {
+      min-width: 0;
+      white-space: normal;
+    }
+
+    @media (max-width: 1440px) {
+      .checkin-controls {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 900px) {
+      .checkin-controls {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+
+    .lunch-toolbar {
+      display: grid;
+      grid-template-columns: 1.1fr 150px 170px 190px 150px;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .lunch-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .lunch-restaurant-card {
+      border: 1px solid rgba(255,255,255,.11);
+      background: rgba(255,255,255,.04);
+      padding: 16px;
+      min-width: 0;
+    }
+
+    .lunch-meal-line {
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 12px;
+      margin-top: 12px;
+    }
+
+    .lunch-order-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      padding: 16px;
+      min-width: 0;
+    }
+
+    .lunch-order-card.deleted {
+      opacity: .5;
+      border-color: rgba(239,68,68,.35);
+      background: rgba(239,68,68,.06);
+    }
+
+    .lunch-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+      align-content: flex-start;
+    }
+
+    .copy-area {
+      width: 100%;
+      min-height: 190px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.42);
+      color: #fff;
+      padding: 14px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px;
+      line-height: 1.7;
+      resize: vertical;
+      outline: none;
+    }
+
+    @media (max-width: 1180px) {
+      .lunch-toolbar {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .lunch-summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .lunch-toolbar,
+      .lunch-summary-grid,
+      .lunch-order-card {
+        grid-template-columns: 1fr;
+      }
+      .lunch-actions { justify-content: stretch; }
+      .lunch-actions .btn { width: 100%; }
+    }
+
+    @media (max-width: 980px) {
+      .layout { grid-template-columns: 1fr !important; }
+      .sidebar {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+        position: relative !important;
+        min-height: unset !important;
+        padding-top: max(20px, env(safe-area-inset-top));
+      }
+      .nav-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      main { padding: 16px !important; }
+    }
+
+    @media (max-width: 560px) {
+      .nav-grid { grid-template-columns: 1fr; }
+      .table { min-width: 680px; }
+      .title-big { font-size: 3.2rem !important; }
+      .title-med { font-size: 2.35rem !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <section id="loginScreen" class="page login-page">
+    <div class="hero p-7 max-w-xl w-full">
+      <p class="kicker">REVIVAL // 2026</p>
+      <h1 class="abolition title-big text-yellow-400 text-7xl leading-none mt-3">ADMIN</h1>
+      <p class="small mt-5">Enter admin passcode to continue.</p>
+      <input id="adminPasscodeInput" type="password" class="input mt-6" placeholder="Admin passcode" />
+      <div class="grid md:grid-cols-2 gap-3 mt-4">
+        <button class="btn" id="showHidePassBtn">Show / Hide</button>
+        <button class="btn btn-primary" id="unlockBtn">Unlock</button>
+      </div>
+      <p id="loginStatus" class="small text-red-200 mt-4"></p>
+    </div>
+  </section>
+
+  <section id="adminApp" class="page hidden">
+    <div class="layout grid grid-cols-[280px_1fr] min-h-screen">
+      <aside class="sidebar sticky top-0 min-h-screen p-5">
+        <div class="abolition text-yellow-400 text-4xl leading-none">REVIVAL // 2026</div>
+        <div class="small mt-2">Website Admin</div>
+
+        <div class="nav-grid grid gap-2 mt-8">
+          <button class="nav-btn active" data-screen="overview">Overview</button>
+          <button class="nav-btn" data-screen="website">Website Controls</button>
+          <button class="nav-btn" data-screen="photos">Photos</button>
+          <button class="nav-btn" data-screen="recordings">Recordings</button>
+          <button class="nav-btn" data-screen="participants">Participants</button>
+          <button class="nav-btn" data-screen="serving">Serving Team</button>
+          <button class="nav-btn" data-screen="checkin">Check-In</button>
+          <button class="nav-btn" data-screen="lunch">Lunch Orders</button>
+          <button class="nav-btn" data-screen="receiver">Receiver Booth</button>
+          <button class="nav-btn" data-screen="vault">Vault</button>
+          <button class="nav-btn" data-screen="tv">TV Display</button>
+          <button class="nav-btn" data-screen="export">Export</button>
+          <button class="nav-btn" data-screen="settings">Settings</button>
+        </div>
+
+        <div class="card p-4 mt-8">
+          <p class="label">Current State</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <span id="sideVault" class="pill">Vault</span>
+            <span id="sideReplace" class="pill">Replace</span>
+            <span id="sideDay" class="pill pill-yellow">Day</span>
+          </div>
+          <button class="btn mt-4 w-full" id="refreshBtn">Refresh</button>
+        </div>
+      </aside>
+
+      <main class="p-5 md:p-8">
+        <section class="hero p-5 md:p-7 mb-6">
+          <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-5">
+            <div>
+              <p class="kicker">REVIVAL // 2026</p>
+              <h1 class="abolition title-big text-5xl md:text-7xl leading-none mt-2">WEBSITE ADMIN</h1>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <button class="btn btn-primary" id="openWebsiteBtn">Open Website</button>
+              <button class="btn" id="openScannerBtn">Open Scanner</button>
+              <button class="btn" id="openTvBtn">Open TV</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="overview" class="screen active space-y-6">
+          <div class="grid md:grid-cols-2 xl:grid-cols-7 gap-4">
+            <div class="card p-5"><p class="label">Total Day 1 In</p><div id="ovD1" class="abolition text-green-400 text-5xl mt-3">0</div></div>
+            <div class="card p-5"><p class="label">Total Day 2 In</p><div id="ovD2" class="abolition text-green-400 text-5xl mt-3">0</div></div>
+            <div class="card p-5"><p class="label">Recordings</p><div id="ovRecordings" class="abolition text-yellow-400 text-5xl mt-3">—</div></div>
+            <div class="card p-5"><p class="label">Participants D1</p><div id="ovParticipantsD1" class="abolition text-yellow-400 text-5xl mt-3">0</div></div>
+            <div class="card p-5"><p class="label">Serving D1</p><div id="ovServeD1" class="abolition text-yellow-400 text-5xl mt-3">0</div></div>
+            <div class="card p-5"><p class="label">Participants D2</p><div id="ovParticipantsD2" class="abolition text-yellow-400 text-5xl mt-3">0</div></div>
+            <div class="card p-5"><p class="label">Serving D2</p><div id="ovServeD2" class="abolition text-yellow-400 text-5xl mt-3">0</div></div>
+          </div>
+          <div class="grid lg:grid-cols-2 gap-6">
+            <div class="card p-5">
+              <p class="kicker">Event State</p>
+              <h2 class="abolition title-med text-5xl leading-none mt-2">WEBSITE CONTROLS</h2>
+              <div class="grid md:grid-cols-2 gap-3 mt-5">
+                <button id="ovVaultBtn" class="switch-btn" data-toggle-field="vaultActive">Vault</button>
+                <button id="ovReplaceBtn" class="switch-btn" data-toggle-field="allowReplace">Replacement</button>
+              </div>
+            </div>
+            <div class="card p-5">
+              <p class="kicker">Common Actions</p>
+              <div class="grid gap-3 mt-5">
+                <button class="btn btn-primary" data-open-screen="participants">Find Participant</button>
+                <button class="btn" data-open-screen="serving">Serving Team</button>
+                <button class="btn" data-open-screen="checkin">Manage Check-In</button>
+                <button class="btn" data-open-screen="lunch">Lunch Orders</button>
+                <button class="btn" data-open-screen="photos">Manage Photos</button>
+                <button class="btn" data-open-screen="recordings">Manage Recordings</button>
+                <button class="btn" data-open-screen="receiver">Receiver Inventory</button>
+                <button class="btn" data-open-screen="export">Export Reports</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="website" class="screen space-y-6">
+          <div class="card p-5"><p class="kicker">Website Controls</p><h2 class="abolition title-med text-5xl leading-none mt-2">PUBLIC SITE ACCESS</h2></div>
+          <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-4">
+            <div class="card p-5"><p class="label">Vault Access</p><button id="vaultActiveBtn" class="switch-btn mt-4 w-full" data-toggle-field="vaultActive">—</button></div>
+            <div class="card p-5"><p class="label">Replacement Access</p><button id="allowReplaceBtn" class="switch-btn mt-4 w-full" data-toggle-field="allowReplace">—</button></div>
+            <div class="card p-5"><p class="label">Registration</p><button id="registrationOpenBtn" class="switch-btn mt-4 w-full" data-toggle-field="registrationOpen">—</button></div>
+            <div class="card p-5"><p class="label">Maintenance</p><button id="maintenanceModeBtn" class="switch-btn mt-4 w-full" data-toggle-field="maintenanceMode">—</button></div>
+            <div class="card p-5"><p class="label">Photos Page</p><button id="websitePhotosVisibleBtn" class="switch-btn mt-4 w-full" data-photo-toggle-field="photosVisible">—</button></div>
+            <div class="card p-5"><p class="label">Day 1 Photos</p><button id="websiteDay1VisibleBtn" class="switch-btn mt-4 w-full" data-photo-toggle-field="day1Visible">—</button></div>
+            <div class="card p-5"><p class="label">Day 2 Photos</p><button id="websiteDay2VisibleBtn" class="switch-btn mt-4 w-full" data-photo-toggle-field="day2Visible">—</button></div>
+            <div class="card p-5"><p class="label">Public Route</p><button class="btn mt-4 w-full" id="openPhotosPageBtn">Open /photos</button></div>
+            <div class="card p-5"><p class="label">Recordings Page</p><button id="websiteRecordingsVisibleBtn" class="switch-btn mt-4 w-full" data-recording-toggle-field="recordingsVisible">—</button></div>
+            <div class="card p-5"><p class="label">Day 1 Recordings</p><button id="websiteRecordingsDay1Btn" class="switch-btn mt-4 w-full" data-recording-toggle-field="day1Visible">—</button></div>
+            <div class="card p-5"><p class="label">Day 2 Recordings</p><button id="websiteRecordingsDay2Btn" class="switch-btn mt-4 w-full" data-recording-toggle-field="day2Visible">—</button></div>
+            <div class="card p-5"><p class="label">Public Route</p><button class="btn mt-4 w-full" id="openRecordingsPageBtn">Open /recordings</button></div>
+          </div>
+          <div class="card p-5">
+            <p class="label">Announcement Banner</p>
+            <div class="grid md:grid-cols-[auto_1fr_auto] gap-3 mt-4">
+              <button id="announcementActiveBtn" class="switch-btn" data-toggle-field="announcementActive">—</button>
+              <input id="announcementText" class="input" placeholder="Announcement text" />
+              <button class="btn btn-primary" id="saveAnnouncementBtn">Save</button>
+            </div>
+          </div>
+        </section>
+
+
+        <section id="photos" class="screen space-y-6">
+          <div class="card p-5">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+              <div>
+                <p class="kicker">Photos</p>
+                <h2 class="abolition title-med text-5xl leading-none mt-2">PHOTO ARCHIVE</h2>
+                <p class="small mt-4">Admin uploads appear on the public /photos page. Day 1 appears first; All and Day 2 appear only after Day 2 is enabled.</p>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <button class="btn" id="openPhotosPageBtn2">Open /photos</button>
+                <button class="btn btn-primary" id="refreshPhotosBtn">Refresh</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-3 gap-4">
+            <div class="card p-5">
+              <p class="label">Photos Page</p>
+              <button id="photosVisibleBtn" class="switch-btn mt-4 w-full" data-photo-toggle-field="photosVisible">—</button>
+              <p class="small mt-3">Controls whether the PHOTOS nav link and public section can appear.</p>
+            </div>
+            <div class="card p-5">
+              <p class="label">Day 1 Photos</p>
+              <button id="day1PhotosVisibleBtn" class="switch-btn mt-4 w-full" data-photo-toggle-field="day1Visible">—</button>
+              <p class="small mt-3">When enabled alone, the public page shows only Day 1.</p>
+            </div>
+            <div class="card p-5">
+              <p class="label">Day 2 Photos</p>
+              <button id="day2PhotosVisibleBtn" class="switch-btn mt-4 w-full" data-photo-toggle-field="day2Visible">—</button>
+              <p class="small mt-3">When enabled, public tabs become All / Day 1 / Day 2.</p>
+            </div>
+          </div>
+
+          <div class="card p-5">
+            <p class="kicker">Upload Event Photos</p>
+            <div class="grid md:grid-cols-[180px_1fr_auto] gap-3 mt-5 items-end">
+              <div>
+                <p class="label mb-2">Day</p>
+                <select id="photoUploadDay" class="input">
+                  <option value="day1">Day 1</option>
+                  <option value="day2">Day 2</option>
+                </select>
+              </div>
+              <div>
+                <p class="label mb-2">Photos</p>
+                <input id="photoUploadInput" type="file" accept="image/*" multiple class="input normal-case" />
+              </div>
+              <button class="btn btn-primary" id="uploadPhotosBtn">Upload</button>
+            </div>
+            <div class="mt-5">
+              <div class="flex justify-between gap-4 mb-2">
+                <p id="photoUploadStatus" class="small">Select photos to upload. Images will be compressed for faster loading.</p>
+                <p id="photoUploadPercent" class="small text-yellow-400">0%</p>
+              </div>
+              <div class="h-2 bg-white/10 overflow-hidden">
+                <div id="photoUploadBar" class="h-full bg-yellow-400 w-0 transition-all"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-4 gap-4">
+            <div class="card p-5"><p class="label">Approved Photos</p><div id="photoApprovedCount" class="abolition text-yellow-400 text-5xl mt-3">0</div></div>
+            <div class="card p-5"><p class="label">Day 1</p><div id="photoDay1Count" class="abolition text-yellow-400 text-5xl mt-3">0</div></div>
+            <div class="card p-5"><p class="label">Day 2</p><div id="photoDay2Count" class="abolition text-yellow-400 text-5xl mt-3">0</div></div>
+            <div class="card p-5"><p class="label">Featured</p><div id="photoFeaturedCount" class="abolition text-yellow-400 text-5xl mt-3">0</div></div>
+          </div>
+
+          <div class="card p-5">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+              <div>
+                <p class="kicker">Uploaded Photos</p>
+                <p class="small mt-2">Set featured, hide, or delete public photos.</p>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <button class="btn btn-primary" data-photo-filter="all">All</button>
+                <button class="btn" data-photo-filter="day1">Day 1</button>
+                <button class="btn" data-photo-filter="day2">Day 2</button>
+              </div>
+            </div>
+            <div id="adminPhotosGrid" class="grid sm:grid-cols-2 xl:grid-cols-4 gap-4 mt-5"></div>
+          </div>
+        </section>
+
+
+
+        <section id="recordings" class="screen space-y-6">
+          <div class="card p-5">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+              <div>
+                <p class="kicker">Recordings</p>
+                <h2 class="abolition title-med text-5xl leading-none mt-2">SESSION ARCHIVE</h2>
+                <p class="small mt-4">Paste unlisted YouTube links here. The public /recordings page will show locked cards until links are published.</p>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <button class="btn" id="openRecordingsPageBtn2">Open /recordings</button>
+                <button class="btn btn-primary" id="refreshRecordingsBtn">Refresh</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-3 gap-4">
+            <div class="card p-5">
+              <p class="label">Recordings Page</p>
+              <button id="recordingsVisibleBtn" class="switch-btn mt-4 w-full" data-recording-toggle-field="recordingsVisible">—</button>
+              <p class="small mt-3">Controls whether the public recordings archive is open.</p>
+            </div>
+            <div class="card p-5">
+              <p class="label">Day 1 Recordings</p>
+              <button id="recordingsDay1VisibleBtn" class="switch-btn mt-4 w-full" data-recording-toggle-field="day1Visible">—</button>
+              <p class="small mt-3">When enabled alone, public page shows only Day 1 recordings.</p>
+            </div>
+            <div class="card p-5">
+              <p class="label">Day 2 Recordings</p>
+              <button id="recordingsDay2VisibleBtn" class="switch-btn mt-4 w-full" data-recording-toggle-field="day2Visible">—</button>
+              <p class="small mt-3">When enabled, public page can show Day 2 recordings.</p>
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-3 gap-4">
+            <div class="card p-5"><p class="label">Total Feeds</p><div id="recordingTotalCount" class="abolition text-yellow-400 text-5xl mt-3">0</div></div>
+            <div class="card p-5"><p class="label">Ready</p><div id="recordingReadyCount" class="abolition text-green-400 text-5xl mt-3">0</div></div>
+            <div class="card p-5"><p class="label">Locked</p><div id="recordingLockedCount" class="abolition text-red-300 text-5xl mt-3">0</div></div>
+          </div>
+
+          <div class="card p-5">
+            <p class="kicker">Add / Update Recording Link</p>
+            <div class="grid md:grid-cols-4 gap-3 mt-5">
+              <div>
+                <p class="label mb-2">Video</p>
+                <select id="recordingFeedSelect" class="input"></select>
+              </div>
+              <div>
+                <p class="label mb-2">Day</p>
+                <select id="recordingDayInput" class="input">
+                  <option value="day1">Day 1</option>
+                  <option value="day2">Day 2</option>
+                </select>
+              </div>
+              <div>
+                <p class="label mb-2">Type</p>
+                <input id="recordingTypeInput" class="input" placeholder="Session 01" />
+              </div>
+              <div>
+                <p class="label mb-2">Order No.</p>
+                <input id="recordingFeedNoInput" class="input" placeholder="Auto" />
+              </div>
+            </div>
+            <div class="grid md:grid-cols-[1fr_auto] gap-3 mt-3 items-end">
+              <p class="small">Need more than the default videos? Click Add More Video, then edit the new slot and save.</p>
+              <button type="button" class="btn btn-primary" id="addRecordingSlotBtn">Add More Video</button>
+            </div>
+
+            <div class="grid md:grid-cols-[1fr_1.2fr] gap-3 mt-3">
+              <div>
+                <p class="label mb-2">Title</p>
+                <input id="recordingTitleInput" class="input normal-case" placeholder="Recording title" />
+              </div>
+              <div>
+                <p class="label mb-2">Unlisted YouTube Link</p>
+                <input id="recordingYoutubeInput" class="input normal-case" placeholder="https://youtu.be/..." />
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-[1fr_auto] gap-3 mt-3 items-end">
+              <div>
+                <p class="label mb-2">Custom Thumbnail</p>
+                <input id="recordingThumbnailInput" type="file" accept="image/*" class="input normal-case" />
+                <p id="recordingThumbnailStatus" class="small mt-2">Optional. Upload a thumbnail image for this feed card.</p>
+              </div>
+              <button type="button" class="btn" id="clearRecordingThumbnailInputBtn">Clear Selected File</button>
+            </div>
+
+            <div class="mt-3">
+              <p class="label mb-2">Short Description</p>
+              <textarea id="recordingDescriptionInput" class="textarea" placeholder="Optional short line for the public page"></textarea>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-3 mt-4">
+              <button class="btn btn-primary" id="saveRecordingBtn">Save / Publish Link</button>
+              <button class="btn" id="clearRecordingFormBtn">Clear Form</button>
+              <button class="btn" id="initializeRecordingsBtn">Initialize Default Videos</button>
+            </div>
+          </div>
+
+          <div class="card p-5">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+              <div>
+                <p class="kicker">Recording Videos</p>
+                <p class="small mt-2">Locked means no public video yet. Published means the YouTube link is live.</p>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <button class="btn btn-primary" data-recording-filter="all">All</button>
+                <button class="btn" data-recording-filter="day1">Day 1</button>
+                <button class="btn" data-recording-filter="day2">Day 2</button>
+              </div>
+            </div>
+            <div id="adminRecordingsGrid" class="grid gap-4 mt-5"></div>
+          </div>
+        </section>
+
+        <section id="participants" class="screen space-y-6">
+          <div class="card p-5">
+            <p class="kicker">Participants</p>
+            <h2 class="abolition title-med text-5xl leading-none mt-2">EDIT RECORDS</h2>
+            <input id="participantSearch" class="input mt-5" placeholder="Search participant" />
+          </div>
+          <div id="participantCards" class="grid gap-4"></div>
+        </section>
+
+
+        <section id="serving" class="screen space-y-6">
+          <div class="card p-5">
+            <p class="kicker">Serving Team</p>
+            <h2 class="abolition title-med text-5xl leading-none mt-2">EDIT SERVE RECORDS</h2>
+            <input id="servingSearch" class="input mt-5" placeholder="Search serving team, campus missionaries, church, role" />
+          </div>
+          <div id="servingCards" class="grid gap-4"></div>
+        </section>
+
+        <section id="checkin" class="screen space-y-6">
+          <div class="card p-5">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+              <div>
+                <p class="kicker">Check-In</p>
+                <h2 id="attTitle" class="abolition title-med text-5xl leading-none mt-2">DAY 1 ATTENDANCE</h2>
+              </div>
+              <div class="checkin-controls">
+                <div class="control-group">
+                  <p class="control-label">View Mode</p>
+                  <select id="checkinModeSelect" class="select-control">
+                    <option value="sheet">Sheet View</option>
+                    <option value="manage">Manage View</option>
+                  </select>
+                </div>
+
+                <div class="control-group">
+                  <p class="control-label">People</p>
+                  <select id="attendancePeopleSelect" class="select-control">
+                    <option value="all">All</option>
+                    <option value="participants">Participants</option>
+                    <option value="serve">Serving Team</option>
+                  </select>
+                </div>
+
+                <div class="control-group">
+                  <p class="control-label">Attendance Day</p>
+                  <select id="attendanceDaySelect" class="select-control">
+                    <option value="day1">Day 1</option>
+                    <option value="day2">Day 2</option>
+                    <option value="both">Both Days</option>
+                  </select>
+                </div>
+
+                <div class="control-group">
+                  <p class="control-label">Check-In Status</p>
+                  <select id="attendanceStatusSelect" class="select-control">
+                    <option value="all">All</option>
+                    <option value="in">Already Checked In</option>
+                    <option value="out">Not Yet Checked In</option>
+                  </select>
+                </div>
+
+                <div class="control-group">
+                  <p class="control-label">Sort By</p>
+                  <select id="attendanceSortSelect" class="select-control">
+                    <option value="name">Name A-Z</option>
+                    <option value="inFirst">Checked In First</option>
+                    <option value="outFirst">Not Yet First</option>
+                    <option value="latest">Latest Check-In</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <p id="checkinDropdownHint" class="checkin-hint">Showing all records. Change status to Already Checked In or Not Yet to narrow the list automatically.</p>
+            <input id="attSearch" class="input mt-5" placeholder="Optional search name, ID, campus, role, church" />
+          </div>
+
+          <div id="attStats" class="grid md:grid-cols-4 gap-4"></div>
+
+          <div id="checkinSheetArea" class="card overflow-auto">
+            <table class="table"><thead id="attHead"></thead><tbody id="attBody"></tbody></table>
+          </div>
+
+          <div id="checkinManageArea" class="grid gap-4 hidden"></div>
+
+          <details class="danger-card p-5">
+            <summary class="abolition text-red-200 text-4xl leading-none cursor-pointer">RESET ATTENDANCE</summary>
+            <div class="grid md:grid-cols-3 gap-4 mt-5">
+              <button class="btn btn-danger" data-danger-title="CLEAR DAY 1" data-danger-phrase="CONFIRM CLEAR DAY 1">Clear Day 1 Attendance</button>
+              <button class="btn btn-danger" data-danger-title="CLEAR DAY 2" data-danger-phrase="CONFIRM CLEAR DAY 2">Clear Day 2 Attendance</button>
+              <button class="btn btn-danger" data-danger-title="CLEAR ALL ATTENDANCE" data-danger-phrase="CONFIRM CLEAR ALL ATTENDANCE">Clear All Attendance</button>
+            </div>
+          </details>
+        </section>
+
+
+
+        <section id="lunch" class="screen space-y-6">
+          <div class="card p-5">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+              <div>
+                <p class="kicker">Lunch Orders</p>
+                <h2 class="abolition title-med text-5xl leading-none mt-2">MEAL CLAIMING</h2>
+                <p class="small mt-4">Google Sheets is the source of truth. This tab reads lunch orders from Apps Script and writes claimed / deleted status back to the sheet.</p>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <button class="btn" id="openLunchPageBtn">Open /lunch</button>
+                <button class="btn btn-primary" id="refreshLunchBtn">Refresh Orders</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-4 gap-4">
+            <div class="card p-5">
+              <p class="label">Orders Open</p>
+              <button id="lunchOrdersOpenBtn" class="switch-btn mt-4 w-full" data-lunch-state-toggle="ordersOpen">—</button>
+              <p class="small mt-3">Controls whether the public lunch page accepts orders.</p>
+            </div>
+            <div class="card p-5">
+              <p class="label">Active Day</p>
+              <select id="lunchActiveDaySelect" class="select-control mt-4">
+                <option value="day1">Day 1</option>
+                <option value="day2">Day 2</option>
+              </select>
+              <p class="small mt-3">Only the active day can be ordered.</p>
+            </div>
+            <div class="card p-5">
+              <p class="label">Day 2 Preview</p>
+              <button id="lunchDay2PreviewBtn" class="switch-btn mt-4 w-full" data-lunch-state-toggle="showDay2Preview">—</button>
+              <p class="small mt-3">Show Day 2 menu while Day 1 is active.</p>
+            </div>
+            <div class="card p-5">
+              <p class="label">Hide Day 1 on Day 2</p>
+              <button id="lunchHideDay1Btn" class="switch-btn mt-4 w-full" data-lunch-state-toggle="hideDay1WhenDay2">—</button>
+              <p class="small mt-3">Useful after switching to Day 2.</p>
+            </div>
+          </div>
+
+          <div class="lunch-summary-grid">
+            <div class="card p-5"><p class="label">Total Orders</p><div id="lunchTotalOrders" class="abolition text-yellow-400 text-5xl mt-3">0</div></div>
+            <div class="card p-5"><p class="label">Total Amount</p><div id="lunchTotalAmount" class="abolition text-yellow-400 text-5xl mt-3">₱0</div></div>
+            <div class="card p-5"><p class="label">Claimed</p><div id="lunchClaimedCount" class="abolition text-green-400 text-5xl mt-3">0</div></div>
+            <div class="card p-5"><p class="label">Unclaimed</p><div id="lunchUnclaimedCount" class="abolition text-red-300 text-5xl mt-3">0</div></div>
+          </div>
+
+          <div class="card p-5">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+              <div>
+                <p class="kicker">Restaurant Summary</p>
+                <p class="small mt-2">Grouped by Restaurant → Meal / Option → Drink with quantity and total amount.</p>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <button class="btn btn-primary" data-lunch-copy="all">Copy All</button>
+                <button class="btn" data-lunch-copy="Jollibee">Copy Jollibee</button>
+                <button class="btn" data-lunch-copy="Chowking">Copy Chowking</button>
+                <button class="btn" data-lunch-copy="Mang Inasal">Copy Mang Inasal</button>
+                <button class="btn" id="printLunchBtn">Print List</button>
+              </div>
+            </div>
+            <div id="lunchRestaurantSummary" class="grid lg:grid-cols-3 gap-4 mt-5"></div>
+            <textarea id="lunchCopyArea" class="copy-area mt-5" readonly placeholder="Copied restaurant list will appear here."></textarea>
+          </div>
+
+          <div class="card p-5">
+            <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+              <div>
+                <p class="kicker">Claiming / Distribution List</p>
+                <p class="small mt-2">Default view follows active lunch day. Search is by name only.</p>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <button class="btn btn-primary" id="lunchDefaultDayBtn">Active Day Only</button>
+                <button class="btn" id="lunchIncludeDeletedBtn">Show Deleted</button>
+              </div>
+            </div>
+
+            <div class="lunch-toolbar mt-5">
+              <div>
+                <p class="control-label">Search Name</p>
+                <input id="lunchSearch" class="input" placeholder="Search by name only" />
+              </div>
+              <div>
+                <p class="control-label">Day</p>
+                <select id="lunchDayFilter" class="select-control">
+                  <option value="active">Active Day</option>
+                  <option value="all">All Days</option>
+                  <option value="day1">Day 1</option>
+                  <option value="day2">Day 2</option>
+                </select>
+              </div>
+              <div>
+                <p class="control-label">Claim Status</p>
+                <select id="lunchStatusFilter" class="select-control">
+                  <option value="all">All</option>
+                  <option value="claimed">Claimed</option>
+                  <option value="unclaimed">Unclaimed</option>
+                </select>
+              </div>
+              <div>
+                <p class="control-label">Restaurant</p>
+                <select id="lunchRestaurantFilter" class="select-control">
+                  <option value="all">All Restaurants</option>
+                  <option value="Jollibee">Jollibee</option>
+                  <option value="Chowking">Chowking</option>
+                  <option value="Mang Inasal">Mang Inasal</option>
+                </select>
+              </div>
+              <div>
+                <p class="control-label">Sort</p>
+                <select id="lunchSortFilter" class="select-control">
+                  <option value="name">Name A-Z</option>
+                  <option value="restaurant">Restaurant</option>
+                  <option value="unclaimedFirst">Unclaimed First</option>
+                  <option value="latest">Latest First</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div id="lunchOrdersGrid" class="grid gap-4"></div>
+        </section>
+
+        <section id="receiver" class="screen space-y-6">
+          <div class="card p-5">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+              <div><p class="kicker">Receiver Booth</p><h2 class="abolition title-med text-5xl leading-none mt-2">CARD INVENTORY</h2></div>
+              <div class="flex flex-wrap gap-2">
+                <button class="btn" id="undoReceiverBtn">Undo Last</button>
+                <button class="btn btn-primary" id="refreshReceiverBtn">Refresh</button>
+              </div>
+            </div>
+          </div>
+          <div id="receiverGrid" class="grid md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
+        </section>
+
+        <section id="vault" class="screen space-y-6">
+          <div class="card p-5"><p class="kicker">Vault</p><h2 class="abolition title-med text-5xl leading-none mt-2">VAULT CONTROLS</h2></div>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="card p-5"><p class="label">Vault Access</p><button id="vaultActiveBtn2" class="switch-btn mt-4 w-full" data-toggle-field="vaultActive">—</button></div>
+            <div class="card p-5"><p class="label">Replacement Access</p><button id="allowReplaceBtn2" class="switch-btn mt-4 w-full" data-toggle-field="allowReplace">—</button></div>
+          </div>
+          <div class="card p-5">
+            <p class="label">Find Participant Vault</p>
+            <input id="vaultSearch" class="input mt-4" placeholder="Search participant" />
+            <div id="vaultResults" class="grid gap-3 mt-4"></div>
+          </div>
+        </section>
+
+        <section id="tv" class="screen space-y-6">
+          <div class="card p-5"><p class="kicker">TV Display</p><h2 class="abolition title-med text-5xl leading-none mt-2">SCREEN CONTROLS</h2></div>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="card p-5">
+              <p class="label">TV Duration</p>
+              <div id="tvDur" class="abolition text-yellow-400 text-5xl mt-3">30s</div>
+              <div class="grid grid-cols-3 gap-2 mt-5">
+                <button class="btn" data-duration="10000">10s</button>
+                <button class="btn btn-primary" data-duration="30000">30s</button>
+                <button class="btn" data-duration="60000">60s</button>
+              </div>
+            </div>
+            <div class="card p-5">
+              <p class="label">Display Actions</p>
+              <div class="grid gap-3 mt-5">
+                <button class="btn btn-primary" id="sendTestTvBtn">Send Test</button>
+                <button class="btn" id="sendAnnouncementTvBtn">Show Announcement</button>
+                <button class="btn btn-danger" id="clearTvBtn">Clear TV</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="export" class="screen space-y-6">
+          <div class="card p-5"><p class="kicker">Export</p><h2 class="abolition title-med text-5xl leading-none mt-2">DOWNLOAD REPORTS</h2></div>
+          <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
+            <button class="btn btn-primary" id="dlAttendanceBtn">Attendance Summary CSV</button>
+            <button class="btn" id="dlParticipantsBtn">Registrant List CSV</button>
+            <button class="btn" id="dlReceiverBtn">Receiver Inventory CSV</button>
+          </div>
+        </section>
+
+        <section id="settings" class="screen space-y-6">
+          <div class="card p-5"><p class="kicker">Settings</p><h2 class="abolition title-med text-5xl leading-none mt-2">ADMIN TOOLS</h2></div>
+          <div class="card p-5">
+            <p class="label">Change Admin Passcode</p>
+            <div class="grid md:grid-cols-[1fr_1fr_auto] gap-3 mt-4">
+              <input id="newAdminPass" type="password" class="input" placeholder="New passcode" />
+              <input id="newAdminPassConfirm" type="password" class="input" placeholder="Confirm" />
+              <button class="btn btn-primary" id="changeAdminPassBtn">Save</button>
+            </div>
+          </div>
+          <details class="danger-card p-5">
+            <summary class="abolition text-red-200 text-4xl leading-none cursor-pointer">RECEIVER RESET TOOLS</summary>
+            <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-4 mt-5">
+              <button class="btn btn-danger" data-danger-title="CLEAR DAY 1" data-danger-phrase="CONFIRM CLEAR DAY 1">Clear Day 1</button>
+              <button class="btn btn-danger" data-danger-title="CLEAR DAY 2" data-danger-phrase="CONFIRM CLEAR DAY 2">Clear Day 2</button>
+              <button class="btn btn-danger" data-danger-title="RESET RECEIVER" data-danger-phrase="CONFIRM RESET RECEIVER">Reset Receiver Counts</button>
+              <button class="btn btn-danger" id="initializeReceiverBtn">Initialize Receiver Cards</button>
+            </div>
+          </details>
+        </section>
+      </main>
+    </div>
+  </section>
+
+  <div id="participantModal" class="modal-bg">
+    <div class="modal p-5 md:p-7">
+      <div class="flex items-start justify-between gap-4">
+        <div><p id="modalUid" class="kicker">Participant</p><h2 class="abolition title-med text-5xl leading-none mt-2">EDIT RECORD</h2></div>
+        <button class="btn" id="closeParticipantBtn">Close</button>
+      </div>
+      <div class="grid md:grid-cols-2 gap-3 mt-6">
+        <input id="editName" class="input" placeholder="Name" />
+        <input id="editCampus" class="input" placeholder="Campus" />
+        <input id="editChurch" class="input" placeholder="Church" />
+        <input id="editContact" class="input" placeholder="Contact" />
+        <input id="editEmail" class="input normal-case" placeholder="Email" />
+        <input id="editLeader" class="input" placeholder="VG Leader" />
+        <input id="editPasskey" class="input normal-case md:col-span-2" placeholder="Passcode" />
+      </div>
+      <div class="mt-5 card p-4">
+        <p class="label">Other Firestore Details</p>
+        <div id="extraDetails" class="small mt-3"></div>
+      </div>
+      <div class="grid md:grid-cols-3 gap-3 mt-5">
+        <button class="btn" id="generatePassBtn">Generate / Type Passcode</button>
+        <button class="btn" id="copySelectedLinkBtn">Copy QR Link</button>
+        <button class="btn" id="copySelectedResetLinkBtn">Copy Reset Link</button>
+        <button class="btn" id="resetSelectedPasskeyBtn">Reset Passcode</button>
+        <button class="btn btn-danger" id="clearSelectedVaultBtn">Clear Vault</button>
+        <button class="btn btn-primary" id="saveParticipantBtn">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="dangerModal" class="modal-bg">
+    <div class="modal p-5 md:p-7">
+      <p class="kicker !text-red-300">Protected Action</p>
+      <h2 id="dangerTitle" class="abolition title-med text-5xl leading-none mt-2 text-red-200">Confirm</h2>
+      <p id="dangerPhraseText" class="value mt-4 text-red-200">CONFIRM</p>
+      <input id="dangerInput" class="input mt-4" placeholder="Type confirmation phrase" />
+      <div class="grid md:grid-cols-2 gap-3 mt-6">
+        <button class="btn btn-danger" id="runDangerBtn">Run</button>
+        <button class="btn" id="closeDangerBtn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">
+    <div class="card p-4">
+      <p id="toastTitle" class="kicker">Notice</p>
+      <p id="toastText" class="small mt-2">Done.</p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      getDocs,
+      setDoc,
+      updateDoc,
+      addDoc,
+      collection,
+      deleteDoc,
+      query,
+      where,
+      orderBy,
+      deleteField,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    import {
+      getStorage,
+      ref,
+      uploadBytesResumable,
+      getDownloadURL,
+      deleteObject
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+
+    const firebaseApp = initializeApp({
+      apiKey: "AIzaSyAaxjL-NuYE1VeAoYb1_pWHAE3C4VdCBBY",
+      authDomain: "enc-malolos-revival-2026.firebaseapp.com",
+      projectId: "enc-malolos-revival-2026",
+      storageBucket: "enc-malolos-revival-2026.firebasestorage.app",
+      messagingSenderId: "893658387609",
+      appId: "1:893658387609:web:f15e870fb82b729e759408"
+    });
+
+    const db = getFirestore(firebaseApp);
+    const storage = getStorage(firebaseApp);
+
+    const el = {
+      loginScreen: document.getElementById("loginScreen"),
+      adminApp: document.getElementById("adminApp"),
+      adminPasscodeInput: document.getElementById("adminPasscodeInput"),
+      loginStatus: document.getElementById("loginStatus"),
+      toast: document.getElementById("toast"),
+      toastTitle: document.getElementById("toastTitle"),
+      toastText: document.getElementById("toastText")
+    };
+
+    let settings = { activeDay: "day1", revealDuration: 30000 };
+    let eventState = {
+      vaultActive: false,
+      allowReplace: false,
+      registrationOpen: false,
+      maintenanceMode: false,
+      announcementActive: false,
+      announcementText: ""
+    };
+    let photoState = {
+      photosVisible: false,
+      day1Visible: false,
+      day2Visible: false
+    };
+    let photos = [];
+    let photoFilter = "all";
+
+    let recordingState = {
+      recordingsVisible: false,
+      day1Visible: false,
+      day2Visible: false
+    };
+    let recordings = [];
+    let recordingFilter = "all";
+    let users = [];
+    let serveMembers = [];
+    let receiverCards = [];
+    let attendanceView = "day1";
+    let attendanceFilter = "all";
+    let attendanceStatusFilter = "all";
+    let attendanceSort = "name";
+    let checkinMode = "sheet";
+
+    const LUNCH_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxyIr9SUkLcOuFam8X1VE6mHjMjX-lcKdkY4PromqvckxdUTGZHzph9z41QeGjzubEZEQ/exec";
+    const LUNCH_ADMIN_TOKEN = "admin2026";
+    let lunchState = {
+      ordersOpen: true,
+      activeDay: "day1",
+      showDay2Preview: true,
+      hideDay1WhenDay2: true
+    };
+    let lunchOrders = [];
+    let lunchSummary = { totalOrders: 0, totalAmount: 0, claimedCount: 0, unclaimedCount: 0, restaurants: [] };
+    let lunchIncludeDeleted = false;
+
+    let selectedUid = "";
+    let selectedCollection = "users";
+    let dangerPhrase = "";
+
+    function clean(value, fallback = "—") {
+      return String(value || fallback).trim();
+    }
+
+    function dayLabel(day) {
+      return String(day).toLowerCase() === "day2" ? "Day 2" : "Day 1";
+    }
+
+    function isCheckedIn(user, day) {
+      return Boolean(user?.attendance?.[day]?.checkedIn);
+    }
+
+    function withParticipantMeta(u) {
+      return { ...u, type: "participant", collectionName: "users" };
+    }
+
+    function withServeMeta(s) {
+      return { ...s, type: "serve", collectionName: "serveMembers" };
+    }
+
+    function allAttendees() {
+      return [...users.map(withParticipantMeta), ...serveMembers.map(withServeMeta)];
+    }
+
+    function peopleForAttendanceFilter() {
+      if (attendanceFilter === "participants") return users.map(withParticipantMeta);
+      if (attendanceFilter === "serve") return serveMembers.map(withServeMeta);
+      return allAttendees();
+    }
+
+    function typeLabel(record) {
+      return record?.type === "serve" ? "Serving Team" : "Participant";
+    }
+
+    function roleOrCampus(record) {
+      return record?.type === "serve" ? clean(record.role || record.campus || "Serving Team") : clean(record.campus);
+    }
+
+    function personByUid(uid) {
+      return allAttendees().find(person => person.uid === uid);
+    }
+
+    function docRefFor(record) {
+      return doc(db, record.collectionName || "users", record.uid);
+    }
+
+    function dateFromFirestore(value) {
+      if (!value) return null;
+      if (typeof value.toDate === "function") return value.toDate();
+      if (value.seconds) return new Date(value.seconds * 1000);
+      const parsed = new Date(value);
+      return Number.isNaN(parsed.getTime()) ? null : parsed;
+    }
+
+    function timeText(value) {
+      const date = dateFromFirestore(value);
+      if (!date) return "—";
+      return date.toLocaleTimeString("en-PH", { hour: "2-digit", minute: "2-digit", hour12: true }).replace(/^0/, "");
+    }
+
+    async function sha256(text) {
+      const data = new TextEncoder().encode(text);
+      const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+      return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+
+    function toast(message, type = "notice") {
+      el.toastTitle.textContent = type === "error" ? "Error" : type === "success" ? "Saved" : "Notice";
+      el.toastText.textContent = message;
+      el.toast.classList.add("show");
+      setTimeout(() => el.toast.classList.remove("show"), 2800);
+    }
+
+    async function verifyAdminPassword(reason = "Confirm admin action") {
+      const typed = prompt(reason + "\n\nEnter admin passcode:");
+      if (!typed) return false;
+      const securitySnap = await getDoc(doc(db, "settings", "adminSecurity"));
+      if (!securitySnap.exists() || !securitySnap.data().passcodeHash) {
+        toast("Admin passcode is not set.", "error");
+        return false;
+      }
+      const typedHash = await sha256(typed);
+      if (typedHash !== securitySnap.data().passcodeHash) {
+        toast("Incorrect admin passcode.", "error");
+        return false;
+      }
+      return true;
+    }
+
+    function openScreen(id) {
+      document.querySelectorAll(".screen").forEach(screen => screen.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+      document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.toggle("active", btn.dataset.screen === id));
+    }
+
+    async function unlockAdmin() {
+      try {
+        const typed = el.adminPasscodeInput.value;
+        if (!typed) {
+          el.loginStatus.textContent = "Enter passcode.";
+          return;
+        }
+
+        const securitySnap = await getDoc(doc(db, "settings", "adminSecurity"));
+        if (!securitySnap.exists() || !securitySnap.data().passcodeHash) {
+          el.loginStatus.textContent = "Run admin-setup.html first.";
+          return;
+        }
+
+        const typedHash = await sha256(typed);
+        if (typedHash !== securitySnap.data().passcodeHash) {
+          el.loginStatus.textContent = "Incorrect passcode.";
+          return;
+        }
+
+        sessionStorage.setItem("revivalAdminUnlocked", "1");
+        el.loginScreen.classList.add("hidden");
+        el.adminApp.classList.remove("hidden");
+        await loadAll();
+      } catch (error) {
+        console.error(error);
+        el.loginStatus.textContent = error.message;
+      }
+    }
+
+    async function loadAll() {
+      try {
+        const checkinSnap = await getDoc(doc(db, "settings", "checkin"));
+        if (checkinSnap.exists()) settings = { ...settings, ...checkinSnap.data() };
+
+        const eventSnap = await getDoc(doc(db, "settings", "eventState"));
+        if (eventSnap.exists()) eventState = { ...eventState, ...eventSnap.data() };
+
+        await ensurePhotoState();
+        await loadPhotos(false);
+
+        await ensureRecordingState();
+        await ensureDefaultRecordings();
+        await loadRecordings(false);
+
+        const usersSnap = await getDocs(collection(db, "users"));
+        users = [];
+        usersSnap.forEach(userDoc => users.push({ uid: userDoc.id, ...userDoc.data() }));
+        users.sort((a, b) => clean(a.name).localeCompare(clean(b.name)));
+
+        const serveSnap = await getDocs(collection(db, "serveMembers"));
+        serveMembers = [];
+        serveSnap.forEach(serveDoc => serveMembers.push({ uid: serveDoc.id, ...serveDoc.data() }));
+        serveMembers.sort((a, b) => clean(a.name).localeCompare(clean(b.name)));
+
+        await loadReceiver(false);
+        await ensureLunchState();
+        await loadLunchOrders(false);
+
+        renderAll();
+        toast("Admin loaded.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+
+
+    async function ensureLunchState() {
+      try {
+        const refDoc = doc(db, "settings", "lunchState");
+        const snap = await getDoc(refDoc);
+
+        if (!snap.exists()) {
+          await setDoc(refDoc, {
+            ...lunchState,
+            updatedAt: serverTimestamp()
+          }, { merge: true });
+        } else {
+          lunchState = { ...lunchState, ...snap.data() };
+        }
+      } catch (error) {
+        console.error(error);
+        toast("Lunch settings could not be loaded.", "error");
+      }
+    }
+
+    async function updateLunchState(patch) {
+      try {
+        lunchState = { ...lunchState, ...patch };
+        await setDoc(doc(db, "settings", "lunchState"), {
+          ...patch,
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+        renderLunchAdmin();
+        toast("Lunch settings updated.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    async function toggleLunchState(field) {
+      await updateLunchState({ [field]: !Boolean(lunchState[field]) });
+    }
+
+    function lunchApiUrl(action, params = {}) {
+      const url = new URL(LUNCH_SCRIPT_URL);
+      url.searchParams.set("action", action);
+      url.searchParams.set("token", LUNCH_ADMIN_TOKEN);
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== "") url.searchParams.set(key, value);
+      });
+      return url.toString();
+    }
+
+    async function lunchApi(action, params = {}) {
+      const response = await fetch(lunchApiUrl(action, params), { method: "GET" });
+      const data = await response.json();
+      if (!data.ok) throw new Error(data.message || "Lunch API request failed.");
+      return data;
+    }
+
+    async function loadLunchOrders(shouldRender = true) {
+      try {
+        const data = await lunchApi("orders", { includeDeleted: lunchIncludeDeleted ? "true" : "false" });
+        lunchOrders = data.orders || [];
+        lunchSummary = data.summary || { totalOrders: 0, totalAmount: 0, claimedCount: 0, unclaimedCount: 0, restaurants: [] };
+        if (shouldRender) renderLunchAdmin();
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    function peso(value) {
+      return "₱" + Number(value || 0).toLocaleString("en-PH");
+    }
+
+    function lunchEscape(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function isLunchClaimed(order) {
+      return clean(order.claimStatus).toUpperCase() === "CLAIMED";
+    }
+
+    function isLunchDeleted(order) {
+      return clean(order.deleted).toUpperCase() === "YES" || clean(order.deleted).toUpperCase() === "TRUE";
+    }
+
+    function lunchDateText(value) {
+      if (!value) return "—";
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return String(value);
+      return date.toLocaleString("en-PH", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: true }).replace(/^0/, "");
+    }
+
+    function getVisibleLunchOrders() {
+      const search = clean(document.getElementById("lunchSearch")?.value || "").toLowerCase();
+      const dayFilterRaw = document.getElementById("lunchDayFilter")?.value || "active";
+      const dayFilter = dayFilterRaw === "active" ? lunchState.activeDay : dayFilterRaw;
+      const statusFilter = document.getElementById("lunchStatusFilter")?.value || "all";
+      const restaurantFilter = document.getElementById("lunchRestaurantFilter")?.value || "all";
+      const sortFilter = document.getElementById("lunchSortFilter")?.value || "name";
+
+      let list = lunchOrders.slice();
+
+      if (!lunchIncludeDeleted) list = list.filter(order => !isLunchDeleted(order));
+      if (dayFilter !== "all") list = list.filter(order => normalizeLunchDayKey(order.day) === dayFilter);
+      if (statusFilter === "claimed") list = list.filter(isLunchClaimed);
+      if (statusFilter === "unclaimed") list = list.filter(order => !isLunchClaimed(order));
+      if (restaurantFilter !== "all") list = list.filter(order => clean(order.restaurant).toLowerCase() === restaurantFilter.toLowerCase());
+      if (search) list = list.filter(order => clean(order.name).toLowerCase().includes(search));
+
+      list.sort((a, b) => {
+        if (sortFilter === "restaurant") {
+          return clean(a.restaurant).localeCompare(clean(b.restaurant)) || clean(a.name).localeCompare(clean(b.name));
+        }
+        if (sortFilter === "unclaimedFirst") {
+          return Number(isLunchClaimed(a)) - Number(isLunchClaimed(b)) || clean(a.name).localeCompare(clean(b.name));
+        }
+        if (sortFilter === "latest") {
+          return clean(b.timestamp).localeCompare(clean(a.timestamp));
+        }
+        return clean(a.name).localeCompare(clean(b.name));
+      });
+
+      return list;
+    }
+
+    function normalizeLunchDayKey(day) {
+      const value = clean(day).toLowerCase();
+      if (value === "day 1" || value === "day1") return "day1";
+      if (value === "day 2" || value === "day2") return "day2";
+      return value.replace(/\s+/g, "");
+    }
+
+    function renderLunchAdmin() {
+      setSwitch("lunchOrdersOpenBtn", lunchState.ordersOpen, "Orders Open", "Orders Closed");
+      setSwitch("lunchDay2PreviewBtn", lunchState.showDay2Preview, "Preview On", "Preview Off");
+      setSwitch("lunchHideDay1Btn", lunchState.hideDay1WhenDay2, "Hide Day 1", "Show Day 1");
+
+      const activeSelect = document.getElementById("lunchActiveDaySelect");
+      if (activeSelect) activeSelect.value = lunchState.activeDay || "day1";
+
+      const summary = buildLunchSummaryFromOrders(lunchOrders.filter(order => !isLunchDeleted(order)));
+      document.getElementById("lunchTotalOrders") && (document.getElementById("lunchTotalOrders").textContent = summary.totalOrders || 0);
+      document.getElementById("lunchTotalAmount") && (document.getElementById("lunchTotalAmount").textContent = peso(summary.totalAmount || 0));
+      document.getElementById("lunchClaimedCount") && (document.getElementById("lunchClaimedCount").textContent = summary.claimedCount || 0);
+      document.getElementById("lunchUnclaimedCount") && (document.getElementById("lunchUnclaimedCount").textContent = summary.unclaimedCount || 0);
+
+      const deletedBtn = document.getElementById("lunchIncludeDeletedBtn");
+      if (deletedBtn) {
+        deletedBtn.textContent = lunchIncludeDeleted ? "Hide Deleted" : "Show Deleted";
+        deletedBtn.classList.toggle("btn-danger", lunchIncludeDeleted);
+      }
+
+      renderLunchRestaurantSummary(summary);
+      renderLunchOrdersGrid();
+    }
+
+    function buildLunchSummaryFromOrders(orders) {
+      const summary = { totalOrders: 0, totalAmount: 0, claimedCount: 0, unclaimedCount: 0, restaurants: [] };
+      const restaurantMap = new Map();
+
+      orders.forEach(order => {
+        const restaurant = clean(order.restaurant || "Unknown");
+        const option = clean(order.option || "");
+        const meal = clean(order.meal || "Unknown Meal");
+        const drink = clean(order.drink || "None");
+        const amount = Number(order.amount || 0);
+
+        summary.totalOrders += 1;
+        summary.totalAmount += amount;
+        if (isLunchClaimed(order)) summary.claimedCount += 1;
+        else summary.unclaimedCount += 1;
+
+        if (!restaurantMap.has(restaurant)) {
+          restaurantMap.set(restaurant, { restaurant, quantity: 0, totalAmount: 0, meals: new Map() });
+        }
+
+        const rest = restaurantMap.get(restaurant);
+        rest.quantity += 1;
+        rest.totalAmount += amount;
+
+        const mealKey = `${option} — ${meal}`;
+        if (!rest.meals.has(mealKey)) rest.meals.set(mealKey, { option, meal, quantity: 0, totalAmount: 0, drinks: new Map() });
+        const mealObj = rest.meals.get(mealKey);
+        mealObj.quantity += 1;
+        mealObj.totalAmount += amount;
+
+        if (!mealObj.drinks.has(drink)) mealObj.drinks.set(drink, { drink, quantity: 0, totalAmount: 0 });
+        const drinkObj = mealObj.drinks.get(drink);
+        drinkObj.quantity += 1;
+        drinkObj.totalAmount += amount;
+      });
+
+      summary.restaurants = Array.from(restaurantMap.values()).map(rest => ({
+        ...rest,
+        meals: Array.from(rest.meals.values()).map(meal => ({ ...meal, drinks: Array.from(meal.drinks.values()) }))
+      }));
+
+      return summary;
+    }
+
+    function renderLunchRestaurantSummary(summary) {
+      const wrap = document.getElementById("lunchRestaurantSummary");
+      if (!wrap) return;
+
+      const restaurants = summary.restaurants || [];
+      if (!restaurants.length) {
+        wrap.innerHTML = `<div class="card p-5 lg:col-span-3"><p class="small">No lunch orders yet.</p></div>`;
+        return;
+      }
+
+      wrap.innerHTML = restaurants.map(rest => `
+        <div class="lunch-restaurant-card">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <p class="kicker">${lunchEscape(rest.restaurant)}</p>
+              <h3 class="abolition text-yellow-400 text-4xl leading-none mt-2">${rest.quantity} ORDERS</h3>
+            </div>
+            <span class="pill pill-yellow">${peso(rest.totalAmount)}</span>
+          </div>
+          <div class="mt-4">
+            ${(rest.meals || []).map(meal => `
+              <div class="lunch-meal-line">
+                <p class="value">${lunchEscape(meal.option)} — ${lunchEscape(meal.meal)}</p>
+                <p class="small mt-1">Qty: ${meal.quantity} · Total: ${peso(meal.totalAmount)}</p>
+                <div class="flex flex-wrap gap-2 mt-2">
+                  ${(meal.drinks || []).map(drink => `<span class="pill">${lunchEscape(drink.drink)}: ${drink.quantity}</span>`).join("")}
+                </div>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function renderLunchOrdersGrid() {
+      const grid = document.getElementById("lunchOrdersGrid");
+      if (!grid) return;
+
+      const list = getVisibleLunchOrders();
+
+      if (!list.length) {
+        grid.innerHTML = `<div class="card p-5"><p class="small">No orders match the current filters.</p></div>`;
+        return;
+      }
+
+      grid.innerHTML = list.map(order => {
+        const claimed = isLunchClaimed(order);
+        const deleted = isLunchDeleted(order);
+        return `
+          <div class="lunch-order-card ${deleted ? "deleted" : ""}">
+            <div class="min-w-0">
+              <div class="flex flex-wrap gap-2 mb-3">
+                <span class="pill pill-yellow">${lunchEscape(order.day)}</span>
+                <span class="pill ${claimed ? "pill-green" : "pill-red"}">${claimed ? "Claimed" : "Unclaimed"}</span>
+                ${deleted ? `<span class="pill pill-red">Deleted</span>` : ""}
+              </div>
+              <h3 class="value text-lg normal-case">${lunchEscape(order.name)}</h3>
+              <p class="small mt-2">${lunchEscape(order.restaurant)} · Option ${lunchEscape(order.option)} · ${lunchEscape(order.meal)}</p>
+              <p class="small mt-1">Drink: ${lunchEscape(order.drink || "None")} · Payment: ${lunchEscape(order.paymentMethod)} · Amount: ${peso(order.amount)}</p>
+              <p class="small mt-1">Submitted: ${lunchEscape(lunchDateText(order.timestamp))} · Claimed At: ${lunchEscape(lunchDateText(order.claimedAt))}</p>
+              ${deleted ? `<p class="small mt-1 text-red-200">Delete reason: ${lunchEscape(order.deleteReason || "—")}</p>` : ""}
+            </div>
+            <div class="lunch-actions">
+              ${!deleted ? `
+                <button class="btn ${claimed ? "" : "btn-primary"}" data-lunch-claim="${lunchEscape(order.orderKey)}" data-lunch-claimed="${claimed ? "false" : "true"}">${claimed ? "Mark Unclaimed" : "Mark Claimed"}</button>
+                <button class="btn btn-danger" data-lunch-delete="${lunchEscape(order.orderKey)}">Remove</button>
+              ` : `
+                <button class="btn btn-primary" data-lunch-restore="${lunchEscape(order.orderKey)}">Restore</button>
+              `}
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function lunchCopyText(restaurantName = "all") {
+      const filtered = lunchOrders.filter(order => {
+        if (isLunchDeleted(order)) return false;
+        if (restaurantName !== "all" && clean(order.restaurant).toLowerCase() !== restaurantName.toLowerCase()) return false;
+        const dayFilterRaw = document.getElementById("lunchDayFilter")?.value || "active";
+        const dayFilter = dayFilterRaw === "active" ? lunchState.activeDay : dayFilterRaw;
+        if (dayFilter !== "all" && normalizeLunchDayKey(order.day) !== dayFilter) return false;
+        return true;
+      });
+
+      const summary = buildLunchSummaryFromOrders(filtered);
+      const lines = [];
+      lines.push(`REVIVAL // 2026 LUNCH ORDERS`);
+      const selectedDay = document.getElementById("lunchDayFilter")?.value || "active";
+      lines.push(`DAY: ${selectedDay === "all" ? "All Days" : dayLabel(selectedDay === "active" ? lunchState.activeDay : selectedDay)}`);
+      lines.push(`TOTAL ORDERS: ${summary.totalOrders}`);
+      lines.push(`TOTAL AMOUNT: ${peso(summary.totalAmount)}`);
+      lines.push("");
+
+      (summary.restaurants || []).forEach(rest => {
+        lines.push(`${rest.restaurant.toUpperCase()} — ${rest.quantity} orders — ${peso(rest.totalAmount)}`);
+        (rest.meals || []).forEach(meal => {
+          lines.push(`  ${meal.option} — ${meal.meal}`);
+          lines.push(`  Qty: ${meal.quantity} | Total: ${peso(meal.totalAmount)}`);
+          (meal.drinks || []).forEach(drink => lines.push(`    ${drink.drink}: ${drink.quantity}`));
+        });
+        lines.push("");
+      });
+
+      return lines.join("\n");
+    }
+
+    async function copyLunchList(restaurantName) {
+      const text = lunchCopyText(restaurantName);
+      const area = document.getElementById("lunchCopyArea");
+      if (area) area.value = text;
+      await navigator.clipboard.writeText(text);
+      toast("Lunch list copied.", "success");
+    }
+
+    function printLunchList() {
+      const text = lunchCopyText("all");
+      const win = window.open("", "_blank");
+      if (!win) {
+        toast("Popup blocked. Copy the list instead.", "error");
+        return;
+      }
+      win.document.write(`
+        <html><head><title>REVIVAL Lunch Orders</title>
+        <style>body{font-family:Arial,sans-serif;padding:28px;white-space:pre-wrap;line-height:1.5} h1{font-size:24px}</style>
+        </head><body><h1>REVIVAL // 2026 Lunch Orders</h1><pre>${lunchEscape(text)}</pre></body></html>
+      `);
+      win.document.close();
+      win.focus();
+      win.print();
+    }
+
+    async function setLunchClaim(orderKey, claimed) {
+      try {
+        await lunchApi("claim", { orderKey, claimed: String(claimed), claimedBy: "Admin" });
+        await loadLunchOrders(true);
+        toast(claimed ? "Order marked claimed." : "Order marked unclaimed.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    async function deleteLunchOrder(orderKey) {
+      const reason = prompt("Why remove this order?", "Duplicate or wrong order");
+      if (reason === null) return;
+      try {
+        await lunchApi("delete", { orderKey, reason });
+        await loadLunchOrders(true);
+        toast("Order removed from active list.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    async function restoreLunchOrder(orderKey) {
+      try {
+        await lunchApi("restore", { orderKey });
+        await loadLunchOrders(true);
+        toast("Order restored.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    async function loadReceiver(shouldRender = true) {
+      const snap = await getDocs(collection(db, "receiverCards"));
+      receiverCards = [];
+      snap.forEach(cardDoc => receiverCards.push({ id: cardDoc.id, ...cardDoc.data() }));
+      receiverCards.sort((a, b) => cardTitle(a).localeCompare(cardTitle(b)));
+      if (shouldRender) renderReceiver();
+    }
+
+    function renderAll() {
+      renderOverview();
+      renderWebsite();
+      renderPhotosAdmin();
+      renderRecordingsAdmin();
+      renderParticipants();
+      renderServingTeam();
+      renderAttendance();
+      renderLunchAdmin();
+      renderReceiver();
+      renderVault();
+      renderTv();
+    }
+
+    function setPill(id, on, onText, offText) {
+      const node = document.getElementById(id);
+      node.textContent = on ? onText : offText;
+      node.className = "pill " + (on ? "pill-green" : "pill-red");
+    }
+
+    function renderOverview() {
+      const participantsD1 = users.filter(u => isCheckedIn(u, "day1")).length;
+      const participantsD2 = users.filter(u => isCheckedIn(u, "day2")).length;
+      const serveD1 = serveMembers.filter(u => isCheckedIn(u, "day1")).length;
+      const serveD2 = serveMembers.filter(u => isCheckedIn(u, "day2")).length;
+      const totalD1 = participantsD1 + serveD1;
+      const totalD2 = participantsD2 + serveD2;
+
+      document.getElementById("ovD1").textContent = totalD1;
+      document.getElementById("ovD2").textContent = totalD2;
+      document.getElementById("ovParticipantsD1").textContent = participantsD1;
+      document.getElementById("ovServeD1").textContent = serveD1;
+      document.getElementById("ovParticipantsD2").textContent = participantsD2;
+      document.getElementById("ovServeD2").textContent = serveD2;
+      if (document.getElementById("ovRecordings")) document.getElementById("ovRecordings").textContent = recordingState.recordingsVisible ? "LIVE" : "HIDE";
+
+      setPill("sideVault", eventState.vaultActive, "Vault Open", "Vault Closed");
+      setPill("sideReplace", eventState.allowReplace, "Replace Open", "Replace Closed");
+      document.getElementById("sideDay").textContent = dayLabel(settings.activeDay);
+
+      setSwitch("ovVaultBtn", eventState.vaultActive, "Vault Open", "Vault Closed");
+      setSwitch("ovReplaceBtn", eventState.allowReplace, "Replace Open", "Replace Closed");
+    }
+
+    function setSwitch(id, on, onText = "Open / On", offText = "Closed / Off") {
+      const btn = document.getElementById(id);
+      if (!btn) return;
+      btn.textContent = on ? onText : offText;
+      btn.classList.toggle("on", Boolean(on));
+    }
+
+    function renderWebsite() {
+      setSwitch("vaultActiveBtn", eventState.vaultActive);
+      setSwitch("allowReplaceBtn", eventState.allowReplace);
+      setSwitch("registrationOpenBtn", eventState.registrationOpen);
+      setSwitch("maintenanceModeBtn", eventState.maintenanceMode);
+      setSwitch("announcementActiveBtn", eventState.announcementActive);
+      setSwitch("websitePhotosVisibleBtn", photoState.photosVisible, "Photos Live", "Photos Hidden");
+      setSwitch("websiteDay1VisibleBtn", photoState.day1Visible, "Day 1 Visible", "Day 1 Hidden");
+      setSwitch("websiteDay2VisibleBtn", photoState.day2Visible, "Day 2 Visible", "Day 2 Hidden");
+      setSwitch("websiteRecordingsVisibleBtn", recordingState.recordingsVisible, "Recordings Live", "Recordings Hidden");
+      setSwitch("websiteRecordingsDay1Btn", recordingState.day1Visible, "Day 1 Visible", "Day 1 Hidden");
+      setSwitch("websiteRecordingsDay2Btn", recordingState.day2Visible, "Day 2 Visible", "Day 2 Hidden");
+      setSwitch("vaultActiveBtn2", eventState.vaultActive, "Vault Open", "Vault Closed");
+      setSwitch("allowReplaceBtn2", eventState.allowReplace, "Replace Open", "Replace Closed");
+      document.getElementById("announcementText").value = clean(eventState.announcementText, "");
+    }
+
+    async function toggleEvent(field) {
+      try {
+        const next = !Boolean(eventState[field]);
+        await setDoc(doc(db, "settings", "eventState"), {
+          [field]: next,
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+        eventState[field] = next;
+        renderOverview();
+        renderWebsite();
+        toast("Updated.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+
+    async function ensurePhotoState() {
+      const refDoc = doc(db, "settings", "photoState");
+      const snap = await getDoc(refDoc);
+
+      if (!snap.exists()) {
+        await setDoc(refDoc, {
+          photosVisible: false,
+          day1Visible: false,
+          day2Visible: false,
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+        photoState = {
+          photosVisible: false,
+          day1Visible: false,
+          day2Visible: false
+        };
+      } else {
+        photoState = { ...photoState, ...snap.data() };
+      }
+    }
+
+    async function loadPhotos(shouldRender = true) {
+      const q = query(collection(db, "photos"), orderBy("createdAt", "desc"));
+      const snap = await getDocs(q);
+      photos = [];
+      snap.forEach(photoDoc => photos.push({ id: photoDoc.id, ...photoDoc.data() }));
+      if (shouldRender) renderPhotosAdmin();
+    }
+
+    async function togglePhotoState(field) {
+      try {
+        await ensurePhotoState();
+        const next = !Boolean(photoState[field]);
+        const update = {
+          [field]: next,
+          updatedAt: serverTimestamp()
+        };
+
+        // If Day 1 or Day 2 is enabled, photos page should be visible automatically.
+        if ((field === "day1Visible" || field === "day2Visible") && next === true) {
+          update.photosVisible = true;
+          photoState.photosVisible = true;
+        }
+
+        // If photos page is disabled, hide both days too.
+        if (field === "photosVisible" && next === false) {
+          update.day1Visible = false;
+          update.day2Visible = false;
+          photoState.day1Visible = false;
+          photoState.day2Visible = false;
+        }
+
+        await setDoc(doc(db, "settings", "photoState"), update, { merge: true });
+        photoState[field] = next;
+
+        renderPhotosAdmin();
+        renderWebsite();
+        renderOverview();
+        toast("Photo visibility updated.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    function renderPhotosAdmin() {
+      setSwitch("photosVisibleBtn", photoState.photosVisible, "Photos Live", "Photos Hidden");
+      setSwitch("day1PhotosVisibleBtn", photoState.day1Visible, "Day 1 Visible", "Day 1 Hidden");
+      setSwitch("day2PhotosVisibleBtn", photoState.day2Visible, "Day 2 Visible", "Day 2 Hidden");
+      setSwitch("websitePhotosVisibleBtn", photoState.photosVisible, "Photos Live", "Photos Hidden");
+      setSwitch("websiteDay1VisibleBtn", photoState.day1Visible, "Day 1 Visible", "Day 1 Hidden");
+      setSwitch("websiteDay2VisibleBtn", photoState.day2Visible, "Day 2 Visible", "Day 2 Hidden");
+      setSwitch("websiteRecordingsVisibleBtn", recordingState.recordingsVisible, "Recordings Live", "Recordings Hidden");
+      setSwitch("websiteRecordingsDay1Btn", recordingState.day1Visible, "Day 1 Visible", "Day 1 Hidden");
+      setSwitch("websiteRecordingsDay2Btn", recordingState.day2Visible, "Day 2 Visible", "Day 2 Hidden");
+
+      const approved = photos.filter(p => p.status !== "hidden");
+      const visible = approved.filter(p => photoFilter === "all" || p.day === photoFilter);
+      const day1 = approved.filter(p => p.day === "day1").length;
+      const day2 = approved.filter(p => p.day === "day2").length;
+      const featured = approved.filter(p => p.featured).length;
+
+      if (document.getElementById("photoApprovedCount")) document.getElementById("photoApprovedCount").textContent = approved.length;
+      if (document.getElementById("photoDay1Count")) document.getElementById("photoDay1Count").textContent = day1;
+      if (document.getElementById("photoDay2Count")) document.getElementById("photoDay2Count").textContent = day2;
+      if (document.getElementById("photoFeaturedCount")) document.getElementById("photoFeaturedCount").textContent = featured;
+
+      const grid = document.getElementById("adminPhotosGrid");
+      if (!grid) return;
+
+      grid.innerHTML = visible.map(photo => `
+        <div class="card overflow-hidden">
+          <div class="aspect-[4/5] bg-black border-b border-white/10">
+            <img src="${photo.url}" alt="Uploaded Revival photo" class="w-full h-full object-cover" loading="lazy">
+          </div>
+          <div class="p-4">
+            <div class="flex flex-wrap gap-2">
+              <span class="pill pill-yellow">${photo.day === "day2" ? "Day 2" : "Day 1"}</span>
+              <span class="pill ${photo.featured ? "pill-green" : ""}">${photo.featured ? "Featured" : "Photo"}</span>
+              ${photo.status === "hidden" ? '<span class="pill pill-red">Hidden</span>' : ''}
+            </div>
+            <div class="grid gap-2 mt-4">
+              <button class="btn btn-primary" data-feature-photo="${photo.id}">Set Featured</button>
+              <button class="btn" data-hide-photo="${photo.id}">${photo.status === "hidden" ? "Unhide" : "Hide"}</button>
+              <button class="btn btn-danger" data-delete-photo="${photo.id}">Delete</button>
+            </div>
+          </div>
+        </div>
+      `).join("") || '<div class="card p-5"><p class="value">No photos found for this filter.</p></div>';
+    }
+
+    function updatePhotoUploadProgress(done, total, label = "") {
+      const pct = total ? Math.round((done / total) * 100) : 0;
+      const bar = document.getElementById("photoUploadBar");
+      const percent = document.getElementById("photoUploadPercent");
+      const status = document.getElementById("photoUploadStatus");
+
+      if (bar) bar.style.width = pct + "%";
+      if (percent) percent.textContent = pct + "%";
+      if (status) status.textContent = label || `Uploading ${done} of ${total} photo(s)...`;
+    }
+
+    async function compressImageFile(file, maxSize = 1600, quality = 0.82) {
+      if (!file.type.startsWith("image/")) throw new Error(file.name + " is not an image.");
+
+      const image = await new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = URL.createObjectURL(file);
+      });
+
+      const scale = Math.min(1, maxSize / Math.max(image.width, image.height));
+      const width = Math.round(image.width * scale);
+      const height = Math.round(image.height * scale);
+
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(image, 0, 0, width, height);
+      URL.revokeObjectURL(image.src);
+
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", quality));
+      if (!blob) throw new Error("Could not compress image.");
+
+      const safeName = file.name.replace(/\.[^.]+$/, "").replace(/[^a-z0-9-_]+/gi, "-").toLowerCase();
+      return new File([blob], `${safeName || "photo"}.jpg`, { type: "image/jpeg" });
+    }
+
+    async function uploadPublicPhotos() {
+      const input = document.getElementById("photoUploadInput");
+      const day = document.getElementById("photoUploadDay").value || "day1";
+      const files = Array.from(input.files || []);
+
+      if (!files.length) return toast("Select photos first.", "error");
+
+      try {
+        document.getElementById("uploadPhotosBtn").disabled = true;
+        updatePhotoUploadProgress(0, files.length, "Preparing photos...");
+
+        for (let i = 0; i < files.length; i++) {
+          const compressed = await compressImageFile(files[i]);
+          const stamp = Date.now() + "-" + i;
+          const storagePath = `photos/${day}/${stamp}-${compressed.name}`;
+          const storageRef = ref(storage, storagePath);
+
+          await new Promise((resolve, reject) => {
+            const task = uploadBytesResumable(storageRef, compressed, {
+              contentType: "image/jpeg"
+            });
+
+            task.on("state_changed", () => {
+              updatePhotoUploadProgress(i, files.length, `Uploading ${i + 1} of ${files.length}: ${files[i].name}`);
+            }, reject, resolve);
+          });
+
+          const url = await getDownloadURL(storageRef);
+
+          await addDoc(collection(db, "photos"), {
+            url,
+            storagePath,
+            day,
+            source: "admin",
+            status: "approved",
+            featured: false,
+            originalName: files[i].name,
+            createdAt: serverTimestamp()
+          });
+
+          updatePhotoUploadProgress(i + 1, files.length);
+        }
+
+        input.value = "";
+        updatePhotoUploadProgress(files.length, files.length, "Upload complete.");
+        await loadPhotos(true);
+        toast("Photos uploaded.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      } finally {
+        document.getElementById("uploadPhotosBtn").disabled = false;
+      }
+    }
+
+    async function setFeaturedPhoto(photoId) {
+      try {
+        const selected = photos.find(p => p.id === photoId);
+        if (!selected) return;
+
+        await Promise.all(photos
+          .filter(p => p.day === selected.day && p.id !== photoId)
+          .map(p => setDoc(doc(db, "photos", p.id), { featured: false, updatedAt: serverTimestamp() }, { merge: true }))
+        );
+
+        await setDoc(doc(db, "photos", photoId), {
+          featured: true,
+          status: "approved",
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+
+        await loadPhotos(true);
+        toast("Featured photo updated.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    async function togglePhotoHidden(photoId) {
+      try {
+        const selected = photos.find(p => p.id === photoId);
+        if (!selected) return;
+        const nextStatus = selected.status === "hidden" ? "approved" : "hidden";
+
+        await setDoc(doc(db, "photos", photoId), {
+          status: nextStatus,
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+
+        await loadPhotos(true);
+        toast(nextStatus === "hidden" ? "Photo hidden." : "Photo visible.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    async function deletePhotoRecord(photoId) {
+      const selected = photos.find(p => p.id === photoId);
+      if (!selected) return;
+
+      const ok = await verifyAdminPassword("Delete this photo permanently?");
+      if (!ok) return;
+      if (!confirm("This deletes the Firestore record and Storage file. Continue?")) return;
+
+      try {
+        if (selected.storagePath) {
+          await deleteObject(ref(storage, selected.storagePath)).catch(err => {
+            console.warn("Storage delete skipped:", err);
+          });
+        }
+
+        await deleteDoc(doc(db, "photos", photoId));
+        await loadPhotos(true);
+        toast("Photo deleted.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+
+    const defaultRecordings = [
+      { id: "feed-01", type: "Devotional", title: "The Person of the Holy Spirit", day: "day1", feed: "01", order: 1 },
+      { id: "feed-02", type: "Session 01", title: "Sanctification by the Spirit", day: "day1", feed: "02", order: 2 },
+      { id: "feed-03", type: "Session 02", title: "Spirit Empowered Life", day: "day1", feed: "03", order: 3 },
+      { id: "feed-07", type: "Exhortation", title: "Exhortation", day: "day1", feed: "07", order: 7 },
+      { id: "feed-08", type: "Prophetic Prayer", title: "Prophetic Prayer", day: "day1", feed: "08", order: 8 },
+      { id: "feed-04", type: "Devotional", title: "The Spirit of Sonship", day: "day2", feed: "04", order: 4 },
+      { id: "feed-05", type: "Session 03", title: "Walking in the Spirit", day: "day2", feed: "05", order: 5 },
+      { id: "feed-06", type: "Session 04", title: "The Outpouring of the Holy Spirit", day: "day2", feed: "06", order: 6 }
+    ];
+
+    async function ensureRecordingState() {
+      const refDoc = doc(db, "settings", "recordingState");
+      const snap = await getDoc(refDoc);
+
+      if (!snap.exists()) {
+        await setDoc(refDoc, {
+          recordingsVisible: false,
+          day1Visible: false,
+          day2Visible: false,
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+        recordingState = {
+          recordingsVisible: false,
+          day1Visible: false,
+          day2Visible: false
+        };
+      } else {
+        recordingState = { ...recordingState, ...snap.data() };
+      }
+    }
+
+    async function ensureDefaultRecordings() {
+      for (const rec of defaultRecordings) {
+        const refDoc = doc(db, "recordings", rec.id);
+        const snap = await getDoc(refDoc);
+
+        if (!snap.exists()) {
+          await setDoc(refDoc, {
+            ...rec,
+            youtubeUrl: "",
+            embedUrl: "",
+            description: "",
+            thumbnailUrl: "",
+            thumbnailStoragePath: "",
+            status: "locked",
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp()
+          }, { merge: true });
+        }
+      }
+    }
+
+    async function loadRecordings(shouldRender = true) {
+      const q = query(collection(db, "recordings"), orderBy("order", "asc"));
+      const snap = await getDocs(q);
+      recordings = [];
+      snap.forEach(recordingDoc => recordings.push({ id: recordingDoc.id, ...recordingDoc.data() }));
+      recordings.sort((a, b) => Number(a.order || 999) - Number(b.order || 999));
+      refreshRecordingSlotOptions(document.getElementById("recordingFeedSelect")?.value || "");
+      if (shouldRender) renderRecordingsAdmin();
+    }
+
+    async function toggleRecordingState(field) {
+      try {
+        await ensureRecordingState();
+        const next = !Boolean(recordingState[field]);
+        const update = {
+          [field]: next,
+          updatedAt: serverTimestamp()
+        };
+
+        if ((field === "day1Visible" || field === "day2Visible") && next === true) {
+          update.recordingsVisible = true;
+          recordingState.recordingsVisible = true;
+        }
+
+        if (field === "recordingsVisible" && next === false) {
+          update.day1Visible = false;
+          update.day2Visible = false;
+          recordingState.day1Visible = false;
+          recordingState.day2Visible = false;
+        }
+
+        await setDoc(doc(db, "settings", "recordingState"), update, { merge: true });
+        recordingState[field] = next;
+
+        renderRecordingsAdmin();
+        renderWebsite();
+        renderOverview();
+        toast("Recording visibility updated.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    function parseYoutubeLink(input) {
+      const raw = String(input || "").trim();
+      if (!raw) return { youtubeUrl: "", embedUrl: "" };
+
+      let videoId = "";
+
+      try {
+        const url = new URL(raw);
+
+        if (url.hostname.includes("youtu.be")) {
+          videoId = url.pathname.split("/").filter(Boolean)[0] || "";
+        } else if (url.pathname.includes("/embed/")) {
+          videoId = url.pathname.split("/embed/")[1]?.split(/[/?#]/)[0] || "";
+        } else if (url.pathname.includes("/shorts/")) {
+          videoId = url.pathname.split("/shorts/")[1]?.split(/[/?#]/)[0] || "";
+        } else {
+          videoId = url.searchParams.get("v") || "";
+        }
+      } catch (error) {
+        const match = raw.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([A-Za-z0-9_-]{6,})/);
+        videoId = match ? match[1] : raw;
+      }
+
+      videoId = String(videoId || "").replace(/[^A-Za-z0-9_-]/g, "");
+
+      if (!videoId || videoId.length < 6) {
+        throw new Error("Invalid YouTube link.");
+      }
+
+      return {
+        youtubeUrl: `https://youtu.be/${videoId}`,
+        embedUrl: `https://www.youtube.com/embed/${videoId}`
+      };
+    }
+
+    async function uploadRecordingThumbnail(recordingId, file) {
+      if (!file) return null;
+
+      const compressed = await compressImageFile(file, 1280, 0.84);
+      const stamp = Date.now();
+      const storagePath = `recording-thumbnails/${recordingId}/${stamp}-${compressed.name}`;
+      const storageRef = ref(storage, storagePath);
+
+      await new Promise((resolve, reject) => {
+        const task = uploadBytesResumable(storageRef, compressed, {
+          contentType: "image/jpeg"
+        });
+        task.on("state_changed", null, reject, resolve);
+      });
+
+      const thumbnailUrl = await getDownloadURL(storageRef);
+      return { thumbnailUrl, thumbnailStoragePath: storagePath };
+    }
+
+    function recordingOptionLabel(rec) {
+      const day = rec.day === "day2" ? "Day 2" : "Day 1";
+      const type = clean(rec.type, "Session");
+      const title = clean(rec.title, "Untitled Recording");
+      return `${day} • ${type} • ${title}`;
+    }
+
+    function allRecordingSlots() {
+      const map = new Map();
+      defaultRecordings.forEach(rec => map.set(rec.id, rec));
+      recordings.forEach(rec => map.set(rec.id, rec));
+      return Array.from(map.values()).sort((a, b) => Number(a.order || 999) - Number(b.order || 999));
+    }
+
+    function refreshRecordingSlotOptions(selectedId = "") {
+      const select = document.getElementById("recordingFeedSelect");
+      if (!select) return;
+      const slots = allRecordingSlots();
+      select.innerHTML = slots.map(rec => `<option value="${rec.id}">${recordingOptionLabel(rec)}</option>`).join("");
+      if (selectedId && slots.some(rec => rec.id === selectedId)) select.value = selectedId;
+      else if (select.options.length && !select.value) select.value = select.options[0].value;
+    }
+
+    function nextRecordingSlotMeta() {
+      const slots = allRecordingSlots();
+      let maxNo = 0;
+      slots.forEach(rec => {
+        const fromFeed = Number(String(rec.feed || "").replace(/\D/g, ""));
+        const fromId = Number(String(rec.id || "").match(/(\d+)$/)?.[1] || 0);
+        const fromOrder = Number(rec.order || 0);
+        maxNo = Math.max(maxNo, fromFeed, fromId, fromOrder);
+      });
+      let next = maxNo + 1;
+      let id = `feed-${String(next).padStart(2, "0")}`;
+      while (slots.some(rec => rec.id === id)) {
+        next += 1;
+        id = `feed-${String(next).padStart(2, "0")}`;
+      }
+      return { id, feed: String(next).padStart(2, "0"), order: next };
+    }
+
+    async function addRecordingSlot() {
+      try {
+        await ensureRecordingState();
+        const meta = nextRecordingSlotMeta();
+        const selectedDay = document.getElementById("recordingDayInput")?.value || "day1";
+        await setDoc(doc(db, "recordings", meta.id), {
+          id: meta.id,
+          type: `Session ${meta.feed}`,
+          title: "New Recording",
+          day: selectedDay,
+          feed: meta.feed,
+          order: meta.order,
+          youtubeUrl: "",
+          embedUrl: "",
+          description: "",
+          thumbnailUrl: "",
+          thumbnailStoragePath: "",
+          status: "locked",
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+        await loadRecordings(true);
+        fillRecordingForm(meta.id);
+        toast("New video slot added. Edit the details, then save.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    function renderRecordingsAdmin() {
+      setSwitch("recordingsVisibleBtn", recordingState.recordingsVisible, "Recordings Live", "Recordings Hidden");
+      setSwitch("recordingsDay1VisibleBtn", recordingState.day1Visible, "Day 1 Visible", "Day 1 Hidden");
+      setSwitch("recordingsDay2VisibleBtn", recordingState.day2Visible, "Day 2 Visible", "Day 2 Hidden");
+      setSwitch("websiteRecordingsVisibleBtn", recordingState.recordingsVisible, "Recordings Live", "Recordings Hidden");
+      setSwitch("websiteRecordingsDay1Btn", recordingState.day1Visible, "Day 1 Visible", "Day 1 Hidden");
+      setSwitch("websiteRecordingsDay2Btn", recordingState.day2Visible, "Day 2 Visible", "Day 2 Hidden");
+
+      const visible = recordings.filter(r => recordingFilter === "all" || r.day === recordingFilter);
+      const ready = recordings.filter(r => r.status === "published" && r.embedUrl).length;
+      const locked = recordings.length - ready;
+      if (document.getElementById("recordingTotalCount")) document.getElementById("recordingTotalCount").textContent = recordings.length;
+      if (document.getElementById("recordingReadyCount")) document.getElementById("recordingReadyCount").textContent = ready;
+      if (document.getElementById("recordingLockedCount")) document.getElementById("recordingLockedCount").textContent = locked;
+
+      const grid = document.getElementById("adminRecordingsGrid");
+      if (!grid) return;
+
+      grid.innerHTML = visible.map(rec => {
+        const isReady = rec.status === "published" && rec.embedUrl;
+        return `
+          <div class="card p-5">
+            <div class="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-4">
+              <div class="grid md:grid-cols-[220px_1fr] gap-4 min-w-0 flex-1">
+                <div class="border border-white/10 bg-black/40 aspect-video overflow-hidden grid place-items-center">
+                  ${rec.thumbnailUrl
+                    ? `<img src="${rec.thumbnailUrl}" alt="${clean(rec.title, "Recording")} thumbnail" class="w-full h-full object-cover" loading="lazy" />`
+                    : `<div class="small text-center px-4">No thumbnail uploaded</div>`}
+                </div>
+                <div class="min-w-0">
+                  <div class="flex flex-wrap gap-2">
+                    <span class="pill pill-yellow">${rec.day === "day2" ? "Day 2" : "Day 1"}</span>
+                    <span class="pill ${isReady ? "pill-green" : "pill-red"}">${isReady ? "Published" : "Locked"}</span>
+                    ${rec.thumbnailUrl ? '<span class="pill pill-blue">Thumbnail</span>' : ''}
+                  </div>
+                  <h3 class="abolition text-white text-4xl leading-none mt-4">${clean(rec.title, "Untitled Recording")}</h3>
+                  <p class="small mt-3">${clean(rec.type, "Session")} // ${rec.youtubeUrl ? rec.youtubeUrl : "No YouTube link yet"}</p>
+                  ${rec.description ? `<p class="small mt-2 normal-case tracking-normal">${rec.description}</p>` : ""}
+                </div>
+              </div>
+              <div class="grid sm:grid-cols-2 xl:w-[440px] gap-2">
+                <button class="btn btn-primary" data-edit-recording-id="${rec.id}">Edit</button>
+                <button class="btn" data-lock-recording="${rec.id}">${isReady ? "Lock" : "Publish"}</button>
+                <button class="btn" data-remove-recording-thumbnail="${rec.id}" ${rec.thumbnailUrl ? "" : "disabled"}>Remove Thumbnail</button>
+                <button class="btn btn-danger sm:col-span-2" data-delete-recording="${rec.id}">Delete</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("") || '<div class="card p-5"><p class="value">No recordings found for this filter.</p></div>';
+    }
+
+    function clearRecordingForm() {
+      refreshRecordingSlotOptions();
+      const firstSlotId = document.getElementById("recordingFeedSelect")?.value || "feed-01";
+      document.getElementById("recordingDayInput").value = "day1";
+      document.getElementById("recordingTypeInput").value = "";
+      document.getElementById("recordingFeedNoInput").value = "";
+      document.getElementById("recordingTitleInput").value = "";
+      document.getElementById("recordingYoutubeInput").value = "";
+      document.getElementById("recordingDescriptionInput").value = "";
+      const thumbInput = document.getElementById("recordingThumbnailInput");
+      if (thumbInput) thumbInput.value = "";
+      fillRecordingForm(firstSlotId);
+    }
+
+    function fillRecordingForm(recordingId) {
+      const rec = recordings.find(item => item.id === recordingId) || defaultRecordings.find(item => item.id === recordingId);
+      if (!rec) return;
+
+      refreshRecordingSlotOptions(rec.id);
+      document.getElementById("recordingFeedSelect").value = rec.id;
+      document.getElementById("recordingDayInput").value = rec.day || "day1";
+      document.getElementById("recordingTypeInput").value = rec.type || "";
+      document.getElementById("recordingFeedNoInput").value = rec.feed || "";
+      document.getElementById("recordingTitleInput").value = rec.title || "";
+      document.getElementById("recordingYoutubeInput").value = rec.youtubeUrl || "";
+      document.getElementById("recordingDescriptionInput").value = rec.description || "";
+      const thumbInput = document.getElementById("recordingThumbnailInput");
+      if (thumbInput) thumbInput.value = "";
+      const thumbStatus = document.getElementById("recordingThumbnailStatus");
+      if (thumbStatus) thumbStatus.textContent = rec.thumbnailUrl ? "Current thumbnail is saved. Choose a new file to replace it." : "Optional. Upload a thumbnail image for this feed card.";
+    }
+
+    async function saveRecordingLink() {
+      try {
+        const id = document.getElementById("recordingFeedSelect").value;
+        const day = document.getElementById("recordingDayInput").value;
+        const type = document.getElementById("recordingTypeInput").value.trim();
+        const rawFeed = document.getElementById("recordingFeedNoInput").value.trim();
+        const title = document.getElementById("recordingTitleInput").value.trim();
+        const rawUrl = document.getElementById("recordingYoutubeInput").value.trim();
+        const description = document.getElementById("recordingDescriptionInput").value.trim();
+        const thumbnailFile = document.getElementById("recordingThumbnailInput")?.files?.[0] || null;
+
+        if (!id || !day || !type || !title) {
+          return toast("Complete video, day, type, and title.", "error");
+        }
+
+        const links = rawUrl ? parseYoutubeLink(rawUrl) : { youtubeUrl: "", embedUrl: "" };
+        const existing = recordings.find(item => item.id === id);
+        const defaultRec = defaultRecordings.find(item => item.id === id);
+        const feed = rawFeed ? rawFeed.padStart(2, "0") : String(existing?.feed || defaultRec?.feed || existing?.order || defaultRec?.order || recordings.length + 1).padStart(2, "0");
+        const order = existing?.order || defaultRec?.order || Number(feed) || 999;
+        const thumbnailUpdate = thumbnailFile ? await uploadRecordingThumbnail(id, thumbnailFile) : null;
+
+        await setDoc(doc(db, "recordings", id), {
+          type,
+          title,
+          day,
+          feed,
+          order,
+          description,
+          youtubeUrl: links.youtubeUrl,
+          embedUrl: links.embedUrl,
+          status: links.embedUrl ? "published" : "locked",
+          ...(thumbnailUpdate || {}),
+          updatedAt: serverTimestamp(),
+          createdAt: existing?.createdAt || serverTimestamp()
+        }, { merge: true });
+
+        if (thumbnailUpdate && existing?.thumbnailStoragePath && existing.thumbnailStoragePath !== thumbnailUpdate.thumbnailStoragePath) {
+          await deleteObject(ref(storage, existing.thumbnailStoragePath)).catch(error => console.warn("Old thumbnail delete skipped:", error));
+        }
+
+        await loadRecordings(true);
+        fillRecordingForm(id);
+        const thumbInput = document.getElementById("recordingThumbnailInput");
+        if (thumbInput) thumbInput.value = "";
+        toast(thumbnailUpdate ? "Recording and thumbnail saved." : (links.embedUrl ? "Recording published." : "Recording saved as locked."), "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    async function toggleRecordingPublished(recordingId) {
+      try {
+        const selected = recordings.find(r => r.id === recordingId);
+        if (!selected) return;
+
+        if (!selected.embedUrl && selected.status !== "published") {
+          fillRecordingForm(recordingId);
+          return toast("Paste a YouTube link before publishing.", "error");
+        }
+
+        const nextStatus = selected.status === "published" ? "locked" : "published";
+
+        await setDoc(doc(db, "recordings", recordingId), {
+          status: nextStatus,
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+
+        await loadRecordings(true);
+        toast(nextStatus === "published" ? "Recording published." : "Recording locked.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    async function removeRecordingThumbnail(recordingId) {
+      try {
+        const selected = recordings.find(r => r.id === recordingId);
+        if (!selected || !selected.thumbnailUrl) return toast("No thumbnail to remove.", "error");
+
+        if (!confirm("Remove this recording thumbnail?")) return;
+
+        if (selected.thumbnailStoragePath) {
+          await deleteObject(ref(storage, selected.thumbnailStoragePath)).catch(error => console.warn("Thumbnail delete skipped:", error));
+        }
+
+        await setDoc(doc(db, "recordings", recordingId), {
+          thumbnailUrl: "",
+          thumbnailStoragePath: "",
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+
+        await loadRecordings(true);
+        fillRecordingForm(recordingId);
+        toast("Thumbnail removed.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    async function deleteRecordingRecord(recordingId) {
+      const ok = await verifyAdminPassword("Delete this recording feed?");
+      if (!ok) return;
+      if (!confirm("This deletes the Firestore recording record. Continue?")) return;
+
+      try {
+        const selected = recordings.find(r => r.id === recordingId);
+        if (selected?.thumbnailStoragePath) {
+          await deleteObject(ref(storage, selected.thumbnailStoragePath)).catch(error => console.warn("Thumbnail delete skipped:", error));
+        }
+        await deleteDoc(doc(db, "recordings", recordingId));
+        await loadRecordings(true);
+        toast("Recording deleted.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+
+
+    async function saveAnnouncement() {
+      try {
+        const text = document.getElementById("announcementText").value.trim();
+        await setDoc(doc(db, "settings", "eventState"), {
+          announcementText: text,
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+        eventState.announcementText = text;
+        toast("Announcement saved.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    function filteredUsers(inputId) {
+      const q = (document.getElementById(inputId)?.value || "").toLowerCase();
+      return users.filter(u => [
+        u.uid, u.name, u.campus, u.church, u.contact, u.email, u.leader, u.vgLeader, u.victoryGroupLeader, u.groupLeader
+      ].join(" ").toLowerCase().includes(q));
+    }
+
+    function filteredServeMembers(inputId) {
+      const q = (document.getElementById(inputId)?.value || "").toLowerCase();
+      return serveMembers.filter(u => [
+        u.uid, u.shortId, u.name, u.role, u.church, u.contact, u.email, u.type
+      ].join(" ").toLowerCase().includes(q));
+    }
+
+    function isCheckedForCurrentView(record) {
+      if (attendanceView === "both") return isCheckedIn(record, "day1") || isCheckedIn(record, "day2");
+      return isCheckedIn(record, attendanceView);
+    }
+
+    function attendanceTimeForSort(record) {
+      if (attendanceView === "both") {
+        const d1 = dateFromFirestore(record.attendance?.day1?.checkedInAt);
+        const d2 = dateFromFirestore(record.attendance?.day2?.checkedInAt);
+        return Math.max(d1 ? d1.getTime() : 0, d2 ? d2.getTime() : 0);
+      }
+      const date = dateFromFirestore(record.attendance?.[attendanceView]?.checkedInAt);
+      return date ? date.getTime() : 0;
+    }
+
+    function matchesAttendanceStatus(record) {
+      if (attendanceStatusFilter === "in") return isCheckedForCurrentView(record);
+      if (attendanceStatusFilter === "out") return !isCheckedForCurrentView(record);
+      return true;
+    }
+
+    function sortAttendanceList(list) {
+      return [...list].sort((a, b) => {
+        const aIn = isCheckedForCurrentView(a) ? 1 : 0;
+        const bIn = isCheckedForCurrentView(b) ? 1 : 0;
+
+        if (attendanceSort === "inFirst" && aIn !== bIn) return bIn - aIn;
+        if (attendanceSort === "outFirst" && aIn !== bIn) return aIn - bIn;
+        if (attendanceSort === "latest") {
+          const diff = attendanceTimeForSort(b) - attendanceTimeForSort(a);
+          if (diff !== 0) return diff;
+        }
+
+        return clean(a.name).localeCompare(clean(b.name));
+      });
+    }
+
+    function filteredAttendees(inputId) {
+      const q = (document.getElementById(inputId)?.value || "").toLowerCase();
+      const matched = peopleForAttendanceFilter().filter(u => {
+        const textMatch = [
+          u.uid, u.shortId, u.name, u.campus, u.role, u.church, u.contact, u.email, u.leader, u.vgLeader, u.victoryGroupLeader, u.groupLeader, typeLabel(u)
+        ].join(" ").toLowerCase().includes(q);
+        return textMatch && matchesAttendanceStatus(u);
+      });
+      return sortAttendanceList(matched);
+    }
+
+    function userByUid(uid) {
+      return users.find(u => u.uid === uid);
+    }
+
+    function leaderValue(u) {
+      return clean(u.leader || u.vgLeader || u.victoryGroupLeader || u.groupLeader || u.VGLeader || "");
+    }
+
+    function sideAAudioItems(user) {
+      const sideA = user?.sideA || {};
+      const items = [];
+
+      if (Array.isArray(sideA.audios)) {
+        sideA.audios.forEach((audio, index) => {
+          if (!audio) return;
+          items.push({
+            ...audio,
+            source: "array",
+            arrayIndex: index,
+            fileName: audio.fileName || audio.name || `Prayer Recording ${index + 1}`,
+            label: audio.label || `Prayer ${index + 1}`
+          });
+        });
+      }
+
+      const legacyUrl = sideA.audioUrl || "";
+      const legacyAlreadyListed = items.some(item => item.url && item.url === legacyUrl);
+      if (legacyUrl && !legacyAlreadyListed) {
+        items.push({
+          source: "legacy",
+          arrayIndex: -1,
+          url: legacyUrl,
+          storagePath: sideA.storagePath || sideA.audioStoragePath || "",
+          fileName: sideA.fileName || sideA.audioFileName || "Legacy Audio",
+          label: "Prayer 1"
+        });
+      }
+
+      return items;
+    }
+
+    function sideAPaperItems(user) {
+      const sideA = user?.sideA || {};
+      const items = [];
+
+      if (Array.isArray(sideA.paperPhotos)) {
+        sideA.paperPhotos.forEach((photo, index) => {
+          if (!photo) return;
+          items.push({
+            ...photo,
+            source: "array",
+            arrayIndex: index,
+            fileName: photo.fileName || photo.name || `Paper Photo ${index + 1}`
+          });
+        });
+      }
+
+      const legacyUrl = sideA.paperPhotoUrl || "";
+      const legacyAlreadyListed = items.some(item => item.url && item.url === legacyUrl);
+      if (legacyUrl && !legacyAlreadyListed) {
+        items.push({
+          source: "legacy",
+          arrayIndex: -1,
+          url: legacyUrl,
+          storagePath: sideA.paperStoragePath || "",
+          fileName: sideA.paperFileName || sideA.paperPhotoFileName || "Legacy Paper Photo"
+        });
+      }
+
+      return items;
+    }
+
+    function vaultSummary(user) {
+      const sideB = user?.sideB || null;
+      const parts = [];
+      const audioCount = sideAAudioItems(user).length;
+      const paperCount = sideAPaperItems(user).length;
+
+      if (audioCount) parts.push(`${audioCount} Audio${audioCount === 1 ? "" : "s"}`);
+      if (paperCount) parts.push(`${paperCount} Photo${paperCount === 1 ? "" : "s"}`);
+      if (sideB) parts.push("Side B");
+
+      return parts.length ? parts.join(" / ") : "Empty Vault";
+    }
+
+    function hasVaultContent(user) {
+      return Boolean(sideAAudioItems(user).length || sideAPaperItems(user).length || user?.sideB);
+    }
+
+    function vaultUrl(uid, side = "") {
+      const base = `/vault/user/${uid}`;
+      return side ? `${base}/${side}` : base;
+    }
+
+    function vaultResetUrl(uid) {
+      return `/vault/reset/user/${uid}`;
+    }
+
+    function extraDetailsHtml(u) {
+      const hidden = new Set(["uid","name","campus","church","contact","email","leader","vgLeader","victoryGroupLeader","groupLeader","VGLeader","passkey","createdAt","updatedAt","attendance","sideA","sideB"]);
+      const pairs = Object.entries(u).filter(([key, value]) => !hidden.has(key) && value !== undefined && value !== null && typeof value !== "object");
+      const extra = pairs.map(([key, value]) => `<div>${key}: ${clean(value)}</div>`).join("");
+      return `<div>Vault: ${vaultSummary(u)}</div>` + (extra || "<div>No extra fields found.</div>");
+    }
+
+    function renderParticipants() {
+      const list = filteredUsers("participantSearch").slice(0, 120);
+      document.getElementById("participantCards").innerHTML = list.map(u => `
+        <div class="card p-5">
+          <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5">
+            <div>
+              <p class="label">${u.uid}</p>
+              <h3 class="value mt-2">${clean(u.name)}</h3>
+              <div class="grid md:grid-cols-4 gap-3 mt-4">
+                <div><p class="label">Campus</p><p class="value">${clean(u.campus)}</p></div>
+                <div><p class="label">Church</p><p class="value">${clean(u.church)}</p></div>
+                <div><p class="label">Contact</p><p class="value">${clean(u.contact)}</p></div>
+                <div><p class="label">Leader</p><p class="value">${leaderValue(u) || "—"}</p></div>
+              </div>
+              <div class="grid md:grid-cols-2 gap-3 mt-4">
+                <div><p class="label">Email</p><p class="value normal-case">${clean(u.email)}</p></div>
+                <div><p class="label">Vault</p><p class="value">${vaultSummary(u)}</p></div>
+              </div>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-2 lg:w-[440px]">
+              <button class="btn btn-primary" data-edit-uid="${u.uid}">Edit Details</button>
+              <button class="btn" data-manage-checkin-uid="${u.uid}">Manage Check-In</button>
+              <button class="btn" data-tv-uid="${u.uid}">Show on TV</button>
+              <button class="btn" data-copy-uid="${u.uid}">Copy QR Link</button>
+              <button class="btn" data-copy-vault-uid="${u.uid}">Copy Vault Link</button>
+              <button class="btn" data-copy-reset-uid="${u.uid}">Copy Reset Link</button>
+              <button class="btn" data-vault-uid="${u.uid}">Open Vault</button>
+              <button class="btn" data-vault-side-a-uid="${u.uid}">Open Side A</button>
+              <button class="btn" data-vault-side-b-uid="${u.uid}">Open Side B</button>
+              <button class="btn" data-reset-passkey-uid="${u.uid}">Reset Passcode</button>
+              <button class="btn btn-danger" data-clear-vault-uid="${u.uid}">Clear Vault</button>
+            </div>
+          </div>
+        </div>
+      `).join("") || '<div class="card p-5"><p class="value">No participants found.</p></div>';
+    }
+
+    function renderServingTeam() {
+      const list = filteredServeMembers("servingSearch").slice(0, 120);
+      const cards = document.getElementById("servingCards");
+      if (!cards) return;
+      cards.innerHTML = list.map(u => `
+        <div class="card p-5">
+          <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5">
+            <div>
+              <p class="label">${u.uid}</p>
+              <h3 class="value mt-2">${clean(u.name)}</h3>
+              <div class="grid md:grid-cols-4 gap-3 mt-4">
+                <div><p class="label">Role</p><p class="value">${clean(u.role || "Serving Team")}</p></div>
+                <div><p class="label">Church</p><p class="value">${clean(u.church)}</p></div>
+                <div><p class="label">Contact</p><p class="value">${clean(u.contact)}</p></div>
+                <div><p class="label">Email</p><p class="value normal-case">${clean(u.email)}</p></div>
+              </div>
+              <div class="flex flex-wrap gap-2 mt-4">
+                <span class="pill ${isCheckedIn(u, "day1") ? "pill-green" : "pill-red"}">Day 1: ${isCheckedIn(u, "day1") ? "In " + timeText(u.attendance?.day1?.checkedInAt) : "Not Yet"}</span>
+                <span class="pill ${isCheckedIn(u, "day2") ? "pill-green" : "pill-red"}">Day 2: ${isCheckedIn(u, "day2") ? "In " + timeText(u.attendance?.day2?.checkedInAt) : "Not Yet"}</span>
+              </div>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-2 lg:w-[440px]">
+              <button class="btn btn-primary" data-edit-serve-uid="${u.uid}">Edit Details</button>
+              <button class="btn" data-manage-checkin-uid="${u.uid}">Manage Check-In</button>
+              <button class="btn" data-tv-uid="${u.uid}">Show on TV</button>
+              <button class="btn" data-copy-serve-uid="${u.uid}">Copy Serve Link</button>
+            </div>
+          </div>
+        </div>
+      `).join("") || '<div class="card p-5"><p class="value">No serving team records found.</p></div>';
+    }
+
+    function openParticipant(uid) {
+      const u = userByUid(uid);
+      if (!u) return;
+      selectedUid = uid;
+      selectedCollection = "users";
+      document.getElementById("modalUid").textContent = uid;
+      document.getElementById("editName").placeholder = "Name";
+      document.getElementById("editCampus").placeholder = "Campus";
+      document.getElementById("editLeader").placeholder = "VG Leader";
+      document.getElementById("editPasskey").placeholder = "Passcode";
+      document.getElementById("editLeader").classList.remove("hidden");
+      document.getElementById("editPasskey").classList.remove("hidden");
+      document.getElementById("editName").value = clean(u.name, "");
+      document.getElementById("editCampus").value = clean(u.campus, "");
+      document.getElementById("editChurch").value = clean(u.church, "");
+      document.getElementById("editContact").value = clean(u.contact, "");
+      document.getElementById("editEmail").value = clean(u.email, "");
+      document.getElementById("editLeader").value = leaderValue(u);
+      document.getElementById("editPasskey").value = clean(u.passkey, "");
+      document.getElementById("extraDetails").innerHTML = extraDetailsHtml(u);
+      document.getElementById("participantModal").classList.add("show");
+    }
+
+    function openServeMember(uid) {
+      const u = serveMembers.find(s => s.uid === uid);
+      if (!u) return;
+      selectedUid = uid;
+      selectedCollection = "serveMembers";
+      document.getElementById("modalUid").textContent = uid + " // SERVING TEAM";
+      document.getElementById("editName").placeholder = "Name";
+      document.getElementById("editCampus").placeholder = "Role";
+      document.getElementById("editLeader").classList.add("hidden");
+      document.getElementById("editPasskey").classList.add("hidden");
+      document.getElementById("editName").value = clean(u.name, "");
+      document.getElementById("editCampus").value = clean(u.role || "Serving Team", "");
+      document.getElementById("editChurch").value = clean(u.church, "");
+      document.getElementById("editContact").value = clean(u.contact, "");
+      document.getElementById("editEmail").value = clean(u.email, "");
+      document.getElementById("editLeader").value = "";
+      document.getElementById("editPasskey").value = "";
+      document.getElementById("extraDetails").innerHTML = extraDetailsHtml(withServeMeta(u));
+      document.getElementById("participantModal").classList.add("show");
+    }
+
+    function closeParticipant() {
+      document.getElementById("participantModal").classList.remove("show");
+    }
+
+    function generatePass() {
+      const custom = prompt("Type preferred passcode, or leave blank to generate one:");
+      if (custom && custom.trim()) {
+        document.getElementById("editPasskey").value = custom.trim();
+        return;
+      }
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      let out = "";
+      for (let i = 0; i < 6; i++) out += chars[Math.floor(Math.random() * chars.length)];
+      document.getElementById("editPasskey").value = out;
+    }
+
+    async function copyLink(uid) {
+      await navigator.clipboard.writeText(location.origin + "/user/" + uid);
+      toast("Participant link copied.", "success");
+    }
+
+    async function copySelectedLink() {
+      if (selectedUid) await copyLink(selectedUid);
+    }
+
+    async function saveParticipant() {
+      if (!selectedUid) return;
+      try {
+        if (selectedCollection === "serveMembers") {
+          await updateDoc(doc(db, "serveMembers", selectedUid), {
+            name: document.getElementById("editName").value.trim(),
+            role: document.getElementById("editCampus").value.trim() || "Serving Team",
+            church: document.getElementById("editChurch").value.trim(),
+            contact: document.getElementById("editContact").value.trim(),
+            email: document.getElementById("editEmail").value.trim(),
+            updatedAt: serverTimestamp()
+          });
+          closeParticipant();
+          await loadAll();
+          toast("Serving team record updated.", "success");
+          return;
+        }
+
+        await updateDoc(doc(db, "users", selectedUid), {
+          name: document.getElementById("editName").value.trim(),
+          campus: document.getElementById("editCampus").value.trim(),
+          church: document.getElementById("editChurch").value.trim(),
+          contact: document.getElementById("editContact").value.trim(),
+          email: document.getElementById("editEmail").value.trim(),
+          leader: document.getElementById("editLeader").value.trim(),
+          passkey: document.getElementById("editPasskey").value.trim(),
+          updatedAt: serverTimestamp()
+        });
+        closeParticipant();
+        await loadAll();
+        toast("Participant updated.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    function setAttendanceFilter(filter) {
+      attendanceFilter = filter;
+      renderAttendance();
+    }
+
+    function setAttendanceStatus(filter) {
+      attendanceStatusFilter = filter;
+
+      // Smart defaults: when you choose a status, the list immediately becomes useful.
+      // Already checked in = latest check-ins first. Not yet = unchecked people first, then name.
+      if (filter === "in" && (attendanceSort === "name" || attendanceSort === "outFirst")) {
+        attendanceSort = "latest";
+      }
+      if (filter === "out" && (attendanceSort === "latest" || attendanceSort === "inFirst")) {
+        attendanceSort = "outFirst";
+      }
+      if (filter === "all" && attendanceSort === "outFirst") {
+        attendanceSort = "name";
+      }
+
+      renderAttendance();
+    }
+
+    function setAttendanceSort(sortMode) {
+      attendanceSort = sortMode;
+      renderAttendance();
+    }
+
+    function setAttendanceView(view) {
+      attendanceView = view;
+      renderAttendance();
+    }
+
+    function setCheckinMode(mode) {
+      checkinMode = mode;
+      document.getElementById("checkinSheetArea").classList.toggle("hidden", mode !== "sheet");
+      document.getElementById("checkinManageArea").classList.toggle("hidden", mode !== "manage");
+      renderAttendance();
+    }
+
+    function syncCheckinDropdowns() {
+      const modeSelect = document.getElementById("checkinModeSelect");
+      const peopleSelect = document.getElementById("attendancePeopleSelect");
+      const daySelect = document.getElementById("attendanceDaySelect");
+      const statusSelect = document.getElementById("attendanceStatusSelect");
+      const sortSelect = document.getElementById("attendanceSortSelect");
+      if (modeSelect) modeSelect.value = checkinMode;
+      if (peopleSelect) peopleSelect.value = attendanceFilter;
+      if (daySelect) daySelect.value = attendanceView;
+      if (statusSelect) statusSelect.value = attendanceStatusFilter;
+      if (sortSelect) sortSelect.value = attendanceSort;
+
+      const hint = document.getElementById("checkinDropdownHint");
+      if (hint) {
+        const peopleText = attendanceFilter === "serve" ? "serving team" : attendanceFilter === "participants" ? "participants" : "all records";
+        const dayText = attendanceView === "both" ? "both days" : dayLabel(attendanceView).toLowerCase();
+        const statusText = attendanceStatusFilter === "in" ? "already checked in" : attendanceStatusFilter === "out" ? "not yet checked in" : "all check-in statuses";
+        const sortText = attendanceSort === "latest" ? "latest check-ins first" : attendanceSort === "inFirst" ? "checked in first" : attendanceSort === "outFirst" ? "not yet first" : "name A-Z";
+        hint.textContent = `Showing ${peopleText} for ${dayText}, ${statusText}, sorted by ${sortText}.`;
+      }
+    }
+
+    function renderAttendance() {
+      syncCheckinDropdowns();
+
+      const list = filteredAttendees("attSearch");
+      const scoped = peopleForAttendanceFilter();
+      const total = scoped.length;
+      const d1 = scoped.filter(u => isCheckedIn(u, "day1")).length;
+      const d2 = scoped.filter(u => isCheckedIn(u, "day2")).length;
+      const stats = document.getElementById("attStats");
+      const head = document.getElementById("attHead");
+      const body = document.getElementById("attBody");
+      const manageArea = document.getElementById("checkinManageArea");
+      const scopeTitle = attendanceFilter === "serve" ? "SERVING TEAM" : attendanceFilter === "participants" ? "PARTICIPANTS" : "ALL ATTENDEES";
+
+      if (attendanceView === "both") {
+        document.getElementById("attTitle").textContent = scopeTitle + " // BOTH DAYS";
+        stats.innerHTML = `
+          <div class="card p-5"><p class="label">Showing</p><div class="abolition text-yellow-400 text-5xl mt-3">${list.length}</div></div>
+          <div class="card p-5"><p class="label">Day 1 In</p><div class="abolition text-green-400 text-5xl mt-3">${d1}</div></div>
+          <div class="card p-5"><p class="label">Day 2 In</p><div class="abolition text-green-400 text-5xl mt-3">${d2}</div></div>
+          <div class="card p-5"><p class="label">Total Records</p><div class="abolition text-yellow-400 text-5xl mt-3">${total}</div></div>
+        `;
+        head.innerHTML = "<tr><th>#</th><th>Name</th><th>Type</th><th>Campus / Role</th><th>Church</th><th>Leader</th><th>Day 1</th><th>Time</th><th>Day 2</th><th>Time</th></tr>";
+        body.innerHTML = list.map((u, i) => `
+          <tr>
+            <td>${i + 1}</td>
+            <td class="name-cell"><div class="value">${clean(u.name)}</div><div class="small">${u.uid}</div></td>
+            <td>${typeLabel(u)}</td>
+            <td><div class="value normal-case">${roleOrCampus(u)}</div></td>
+            <td><div class="value normal-case">${clean(u.church)}</div></td>
+            <td><div class="value normal-case">${u.type === "serve" ? clean(u.role || "Serving Team") : (leaderValue(u) || "—")}</div></td>
+            <td><span class="sheet-status ${isCheckedIn(u, "day1") ? "sheet-in" : "sheet-out"}">${isCheckedIn(u, "day1") ? "IN" : "NOT YET"}</span></td>
+            <td>${timeText(u.attendance?.day1?.checkedInAt)}</td>
+            <td><span class="sheet-status ${isCheckedIn(u, "day2") ? "sheet-in" : "sheet-out"}">${isCheckedIn(u, "day2") ? "IN" : "NOT YET"}</span></td>
+            <td>${timeText(u.attendance?.day2?.checkedInAt)}</td>
+          </tr>
+        `).join("");
+      } else {
+        const count = scoped.filter(u => isCheckedIn(u, attendanceView)).length;
+        document.getElementById("attTitle").textContent = scopeTitle + " // " + dayLabel(attendanceView).toUpperCase() + " ATTENDANCE";
+        stats.innerHTML = `
+          <div class="card p-5"><p class="label">Showing</p><div class="abolition text-yellow-400 text-5xl mt-3">${list.length}</div></div>
+          <div class="card p-5"><p class="label">Checked In</p><div class="abolition text-green-400 text-5xl mt-3">${count}</div></div>
+          <div class="card p-5"><p class="label">Not Yet</p><div class="abolition text-red-300 text-5xl mt-3">${total - count}</div></div>
+          <div class="card p-5"><p class="label">Total Records</p><div class="abolition text-yellow-400 text-5xl mt-3">${total}</div></div>
+        `;
+        head.innerHTML = "<tr><th>#</th><th>Name</th><th>Type</th><th>Campus / Role</th><th>Church</th><th>Leader</th><th>Status</th><th>Time</th></tr>";
+        body.innerHTML = list.map((u, i) => `
+          <tr>
+            <td>${i + 1}</td>
+            <td class="name-cell"><div class="value">${clean(u.name)}</div><div class="small">${u.uid}</div></td>
+            <td>${typeLabel(u)}</td>
+            <td><div class="value normal-case">${roleOrCampus(u)}</div></td>
+            <td><div class="value normal-case">${clean(u.church)}</div></td>
+            <td><div class="value normal-case">${u.type === "serve" ? clean(u.role || "Serving Team") : (leaderValue(u) || "—")}</div></td>
+            <td><span class="sheet-status ${isCheckedIn(u, attendanceView) ? "sheet-in" : "sheet-out"}">${isCheckedIn(u, attendanceView) ? "IN" : "NOT YET"}</span></td>
+            <td>${timeText(u.attendance?.[attendanceView]?.checkedInAt)}</td>
+          </tr>
+        `).join("");
+      }
+
+      manageArea.innerHTML = list.slice(0, 80).map(u => `
+        <div class="card p-5">
+          <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5">
+            <div>
+              <p class="label">${u.uid} // ${typeLabel(u)}</p>
+              <h3 class="value mt-2">${clean(u.name)}</h3>
+              <div class="flex flex-wrap gap-2 mt-4">
+                <span class="pill ${isCheckedIn(u, "day1") ? "pill-green" : "pill-red"}">Day 1: ${isCheckedIn(u, "day1") ? "In " + timeText(u.attendance?.day1?.checkedInAt) : "Not Yet"}</span>
+                <span class="pill ${isCheckedIn(u, "day2") ? "pill-green" : "pill-red"}">Day 2: ${isCheckedIn(u, "day2") ? "In " + timeText(u.attendance?.day2?.checkedInAt) : "Not Yet"}</span>
+              </div>
+              <div class="grid md:grid-cols-3 gap-3 mt-4">
+                <div><p class="label">${u.type === "serve" ? "Role" : "Campus"}</p><p class="value">${roleOrCampus(u)}</p></div>
+                <div><p class="label">Church</p><p class="value">${clean(u.church)}</p></div>
+                <div><p class="label">${u.type === "serve" ? "Type" : "Leader"}</p><p class="value">${u.type === "serve" ? typeLabel(u) : (leaderValue(u) || "—")}</p></div>
+              </div>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-2 lg:w-[520px]">
+              <button class="btn btn-primary" data-checkin-uid="${u.uid}" data-checkin-day="day1">Check In Day 1</button>
+              <button class="btn btn-primary" data-checkin-uid="${u.uid}" data-checkin-day="day2">Check In Day 2</button>
+              <button class="btn" data-uncheck-uid="${u.uid}" data-uncheck-day="day1">Uncheck Day 1</button>
+              <button class="btn" data-uncheck-uid="${u.uid}" data-uncheck-day="day2">Uncheck Day 2</button>
+              <button class="btn" data-tv-uid="${u.uid}">Show on TV</button>
+              <button class="btn" data-move-uid="${u.uid}">Move Day</button>
+              <button class="btn btn-danger" data-clear-attendance-uid="${u.uid}">Clear All Attendance</button>
+              ${u.type === "serve" ? `<button class="btn" data-copy-serve-uid="${u.uid}">Copy Serve Link</button>` : `<button class="btn btn-danger" data-clear-vault-uid="${u.uid}">Clear Vault</button>`}
+            </div>
+          </div>
+        </div>
+      `).join("") || '<div class="card p-5"><p class="value">No records found.</p></div>';
+    }
+
+    async function adminCheckIn(uid, day) {
+      const u = personByUid(uid);
+      if (!u) return;
+      try {
+        await updateDoc(docRefFor(u), {
+          ["attendance." + day]: {
+            checkedIn: true,
+            checkedInAt: serverTimestamp(),
+            method: "admin"
+          }
+        });
+        await addDoc(collection(db, "checkInHistory"), {
+          uid,
+          name: clean(u.name),
+          type: u.type,
+          collectionName: u.collectionName,
+          day,
+          method: "admin",
+          status: "checked-in",
+          timestamp: serverTimestamp()
+        });
+        await loadAll();
+        toast(clean(u.name) + " checked in for " + dayLabel(day) + ".", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    async function adminUncheck(uid, day) {
+      const u = personByUid(uid);
+      if (!u) return;
+      if (!confirm("Remove " + dayLabel(day) + " check-in for " + clean(u.name) + "?")) return;
+      try {
+        await updateDoc(docRefFor(u), {
+          ["attendance." + day]: deleteField()
+        });
+        await addDoc(collection(db, "checkInHistory"), {
+          uid,
+          name: clean(u.name),
+          type: u.type,
+          collectionName: u.collectionName,
+          day,
+          method: "admin",
+          status: "unchecked",
+          timestamp: serverTimestamp()
+        });
+        await loadAll();
+        toast("Check-in removed.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    async function moveCheckIn(uid) {
+      const u = personByUid(uid);
+      if (!u) return;
+      const direction = prompt("Type 1TO2 to move Day 1 → Day 2, or 2TO1 to move Day 2 → Day 1:");
+      if (!direction) return;
+      const from = direction.toUpperCase() === "1TO2" ? "day1" : direction.toUpperCase() === "2TO1" ? "day2" : "";
+      const to = from === "day1" ? "day2" : from === "day2" ? "day1" : "";
+      if (!from || !to) return toast("Invalid move direction.", "error");
+      if (!u.attendance?.[from]?.checkedIn) return toast(typeLabel(u) + " is not checked in on " + dayLabel(from) + ".", "error");
+      try {
+        await updateDoc(docRefFor(u), {
+          ["attendance." + to]: { ...u.attendance[from], movedFrom: from, movedAt: serverTimestamp() },
+          ["attendance." + from]: deleteField()
+        });
+        await loadAll();
+        toast("Check-in moved.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    async function clearParticipantAttendance(uid) {
+      const u = personByUid(uid);
+      if (!u) return;
+      const ok = await verifyAdminPassword("Clear all attendance for " + clean(u.name) + "?");
+      if (!ok) return;
+      if (!confirm("This removes Day 1 and Day 2 attendance for " + clean(u.name) + ". Continue?")) return;
+      try {
+        await updateDoc(docRefFor(u), {
+          attendance: deleteField()
+        });
+        await addDoc(collection(db, "checkInHistory"), {
+          uid,
+          name: clean(u.name),
+          type: u.type,
+          collectionName: u.collectionName,
+          method: "admin",
+          status: "cleared",
+          timestamp: serverTimestamp()
+        });
+        await loadAll();
+        toast("Attendance cleared.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    function generateReadablePasskey() {
+      return "R26-" + Math.floor(1000 + Math.random() * 9000);
+    }
+
+    async function adminResetParticipantPasskey(uid) {
+      const user = userByUid(uid);
+      if (!user) {
+        toast("Participant not found.", "error");
+        return;
+      }
+
+      const generated = generateReadablePasskey();
+      const newPasskey = prompt(`New vault passcode for ${clean(user.name)}:`, generated);
+      if (!newPasskey) return;
+
+      const cleanPasskey = String(newPasskey).trim();
+      if (!/^\S{6,20}$/.test(cleanPasskey)) {
+        toast("Use 6–20 characters with no spaces.", "error");
+        return;
+      }
+
+      const ok = await verifyAdminPassword("Confirm passcode reset for " + clean(user.name));
+      if (!ok) return;
+
+      try {
+        await updateDoc(doc(db, "users", uid), {
+          passkey: cleanPasskey,
+          passkeyUpdatedAt: new Date().toISOString(),
+          passkeyResetMethod: "admin"
+        });
+        await loadAll();
+        await navigator.clipboard.writeText(cleanPasskey);
+        toast("Passcode reset and copied to clipboard.", "success");
+      } catch (error) {
+        console.error(error);
+        toast("Could not reset passcode.", "error");
+      }
+    }
+
+    async function clearParticipantVault(uid) {
+      const u = userByUid(uid);
+      if (!u) return;
+      const ok = await verifyAdminPassword("Clear vault content for " + clean(u.name) + "?");
+      if (!ok) return;
+      if (!confirm("This removes Side A, Side B, audio links, and paper photo references for " + clean(u.name) + ". It will not reset their passcode. Continue?")) return;
+
+      try {
+        const storagePaths = [];
+        if (u.sideA?.storagePath) storagePaths.push(u.sideA.storagePath);
+        if (u.sideA?.audioStoragePath) storagePaths.push(u.sideA.audioStoragePath);
+        if (Array.isArray(u.sideA?.audios)) {
+          u.sideA.audios.forEach(audio => {
+            if (audio?.storagePath) storagePaths.push(audio.storagePath);
+          });
+        }
+        if (u.sideA?.paperStoragePath) storagePaths.push(u.sideA.paperStoragePath);
+        if (Array.isArray(u.sideA?.paperPhotos)) {
+          u.sideA.paperPhotos.forEach(photo => {
+            if (photo?.storagePath) storagePaths.push(photo.storagePath);
+          });
+        }
+
+        await Promise.allSettled([...new Set(storagePaths)].map(path => deleteObject(ref(storage, path))));
+        await Promise.allSettled([deleteDoc(doc(db, "vaultPaperNotes", uid))]);
+
+        await updateDoc(doc(db, "users", uid), {
+          sideA: deleteField(),
+          sideB: deleteField(),
+          vaultClearedAt: serverTimestamp()
+        });
+        await loadAll();
+        toast("Participant vault content cleared.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    async function removeVaultAudio(uid, index) {
+      const u = userByUid(uid);
+      if (!u) return toast("Participant not found.", "error");
+
+      const items = sideAAudioItems(u);
+      const item = items[Number(index)];
+      if (!item) return toast("Audio not found.", "error");
+
+      const ok = await verifyAdminPassword("Remove this audio from " + clean(u.name) + "?");
+      if (!ok) return;
+
+      if (!confirm("Remove this audio recording from the participant vault?\\n\\n" + clean(item.fileName || item.label || "Audio"))) return;
+
+      try {
+        if (item.storagePath) {
+          await deleteObject(ref(storage, item.storagePath)).catch(error => {
+            console.warn("Audio storage delete skipped:", error);
+          });
+        }
+
+        const updates = {
+          updatedAt: serverTimestamp(),
+          vaultUpdatedAt: serverTimestamp()
+        };
+
+        if (item.source === "array") {
+          const nextAudios = Array.isArray(u.sideA?.audios) ? [...u.sideA.audios] : [];
+          nextAudios.splice(Number(item.arrayIndex), 1);
+          updates["sideA.audios"] = nextAudios;
+        } else {
+          updates["sideA.audioUrl"] = deleteField();
+          updates["sideA.storagePath"] = deleteField();
+          updates["sideA.audioStoragePath"] = deleteField();
+          updates["sideA.fileName"] = deleteField();
+          updates["sideA.audioFileName"] = deleteField();
+          updates["sideA.uploadedAt"] = deleteField();
+        }
+
+        await updateDoc(doc(db, "users", uid), updates);
+        await loadAll();
+        toast("Audio removed from vault.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    async function removeVaultPaperPhoto(uid, index) {
+      const u = userByUid(uid);
+      if (!u) return toast("Participant not found.", "error");
+
+      const items = sideAPaperItems(u);
+      const item = items[Number(index)];
+      if (!item) return toast("Paper photo not found.", "error");
+
+      const ok = await verifyAdminPassword("Remove this paper photo from " + clean(u.name) + "?");
+      if (!ok) return;
+
+      if (!confirm("Remove this paper photo from the participant vault?\\n\\n" + clean(item.fileName || "Paper Photo"))) return;
+
+      try {
+        if (item.storagePath) {
+          await deleteObject(ref(storage, item.storagePath)).catch(error => {
+            console.warn("Paper photo storage delete skipped:", error);
+          });
+        }
+
+        const updates = {
+          updatedAt: serverTimestamp(),
+          vaultUpdatedAt: serverTimestamp()
+        };
+
+        if (item.source === "array") {
+          const nextPhotos = Array.isArray(u.sideA?.paperPhotos) ? [...u.sideA.paperPhotos] : [];
+          nextPhotos.splice(Number(item.arrayIndex), 1);
+          updates["sideA.paperPhotos"] = nextPhotos;
+        } else {
+          updates["sideA.paperPhotoUrl"] = deleteField();
+          updates["sideA.paperStoragePath"] = deleteField();
+          updates["sideA.paperFileName"] = deleteField();
+          updates["sideA.paperPhotoFileName"] = deleteField();
+          updates["sideA.paperOriginalFileName"] = deleteField();
+          updates["sideA.paperPhotoOriginalFileName"] = deleteField();
+          updates["sideA.paperUploadedAt"] = deleteField();
+        }
+
+        await updateDoc(doc(db, "users", uid), updates);
+        await loadAll();
+        toast("Paper photo removed from vault.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    async function loadReceiverAndRender() {
+      await loadReceiver(true);
+      toast("Receiver loaded.", "success");
+    }
+
+    function cardTitle(card) {
+      return clean(card.title || card.name || card.label || card.cardName || card.role || card.id);
+    }
+
+    function renderReceiver() {
+      document.getElementById("receiverGrid").innerHTML = receiverCards.map(card => {
+        const used = Number(card.used || 0);
+        const limitValue = Number(card.limit || 16);
+        const left = Math.max(0, limitValue - used);
+        const enabled = card.enabled !== false;
+        return `
+          <div class="card p-5">
+            <div class="flex justify-between gap-3">
+              <div><p class="label">${card.id}</p><h3 class="value mt-2">${cardTitle(card)}</h3></div>
+              <span class="pill ${enabled ? "pill-green" : "pill-red"}">${enabled ? "Enabled" : "Disabled"}</span>
+            </div>
+            <div class="grid grid-cols-3 gap-3 mt-5">
+              <div><p class="label">Used</p><p class="value">${used}</p></div>
+              <div><p class="label">Limit</p><p class="value">${limitValue}</p></div>
+              <div><p class="label">Left</p><p class="value">${left}</p></div>
+            </div>
+            <div class="grid grid-cols-2 gap-2 mt-5">
+              <button class="btn btn-primary" data-receiver-id="${card.id}" data-receiver-delta="1">Give 1</button>
+              <button class="btn" data-receiver-id="${card.id}" data-receiver-delta="-1">Return 1</button>
+              <button class="btn ${enabled ? "btn-danger" : "btn-primary"} col-span-2" data-toggle-receiver="${card.id}" data-next-enabled="${enabled ? "false" : "true"}">${enabled ? "Disable" : "Enable"}</button>
+            </div>
+          </div>
+        `;
+      }).join("") || '<div class="card p-5"><p class="value">No receiver cards found.</p></div>';
+    }
+
+    async function receiverAdjust(id, delta) {
+      try {
+        const card = receiverCards.find(c => c.id === id);
+        const next = Math.max(0, Number(card?.used || 0) + Number(delta));
+        await updateDoc(doc(db, "receiverCards", id), {
+          used: next,
+          limit: 16,
+          updatedAt: serverTimestamp()
+        });
+        await addDoc(collection(db, "receiverHistory"), {
+          cardId: id,
+          action: Number(delta) > 0 ? "give" : "return",
+          delta: Number(delta),
+          timestamp: serverTimestamp()
+        });
+        await loadReceiver(true);
+        toast("Receiver updated.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    async function receiverToggle(id, enabled) {
+      try {
+        await updateDoc(doc(db, "receiverCards", id), {
+          enabled,
+          limit: 16,
+          updatedAt: serverTimestamp()
+        });
+        await loadReceiver(true);
+        toast("Receiver card updated.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    function undoReceiver() {
+      toast("Use Return 1 to correct the last receiver action.", "notice");
+    }
+
+    function renderVault() {
+      const results = filteredUsers("vaultSearch").slice(0, 12);
+      document.getElementById("vaultResults").innerHTML = results.map(u => {
+        const audioItems = sideAAudioItems(u);
+        const paperItems = sideAPaperItems(u);
+        const audioCount = audioItems.length;
+        const paperCount = paperItems.length;
+
+        const audioList = audioItems.length ? audioItems.map((audio, index) => `
+          <div class="border border-white/10 bg-black/25 p-3 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+            <div class="min-w-0">
+              <p class="label">Audio ${index + 1}</p>
+              <p class="small normal-case break-all">${clean(audio.fileName || audio.label || `Prayer Recording ${index + 1}`)}</p>
+            </div>
+            <div class="flex flex-wrap gap-2 shrink-0">
+              ${audio.url ? `<button class="btn" data-open-file-url="${encodeURIComponent(audio.url)}">Open</button>` : ""}
+              <button class="btn btn-danger" data-remove-vault-audio-uid="${u.uid}" data-remove-vault-audio-index="${index}">Remove</button>
+            </div>
+          </div>
+        `).join("") : `<p class="small">No audio recordings saved yet.</p>`;
+
+        const photoList = paperItems.length ? paperItems.map((photo, index) => `
+          <div class="border border-white/10 bg-black/25 p-3 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+            <div class="min-w-0">
+              <p class="label">Paper Photo ${index + 1}</p>
+              <p class="small normal-case break-all">${clean(photo.fileName || `Paper Photo ${index + 1}`)}</p>
+            </div>
+            <div class="flex flex-wrap gap-2 shrink-0">
+              ${photo.url ? `<button class="btn" data-open-file-url="${encodeURIComponent(photo.url)}">View</button>` : ""}
+              <button class="btn btn-danger" data-remove-vault-photo-uid="${u.uid}" data-remove-vault-photo-index="${index}">Remove</button>
+            </div>
+          </div>
+        `).join("") : `<p class="small">No paper photos saved yet.</p>`;
+
+        return `
+          <div class="card p-4">
+            <div class="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-4">
+              <div class="min-w-0">
+                <p class="value">${clean(u.name)}</p>
+                <p class="small mt-1">${u.uid} // ${clean(u.campus)}</p>
+                <div class="flex flex-wrap gap-2 mt-3">
+                  <span class="pill ${hasVaultContent(u) ? "pill-yellow" : ""}">${vaultSummary(u)}</span>
+                  <span class="pill ${audioCount ? "pill-green" : ""}">Audio: ${audioCount}</span>
+                  <span class="pill ${paperCount ? "pill-blue" : ""}">Photos: ${paperCount}</span>
+                  <span class="pill ${u.sideB ? "pill-green" : ""}">Side B: ${u.sideB ? "Saved" : "None"}</span>
+                </div>
+
+                <details class="mt-4 border border-white/10 bg-black/20 p-4">
+                  <summary class="label cursor-pointer">Manage Uploaded Side A Files</summary>
+                  <div class="grid lg:grid-cols-2 gap-4 mt-4">
+                    <div>
+                      <p class="kicker">Audio Recordings</p>
+                      <div class="grid gap-2 mt-3">${audioList}</div>
+                    </div>
+                    <div>
+                      <p class="kicker">Paper Photos</p>
+                      <div class="grid gap-2 mt-3">${photoList}</div>
+                    </div>
+                  </div>
+                </details>
+              </div>
+              <div class="flex flex-wrap gap-2 xl:justify-end">
+                <button class="btn btn-primary" data-vault-uid="${u.uid}">Open Vault</button>
+                <button class="btn" data-vault-side-a-uid="${u.uid}">Side A</button>
+                <button class="btn" data-vault-side-b-uid="${u.uid}">Side B</button>
+                <button class="btn" data-copy-vault-uid="${u.uid}">Copy Vault</button>
+                <button class="btn" data-copy-reset-uid="${u.uid}">Copy Reset</button>
+                <button class="btn" data-reset-passkey-uid="${u.uid}">Reset Passcode</button>
+                <button class="btn btn-danger" data-clear-vault-uid="${u.uid}">Clear Vault</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("") || '<div class="card p-5"><p class="value">No participants found.</p></div>';
+    }
+
+    function renderTv() {
+      document.getElementById("tvDur").textContent = Math.round(Number(settings.revealDuration || 30000) / 1000) + "s";
+    }
+
+    async function saveDuration(ms) {
+      try {
+        settings.revealDuration = Number(ms);
+        await setDoc(doc(db, "settings", "checkin"), {
+          revealDuration: Number(ms),
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+        renderTv();
+        toast("TV duration saved.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    async function sendTestTv() {
+      try {
+        await setDoc(doc(db, "liveDisplay", "current"), {
+          uid: "TEST",
+          name: "REVIVAL // 2026",
+          campus: "TEST DISPLAY",
+          church: "ADMIN PREVIEW",
+          day: settings.activeDay || "day1",
+          status: "test",
+          statusText: "Test Preview",
+          type: "participant",
+          timestamp: serverTimestamp(),
+          nonce: "test-" + Date.now()
+        }, { merge: true });
+        toast("Test sent.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    async function sendAnnouncementTv() {
+      try {
+        await setDoc(doc(db, "liveDisplay", "current"), {
+          uid: "ANNOUNCEMENT",
+          name: eventState.announcementText || "REVIVAL // 2026",
+          campus: "ANNOUNCEMENT",
+          church: "",
+          day: settings.activeDay || "day1",
+          status: "announcement",
+          statusText: "Announcement",
+          timestamp: serverTimestamp(),
+          nonce: "announcement-" + Date.now()
+        }, { merge: true });
+        toast("Announcement sent.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    async function clearTv() {
+      try {
+        await setDoc(doc(db, "liveDisplay", "current"), {
+          status: "idle",
+          clearedAt: serverTimestamp(),
+          nonce: "clear-" + Date.now()
+        }, { merge: true });
+        toast("TV cleared.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    async function showTv(uid) {
+      const u = personByUid(uid);
+      if (!u) return;
+      const isServe = u.type === "serve";
+      try {
+        await setDoc(doc(db, "liveDisplay", "current"), {
+          uid,
+          type: u.type,
+          collectionName: u.collectionName,
+          name: clean(u.name),
+          campus: isServe ? clean(u.role || "Serving Team") : clean(u.campus),
+          role: isServe ? clean(u.role || "Serving Team") : "",
+          church: clean(u.church),
+          day: settings.activeDay || "day1",
+          status: "checked-in",
+          statusText: isServe ? "Your Yes Is In The Room" : "Checked In",
+          timestamp: serverTimestamp(),
+          reason: "admin-show",
+          nonce: uid + "-" + Date.now()
+        }, { merge: true });
+        toast("Sent to TV.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    async function changeAdminPass() {
+      const p1 = document.getElementById("newAdminPass").value;
+      const p2 = document.getElementById("newAdminPassConfirm").value;
+      if (p1.length < 6) return toast("Passcode too short.", "error");
+      if (p1 !== p2) return toast("Passcodes do not match.", "error");
+
+      try {
+        await setDoc(doc(db, "settings", "adminSecurity"), {
+          passcodeHash: await sha256(p1),
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+        document.getElementById("newAdminPass").value = "";
+        document.getElementById("newAdminPassConfirm").value = "";
+        toast("Admin passcode changed.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    function openDanger(title, phrase) {
+      dangerPhrase = phrase;
+      document.getElementById("dangerTitle").textContent = title;
+      document.getElementById("dangerPhraseText").textContent = phrase;
+      document.getElementById("dangerInput").value = "";
+      document.getElementById("dangerModal").classList.add("show");
+    }
+
+    function closeDanger() {
+      document.getElementById("dangerModal").classList.remove("show");
+    }
+
+    async function runDanger() {
+      if (document.getElementById("dangerInput").value.trim() !== dangerPhrase) {
+        return toast("Confirmation does not match.", "error");
+      }
+
+      const ok = await verifyAdminPassword("Confirm protected reset action.");
+      if (!ok) return;
+
+      try {
+        if (dangerPhrase.includes("CLEAR ALL ATTENDANCE")) {
+          await Promise.all([
+            ...users.map(u => updateDoc(doc(db, "users", u.uid), { attendance: deleteField() })),
+            ...serveMembers.map(u => updateDoc(doc(db, "serveMembers", u.uid), { attendance: deleteField() }))
+          ]);
+        } else if (dangerPhrase.includes("DAY")) {
+          const day = dangerPhrase.includes("DAY 2") ? "day2" : "day1";
+          await Promise.all([
+            ...users.map(u => updateDoc(doc(db, "users", u.uid), { ["attendance." + day]: deleteField() })),
+            ...serveMembers.map(u => updateDoc(doc(db, "serveMembers", u.uid), { ["attendance." + day]: deleteField() }))
+          ]);
+        }
+
+        if (dangerPhrase.includes("RECEIVER")) {
+          await Promise.all(receiverCards.map(c => updateDoc(doc(db, "receiverCards", c.id), {
+            used: 0,
+            enabled: true,
+            limit: 16,
+            updatedAt: serverTimestamp()
+          })));
+        }
+
+        closeDanger();
+        await loadAll();
+        toast("Reset complete.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    async function initializeReceiver() {
+      if (!confirm("Initialize receiver cards with limit 16?")) return;
+      try {
+        await Promise.all(receiverCards.map(c => setDoc(doc(db, "receiverCards", c.id), {
+          limit: 16,
+          used: Number(c.used || 0),
+          enabled: c.enabled !== false,
+          updatedAt: serverTimestamp()
+        }, { merge: true })));
+        await loadReceiver(true);
+        toast("Receiver initialized.", "success");
+      } catch (error) {
+        console.error(error);
+        toast(error.message, "error");
+      }
+    }
+
+    function csvEscape(value) {
+      const text = String(value ?? "");
+      return /[",\n]/.test(text) ? '"' + text.replace(/"/g, '""') + '"' : text;
+    }
+
+    function downloadCsv(name, rows) {
+      const csv = rows.map(r => r.map(csvEscape).join(",")).join("\n");
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = name;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function dlAttendance() {
+      const records = allAttendees();
+      downloadCsv("REVIVAL-2026-Attendance-Summary.csv", [
+        ["Type","UID","Name","Campus / Role","Church","Contact","Email","Leader / Role","Passcode","Day 1 Status","Day 1 Time","Day 2 Status","Day 2 Time","Vault Content"],
+        ...records.map(u => [
+          typeLabel(u), u.uid, clean(u.name), roleOrCampus(u), clean(u.church), clean(u.contact), clean(u.email), u.type === "serve" ? clean(u.role || "Serving Team") : leaderValue(u), u.type === "serve" ? "" : clean(u.passkey),
+          isCheckedIn(u, "day1") ? "In" : "Not Yet", timeText(u.attendance?.day1?.checkedInAt),
+          isCheckedIn(u, "day2") ? "In" : "Not Yet", timeText(u.attendance?.day2?.checkedInAt),
+          u.type === "serve" ? "N/A" : (u.sideA || u.sideB ? "Has Content" : "Empty")
+        ])
+      ]);
+    }
+
+    function dlParticipants() {
+      const records = allAttendees();
+      downloadCsv("REVIVAL-2026-Registrant-List.csv", [
+        ["Type","UID","Name","Campus / Role","Church","Contact","Email","Leader / Role","Passcode","Vault Content"],
+        ...records.map(u => [typeLabel(u), u.uid, clean(u.name), roleOrCampus(u), clean(u.church), clean(u.contact), clean(u.email), u.type === "serve" ? clean(u.role || "Serving Team") : leaderValue(u), u.type === "serve" ? "" : clean(u.passkey), u.type === "serve" ? "N/A" : (u.sideA || u.sideB ? "Has Content" : "Empty")])
+      ]);
+    }
+
+    function dlReceiver() {
+      downloadCsv("REVIVAL-2026-Receiver-Inventory.csv", [
+        ["Card ID","Title","Used","Limit","Remaining","Enabled"],
+        ...receiverCards.map(c => [
+          c.id, cardTitle(c), Number(c.used || 0), 16, Math.max(0, 16 - Number(c.used || 0)), c.enabled !== false ? "Yes" : "No"
+        ])
+      ]);
+    }
+
+    document.getElementById("showHidePassBtn").addEventListener("click", () => {
+      el.adminPasscodeInput.type = el.adminPasscodeInput.type === "password" ? "text" : "password";
+    });
+
+    document.getElementById("unlockBtn").addEventListener("click", unlockAdmin);
+    document.getElementById("adminPasscodeInput").addEventListener("keydown", e => {
+      if (e.key === "Enter") unlockAdmin();
+    });
+    document.getElementById("refreshBtn").addEventListener("click", loadAll);
+    document.getElementById("openWebsiteBtn").addEventListener("click", () => window.open("/", "_blank"));
+    document.getElementById("openScannerBtn").addEventListener("click", () => window.open("/check-in.html", "_blank"));
+    document.getElementById("openTvBtn").addEventListener("click", () => window.open("/tv.html", "_blank"));
+
+    document.querySelectorAll(".nav-btn").forEach(btn => btn.addEventListener("click", () => openScreen(btn.dataset.screen)));
+    document.querySelectorAll("[data-open-screen]").forEach(btn => btn.addEventListener("click", () => openScreen(btn.dataset.openScreen)));
+    document.querySelectorAll("[data-toggle-field]").forEach(btn => btn.addEventListener("click", () => toggleEvent(btn.dataset.toggleField)));
+    document.querySelectorAll("[data-att-view]").forEach(btn => btn.addEventListener("click", () => setAttendanceView(btn.dataset.attView)));
+    document.querySelectorAll("[data-att-filter]").forEach(btn => btn.addEventListener("click", () => setAttendanceFilter(btn.dataset.attFilter)));
+    document.querySelectorAll("[data-att-status]").forEach(btn => btn.addEventListener("click", () => setAttendanceStatus(btn.dataset.attStatus)));
+    document.querySelectorAll("[data-att-sort]").forEach(btn => btn.addEventListener("click", () => setAttendanceSort(btn.dataset.attSort)));
+    document.querySelectorAll("[data-checkin-mode]").forEach(btn => btn.addEventListener("click", () => setCheckinMode(btn.dataset.checkinMode)));
+    document.getElementById("checkinModeSelect")?.addEventListener("change", e => setCheckinMode(e.target.value));
+    document.getElementById("attendancePeopleSelect")?.addEventListener("change", e => setAttendanceFilter(e.target.value));
+    document.getElementById("attendanceDaySelect")?.addEventListener("change", e => setAttendanceView(e.target.value));
+    document.getElementById("attendanceStatusSelect")?.addEventListener("change", e => setAttendanceStatus(e.target.value));
+    document.getElementById("attendanceSortSelect")?.addEventListener("change", e => setAttendanceSort(e.target.value));
+    document.querySelectorAll("[data-duration]").forEach(btn => btn.addEventListener("click", () => saveDuration(btn.dataset.duration)));
+    document.querySelectorAll("[data-danger-title]").forEach(btn => btn.addEventListener("click", () => openDanger(btn.dataset.dangerTitle, btn.dataset.dangerPhrase)));
+
+    document.getElementById("saveAnnouncementBtn").addEventListener("click", saveAnnouncement);
+    document.getElementById("participantSearch").addEventListener("input", renderParticipants);
+    document.getElementById("servingSearch").addEventListener("input", renderServingTeam);
+    document.getElementById("attSearch").addEventListener("input", renderAttendance);
+    document.getElementById("vaultSearch").addEventListener("input", renderVault);
+    document.getElementById("refreshReceiverBtn").addEventListener("click", loadReceiverAndRender);
+    document.getElementById("undoReceiverBtn").addEventListener("click", undoReceiver);
+    document.getElementById("sendTestTvBtn").addEventListener("click", sendTestTv);
+    document.getElementById("sendAnnouncementTvBtn").addEventListener("click", sendAnnouncementTv);
+    document.getElementById("clearTvBtn").addEventListener("click", clearTv);
+    document.getElementById("changeAdminPassBtn").addEventListener("click", changeAdminPass);
+    document.getElementById("closeParticipantBtn").addEventListener("click", closeParticipant);
+    document.getElementById("generatePassBtn").addEventListener("click", generatePass);
+    document.getElementById("copySelectedLinkBtn").addEventListener("click", copySelectedLink);
+    document.getElementById("saveParticipantBtn").addEventListener("click", saveParticipant);
+    document.getElementById("clearSelectedVaultBtn").addEventListener("click", () => selectedUid && clearParticipantVault(selectedUid));
+    document.getElementById("runDangerBtn").addEventListener("click", runDanger);
+    document.getElementById("closeDangerBtn").addEventListener("click", closeDanger);
+    document.getElementById("initializeReceiverBtn").addEventListener("click", initializeReceiver);
+    document.getElementById("dlAttendanceBtn").addEventListener("click", dlAttendance);
+    document.getElementById("dlParticipantsBtn").addEventListener("click", dlParticipants);
+    document.getElementById("dlReceiverBtn").addEventListener("click", dlReceiver);
+
+    document.getElementById("refreshLunchBtn")?.addEventListener("click", async () => {
+      await loadLunchOrders(true);
+      toast("Lunch orders refreshed.", "success");
+    });
+    document.getElementById("openLunchPageBtn")?.addEventListener("click", () => window.open(location.origin + "/lunch", "_blank"));
+    document.getElementById("lunchActiveDaySelect")?.addEventListener("change", event => updateLunchState({ activeDay: event.target.value }));
+    document.getElementById("lunchSearch")?.addEventListener("input", renderLunchAdmin);
+    document.getElementById("lunchDayFilter")?.addEventListener("change", renderLunchAdmin);
+    document.getElementById("lunchStatusFilter")?.addEventListener("change", renderLunchAdmin);
+    document.getElementById("lunchRestaurantFilter")?.addEventListener("change", renderLunchAdmin);
+    document.getElementById("lunchSortFilter")?.addEventListener("change", renderLunchAdmin);
+    document.getElementById("lunchDefaultDayBtn")?.addEventListener("click", () => {
+      document.getElementById("lunchDayFilter").value = "active";
+      renderLunchAdmin();
+    });
+    document.getElementById("lunchIncludeDeletedBtn")?.addEventListener("click", async () => {
+      lunchIncludeDeleted = !lunchIncludeDeleted;
+      await loadLunchOrders(true);
+    });
+    document.getElementById("printLunchBtn")?.addEventListener("click", printLunchList);
+
+    document.addEventListener("click", async event => {
+      const editBtn = event.target.closest("[data-edit-uid]");
+      if (editBtn) openParticipant(editBtn.dataset.editUid);
+
+      const editServeBtn = event.target.closest("[data-edit-serve-uid]");
+      if (editServeBtn) openServeMember(editServeBtn.dataset.editServeUid);
+
+      const manageBtn = event.target.closest("[data-manage-checkin-uid]");
+      if (manageBtn) {
+        openScreen("checkin");
+        document.getElementById("attSearch").value = manageBtn.dataset.manageCheckinUid;
+        attendanceFilter = "all";
+        setCheckinMode("manage");
+      }
+
+      const tvBtn = event.target.closest("[data-tv-uid]");
+      if (tvBtn) await showTv(tvBtn.dataset.tvUid);
+
+      const copyBtn = event.target.closest("[data-copy-uid]");
+      if (copyBtn) await copyLink(copyBtn.dataset.copyUid);
+
+      const copyServeBtn = event.target.closest("[data-copy-serve-uid]");
+      if (copyServeBtn) {
+        await navigator.clipboard.writeText(location.origin + "/serve/" + copyServeBtn.dataset.copyServeUid);
+        toast("Serve link copied.", "success");
+      }
+
+      const copyVaultBtn = event.target.closest("[data-copy-vault-uid]");
+      if (copyVaultBtn) {
+        await navigator.clipboard.writeText(location.origin + vaultUrl(copyVaultBtn.dataset.copyVaultUid));
+        toast("Vault link copied.", "success");
+      }
+
+      const copyResetBtn = event.target.closest("[data-copy-reset-uid]");
+      if (copyResetBtn) {
+        await navigator.clipboard.writeText(location.origin + vaultResetUrl(copyResetBtn.dataset.copyResetUid));
+        toast("Reset link copied.", "success");
+      }
+
+      const resetPasskeyBtn = event.target.closest("[data-reset-passkey-uid]");
+      if (resetPasskeyBtn) await adminResetParticipantPasskey(resetPasskeyBtn.dataset.resetPasskeyUid);
+
+      const vaultBtn = event.target.closest("[data-vault-uid]");
+      if (vaultBtn) window.open(vaultUrl(vaultBtn.dataset.vaultUid), "_blank");
+
+      const vaultSideABtn = event.target.closest("[data-vault-side-a-uid]");
+      if (vaultSideABtn) window.open(vaultUrl(vaultSideABtn.dataset.vaultSideAUid, "side-a"), "_blank");
+
+      const vaultSideBBtn = event.target.closest("[data-vault-side-b-uid]");
+      if (vaultSideBBtn) window.open(vaultUrl(vaultSideBBtn.dataset.vaultSideBUid, "side-b"), "_blank");
+
+      const openFileBtn = event.target.closest("[data-open-file-url]");
+      if (openFileBtn) {
+        window.open(decodeURIComponent(openFileBtn.dataset.openFileUrl), "_blank");
+        return;
+      }
+
+      const removeVaultAudioBtn = event.target.closest("[data-remove-vault-audio-uid]");
+      if (removeVaultAudioBtn) {
+        await removeVaultAudio(removeVaultAudioBtn.dataset.removeVaultAudioUid, removeVaultAudioBtn.dataset.removeVaultAudioIndex);
+        return;
+      }
+
+      const removeVaultPhotoBtn = event.target.closest("[data-remove-vault-photo-uid]");
+      if (removeVaultPhotoBtn) {
+        await removeVaultPaperPhoto(removeVaultPhotoBtn.dataset.removeVaultPhotoUid, removeVaultPhotoBtn.dataset.removeVaultPhotoIndex);
+        return;
+      }
+
+      const clearVaultBtn = event.target.closest("[data-clear-vault-uid]");
+      if (clearVaultBtn) await clearParticipantVault(clearVaultBtn.dataset.clearVaultUid);
+
+      const checkinBtn = event.target.closest("[data-checkin-uid]");
+      if (checkinBtn) await adminCheckIn(checkinBtn.dataset.checkinUid, checkinBtn.dataset.checkinDay);
+
+      const uncheckBtn = event.target.closest("[data-uncheck-uid]");
+      if (uncheckBtn) await adminUncheck(uncheckBtn.dataset.uncheckUid, uncheckBtn.dataset.uncheckDay);
+
+      const moveBtn = event.target.closest("[data-move-uid]");
+      if (moveBtn) await moveCheckIn(moveBtn.dataset.moveUid);
+
+      const clearAttendanceBtn = event.target.closest("[data-clear-attendance-uid]");
+      if (clearAttendanceBtn) await clearParticipantAttendance(clearAttendanceBtn.dataset.clearAttendanceUid);
+
+      const lunchStateToggle = event.target.closest("[data-lunch-state-toggle]");
+      if (lunchStateToggle) await toggleLunchState(lunchStateToggle.dataset.lunchStateToggle);
+
+      const lunchCopyBtn = event.target.closest("[data-lunch-copy]");
+      if (lunchCopyBtn) await copyLunchList(lunchCopyBtn.dataset.lunchCopy);
+
+      const lunchClaimBtn = event.target.closest("[data-lunch-claim]");
+      if (lunchClaimBtn) await setLunchClaim(lunchClaimBtn.dataset.lunchClaim, lunchClaimBtn.dataset.lunchClaimed === "true");
+
+      const lunchDeleteBtn = event.target.closest("[data-lunch-delete]");
+      if (lunchDeleteBtn) await deleteLunchOrder(lunchDeleteBtn.dataset.lunchDelete);
+
+      const lunchRestoreBtn = event.target.closest("[data-lunch-restore]");
+      if (lunchRestoreBtn) await restoreLunchOrder(lunchRestoreBtn.dataset.lunchRestore);
+
+      const receiverBtn = event.target.closest("[data-receiver-id]");
+      if (receiverBtn) await receiverAdjust(receiverBtn.dataset.receiverId, receiverBtn.dataset.receiverDelta);
+
+      const receiverToggleBtn = event.target.closest("[data-toggle-receiver]");
+      if (receiverToggleBtn) await receiverToggle(receiverToggleBtn.dataset.toggleReceiver, receiverToggleBtn.dataset.nextEnabled === "true");
+    });
+
+    window.addEventListener("error", event => {
+      console.error(event.error || event.message);
+      const message = "Page error: " + event.message;
+      toast(message, "error");
+      if (!el.adminApp.classList.contains("hidden")) return;
+      el.loginStatus.textContent = message;
+    });
+
+    window.addEventListener("unhandledrejection", event => {
+      console.error(event.reason);
+      const reason = event.reason?.message || String(event.reason);
+      toast("Request error: " + reason, "error");
+      if (!el.adminApp.classList.contains("hidden")) return;
+      el.loginStatus.textContent = "Request error: " + reason;
+    });
+
+    if (sessionStorage.getItem("revivalAdminUnlocked") === "1") {
+      el.loginScreen.classList.add("hidden");
+      el.adminApp.classList.remove("hidden");
+      loadAll();
+    }
+
+    document.addEventListener("click", async (event) => {
+      const photoToggle = event.target.closest("[data-photo-toggle-field]");
+      if (photoToggle) {
+        await togglePhotoState(photoToggle.dataset.photoToggleField);
+        return;
+      }
+
+      const photoFilterBtn = event.target.closest("[data-photo-filter]");
+      if (photoFilterBtn) {
+        photoFilter = photoFilterBtn.dataset.photoFilter;
+        renderPhotosAdmin();
+        return;
+      }
+
+      const featureBtn = event.target.closest("[data-feature-photo]");
+      if (featureBtn) {
+        await setFeaturedPhoto(featureBtn.dataset.featurePhoto);
+        return;
+      }
+
+      const hideBtn = event.target.closest("[data-hide-photo]");
+      if (hideBtn) {
+        await togglePhotoHidden(hideBtn.dataset.hidePhoto);
+        return;
+      }
+
+      const deleteBtn = event.target.closest("[data-delete-photo]");
+      if (deleteBtn) {
+        await deletePhotoRecord(deleteBtn.dataset.deletePhoto);
+        return;
+      }
+
+      const recordingToggle = event.target.closest("[data-recording-toggle-field]");
+      if (recordingToggle) {
+        await toggleRecordingState(recordingToggle.dataset.recordingToggleField);
+        return;
+      }
+
+      const recordingFilterBtn = event.target.closest("[data-recording-filter]");
+      if (recordingFilterBtn) {
+        recordingFilter = recordingFilterBtn.dataset.recordingFilter;
+        renderRecordingsAdmin();
+        return;
+      }
+
+      const editRecordingBtn = event.target.closest("[data-edit-recording-id]");
+      if (editRecordingBtn) {
+        fillRecordingForm(editRecordingBtn.dataset.editRecordingId);
+        document.getElementById("recordingYoutubeInput")?.focus();
+        return;
+      }
+
+
+      const lockRecordingBtn = event.target.closest("[data-lock-recording]");
+      if (lockRecordingBtn) {
+        await toggleRecordingPublished(lockRecordingBtn.dataset.lockRecording);
+        return;
+      }
+
+      const removeRecordingThumbnailBtn = event.target.closest("[data-remove-recording-thumbnail]");
+      if (removeRecordingThumbnailBtn) {
+        await removeRecordingThumbnail(removeRecordingThumbnailBtn.dataset.removeRecordingThumbnail);
+        return;
+      }
+
+      const deleteRecordingBtn = event.target.closest("[data-delete-recording]");
+      if (deleteRecordingBtn) {
+        await deleteRecordingRecord(deleteRecordingBtn.dataset.deleteRecording);
+        return;
+      }
+    });
+
+    document.getElementById("uploadPhotosBtn")?.addEventListener("click", uploadPublicPhotos);
+    document.getElementById("refreshPhotosBtn")?.addEventListener("click", async () => {
+      await ensurePhotoState();
+      await loadPhotos(true);
+      renderWebsite();
+      renderOverview();
+      toast("Photos refreshed.", "success");
+    });
+    document.getElementById("openPhotosPageBtn")?.addEventListener("click", () => window.open(location.origin + "/photos", "_blank"));
+    document.getElementById("openPhotosPageBtn2")?.addEventListener("click", () => window.open(location.origin + "/photos", "_blank"));
+
+    document.getElementById("saveRecordingBtn")?.addEventListener("click", saveRecordingLink);
+    document.getElementById("clearRecordingFormBtn")?.addEventListener("click", clearRecordingForm);
+    document.getElementById("addRecordingSlotBtn")?.addEventListener("click", addRecordingSlot);
+    document.getElementById("clearRecordingThumbnailInputBtn")?.addEventListener("click", () => {
+      const input = document.getElementById("recordingThumbnailInput");
+      if (input) input.value = "";
+      toast("Selected thumbnail file cleared.", "success");
+    });
+    document.getElementById("initializeRecordingsBtn")?.addEventListener("click", async () => {
+      await ensureRecordingState();
+      await ensureDefaultRecordings();
+      await loadRecordings(true);
+      renderWebsite();
+      renderOverview();
+      fillRecordingForm("feed-01");
+      toast("Recording videos initialized.", "success");
+    });
+    document.getElementById("refreshRecordingsBtn")?.addEventListener("click", async () => {
+      await ensureRecordingState();
+      await ensureDefaultRecordings();
+      await loadRecordings(true);
+      renderWebsite();
+      renderOverview();
+      toast("Recordings refreshed.", "success");
+    });
+    document.getElementById("openRecordingsPageBtn")?.addEventListener("click", () => window.open(location.origin + "/recordings", "_blank"));
+    document.getElementById("openRecordingsPageBtn2")?.addEventListener("click", () => window.open(location.origin + "/recordings", "_blank"));
+    document.getElementById("recordingFeedSelect")?.addEventListener("change", event => fillRecordingForm(event.target.value));
+
+  </script>
+</body>
+</html>

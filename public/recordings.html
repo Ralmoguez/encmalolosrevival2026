@@ -1,0 +1,600 @@
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Inter:wght@300;400;700&family=Special+Elite&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/png" href="/VHS.png">
+
+    <title>REVIVAL // 2026 Recordings</title>
+  <meta name="description" content="Messages from the room. REVIVAL // 2026 recordings archive.">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/VHS.png">
+
+  <style>
+    @font-face {
+      font-family: 'Abolition';
+      src: url('/abolition-regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --yellow: #ffd600;
+      --cream: #f4f1ea;
+      --line: rgba(255,255,255,.10);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 14% 0%, rgba(255,214,0,.12), transparent 28%),
+        radial-gradient(circle at 88% 12%, rgba(255,255,255,.055), transparent 25%),
+        radial-gradient(circle at 50% 100%, rgba(255,214,0,.07), transparent 35%),
+        #050505;
+      color: var(--cream);
+      font-family: Inter, sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 999;
+      opacity: .32;
+      background:
+        linear-gradient(rgba(255,255,255,.018) 50%, rgba(0,0,0,.08) 50%),
+        linear-gradient(90deg, rgba(255,214,0,.012), rgba(255,255,255,.004), rgba(255,214,0,.012));
+      background-size: 100% 3px, 3px 100%;
+    }
+
+    .font-abolition {
+      font-family: 'Abolition', Impact, sans-serif;
+      letter-spacing: .1em;
+    }
+
+    .font-mono-vhs {
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    .crt-overlay {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .crt-overlay::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255,214,0,.08), transparent 30%),
+        radial-gradient(circle at 80% 80%, rgba(255,255,255,.035), transparent 25%);
+      z-index: 0;
+    }
+
+    .crt-overlay > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .feed-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feed-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      background: radial-gradient(circle at 30% 50%, rgba(255,214,0,.10), transparent 35%);
+      transition: opacity .3s ease;
+      pointer-events: none;
+    }
+
+    .feed-card:hover::before { opacity: 1; }
+
+    .feed-thumb {
+      background:
+        radial-gradient(circle at 35% 35%, rgba(255,214,0,.16), transparent 28%),
+        linear-gradient(135deg, #171717, #050505);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .feed-thumb.has-custom-thumb {
+      background-size: cover;
+      background-position: center 22%;
+      filter: brightness(1.14) contrast(1.04);
+    }
+
+    .feed-thumb::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 1px solid rgba(255,255,255,.07);
+      pointer-events: none;
+    }
+
+    .feed-play {
+      width: 46px;
+      height: 46px;
+      border-radius: 999px;
+      background: var(--yellow);
+      color: #050505;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      transform: scale(.92);
+      opacity: 0;
+      transition: .25s ease;
+    }
+
+    .feed-card.ready:hover .feed-play {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      display: inline-block;
+      background: rgba(255,255,255,.22);
+    }
+
+    .status-dot.ready {
+      background: var(--yellow);
+      box-shadow: 0 0 18px rgba(255,214,0,.38);
+    }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    iframe {
+      border: 0;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="sticky top-0 z-[100] bg-black/70 backdrop-blur-lg border-b border-white/5 px-5 md:px-6 py-3 flex justify-between items-center">
+    <a href="/" class="hover:opacity-80 transition-opacity">
+      <div class="font-abolition font-bold text-yellow-400 text-2xl tracking-widest">
+        REVIVAL // 2026
+      </div>
+    </a>
+
+    <div class="flex items-center gap-4">
+      <a href="/" class="font-mono-vhs text-yellow-400 hover:text-white transition-colors text-[10px] uppercase tracking-[0.24em] font-bold">
+        Home
+      </a>
+      <a href="/photos" class="font-mono-vhs text-white/60 hover:text-yellow-400 transition-colors text-[10px] uppercase tracking-[0.24em] font-bold">
+        Photos
+      </a>
+      <a href="/recordings" class="font-mono-vhs text-white/60 hover:text-yellow-400 transition-colors text-[10px] uppercase tracking-[0.24em] font-bold">
+        Recordings
+      </a>
+    </div>
+  </nav>
+
+  <main id="recordingsView" class="pt-20 md:pt-28 px-4 md:px-6 pb-20 md:pb-36">
+    <section class="max-w-6xl mx-auto">
+      <div class="crt-overlay border border-white/10 bg-white/[.035] p-5 md:p-10 shadow-2xl">
+        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-7 border-b border-white/10 pb-8 md:pb-10 mb-8 md:mb-12">
+          <div>
+            <p class="font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[0.35em] mb-4">
+              Recordings Archive
+            </p>
+
+            <h1 class="font-abolition text-white text-6xl md:text-8xl uppercase leading-none">
+              Messages from<br class="hidden md:block"> the room.
+            </h1>
+
+            <p id="recordingsIntroText" class="font-mono-vhs text-white/35 text-[10px] md:text-xs uppercase tracking-[0.16em] leading-relaxed max-w-2xl mt-6">
+              Master Session Feed // Signal Index // Unlisted Archive
+            </p>
+          </div>
+
+          <div id="recordingTabs" class="flex gap-2 overflow-x-auto no-scrollbar font-mono-vhs"></div>
+        </div>
+
+        <div id="recordingsLoadingState" class="border border-white/10 bg-black/45 p-8 md:p-10 text-center">
+          <p class="font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[0.35em] mb-3">Loading</p>
+          <h2 class="font-abolition text-white text-5xl md:text-7xl uppercase leading-none">Connecting archive...</h2>
+          <p class="font-mono-vhs text-white/35 text-[10px] md:text-xs uppercase tracking-[0.16em] leading-relaxed mt-5 max-w-xl mx-auto">
+            Please wait while the recordings archive connects.
+          </p>
+        </div>
+
+        <div id="recordingsLockedState" class="hidden border border-white/10 bg-black/45 p-8 md:p-10 text-center">
+          <p class="font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[0.35em] mb-3">Standby</p>
+          <h2 class="font-abolition text-white text-5xl md:text-7xl uppercase leading-none">Archive locked.</h2>
+          <p class="font-mono-vhs text-white/35 text-[10px] md:text-xs uppercase tracking-[0.16em] leading-relaxed mt-5 max-w-xl mx-auto">
+            Recordings will appear here once the session archive is published.
+          </p>
+        </div>
+
+        <div id="recordingsEmptyState" class="hidden border border-white/10 bg-black/45 p-8 md:p-10 text-center">
+          <p class="font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[0.35em] mb-3">No signal</p>
+          <h2 class="font-abolition text-white text-5xl md:text-7xl uppercase leading-none">No recordings yet.</h2>
+          <p class="font-mono-vhs text-white/35 text-[10px] md:text-xs uppercase tracking-[0.16em] leading-relaxed mt-5 max-w-xl mx-auto">
+            The page is open, but no recordings have been added for this day yet.
+          </p>
+        </div>
+
+        <div id="recordingsErrorState" class="hidden border border-red-400/30 bg-red-500/5 p-8 md:p-10 text-center">
+          <p class="font-mono-vhs text-red-200 text-[10px] uppercase tracking-[0.35em] mb-3">System notice</p>
+          <h2 class="font-abolition text-white text-5xl md:text-7xl uppercase leading-none">Recordings could not load.</h2>
+          <p id="recordingsErrorText" class="font-mono-vhs text-white/35 text-[10px] md:text-xs uppercase tracking-[0.16em] leading-relaxed mt-5 max-w-xl mx-auto">
+            Please refresh the page or check again later.
+          </p>
+        </div>
+
+        <div id="recordingsContent" class="hidden">
+          <div id="recordingsFeed" class="space-y-4 md:space-y-5"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="recordingModal" class="fixed inset-0 z-[200] bg-black/95 hidden items-center justify-center p-4">
+    <button onclick="closeRecordingModal()" class="absolute top-5 right-5 font-mono-vhs text-yellow-400 text-[10px] uppercase tracking-[0.25em] border border-white/10 px-4 py-3 hover:bg-yellow-400 hover:text-black transition-all">
+      Close
+    </button>
+
+    <div class="w-full max-w-5xl">
+      <div class="aspect-video bg-black border border-white/10">
+        <iframe id="recordingFrame"
+                src=""
+                title="REVIVAL recording"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+      </div>
+      <div class="mt-4 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+        <div>
+          <p id="modalMeta" class="font-mono-vhs text-yellow-400 text-[9px] uppercase tracking-[0.24em]">Recording</p>
+          <h2 id="modalTitle" class="font-abolition text-white text-4xl md:text-6xl uppercase leading-none mt-2">Recording</h2>
+        </div>
+        <a id="modalOpenYoutube"
+           href="#"
+           target="_blank"
+           rel="noopener"
+           class="font-mono-vhs bg-[#ffd600] text-black text-[10px] uppercase tracking-[0.22em] font-bold px-5 py-4 hover:bg-white transition-all text-center">
+          Open YouTube
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      collection,
+      query,
+      where,
+      orderBy,
+      onSnapshot
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAaxjL-NuYE1VeAoYb1_pWHAE3C4VdCBBY",
+      authDomain: "enc-malolos-revival-2026.firebaseapp.com",
+      projectId: "enc-malolos-revival-2026",
+      storageBucket: "enc-malolos-revival-2026.firebasestorage.app",
+      messagingSenderId: "893658387609",
+      appId: "1:893658387609:web:f15e870fb82b729e759408"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const fallbackSessions = [
+      { type: "Devotional", title: "The Person of the Holy Spirit", day: "day1", feed: "01", status: "locked", order: 1 },
+      { type: "Session 01", title: "Sanctification by the Spirit", day: "day1", feed: "02", status: "locked", order: 2 },
+      { type: "Session 02", title: "Spirit Empowered Life", day: "day1", feed: "03", status: "locked", order: 3 },
+      { type: "Exhortation", title: "Exhortation", day: "day1", feed: "07", status: "locked", order: 7 },
+      { type: "Prophetic Prayer", title: "Prophetic Prayer", day: "day1", feed: "08", status: "locked", order: 8 },
+      { type: "Devotional", title: "The Spirit of Sonship", day: "day2", feed: "04", status: "locked", order: 4 },
+      { type: "Session 03", title: "Walking in the Spirit", day: "day2", feed: "05", status: "locked", order: 5 },
+      { type: "Session 04", title: "The Outpouring of the Holy Spirit", day: "day2", feed: "06", status: "locked", order: 6 }
+    ];
+
+    let recordingState = {
+      recordingsVisible: false,
+      day1Visible: false,
+      day2Visible: false
+    };
+
+    let recordings = [];
+    let isStateLoaded = false;
+    let isRecordingsLoaded = false;
+    let activeDay = "day1";
+    let visibleSessions = [];
+
+    function dayLabel(day) {
+      return day === "day2" ? "Day 02" : "Day 01";
+    }
+
+    function dayShort(day) {
+      return day === "day2" ? "02" : "01";
+    }
+
+    function isRecordingsPageOpen() {
+      return recordingState.recordingsVisible === true && (recordingState.day1Visible === true || recordingState.day2Visible === true);
+    }
+
+    async function loadRecordingState() {
+      try {
+        const recordingStateDoc = await getDoc(doc(db, "settings", "recordingState"));
+
+        if (recordingStateDoc.exists()) {
+          recordingState = { ...recordingState, ...recordingStateDoc.data() };
+        }
+
+        if (recordingState.day1Visible) activeDay = "day1";
+        else if (recordingState.day2Visible) activeDay = "day2";
+
+        isStateLoaded = true;
+        renderRecordings();
+      } catch (error) {
+        console.error("Recording state failed:", error);
+        showError("Recording settings could not load. Please refresh the page.");
+      }
+    }
+
+    function loadRecordings() {
+      try {
+        const recordingsQuery = query(
+          collection(db, "recordings"),
+          where("status", "in", ["published", "locked"]),
+          orderBy("order", "asc")
+        );
+
+        onSnapshot(recordingsQuery, (snapshot) => {
+          recordings = [];
+          snapshot.forEach(recordingDoc => recordings.push({ id: recordingDoc.id, ...recordingDoc.data() }));
+          isRecordingsLoaded = true;
+          renderRecordings();
+        }, (error) => {
+          console.error("Recordings listener failed:", error);
+          showError("Recordings could not load right now. Please refresh the page.");
+        });
+      } catch (error) {
+        console.error("Recordings load failed:", error);
+        showError("Recordings could not load right now. Please refresh the page.");
+      }
+    }
+
+    function showOnly(id) {
+      ["recordingsLoadingState", "recordingsLockedState", "recordingsEmptyState", "recordingsErrorState", "recordingsContent"].forEach(stateId => {
+        const node = document.getElementById(stateId);
+        if (!node) return;
+        node.classList.toggle("hidden", stateId !== id);
+      });
+    }
+
+    function showError(message) {
+      const text = document.getElementById("recordingsErrorText");
+      if (text) text.textContent = message;
+      showOnly("recordingsErrorState");
+    }
+
+    function allowedDays() {
+      const days = [];
+      if (recordingState.recordingsVisible === true && recordingState.day1Visible === true) days.push("day1");
+      if (recordingState.recordingsVisible === true && recordingState.day2Visible === true) days.push("day2");
+      return days;
+    }
+
+    function sessionsForDisplay() {
+      const source = recordings.length ? recordings : fallbackSessions;
+      return source.filter(session => {
+        if (session.day === "day1" && recordingState.day1Visible !== true) return false;
+        if (session.day === "day2" && recordingState.day2Visible !== true) return false;
+        return session.day === activeDay;
+      }).sort((a, b) => Number(a.order || 999) - Number(b.order || 999));
+    }
+
+    function readyCount(day) {
+      const source = recordings.length ? recordings : fallbackSessions;
+      return source.filter(session => session.day === day && session.status === "published" && session.embedUrl).length;
+    }
+
+    function renderTabs() {
+      const tabs = document.getElementById("recordingTabs");
+      if (!tabs) return;
+
+      const days = allowedDays();
+
+      if (!days.includes(activeDay)) activeDay = days[0] || "day1";
+
+      tabs.innerHTML = days.map(day => `
+        <button type="button"
+                onclick="setRecordingDay('${day}')"
+                class="${activeDay === day ? 'bg-[#ffd600] text-black border-[#ffd600]' : 'bg-white/5 text-white/45 border-white/10'} shrink-0 border px-4 py-3 text-[10px] uppercase tracking-[0.22em] font-bold transition-all">
+          ${day === "day2" ? "Day 2" : "Day 1"} · ${readyCount(day)}
+        </button>
+      `).join("");
+    }
+
+    window.setRecordingDay = function(day) {
+      activeDay = day;
+      renderRecordings();
+    };
+
+    function thumbnailStyle(session) {
+      if (!session?.thumbnailUrl) return "";
+      return `style="background-image: linear-gradient(rgba(0,0,0,.10), rgba(0,0,0,.22)), url('${session.thumbnailUrl}')"`;
+    }
+
+    function thumbClass(session) {
+      return session?.thumbnailUrl ? "has-custom-thumb" : "";
+    }
+
+    function renderRecordings() {
+      renderTabs();
+
+      const intro = document.getElementById("recordingsIntroText");
+      if (intro) {
+        intro.textContent = recordingState.day2Visible
+          ? "Master Session Feed // Day 1 and Day 2 Archive // Unlisted Recordings"
+          : "Master Session Feed // Day 1 Archive // Unlisted Recordings";
+      }
+
+      if (!isStateLoaded || !isRecordingsLoaded) {
+        showOnly("recordingsLoadingState");
+        return;
+      }
+
+      if (!isRecordingsPageOpen()) {
+        showOnly("recordingsLockedState");
+        return;
+      }
+
+      const sessions = sessionsForDisplay();
+
+      if (!sessions.length) {
+        showOnly("recordingsEmptyState");
+        return;
+      }
+
+      showOnly("recordingsContent");
+
+      const feed = document.getElementById("recordingsFeed");
+
+      visibleSessions = sessions;
+
+      feed.innerHTML = sessions.map((session, index) => {
+        const isReady = session.status === "published" && session.embedUrl;
+        const action = isReady ? `onclick="openRecordingModalByIndex(${index})"` : "";
+
+        return `
+          <article class="feed-card ${isReady ? "ready" : ""} group border border-white/10 bg-black/45 hover:border-yellow-400/45 transition-all duration-300">
+            <button type="button" ${action} class="w-full p-4 md:p-5 text-left flex flex-col sm:flex-row gap-5 md:gap-7 items-stretch sm:items-center ${isReady ? "" : "cursor-default"}">
+              <div class="feed-thumb ${thumbClass(session)} relative w-full sm:w-52 md:w-72 aspect-video border border-white/10 flex items-center justify-center opacity-70 group-hover:opacity-100 transition-opacity" ${thumbnailStyle(session)}>
+                <div class="feed-play ${isReady ? "" : "!opacity-0"}">▶</div>
+              </div>
+
+              <div class="flex-1 min-w-0">
+                <div class="flex flex-wrap items-center gap-2 mb-3">
+                  <span class="bg-yellow-400 text-black text-[9px] font-black px-2.5 py-1 font-mono-vhs uppercase tracking-[0.16em]">
+                    ${session.type || "Session"}
+                  </span>
+
+                  <span class="font-mono-vhs text-[9px] text-white/35 uppercase tracking-[0.22em]">
+                    ${dayLabel(session.day)}
+                  </span>
+
+                  <span class="font-mono-vhs text-[9px] text-white/25 uppercase tracking-[0.20em] flex items-center gap-2">
+                    <span class="status-dot ${isReady ? "ready" : ""}"></span>
+                    ${isReady ? "Archive Ready" : "Archive Locked"}
+                  </span>
+                </div>
+
+                <h2 class="font-abolition text-white text-3xl md:text-5xl uppercase leading-none group-hover:text-yellow-400 transition-colors">
+                  ${session.title || "Untitled Recording"}
+                </h2>
+
+                <p class="font-mono-vhs text-[9px] md:text-[10px] text-white/25 mt-4 uppercase tracking-[0.18em] leading-relaxed">
+                  ${isReady ? (session.description || "Signal restored. Recording available for replay.") : "Signal pending. Recording will unlock once uploaded."}
+                </p>
+              </div>
+
+              <div class="hidden md:flex items-center justify-center">
+                <span class="font-mono-vhs text-yellow-400/60 group-hover:text-yellow-400 text-[10px] uppercase tracking-[0.25em] transition-colors">
+                  ${isReady ? "Watch" : "Standby"}
+                </span>
+              </div>
+            </button>
+          </article>
+        `;
+      }).join("");
+    }
+
+    window.openRecordingModalByIndex = function(index) {
+      const session = visibleSessions[Number(index)];
+      if (!session || !(session.status === "published" && session.embedUrl)) return;
+      openRecordingModal(session);
+    };
+
+    window.openRecordingModalById = function(id, feed) {
+      const source = recordings.length ? recordings : fallbackSessions;
+      let session = null;
+
+      if (id) {
+        session = source.find(item => item.id === id);
+      }
+
+      if (!session && !id && feed) {
+        session = source.find(item => item.feed === feed && item.day === activeDay);
+      }
+
+      if (!session || !(session.status === "published" && session.embedUrl)) return;
+      openRecordingModal(session);
+    };
+
+    window.openRecordingModal = function(session) {
+      const modal = document.getElementById("recordingModal");
+      const frame = document.getElementById("recordingFrame");
+      const title = document.getElementById("modalTitle");
+      const meta = document.getElementById("modalMeta");
+      const openYoutube = document.getElementById("modalOpenYoutube");
+
+      if (!modal || !frame || !session.embedUrl) return;
+
+      frame.src = session.embedUrl;
+      title.textContent = session.title || "Recording";
+      meta.textContent = `${session.type || "Session"} // ${dayLabel(session.day)}`;
+      openYoutube.href = session.youtubeUrl || session.embedUrl;
+
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+      document.body.style.overflow = "hidden";
+    };
+
+    window.closeRecordingModal = function() {
+      const modal = document.getElementById("recordingModal");
+      const frame = document.getElementById("recordingFrame");
+      if (!modal || !frame) return;
+
+      frame.src = "";
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+      document.body.style.overflow = "";
+      document.body.style.overflowX = "hidden";
+    };
+
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeRecordingModal();
+    });
+
+    await loadRecordingState();
+    loadRecordings();
+  </script>
+</body>
+</html>
